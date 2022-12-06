@@ -4,10 +4,10 @@ import { NavLink } from "react-router-dom";
 
 export default function MainNav(){
     return(
-        <nav className="nav-bar container">
+        <nav className="nav-bar container" >{/*style={{position:"fixed"}}>*/}
 
             <div className=" container">
-                <h2>MoiVoice</h2>
+                <h1>MoiVoice</h1>
             </div>
 
             <div className="container ms:4">

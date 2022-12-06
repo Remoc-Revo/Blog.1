@@ -1,0 +1,19 @@
+
+i.duration{
+    font-size:12px;
+    font-weight: lighter;
+}
+
+.briefDescription{
+    font-weight: lighter;
+}
+
+.preview-big{
+    border:.1em solid lightblue;
+}
+
+.preview-mid{
+    border:.1em solid lightblue;
+    margin-right: 10px;
+    padding: 0;
+}
