@@ -4,15 +4,15 @@ import '../styles/index.css';
 export  function PreviewBig({headline,time,briefDescription}){
     
         return(
-            <a href="" style={{textDecoration:"none",margin:"1233px auto",color:"black"}} className="ms-4 preview-big">
+            <a href="" style={{textDecoration:"none",color:"black"}} className="preview-big">
                 <img src={require("../img/Biden-1.webp")}  className="col-md-6" style={{display:"block",width:"100%",height:"500px"}}></img>
 
-                <div style={{}} className="container">
+                <div  className="container">
                     <i className="duration">{time}</i>
                     <h2 className="">{headline}</h2>
                     <p className="briefDescription">{briefDescription}</p>
                 </div>
-                <hr/>
+                
             </a>
         )
     

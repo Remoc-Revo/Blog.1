@@ -1,4 +1,8 @@
 
+.full-page{
+    background-color:aliceblue;
+}
+
 i.duration{
     font-size:12px;
     font-weight: lighter;
@@ -8,12 +12,43 @@ i.duration{
     font-weight: lighter;
 }
 
-.preview-big{
-    border:.1em solid lightblue;
+
+.preview-mid,.preview-small-container,.preview-big{
+    border:.1em solid lightblue;   
+    padding: 0;
+    background-color: white;
 }
 
 .preview-mid{
-    border:.1em solid lightblue;
     margin-right: 10px;
-    padding: 0;
+}
+
+.preview-big{
+    margin:25px 0px;
+}
+
+.preview-small-container{
+    margin:13px 0px 0px;
+}
+
+.space-between{
+    justify-content:space-between;
+}
+
+#login-form{
+    margin:20%;
+    background-color:white;
+    padding:20px;
+}
+
+#login-form input{
+    margin:5px;
+}
+
+body{
+    background-color: aliceblue;
+}
+
+.pageHead{
+    margin-left:30%;
 }

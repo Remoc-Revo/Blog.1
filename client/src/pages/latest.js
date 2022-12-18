@@ -1,17 +1,21 @@
 import React,{useEffect} from "react";
 import MainNav from "../navs/mainNav";
-import axios from "axios"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {PreviewBig,PreviewMid,PreviewSmall} from "../components/news_preview";
 
 export default function Home(){
+    const navigate=useNavigate();
 
-    // axios.get("http://localhost:9000/latest")
-    //      .then((response)=>{
-    //         document.write("this",response.data.that);
-    //      })
-    //      .catch((err)=>{
-    //         document.write(err)
-    //      })
+    axios.get("http://localhost:9000/latest",{withCredentials:true})
+         .then((response)=>{
+            // document.write("this",response.data.that);
+         })
+         .catch((err)=>{
+            // if(err.response.status===401){
+            //     navigate("/login");
+            // }
+         })
 
     var news=[];
 
@@ -24,10 +28,10 @@ export default function Home(){
     }
     
     return(
-        <div>
+        <div className="full-page">
             <MainNav/>
 
-            <div className="container d-flex">
+            <div className="container d-flex ">
                 <div className="container">
 
                     <h1>Latest</h1>
@@ -42,17 +46,19 @@ export default function Home(){
                         <PreviewMid headline={news[2].headline} time={news[2].time} briefDescription={news[1].briefDescription}/>
                     </div>
                     
-                    <hr/>
-                    {
-                        news.map((article,index)=>{
-                            if(index>2){
-                                return <div>
-                                        <PreviewSmall headline={article.headline} time={article.time} briefDescription={article.briefDescription}/>
-                                        <hr/>
-                                       </div>
-                            }
-                        })
-                    }
+                    
+                    <div className="preview-small-container">
+                        {
+                            news.map((article,index)=>{
+                                if(index>2){
+                                    return <div className="container">
+                                            <PreviewSmall headline={article.headline} time={article.time} briefDescription={article.briefDescription}/>
+                                            <hr/>
+                                        </div>
+                                }
+                            })
+                        }
+                    </div>
                 </div>
                 <div style={{width:"35%"}}></div>
             </div>

@@ -5,7 +5,7 @@ const pool=mysql.createPool(
         host:'localhost',
         user:'moiVoice_user',
         password:'moi2021.',
-        database:'nodelogin',
+        database:'moiVoice_news',
         waitForConnections:true,
         connectionLimit:10,
         queueLimit:0
