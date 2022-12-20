@@ -28,6 +28,7 @@ export default function MainNav(){
                 </div>
                 <div>
                     <a href="/login" className="btn btn-primary">login</a> 
+                    <a href="/newsPosting" className="btn">Update News</a>
                 </div>
             </div>
 
