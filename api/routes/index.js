@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var {body}=require('express-validator');
 const jwt=require('jsonwebtoken');
-
+const { updateNews } = require('./updateNews');
 const {register,login}=require('./users')
 
 
@@ -16,10 +16,12 @@ function ifNotLoggedin(req,res,next){
             return res.status(401).json({})
         }
         else{
-            req.session.userId=user.userId;
+            req.session.userId=user.userId; 
+            console.log("hereeee")
+            next();
         }
     })
-    // next()
+   
 }
 
 /* GET home page. */
@@ -47,5 +49,11 @@ router.post('/register',
         )
 
 router.post('/login',login)
+
+router.get('/userLevel',(req,res)=>{
+    return res.json({userLevel:req.session.userLevel})
+})
+
+router.post('/updateNews',ifNotLoggedin,updateNews)
 
 module.exports = router;

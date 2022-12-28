@@ -1,8 +1,20 @@
-import React from "react";
+import React,{useState} from "react";
 // import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 export default function MainNav(){
+    var [userLevel,set_userLevel]=useState();
+
+    axios.get('http://localhost:9000/userLevel')
+         .then((response)=>{
+            set_userLevel(response.data.userLevel);
+            console.log("the level",userLevel)
+
+         })
+         .catch((err)=>{
+            console.log(err);
+         })
     return(
         <nav className="nav-bar container" >{/*style={{position:"fixed"}}>*/}
 
@@ -27,8 +39,8 @@ export default function MainNav(){
                     </ul>
                 </div>
                 <div>
-                    <a href="/login" className="btn btn-primary">login</a> 
-                    <a href="/newsPosting" className="btn">Update News</a>
+                    {(userLevel===undefined)?<a href="/login" className="btn btn-primary">login</a>:<span/> }
+                    {(userLevel===1)?<a href="/newsPosting" className="btn">Update News</a>:<span/>}
                 </div>
             </div>
 

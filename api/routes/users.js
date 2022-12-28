@@ -52,7 +52,8 @@ exports.register=(req,res)=>{
                         }
 
                         req.session.userId=result[0].userId;
-
+                        req.session.userLevel=0;
+                        
                         const token=jwt.sign({userId:req.session.userId},"secreet",{expiresIn:'1h'});
 
                         console.log("the token hhh::",token)
@@ -104,6 +105,8 @@ exports.login=(req,res)=>{
          const fetchedPassword=result[0].password;
          const fetchedUserId=result[0].userId;
 
+         req.session.userLevel=result[0].userLevel;
+
          const checkPass=await bcrypt.compare(password,fetchedPassword);
 
          if(checkPass==true){//entered password matches the one stored in database
@@ -114,7 +117,7 @@ exports.login=(req,res)=>{
             
             return res.status(200)
                       .cookie('token',token,{httpOnly:true,secure:false,maxAge:3600*1000})
-                      .json({})
+                      .json({userLevel:req.session.userLevel})
          }
          else{
             return res.status(401).json({});
