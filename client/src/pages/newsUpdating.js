@@ -8,7 +8,7 @@ export default function NewsUpdating(){
     var [newsSection,set_newsSection]=useState('lifestyle');
     var [newsHeadline,set_newsHeadline]=useState('');
     var [newsBody,set_newsBody]=useState('');
-
+    var [newsPhoto,set_newsPhoto]=useState(null);
 
     axios.get('http://localhost:9000/userLevel')
          .then((response)=>{
@@ -22,15 +22,28 @@ export default function NewsUpdating(){
     function updateNews(e){
         e.preventDefault();
 
-        console.log(newsBody,"\n",newsHeadline,"\n",newsSection)
+        console.log(newsBody,"\n",newsHeadline,"\n",newsSection,"\n",newsPhoto.name.replace(/ /g,"_"))
+
+        var selectedNewsPhoto=new FormData();
+
+        // selectedNewsPhoto.append()
+        selectedNewsPhoto.append(
+            'file',
+            newsPhoto)/*,
+            newsPhoto.name.replace(/ /g,"_")
+        )*/
+
 
         axios.post('http://localhost:9000/updateNews',
                     {
+                        headers: { 'content-type': 'multipart/form-data' },
                         newsSection:newsSection,
                         newsHeadline:newsHeadline,
                         newsBody:newsBody,
-                        withCredentials:true
-                    })
+                        withCredentials:true,
+                        newsPhoto:newsPhoto
+                    },
+                    )
              .then((response)=>{
                 console.log("response",response)
              })
@@ -42,6 +55,8 @@ export default function NewsUpdating(){
              })
              
     }
+
+    
 
     return(
         <div className="container">
@@ -68,7 +83,7 @@ export default function NewsUpdating(){
                     <p className="col-md-3">News Headline:</p>
                     <input type="text"  name="newsHeadline" className="col-md-6"
                            placeholder="The news headline"  minlength="8" maxlength="200"required value={newsHeadline}
-                           onChange={(e)=>{set_newsHeadline(e.target.value)}}
+                           onChange={(e)=>set_newsHeadline(e.target.value)}
                     />
                 </div>
 
@@ -82,7 +97,7 @@ export default function NewsUpdating(){
 
                 <div>
                     <label class="flex">select a News photo to upload:</label>
-                    <input type="file" name="newsPhoto" />
+                    <input type="file"  onChange={(e)=>set_newsPhoto(e.target.files[0])}/>
                     
                 </div>
                 

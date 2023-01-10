@@ -16,8 +16,7 @@ export default function MainNav(){
             console.log(err);
          })
     return(
-        <nav className="nav-bar container" >{/*style={{position:"fixed"}}>*/}
-
+        <nav className="nav-bar container" id='main-nav'>
             <div className=" container">
                 <h1>MoiVoice</h1>
             </div>
@@ -25,7 +24,7 @@ export default function MainNav(){
             <div className="container ms:4 d-flex space-between">
                 <div>
                     
-                    <ul className="nav nav-pills">
+                    <ul className="nav nav-pills" id='flexed-nav'>
                         <li><NavLink to="/" className="nav-link" >Latest</NavLink></li>
                         <li><NavLink to="/lifestyle" className="nav-link">Lifestyle</NavLink></li>
                         <li><NavLink to="/sports" className="nav-link">Sports</NavLink></li>

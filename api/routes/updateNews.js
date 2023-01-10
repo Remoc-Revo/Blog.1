@@ -14,15 +14,17 @@ exports.updateNews=(req,res)=>{
         const newsBody=body.newsBody;
         const section=body.newsSection;
 
-        pool.query(`INSERT INTO NEWS VALUES(null,'${section}','${headline}','${newsBody}',${req.session.userId},now())`,
-             (err,result)=>{
-                if(err){
-                    throw(err)
-                }
-                if(result.affectedRows==1){
-                    return res.status(201).json({})
-                }
-             }) 
+        console.log("the image",body.newsPhoto)
+        // pool.query(`INSERT INTO NEWS VALUES(null,'${section}','${headline}','${newsBody}',${req.session.userId},now())`,
+        //      (err,result)=>{
+        //         if(err){
+        //             throw(err)
+        //         }
+        //         if(result.affectedRows==1){
+        //             return res.status(201).json({})
+        //         }
+        //      }) 
+        return res.status(200).json({})
     }
     
 }

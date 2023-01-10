@@ -52,3 +52,17 @@ body{
 .pageHead{
     margin-left:30%;
 }
+
+@media screen and (max-width:990px){
+    #flexed-nav{
+        display:none;
+    }
+
+    .container{
+        margin:20px 10px;
+    }
+}
+
+#main-nav{
+    margin-top:40px;
+}
