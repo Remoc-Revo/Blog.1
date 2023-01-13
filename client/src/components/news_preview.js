@@ -4,8 +4,8 @@ import '../styles/index.css';
 export  function PreviewBig({headline,time,briefDescription,imgUrl}){
     
         return(
-            <a href="" style={{textDecoration:"none",color:"black"}} className="preview-big">
-                <img src={require(`../../public/uploads/${imgUrl}`)} alt=""  className="col-md-6" style={{display:"block",width:"100%",height:"500px"}}></img>
+            <a href="" style={{textDecoration:"none",color:"black"}} className="">
+                <img src={require(`../../public/uploads/${imgUrl}`)} alt=""   style={{display:"block",width:"100%",height:"500px"}}></img>
 
                 <div  className="container">
                     <i className="duration">{time}</i>

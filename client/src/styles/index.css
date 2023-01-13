@@ -10,8 +10,17 @@ i.duration{
 
 .briefDescription{
     font-weight: lighter;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+.preview-mid-container,.preview-small-container,.preview-big{
+    width:100%
+}
 
 .preview-mid,.preview-small-container,.preview-big{
     border:.1em solid lightblue;   
@@ -19,16 +28,18 @@ i.duration{
     background-color: white;
 }
 
-.preview-mid{
-    margin-right: 10px;
+.preview-mid-container{
+    gap:8px;
+    margin-left:1px;
 }
 
 .preview-big{
     margin:25px 0px;
+   
 }
 
-.preview-small-container{
-    margin:13px 0px 0px;
+.single-content{
+    justify-content: center;
 }
 
 .space-between{
