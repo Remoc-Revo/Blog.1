@@ -4,29 +4,6 @@ var {body}=require('express-validator');
 const jwt=require('jsonwebtoken');
 const { updateNews } = require('./updateNews');
 const {register,login}=require('./users')
-const multer=require('multer')
-const {latest}=require('./getNews')
-
-const storage=multer.diskStorage({
-    destination:(req,file,cb)=>{
-        cb(null,'../client/public/uploads')
-    },
-    filename:(req,file,cb)=>{
-        cb(null,Date.now()+file.originalname.replace(/ /g,"_"))
-        
-    }
-
-})
-const upload=multer({storage:storage})
-
-
-router.post('/upload',upload.single('file'),(req,res)=>{
-
-    console.log("the name",req.file)//.filename);
-    
-    return res.status(200).json(req.file.filename)
-})
- 
 
 
 function ifNotLoggedin(req,res,next){
@@ -49,7 +26,9 @@ function ifNotLoggedin(req,res,next){
 
 /* GET home page. */
 router.get('/latest',
-    latest
+    ()=>{
+        return res.json({})
+    }
 );
 
 router.post('/register',
@@ -76,6 +55,5 @@ router.get('/userLevel',(req,res)=>{
 })
 
 router.post('/updateNews',ifNotLoggedin,updateNews)
-
 
 module.exports = router;

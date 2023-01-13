@@ -18,39 +18,34 @@ export default function NewsUpdating(){
             }
          })
 
-    async function upload(){
-        var formData=new FormData();
 
-        formData.append('file',newsPhoto);
-        console.log("the file",formData)
-        const res=await axios.post('http://localhost:9000/upload',formData)
-            
-        return res.data;
-
-    }
-
-    async function updateNews(e){
+    function updateNews(e){
         e.preventDefault();
 
         console.log(newsBody,"\n",newsHeadline,"\n",newsSection,"\n",newsPhoto.name.replace(/ /g,"_"))
-        
-        const imgUrl=await upload();
-        console.log("imgUrl",imgUrl)
 
-        await axios.post('http://localhost:9000/updateNews',
+        var selectedNewsPhoto=new FormData();
+
+        // selectedNewsPhoto.append()
+        selectedNewsPhoto.append(
+            'file',
+            newsPhoto)/*,
+            newsPhoto.name.replace(/ /g,"_")
+        )*/
+
+
+        axios.post('http://localhost:9000/updateNews',
                     {
                         headers: { 'content-type': 'multipart/form-data' },
                         newsSection:newsSection,
                         newsHeadline:newsHeadline,
                         newsBody:newsBody,
                         withCredentials:true,
-                        img:imgUrl
+                        newsPhoto:newsPhoto
                     },
                     )
              .then((response)=>{
-                if(response.status===200){
-                    navigate('/');
-                }
+                console.log("response",response)
              })
              .catch((err)=>{
                 console.log(err)
