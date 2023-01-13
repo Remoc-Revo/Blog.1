@@ -1,5 +1,4 @@
 const pool=require('../config/dbConnection')
-const multer=require('multer')
 
 
 exports.updateNews=(req,res)=>{
@@ -13,18 +12,28 @@ exports.updateNews=(req,res)=>{
         const headline=body.newsHeadline;
         const newsBody=body.newsBody;
         const section=body.newsSection;
+        const imgUrl=body.img;
 
-        console.log("the image",body.newsPhoto)
-        // pool.query(`INSERT INTO NEWS VALUES(null,'${section}','${headline}','${newsBody}',${req.session.userId},now())`,
-        //      (err,result)=>{
-        //         if(err){
-        //             throw(err)
-        //         }
-        //         if(result.affectedRows==1){
-        //             return res.status(201).json({})
-        //         }
-        //      }) 
-        return res.status(200).json({})
+        console.log("imgUrl::,",imgUrl)
+        pool.query(`INSERT INTO NEWS VALUES(null,'${section}','${headline}','${newsBody}',${req.session.userId},now())`,
+             (err,result)=>{
+                if(err){
+                    throw(err) 
+                }
+                const newsId=result.insertId;
+
+                pool.query(`INSERT INTO MULTIMEDIA VALUES(null,"img",${newsId},'${imgUrl}')`,
+                    (err,result)=>{
+                        if(err){
+                            console.log(err)
+                        }             
+
+
+                        if(result){
+                            return res.status(200).json({})
+                        }
+                    })
+             }) 
     }
     
 }
