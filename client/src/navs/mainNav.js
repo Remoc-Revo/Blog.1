@@ -17,13 +17,12 @@ export default function MainNav(){
          })
     return(
         <nav className="nav-bar container" id='main-nav'>
-            <div className=" container">
-                <h1>MoiVoice</h1>
-            </div>
+            
 
             <div className="container ms:4 d-flex space-between">
-                <div>
                     
+                    <h1>MoiVoice</h1>
+
                     <ul className="nav nav-pills" id='flexed-nav'>
                         <li><NavLink to="/" className="nav-link" >Latest</NavLink></li>
                         <li><NavLink to="/lifestyle" className="nav-link">Lifestyle</NavLink></li>
@@ -36,7 +35,7 @@ export default function MainNav(){
 
 
                     </ul>
-                </div>
+                
                 <div>
                     {(userLevel===undefined)?<a href="/login" className="btn btn-primary">login</a>:<span/> }
                     {(userLevel===1)?<a href="/newsPosting" className="btn">Update News</a>:<span/>}
