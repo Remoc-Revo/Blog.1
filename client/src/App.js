@@ -24,6 +24,7 @@ import Academics from './pages/academics';
 import Login from './pages/login'
 import NewsUpdating from './pages/newsUpdating';
 import Register from './pages/register';
+import Single from './pages/single';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/newsPosting' element={<NewsUpdating/>}/>
         <Route path='/register' element={<Register/>}/>
+        <Route path='/news/:id' element={<Single/>}/>
       </Routes>
     </Router>
   );

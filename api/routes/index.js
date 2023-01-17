@@ -5,7 +5,7 @@ const jwt=require('jsonwebtoken');
 const { updateNews } = require('./updateNews');
 const {register,login}=require('./users')
 const multer=require('multer')
-const {latest}=require('./getNews')
+const {latest,single}=require('./getNews')
 
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
@@ -77,5 +77,5 @@ router.get('/userLevel',(req,res)=>{
 
 router.post('/updateNews',ifNotLoggedin,updateNews)
 
-
+router.get('/news/:id',single)
 module.exports = router;

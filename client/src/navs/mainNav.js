@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 // import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
@@ -6,15 +6,17 @@ import axios from "axios";
 export default function MainNav(){
     var [userLevel,set_userLevel]=useState();
 
-    axios.get('http://localhost:9000/userLevel')
-         .then((response)=>{
-            set_userLevel(response.data.userLevel);
-            console.log("the level",userLevel)
+    useEffect(()=>{
+        axios.get('http://localhost:9000/userLevel')
+            .then((response)=>{
+                set_userLevel(response.data.userLevel);
+                console.log("the level",userLevel)
 
-         })
-         .catch((err)=>{
-            console.log(err);
-         })
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+        },[])
     return(
         <nav className="nav-bar container" id='main-nav'>
             
