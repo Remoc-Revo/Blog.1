@@ -22,9 +22,8 @@ exports.single=(req,res)=>{
             if(err){
                 throw(err)
             }
-
             console.log("result",result)
 
             return res.status(200).json({news:result})
-        })
+        }) 
 }

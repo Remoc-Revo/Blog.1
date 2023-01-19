@@ -22,8 +22,12 @@ export default function Single(){
                 
     },[newsId])
 
-    if(news.length!==0){
-        console.log("been here buanaa",news)
+
+    function decodeString(str){
+        return decodeURIComponent(str)
+                    .replace(/&apos;/g,"'")
+                    .replace(/<p>/g,"")
+                    .replace(/<\/p>/g,"")
     }
 
     return(
@@ -33,12 +37,12 @@ export default function Single(){
             <div className="container">
                 {(news.length!==0)
                     ?<div className="container ">
-                        <h2>{news.headline}</h2>
+                        <h2>{decodeString(news.headline)}</h2>
                         <img src={require(`../../public/uploads/${news.storage}`)} style={{display:"block",width:"100%",height:"500px"}}/>
 
                         <p className="mt-4 mb-4">{moment(news.postDatetime).fromNow()}</p>
 
-                        <p>{news.body}</p>
+                        <p>{decodeString(news.body)}</p>
                      </div>
 
                     :""
