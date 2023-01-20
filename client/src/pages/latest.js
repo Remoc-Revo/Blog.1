@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {PreviewBig,PreviewMid,PreviewSmall} from "../components/news_preview";
 import moment from "moment"
+import Footer from "../components/footer";
 
 export default  function Home(){
     const navigate=useNavigate();
@@ -96,7 +97,7 @@ export default  function Home(){
             </div>
 
             
-
+            <Footer/>
         </div>
     )
 }

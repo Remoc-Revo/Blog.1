@@ -10,7 +10,7 @@ exports.latest=(req,res)=>{
             const news=result;
 
             res.status(200).json({news});
-
+ 
         }) 
 
 }

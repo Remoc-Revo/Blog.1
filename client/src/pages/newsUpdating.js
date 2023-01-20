@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import MainNav from "../navs/mainNav";
+import Footer from "../components/footer";
 
 export default function NewsUpdating(){
     const navigate=useNavigate();
 
-    var [newsSection,set_newsSection]=useState('lifestyle');
+    var [newsSection,set_newsSection]=useState();
     var [newsHeadline,set_newsHeadline]=useState('');
     var [newsBody,set_newsBody]=useState('');
     var [newsPhoto,set_newsPhoto]=useState(null);
@@ -69,10 +70,11 @@ export default function NewsUpdating(){
     return(
         <div className="container">
             <MainNav/>
-            <form  onSubmit={updateNews} enctype="multipart/form-data" >
+            <form className="" onSubmit={updateNews} enctype="multipart/form-data" >
 
-                <div className="d-flex ">
-                    <select placeholder="News Section" className="w-100" value={newsSection} onChange={(e)=>set_newsSection(e.target.value)}>
+                <div className=" container">
+                    <select placeholder="News Section" id="newsSection" className="w-100 form-control" value={newsSection} onChange={(e)=>set_newsSection(e.target.value)}>
+                        <option value="" >Select News Section</option>
                         <option value="lifestyle">Lifestyle</option>
                         <option value="sports">Sports</option>
                         <option value="entertainment">Entertainment</option>
@@ -81,44 +83,42 @@ export default function NewsUpdating(){
                         <option value="business">Business </option>
                         <option value="politics"> Politics</option>
 
-
+                        
                     </select>
+
+                    <div className="d-flex mb-3 mt-3">
+                        <input type="text"  name="newsHeadline" className="w-100 form-control"
+                            placeholder="Headline"  minlength="8" maxlength="200"required value={newsHeadline}
+                            onChange={(e)=>set_newsHeadline(e.target.value)}
+                        />
+                    </div>
+
+                            
+
+                    <div className="editor-container mb-4">
+                        <ReactQuill value={newsBody}
+                                onChange={set_newsBody}
+                                className="editor"
+                                // theme="snow"
+                        />
+                    </div>
                 </div>
                 
-                <div className="d-flex mb-3 mt-3">
-                    <input type="text"  name="newsHeadline" className="w-100"
-                           placeholder="Headline"  minlength="8" maxlength="200"required value={newsHeadline}
-                           onChange={(e)=>set_newsHeadline(e.target.value)}
-                    />
-                </div>
-
-                {/* <div className="d-flex">
-                    <p className="col-md-3">News Article:
-                    <textarea name="newsArticle"  rows="20" cols="82" value={newsBody} onChange={(e)=>set_newsBody(e.target.value)}>
-                        Write the News composition here!
-                    </textarea>
-                    </p>
-                </div> */}
-
-                <div className="editor-container">
-                    <ReactQuill value={newsBody}
-                            onChange={set_newsBody}
-                            className="editor"
-                            // theme="snow"
-                    />
-                </div>
                 
-
-
-                <div>
-                    <label class="flex">select a News photo to upload:</label>
-                    <input type="file"  onChange={(e)=>set_newsPhoto(e.target.files[0])}/>
+                
+                <div className="d-flex row container">
+                    <div className="col">
+                        <label for="newsImg">Upload image</label>
+                        <input type="file"  id="newsImg"  onChange={(e)=>set_newsPhoto(e.target.files[0])}/>
+                    </div>
                     
+                    <input className="btn-success col" type="submit" value="Publish"/>
                 </div>
+
                 
-                <input type="submit" value="Update"/>
                 
             </form>
+            <Footer/>
         </div>
     )
 }

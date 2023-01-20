@@ -3,6 +3,9 @@ import MainNav from "../navs/mainNav";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
+import parse from "html-react-parser"
+import Footer from "../components/footer";
+
 
 export default function Single(){
     var [news,setNews]=useState([]);
@@ -24,10 +27,13 @@ export default function Single(){
 
 
     function decodeString(str){
-        return decodeURIComponent(str)
-                    .replace(/&apos;/g,"'")
-                    .replace(/<p>/g,"")
-                    .replace(/<\/p>/g,"")
+        const htmlString= decodeURIComponent(str)
+                    // .replace(/&apos;/g,"'")
+                    // .replace(/<p>/g,"")
+                    // .replace(/<\/p>/g,"")
+                    // .replace(/<br>/,)
+
+        return parse(htmlString);
     }
 
     return(
@@ -55,7 +61,7 @@ export default function Single(){
                
             
 
-
+            <Footer/>
         </div>
     )
 }
