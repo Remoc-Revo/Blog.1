@@ -5,7 +5,7 @@ const jwt=require('jsonwebtoken');
 const { updateNews } = require('./updateNews');
 const {register,login}=require('./users')
 const multer=require('multer')
-const {latest,single}=require('./getNews')
+const {news,single}=require('./getNews')
 
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
@@ -47,9 +47,8 @@ function ifNotLoggedin(req,res,next){
    
 }
 
-/* GET home page. */
-router.get('/latest',
-    latest
+router.get('/news',
+    news
 );
 
 router.post('/register',

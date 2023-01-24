@@ -1,7 +1,14 @@
 const pool=require('../config/dbConnection');
 
-exports.latest=(req,res)=>{
-    pool.query(`SELECT * FROM NEWS  JOIN MULTIMEDIA ON NEWS.newsId=MULTIMEDIA.newsId ORDER BY postDateTime DESC`,
+exports.news=(req,res)=>{
+    console.log("the category",req.query)
+    let fetchQuery=(req.query.cat)
+                        ?`SELECT * FROM NEWS  JOIN MULTIMEDIA ON NEWS.newsId=MULTIMEDIA.newsId 
+                          WHERE NEWS.section=? ORDER BY postDateTime DESC `
+                        :`SELECT * FROM NEWS  JOIN MULTIMEDIA ON NEWS.newsId=MULTIMEDIA.newsId 
+                          ORDER BY postDateTime DESC`;
+
+    pool.query(fetchQuery,[req.query.cat],
         (err,result)=>{
             if(err){
                 console.log(err);

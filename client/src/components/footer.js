@@ -45,8 +45,8 @@ export default function Footer(){
                     <p>Keeping you updated with Campus news</p>
                  </div>
 
-                <div id="usefull-links" className="d-flex flex-column">
-                    <h5>USEFULL LINKS</h5>
+                <div id="useful-links" className="d-flex flex-column">
+                    <h5>USEFUL LINKS</h5>
                     <a>Your Account</a>
                     <a>Help</a>
                 </div>

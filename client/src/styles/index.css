@@ -23,7 +23,7 @@ i.duration{
 }
 
 .preview-mid,.preview-small-container,.preview-big{
-    border:.1em solid lightblue;   
+    border:.1em solid white;   
     padding: 0;
     background-color: white;
 }
@@ -84,6 +84,13 @@ body{
     color: black;
 }
 
+#main-nav #active,#main-nav h1{
+    color:green;
+}
+
+
+
+
 /* newsUpdating */
 .editor-container{
     overflow:scroll;
@@ -104,21 +111,16 @@ body{
 
 
 /* Footer */
-#footer{
-    /* align-items: center; */
-}
 
-#footer div{
-}
+
+
 
 #footer :is(p,h5,a){
     margin:10px;
     font-weight: lighter;
 }
 
-#usefull-links{
 
-}
 
 
 #social-networks{

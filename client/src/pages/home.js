@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import MainNav from "../navs/mainNav";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import {PreviewBig,PreviewMid,PreviewSmall} from "../components/news_preview";
 import moment from "moment"
 import Footer from "../components/footer";
@@ -9,10 +9,15 @@ import Footer from "../components/footer";
 export default  function Home(){
     const navigate=useNavigate();
     const [news,setNews]=useState([]);
+    var cat=/*(useLocation().search==="")?"/latest":*/useLocation().search;
+    console.log("cat",cat)
+
+    const title=(cat==="/latest")?"Latest":cat.split(":")[1];
 
     useEffect(()=>{
+        setNews([]);
         function fetchNews(){
-            axios.get("http://localhost:9000/latest",{withCredentials:true})
+            axios.get(`http://localhost:9000/news${cat}`,{withCredentials:true})
                .then((response)=>{
                    setNews(response.data.news)
                    console.log('newss,',news)
@@ -22,7 +27,7 @@ export default  function Home(){
                })
        }
        fetchNews()
-    },[])
+    },[cat])
      
 
     // for(var i=0;i<34;i++){
@@ -38,13 +43,13 @@ export default  function Home(){
     }
     
     return(
-        <div className="full-page">
+        <div className="full-page ">
             <MainNav/>
             
-                <div className="container d-flex ">
+                <div className="container d-flex mb-4">
                     <div className="container single-content">
 
-                        <h1>Latest</h1>
+                        <h1>{title}</h1>
 
                         {/*preview of news at the top of the page,
                         its image is the biggest

@@ -70,7 +70,7 @@ export default function NewsUpdating(){
     return(
         <div className="container">
             <MainNav/>
-            <form className="" onSubmit={updateNews} enctype="multipart/form-data" >
+            <form  onSubmit={updateNews} enctype="multipart/form-data" className="mb-5">
 
                 <div className=" container">
                     <select placeholder="News Section" id="newsSection" className="w-100 form-control" value={newsSection} onChange={(e)=>set_newsSection(e.target.value)}>

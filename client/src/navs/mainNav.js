@@ -1,10 +1,19 @@
 import React,{useState,useEffect} from "react";
 // import { Nav } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink,useLocation } from "react-router-dom";
 import axios from "axios";
 
 export default function MainNav(){
     var [userLevel,set_userLevel]=useState();
+    var cat=useLocation().search;
+     if(cat==="?cat=Lifestyle"){
+            console.log("categoryyyyy is",useLocation().search)
+     } 
+     if(cat==="?cat=Sports"){
+        console.log("categoryyyyy isporty",useLocation().search)
+ }  
+    
+
 
     useEffect(()=>{
         axios.get('http://localhost:9000/userLevel')
@@ -25,15 +34,39 @@ export default function MainNav(){
                     
                     <h1>MoiVoice</h1>
 
-                    <ul className="nav " id='flexed-nav'>
-                        <li><NavLink to="/" className="nav-link" >Latest</NavLink></li>
-                        <li><NavLink to="/lifestyle" className="nav-link">Lifestyle</NavLink></li>
-                        <li><NavLink to="/sports" className="nav-link">Sports</NavLink></li>
-                        <li><NavLink to="/entertainment" className="nav-link">Entertainment</NavLink></li>
-                        <li><NavLink to="/academics" className="nav-link">Academics</NavLink></li>
-                        <li><NavLink to="/health" className="nav-link">Health</NavLink></li>
-                        <li><NavLink to="/business" className="nav-link">Business</NavLink></li>
-                        <li><NavLink to="/politics" className="nav-link">Politics</NavLink></li>
+                    <ul className="nav" id='flexed-nav'>
+                        
+                        <li className="nav-item">
+                            <NavLink to="/" className="nav-link" id={(cat==="")?"active":""} >Latest</NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to="/?cat=Lifestyle" id={(cat==="?cat=Lifestyle")?"active":""} className="nav-link">Lifestyle</NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to="/?cat=Sports" id={(cat==="?cat=Sports")?"active":""} className="nav-link">Sports</NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to="/?cat=Entertainment" id={(cat==="?cat=Entertainment")?"active":""} className="nav-link">Entertainment</NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to="/?cat=Academics" id={(cat==="?cat=Academics")?"active":""} className="nav-link">Academics</NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to="/?cat=Health" id={(cat==="?cat=Health")?"active":""} className="nav-link">Health</NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to="/?cat=Business" id={(cat==="?cat=Business")?"active":""} className="nav-link">Business</NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to="/?cat=Politics" id={(cat==="?cat=Politics")?"active":""} className="nav-link">Politics</NavLink>
+                        </li>
 
 
                     </ul>

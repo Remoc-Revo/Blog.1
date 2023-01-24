@@ -13,14 +13,7 @@ import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
     -lifestyle
 */
 
-import Latest from "./pages/latest";
-import Sports from './pages/sports';
-import Lifestyle from './pages/lifestyle';
-import Entertainment from './pages/entertainment';
-import Politics from './pages/politics';
-import Business from './pages/business';
-import Health from './pages/health';
-import Academics from './pages/academics';
+import Home from "./pages/home";
 import Login from './pages/login'
 import NewsUpdating from './pages/newsUpdating';
 import Register from './pages/register';
@@ -30,14 +23,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Latest/>}/>
-        <Route path='/sports' element={<Sports/>}/>
-        <Route path='/lifestyle' element={<Lifestyle/>}/>
-        <Route path='/entertainment' element={<Entertainment/>}/>
-        <Route path='/politics' element={<Politics/>}/>
-        <Route path='/business' element={<Business/>}/>
-        <Route path='/health' element={<Health/>}/>
-        <Route path='/academics' element={<Academics/>}/>
+        <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/newsPosting' element={<NewsUpdating/>}/>
         <Route path='/register' element={<Register/>}/>
