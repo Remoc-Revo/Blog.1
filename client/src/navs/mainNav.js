@@ -31,12 +31,12 @@ export default function MainNav(){
         },[])
     return(
       <div className=" bg-light">
-        <Navbar className="d-flex justify-content-between" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}
+        <Navbar className="d-flex justify-content-between ms-4" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}
           >
-          <Navbar.Brand href="#home" className="ms-1"><h1>MoiVoice</h1></Navbar.Brand>
+          <Navbar.Brand href="#home" className="ms-2"><h1>MoiVoice</h1></Navbar.Brand>
           <Navbar.Toggle  aria-controls="basic-navbar-nav"/>
-          <Navbar.Collapse id="basic-navbar-nav" className="ms-4 row-md ">
-            <Nav className="" id="page-links" style={{}}>
+          <Navbar.Collapse id="basic-navbar-nav" className="ms-3 row-md ">
+            <Nav className="me-4" id="page-links" style={{}}>
               <Nav.Link href="/" className="" id={(cat==="")?"active":""} >Latest</Nav.Link>
               <Nav.Link href="/?cat=Lifestyle" id={(cat==="?cat=Lifestyle")?"active":""} className="nav-link">Lifestyle</Nav.Link>
               <Nav.Link href="/?cat=Sports" id={(cat==="?cat=Sports")?"active":""} className="nav-link">Sports</Nav.Link>
@@ -47,11 +47,11 @@ export default function MainNav(){
               <Nav.Link href="/?cat=Politics" id={(cat==="?cat=Politics")?"active":""} className="nav-link">Politics</Nav.Link>
 
             </Nav>
-            <div className="col-sm-2 col-md-3 d-md-flex justify-content-md-end">
-              <div className="row-md  d-sm-flex ">
+            <div className="col-sm-2 col-md-3 d-lg-flex justify-content-lg-end ">
+              <div className="row-md  d-lg-flex ">
                 {(userLevel===undefined)?<Nav.Link href="/login" className=" ">login</Nav.Link>:<span/> }
-                {(userLevel===1)?<Nav.Link href="/newsPosting" className="col-xs col-md ms-2">Write</Nav.Link>:<span/>}
-                {(userLevel===1 || userLevel===0)?<Nav.Link href="/logout" className=" col-xs col-md ms-2">Logout</Nav.Link>:<span/>}
+                {(userLevel===1)?<Nav.Link href="/newsPosting" className="col-xs col-md ms-1">Write</Nav.Link>:<span/>}
+                {(userLevel===1 || userLevel===0)?<Nav.Link href="/logout" className=" col-xs col-md ms-1">Logout</Nav.Link>:<span/>}
               </div>
             </div>
             
