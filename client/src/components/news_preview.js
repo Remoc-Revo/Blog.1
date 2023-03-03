@@ -21,7 +21,7 @@ export  function PreviewBig({headline,time,briefDescription,imgUrl,newsId}){
 export  function PreviewMid({headline,time,briefDescription,imgUrl,newsId}){
     
     return(
-        <a href={`/news/${newsId}`} style={{textDecoration:"none"}} className="col preview-mid">
+        <a href={`/news/${newsId}`} style={{textDecoration:"none",padding:"0px"}} className="col preview-mid">
             <img src={require(`../../public/uploads/${imgUrl}`)}  className="" style={{display:"block",width:"100%",height:"300px"}}></img>
 
             <div style={{color:"black"}} className="container">

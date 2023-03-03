@@ -36,7 +36,7 @@ export default function Login(){
             <div id="login-form">
                 <div class="pageHead container">
                     <img class="voiceIcon" src="" alt=""/>
-                    <h2><b style={{color:"black"}}>oi</b>Voice</h2>
+                    <h2><b style={{color:"black"}}>Moi</b>Voice</h2>
                 </div>
                 <form onSubmit={login}>
                     <div  >

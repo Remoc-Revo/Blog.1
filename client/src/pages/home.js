@@ -12,7 +12,7 @@ export default  function Home(){
     var cat=/*(useLocation().search==="")?"/latest":*/useLocation().search;
     console.log("cat",cat)
 
-    const title=(cat==="/latest")?"Latest":cat.split(":")[1];
+    const title=(cat==="")?"Latest":cat.split("=")[1];
 
     useEffect(()=>{
         setNews([]);
@@ -45,7 +45,6 @@ export default  function Home(){
     return(
         <div className="full-page ">
             <MainNav/>
-            
                 <div className="container d-flex mb-4">
                     <div className="container single-content">
 
@@ -71,7 +70,7 @@ export default  function Home(){
                         }
 
                         {(news.length>2)
-                            ?<div className="row preview-mid-container">
+                            ?<div className="row preview-mid-container " style={{margin:"0px"}}>
                                 <PreviewMid headline={decodeString(news[1].headline)} time={moment(news[1].postDatetime).fromNow()}
                                             briefDescription={decodeString(news[1].body)} imgUrl={news[1].storage} newsId={news[1].newsId}/>
                                 <PreviewMid headline={decodeString(news[2].headline)} time={moment(news[2].postDatetime).fromNow()}
@@ -98,7 +97,7 @@ export default  function Home(){
                             :<span></span>
                         }
                     </div>
-                <div className="side-page" style={{width:"35%"}}></div>
+                <div className="side-page" style={{width:"5%"}}></div>
             </div>
 
             

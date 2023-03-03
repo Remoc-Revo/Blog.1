@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import moment from "moment";
 import parse from "html-react-parser"
 import Footer from "../components/footer";
-
+import More from "../components/more";
 
 export default function Single(){
     var [news,setNews]=useState([]);
@@ -40,27 +40,43 @@ export default function Single(){
         <div>
             <MainNav/>
             
-            <div className="container">
-                {(news.length!==0)
-                    ?<div className="container ">
-                        <h2>{decodeString(news.headline)}</h2>
-                        <img src={require(`../../public/uploads/${news.storage}`)} style={{display:"block",width:"100%",height:"500px"}}/>
-
-                        <p className="mt-4 mb-4">{moment(news.postDatetime).fromNow()}</p>
-
-                        <p>{decodeString(news.body)}</p>
-                     </div>
-
-                    :""
-
-                }
-                <p>
-                    
-                </p>
-            </div>
-               
             
+            {(news.length!==0)
+                ?<div className="container mt-5">
+                    <div className="container">
+                        <h1 className=" headline">{decodeString(news.headline)}</h1>
+                    </div>
+                    <div className="d-flex container mt-5 gap-3">
+                        <div className=" col-md-8 ms-4">
+                            <div className="container ">
+                                <p className="pt-2 pb-2 border-top border-bottom">
+                                    By <span style={{color:"teal",fontWeight:"bold"}}>{news.userName}</span> | {moment(news.postDatetime).fromNow()}
+                                </p>
+                                <img src={require(`../../public/uploads/${news.storage}`)} 
+                                    style={{display:"block",width:"100%",height:"390px"}}/>
 
+
+                                <p className="mt-4">{decodeString(news.body)}</p>
+                            </div>
+
+                                
+
+                            
+                            <p>
+                                
+                            </p>
+                        </div>
+                        
+                        
+                        <More cat={news.section} current={news.newsId} />
+                    </div>
+                </div>
+                :""
+
+            }
+           
+            
+            
             <Footer/>
         </div>
     )
