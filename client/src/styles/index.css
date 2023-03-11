@@ -4,7 +4,7 @@
 }
 
 .w-100{
-    width:200px;
+    width:100%;
 }
 
 i.duration{
@@ -164,6 +164,17 @@ p{
 @media screen and (min-width:992px){
     #page-links{
         margin-right:5px;    
+    }
+
+    
+}
+
+@media screen and (max-width:995px){
+    
+    #user-nav{
+        position: absolute;
+        right:9%;
+        top: 50%;
     }
 }
 

@@ -42,13 +42,13 @@ export default function Single(){
             
             
             {(news.length!==0)
-                ?<div className="container mt-5">
-                    <div className="container">
+                ?<div className="container-lg mt-5">
+                    <div className="container-lg">
                         <h1 className=" headline">{decodeString(news.headline)}</h1>
                     </div>
-                    <div className="d-flex container mt-5 gap-3">
-                        <div className=" col-md-8 ms-4">
-                            <div className="container ">
+                    <div className="d-lg-flex container-lg mt-5 gap-3">
+                        <div className=" col-lg-8 p-0">
+                            <div className="container-lg p-0">
                                 <p className="pt-2 pb-2 border-top border-bottom">
                                     By <span style={{color:"teal",fontWeight:"bold"}}>{news.userName}</span> | {moment(news.postDatetime).fromNow()}
                                 </p>
@@ -59,12 +59,6 @@ export default function Single(){
                                 <p className="mt-4">{decodeString(news.body)}</p>
                             </div>
 
-                                
-
-                            
-                            <p>
-                                
-                            </p>
                         </div>
                         
                         

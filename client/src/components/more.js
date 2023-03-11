@@ -13,18 +13,23 @@ export default function More({cat,current}){
    },[])
 
    return(
-      <div className="col-md-3 mt-6 border">
-         <div className="row container">
+      <div className="col-lg-3 mt-6 border ">
+         <div className="row container ">
             <h5>More like this</h5>
          </div>
 
-         <div className="container">
+         <div className="container-lg">
            {
             more.map((article,index)=>{
                if(index <= 5 && article.newsId !== current){
-                  return <a href={`/news/${article.newsId}`} className="row text-decoration-none m-0">
-                              <img src={require(`../../public/uploads/${article.storage}`)} className="w-100"/>
-                              <p className="text-success" style={{fontSize:"13px"}}>{decodeURIComponent(article.headline).replace(/&apos;/g,"'")}</p>
+                  return <a href={`/news/${article.newsId}`} className=" d-flex d-lg-block text-decoration-none row-xs mb-3 gap-3">
+                              <div className="col-4 col-sm-4  col-lg-12 container-xs">
+                                 <img src={require(`../../public/uploads/${article.storage}`)} className=" w-100 "/>
+
+                              </div>
+                                 
+                              <p className="text-success " style={{fontSize:"13px"}}>{decodeURIComponent(article.headline).replace(/&apos;/g,"'")}</p>
+
                         </a>
                            
                            

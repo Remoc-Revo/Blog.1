@@ -1,10 +1,11 @@
 import React,{useState,useEffect} from "react";
-import { Button,Nav, Navbar, NavDropdown,NavbarBrandProps,NavLink, ButtonGroup } from "react-bootstrap";
+import { Button,Nav, Navbar, NavDropdown,NavbarBrandProps,NavLink, ButtonGroup, Container } from "react-bootstrap";
 import { /*NavLink,*/useLocation,Link } from "react-router-dom";
 import axios from "axios";
 
 export default function MainNav(){
   var [userLevel,set_userLevel]=useState();
+  var [userName,set_userName]=useState("");
   var cat=useLocation().search;
     if(cat==="?cat=Lifestyle"){
           console.log("categoryyyyy is",useLocation().search)
@@ -17,9 +18,10 @@ export default function MainNav(){
   var [windowWidth,set_windowWidth]=useState(window.innerWidth)
 
     useEffect(()=>{
-        axios.get('http://localhost:9000/userLevel')
+        axios.get('http://localhost:9000/user')
             .then((response)=>{
                 set_userLevel(response.data.userLevel);
+                set_userName(response.data.userName);
                 console.log("the level",userLevel)
 
             })
@@ -29,12 +31,24 @@ export default function MainNav(){
 
         window.addEventListener('resize',()=>{set_windowWidth(window.innerWidth)})
         },[])
+
     return(
       <div className=" bg-light">
-        <Navbar className="d-flex justify-content-between ms-4" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}
-          >
-          <Navbar.Brand href="#home" className="ms-2"><h1>MoiVoice</h1></Navbar.Brand>
-          <Navbar.Toggle  aria-controls="basic-navbar-nav"/>
+        <Navbar className=" d-lg-flex ms-0 ms-md-4 position-relative" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}>
+          <Navbar.Brand  href="#home" id="brand" className="ms-2"><h1>MoiVoice</h1></Navbar.Brand>
+          
+      
+
+          <div id="user-nav" className="d-flex gap-2 order-lg-2 me-4">
+            {(typeof userName!=="undefined")
+                ?<Button className="rounded-circle">{userName[0]}</Button> 
+                : <Nav.Link href="/login" className=" ">login</Nav.Link>
+            }
+            {(userLevel===1)?<Nav.Link href="/newsPosting" className="col-xs col-md ms-1">Write</Nav.Link>:<span/>}
+          
+
+          </div>
+          <Navbar.Toggle  aria-controls="basic-navbar-nav" className="order-lg-1 me-2 ms-2"/>
           <Navbar.Collapse id="basic-navbar-nav" className="ms-3 row-md ">
             <Nav className="me-4" id="page-links" style={{}}>
               <Nav.Link href="/" className="" id={(cat==="")?"active":""} >Latest</Nav.Link>
@@ -48,16 +62,12 @@ export default function MainNav(){
 
             </Nav>
             <div className="col-sm-2 col-md-3 d-lg-flex justify-content-lg-end ">
-              <div className="row-md  d-lg-flex ">
-                {(userLevel===undefined)?<Nav.Link href="/login" className=" ">login</Nav.Link>:<span/> }
-                {(userLevel===1)?<Nav.Link href="/newsPosting" className="col-xs col-md ms-1">Write</Nav.Link>:<span/>}
-                {(userLevel===1 || userLevel===0)?<Nav.Link href="/logout" className=" col-xs col-md ms-1">Logout</Nav.Link>:<span/>}
-              </div>
+                {/* {(userLevel===1 || userLevel===0)?<Nav.Link href="/logout" className=" col-xs col-md ms-1">Logout</Nav.Link>:<span/>} */}
             </div>
-            
           </Navbar.Collapse>
-        
+          
         </Navbar>
+      
       </div>
         
   
