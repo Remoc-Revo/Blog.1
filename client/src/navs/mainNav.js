@@ -1,18 +1,23 @@
 import React,{useState,useEffect} from "react";
-import { Button,Nav, Navbar, NavDropdown,NavbarBrandProps,NavLink, ButtonGroup, Container } from "react-bootstrap";
+import { Button,Nav, Navbar, NavItem, NavDropdown,NavbarBrandProps,NavLink, ButtonGroup, Container, Dropdown } from "react-bootstrap";
 import { /*NavLink,*/useLocation,Link } from "react-router-dom";
 import axios from "axios";
 
 export default function MainNav(){
   var [userLevel,set_userLevel]=useState();
   var [userName,set_userName]=useState("");
+  var [dropdownOpen,set_dropdownOpen]=useState(false);
+
   var cat=useLocation().search;
     if(cat==="?cat=Lifestyle"){
           console.log("categoryyyyy is",useLocation().search)
     } 
     if(cat==="?cat=Sports"){
       console.log("categoryyyyy isporty",useLocation().search)
-}  
+    }  
+
+    const toggle_dropdown=()=>set_dropdownOpen(!dropdownOpen)
+
     const [expanded, setExpanded] = useState(false);
 
   var [windowWidth,set_windowWidth]=useState(window.innerWidth)
@@ -34,20 +39,37 @@ export default function MainNav(){
 
     return(
       <div className=" bg-light">
-        <Navbar className=" d-lg-flex ms-0 ms-md-4 position-relative" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}>
-          <Navbar.Brand  href="#home" id="brand" className="ms-2"><h1>MoiVoice</h1></Navbar.Brand>
+        <Navbar className=" d-flex justify-content-end ms-0 ms-md-4 me-1 position-relative" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}>
+          <Navbar.Brand  href="#home"  className="ms-2 me-auto"><h1>MoiVoice</h1></Navbar.Brand>
           
       
+            <div id="user-nav" className="ml-auto d-flex  gap-2  order-lg-2 me-1">
+              {(typeof userName!=="undefined")
+                  ?<NavItem>
+                      <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown}>
+                        <Dropdown.Toggle className="btn btn-sm rounded-circle dropdown-toggle" noCaret>
+                          {userName[0]}
+                        </Dropdown.Toggle>
 
-          <div id="user-nav" className="d-flex gap-2 order-lg-2 me-4">
-            {(typeof userName!=="undefined")
-                ?<Button className="rounded-circle">{userName[0]}</Button> 
-                : <Nav.Link href="/login" className=" ">login</Nav.Link>
-            }
-            {(userLevel===1)?<Nav.Link href="/newsPosting" className="col-xs col-md ms-1">Write</Nav.Link>:<span/>}
+                        <Dropdown.Menu className="me-4" id="user-dropdown-menu">
+                          <div className="container">
+                            <Dropdown.Item>
+                              <Button className="btn btn-lg rounded-circle">{userName[0]}</Button>        
+                            </Dropdown.Item>
+                            <Dropdown.Item>{userName}</Dropdown.Item>
+                            <Dropdown.Item><Button className="btn btn-light">Logout</Button></Dropdown.Item>
+                          </div>
+                          
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </NavItem>
+                  : <Nav.Link href="/login" className=" ">login</Nav.Link>
+              }
+              {(userLevel===1)?<Nav.Link href="/newsPosting" className="col-xs col-md ">Write</Nav.Link>:<span/>}
+            
+
+            </div>
           
-
-          </div>
           <Navbar.Toggle  aria-controls="basic-navbar-nav" className="order-lg-1 me-2 ms-2"/>
           <Navbar.Collapse id="basic-navbar-nav" className="ms-3 row-md ">
             <Nav className="me-4" id="page-links" style={{}}>

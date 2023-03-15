@@ -97,6 +97,11 @@ p{
     font-size: 40px;
 }
 
+.dropdown-toggle::after{
+    display: none !important;
+}
+
+
 
 
 
@@ -171,10 +176,8 @@ p{
 
 @media screen and (max-width:995px){
     
-    #user-nav{
-        position: absolute;
-        right:9%;
-        top: 50%;
+    #main-nav h1{
+        font-size: 25px;
     }
 }
 
