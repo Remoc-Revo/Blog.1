@@ -50,7 +50,7 @@ export default function Single(){
                         <div className=" col-lg-8 p-0">
                             <div className="container-lg p-0">
                                 <p className="pt-2 pb-2 border-top border-bottom">
-                                    By <span style={{color:"teal",fontWeight:"bold"}}>{news.userName}</span> | {moment(news.postDatetime).fromNow()}
+                                    By <span style={{color:"teal",fontWeight:"bold"}}>{decodeString(news.userName)}</span> | {moment(news.postDatetime).fromNow()}
                                 </p>
                                 <img src={require(`../../public/uploads/${news.storage}`)} 
                                     style={{display:"block",width:"100%",height:"390px"}}/>

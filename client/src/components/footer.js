@@ -5,7 +5,7 @@ export default function Footer(){
 
     return(
 
-        <div className="mt-6" id="footer">
+        <div className="mt-4" id="footer">
             <div id="social-networks" className="d-flex justify-content-between">
                 <p className="ms-5">Get connected with us on social networks</p>
                 <div className="mt-2">

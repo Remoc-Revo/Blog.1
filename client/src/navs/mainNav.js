@@ -2,11 +2,13 @@ import React,{useState,useEffect} from "react";
 import { Button,Nav, Navbar, NavItem, NavDropdown,NavbarBrandProps,NavLink, ButtonGroup, Container, Dropdown } from "react-bootstrap";
 import { /*NavLink,*/useLocation,Link } from "react-router-dom";
 import axios from "axios";
+import parse from "html-react-parser"
 
 export default function MainNav(){
   var [userLevel,set_userLevel]=useState();
-  var [userName,set_userName]=useState("");
+  var [userName,set_userName]=useState();
   var [dropdownOpen,set_dropdownOpen]=useState(false);
+  var [profileImg,set_profileImg]=useState();
 
   var cat=useLocation().search;
     if(cat==="?cat=Lifestyle"){
@@ -24,10 +26,12 @@ export default function MainNav(){
 
     useEffect(()=>{
         axios.get('http://localhost:9000/user')
-            .then((response)=>{
+            .then(async (response)=>{
                 set_userLevel(response.data.userLevel);
+                // const fetched_userName=decodeURIComponent(response.data.userName).replace(/&apos;/g,"'");
                 set_userName(response.data.userName);
-                console.log("the level",userLevel)
+                set_profileImg(response.data.profileImg);
+                console.log("the namee",typeof  userName)
 
             })
             .catch((err)=>{
@@ -37,27 +41,42 @@ export default function MainNav(){
         window.addEventListener('resize',()=>{set_windowWidth(window.innerWidth)})
         },[])
 
+    function logout(){
+      axios.post('http://localhost:9000/logout')
+           .then(()=>{set_userName();set_userLevel(0)})
+    }
+
     return(
       <div className=" bg-light">
         <Navbar className=" d-flex justify-content-end ms-0 ms-md-4 me-1 position-relative" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}>
           <Navbar.Brand  href="#home"  className="ms-2 me-auto"><h1>MoiVoice</h1></Navbar.Brand>
           
       
-            <div id="user-nav" className="ml-auto d-flex  gap-2  order-lg-2 me-1">
-              {(typeof userName!=="undefined")
+            <div id="user-nav" className="ml-auto d-flex  gap-2  order-lg-2 me-lg-5">
+              {(typeof userName!=='undefined')
                   ?<NavItem>
-                      <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown}>
+                      <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown} className=" me-2">
                         <Dropdown.Toggle className="btn btn-sm rounded-circle dropdown-toggle" noCaret>
-                          {userName[0]}
+                          {(profileImg!==undefined)
+                              ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
+                              :userName[0]
+                          }
                         </Dropdown.Toggle>
 
-                        <Dropdown.Menu className="me-4" id="user-dropdown-menu">
+                        <Dropdown.Menu className=" position-absolute translate-middle-x" id="user-dropdown-menu">
                           <div className="container">
-                            <Dropdown.Item>
-                              <Button className="btn btn-lg rounded-circle">{userName[0]}</Button>        
+                            <Dropdown.Item>                              
+                              <Button className="btn btn-lg rounded-circle">
+                                {decodeURIComponent(parse(userName[0]))}
+                              </Button>        
                             </Dropdown.Item>
-                            <Dropdown.Item>{userName}</Dropdown.Item>
-                            <Dropdown.Item><Button className="btn btn-light">Logout</Button></Dropdown.Item>
+                            <Dropdown.Item className=" " href="/profile"> 
+                              <div className="d-flex justify-content-between mb-0 pb-0">
+                                <p className="">{decodeURIComponent(parse(userName))}</p>
+                                <p>&gt;</p>
+                              </div>
+                            </Dropdown.Item>
+                            <Dropdown.Item><Button className="btn btn-light" onClick={logout}>Logout</Button></Dropdown.Item>
                           </div>
                           
                         </Dropdown.Menu>

@@ -11,6 +11,7 @@ import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
     -politics
     -business
     -lifestyle
+    -profile
 */
 
 import Home from "./pages/home";
@@ -18,6 +19,7 @@ import Login from './pages/login'
 import NewsUpdating from './pages/newsUpdating';
 import Register from './pages/register';
 import Single from './pages/single';
+import Profile from './pages/profile';
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
         <Route path='/newsPosting' element={<NewsUpdating/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/news/:id' element={<Single/>}/>
+        <Route path='/profile' element={<Profile/>}/>
       </Routes>
     </Router>
   );

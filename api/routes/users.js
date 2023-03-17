@@ -106,7 +106,8 @@ exports.login=(req,res)=>{
          const fetchedUserId=result[0].userId;
 
          req.session.userLevel=result[0].userLevel;
-
+         req.session.userName=result[0].userName;
+         req.session.userId=result[0].userId;
          const checkPass=await bcrypt.compare(password,fetchedPassword);
 
          if(checkPass==true){//entered password matches the one stored in database
@@ -125,4 +126,31 @@ exports.login=(req,res)=>{
       }
    })
 
+}
+
+
+exports.updateUserName=(req,res)=>{
+   const new_userName=req.body.userName;
+   console.log("neww",new_userName);
+   
+   pool.query(`UPDATE USER SET userName=? WHERE userId=?`,[new_userName,req.session.userId],
+         (err,result)=>{
+            if(err){
+               throw(err)
+            }
+            req.session.userName=new_userName;            
+            return res.status(200).json({})
+         })
+}
+
+exports.user=(req,res)=>{
+   pool.query(`SELECT profileImg FROM USER WHERE userId=${req.session.userId}`,
+         (err,result)=>{
+            if(err){
+               throw(err);
+            }
+
+            return res.json({profileImg:result[0].profileImg, userLevel:req.session.userLevel, userName:req.session.userName})
+
+         })
 }

@@ -14,9 +14,9 @@ export default function NewsUpdating(){
     var [newsBody,set_newsBody]=useState('');
     var [newsPhoto,set_newsPhoto]=useState(null);
 
-    axios.get('http://localhost:9000/userLevel')
+    axios.get('http://localhost:9000/user')
          .then((response)=>{
-            // console.log(response.data.userLevel)
+            // console.log("wriii",response.data.userLevel)
             if(response.data.userLevel!==1){
                 navigate('/login')
             }
@@ -109,7 +109,7 @@ export default function NewsUpdating(){
                 <div className="d-flex row container">
                     <div className="col">
                         <label for="newsImg">Upload image</label>
-                        <input type="file"  id="newsImg"  onChange={(e)=>set_newsPhoto(e.target.files[0])}/>
+                        <input type="file"  id="newsImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_newsPhoto(e.target.files[0])}/>
                     </div>
                     
                     <input className="btn-success col" type="submit" value="Publish"/>
