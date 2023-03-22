@@ -38,7 +38,8 @@ exports.register=(req,res)=>{
 
                
                //register the user
-               pool.query(`INSERT INTO USER VALUES(null,'${userName}','${email}',0,now(),${phone},'${hashedPassword}')`,(err,result)=>{
+               pool.query(`INSERT INTO USER VALUES(null,'${userName}','${email}',0,null,now(),${phone},'${hashedPassword}')`,
+                  (err,result)=>{
                   if(err){
                      throw(err)
                   }
@@ -129,28 +130,59 @@ exports.login=(req,res)=>{
 }
 
 
-exports.updateUserName=(req,res)=>{
-   const new_userName=req.body.userName;
-   console.log("neww",new_userName);
+exports.updateUser=(req,res)=>{
+   const errors=validationResult(req);
+
+   if(!errors.isEmpty()){
+      return res.status(400).json({
+         error:errors.array()[0].msg
+      })
+   }
+   else{
+      const new_userName=req.body.userName;
+      const new_email=req.body.email;
+      const new_phone=req.body.phone;
+
+      console.log("neww",new_userName);
+      
+      pool.query(`SELECT * from USER WHERE userEmail=?`,new_email,
+            (err,result)=>{
+               if(err){
+                  throw(err);
+               }
+               //email used by another user
+               if(result.length>0 && result[0].userId != req.session.userId){
+                  return res.status(400).json({error:"email already in use"});
+               }
+               else{
+                  pool.query(`UPDATE USER SET userName=? ,userEmail=? ,phone=? WHERE userId=?`,
+                     [new_userName, new_email, new_phone, req.session.userId],
+                     (err,result)=>{
+                        if(err){
+                           throw(err)
+                        }
+                        req.session.userName=new_userName;            
+                        return res.status(200).json({})
+                     })
+               }
+            })
+   }
    
-   pool.query(`UPDATE USER SET userName=? WHERE userId=?`,[new_userName,req.session.userId],
-         (err,result)=>{
-            if(err){
-               throw(err)
-            }
-            req.session.userName=new_userName;            
-            return res.status(200).json({})
-         })
 }
 
 exports.user=(req,res)=>{
-   pool.query(`SELECT profileImg FROM USER WHERE userId=${req.session.userId}`,
+   pool.query(`SELECT * FROM USER WHERE userId=${req.session.userId}`,
          (err,result)=>{
             if(err){
                throw(err);
             }
 
-            return res.json({profileImg:result[0].profileImg, userLevel:req.session.userLevel, userName:req.session.userName})
+            return res.json({profileImg:result[0].profileImg,
+                            userLevel:req.session.userLevel, 
+                            userName:req.session.userName,
+                            phone: result[0].phone,
+                            email:result[0].userEmail
+                           })
 
          })
 }

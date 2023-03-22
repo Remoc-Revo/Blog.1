@@ -65,7 +65,7 @@ export default function Register(){
                             // setRole(responseData.enteredRole);
 
                             if(response.status===200){
-                                navigate("/");
+                                navigate("/login");
                             }
                     })
                 .catch((err)=>{

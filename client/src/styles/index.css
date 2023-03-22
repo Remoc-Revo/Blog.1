@@ -189,3 +189,10 @@ p{
     text-align: center;
     font-weight:400;
 }
+
+
+/*profile*/
+#userName_Icon{
+    width:100px;
+    height:80px;
+}

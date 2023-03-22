@@ -3,10 +3,11 @@ var router = express.Router();
 var {body}=require('express-validator');
 const jwt=require('jsonwebtoken');
 const { updateNews } = require('./updateNews');
-const {register,login,updateUserName,user}=require('./users')
+const {register,login,updateUser,user}=require('./users')
 const multer=require('multer')
 const {news,single}=require('./getNews')
 const pool=require('../config/dbConnection')
+const {addComment}=require('./comments')
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
         cb(null,'../client/public/uploads')
@@ -94,7 +95,18 @@ router.post('/updateNews',ifNotLoggedin,updateNews)
 
 router.get('/news/:id',single)
 
-router.post('/updateUserName',ifNotLoggedin, updateUserName)
+router.post('/updateUser',ifNotLoggedin,
+        [body('phone','Phone number must have at least 10 digits')
+             .notEmpty()
+             .isLength({min:10})
+             .trim(),
+         body('userName')
+             .trim(),
+         body('email','invalid email')
+             .isEmail()
+             .trim()
+        ],
+        updateUser)
 
 router.post('/logout',(req,res,next)=>{
     console.log("logging out")

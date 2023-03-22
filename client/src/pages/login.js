@@ -25,7 +25,7 @@ export default function Login(){
             })
             .catch((err)=>{
                 // document.write(err)
-                if(err.response.status==401){
+                if(err.response.status===401){
                     set_errorMessage("Invalid email or password")
                 }
             });

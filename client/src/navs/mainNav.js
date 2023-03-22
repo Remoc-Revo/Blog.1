@@ -8,7 +8,7 @@ export default function MainNav(){
   var [userLevel,set_userLevel]=useState();
   var [userName,set_userName]=useState();
   var [dropdownOpen,set_dropdownOpen]=useState(false);
-  var [profileImg,set_profileImg]=useState();
+  // var [profileImg,set_profileImg]=useState();
 
   var cat=useLocation().search;
     if(cat==="?cat=Lifestyle"){
@@ -20,7 +20,6 @@ export default function MainNav(){
 
     const toggle_dropdown=()=>set_dropdownOpen(!dropdownOpen)
 
-    const [expanded, setExpanded] = useState(false);
 
   var [windowWidth,set_windowWidth]=useState(window.innerWidth)
 
@@ -30,7 +29,7 @@ export default function MainNav(){
                 set_userLevel(response.data.userLevel);
                 // const fetched_userName=decodeURIComponent(response.data.userName).replace(/&apos;/g,"'");
                 set_userName(response.data.userName);
-                set_profileImg(response.data.profileImg);
+                // set_profileImg(response.data.profileImg);
                 console.log("the namee",typeof  userName)
 
             })
@@ -57,9 +56,12 @@ export default function MainNav(){
                   ?<NavItem>
                       <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown} className=" me-2">
                         <Dropdown.Toggle className="btn btn-sm rounded-circle dropdown-toggle" noCaret>
-                          {(profileImg!==undefined)
-                              ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
-                              :userName[0]
+                          {
+                          // (profileImg!==undefined)
+                          //     ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
+                          //     :userName[0]
+                            userName[0]
+
                           }
                         </Dropdown.Toggle>
 
@@ -72,7 +74,7 @@ export default function MainNav(){
                             </Dropdown.Item>
                             <Dropdown.Item className=" " href="/profile"> 
                               <div className="d-flex justify-content-between mb-0 pb-0">
-                                <p className="">{decodeURIComponent(parse(userName))}</p>
+                                <p className="me-4">{decodeURIComponent(parse(userName))}</p>
                                 <p>&gt;</p>
                               </div>
                             </Dropdown.Item>

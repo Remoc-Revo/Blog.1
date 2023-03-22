@@ -6,6 +6,7 @@ import moment from "moment";
 import parse from "html-react-parser"
 import Footer from "../components/footer";
 import More from "../components/more";
+import Comments from "../components/comments";
 
 export default function Single(){
     var [news,setNews]=useState([]);
@@ -69,7 +70,7 @@ export default function Single(){
 
             }
            
-            
+            <Comments newsId={news.newsId}/>
             
             <Footer/>
         </div>
