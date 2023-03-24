@@ -27,7 +27,7 @@ export default function NewsUpdating(){
 
         formData.append('file',newsPhoto);
         console.log("the file",formData)
-        const res=await axios.post('http://localhost:9000/upload',formData)
+        const res=await axios.post('http://localhost:9000/upload/newsImg',formData)
             
         return res.data;
 
@@ -73,7 +73,7 @@ export default function NewsUpdating(){
             <form  onSubmit={updateNews} enctype="multipart/form-data" className="mb-5">
 
                 <div className=" container">
-                    <select placeholder="News Section" id="newsSection" className="w-100 form-control" value={newsSection} onChange={(e)=>set_newsSection(e.target.value)}>
+                    <select placeholder="News Section" id="newsSection" className="w-100 form-control" value={newsSection} onChange={(e)=>set_newsSection(e.target.value)} required>
                         <option value="" >Select News Section</option>
                         <option value="lifestyle">Lifestyle</option>
                         <option value="sports">Sports</option>

@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use(cors({
+  allowedHeaders:['Content-Type'],
   credentials:true,
   origin: 'http://localhost:3000'
 }));

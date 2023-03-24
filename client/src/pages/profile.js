@@ -34,12 +34,24 @@ export default function Profile(){
              
     },[])
 
+    const config={
+        headers:{
+            'Content-Type' : 'application/json'
+        }
+    }
+
     function updateUser(){
         axios.post("http://localhost:9000/updateUser",
-                {userName:userName,
-                 email:email,
-                 phone:phone
+                {
+                    headers:{
+                        'Content-Type' : 'application/json'
+                    },
+                    withCredentials:true,
+                    userName:userName,
+                    email:email,
+                    phone:phone
                 }
+                
                 )
              .then((response)=>{
                 if(response.status==200){
