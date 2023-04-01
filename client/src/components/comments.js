@@ -6,6 +6,7 @@ export default function Comments({newsId}){
     const navigate=useNavigate();
     let [newComment,set_newComment]=useState();
     let [comments,set_comments]=useState();
+    let [newReply,set_newReply]=useState();
     let [activeButtonIndex,set_activeButtonIndex]=useState(-1);
 
     useEffect(()=>{
@@ -49,6 +50,22 @@ export default function Comments({newsId}){
              })
     }
 
+    function reply(commentId){
+        
+        axios.post('http://localhost:9000/reply',
+            {
+                newsId:newsId,
+                commentId:commentId,
+                reply: newReply
+            })
+            .then((response)=>{
+                if(response.status===200){
+                    window.location.reload()
+                }
+            })
+
+    }
+
     return(
         <div className="container" onClick={handleOutsideClick}>
             <hr/>
@@ -67,10 +84,10 @@ export default function Comments({newsId}){
                         comments.map((commentData,index)=>{
                             return <div className="pt-3 d-flex border-bottom">
                                         <div>
-                                            <button className="btn btn-primary rounded-circle">{commentData.userName[0]}</button>
+                                            <button className="btn btn-primary rounded-circle">{commentData.comment_userName[0]}</button>
                                         </div>
                                         <div className="container">
-                                            <p><b>{commentData.userName}</b></p>
+                                            <p><b>{commentData.comment_userName}</b></p>
                                             <p>{commentData.comment}</p>
                                             <div className="">
                                                 <button className="btn" onClick={(e)=>handleReplyButtonClick(e,index)}>
@@ -86,9 +103,9 @@ export default function Comments({newsId}){
                                                 {
                                                     (activeButtonIndex===index) && (
                                                         <div className="mt-3">
-                                                            <button className="btn btn-primary rounded-circle">{commentData.userName[0]}</button>
-                                                            <input type="text" className="col-10 ms-3" onClick={handleInputClick} />
-                                                            <button className="btn">send</button>
+                                                            <button className="btn btn-primary rounded-circle">{commentData.comment_userName[0]}</button>
+                                                            <input type="text" className="col-10 ms-3" value={newReply} onChange={(e)=>set_newReply(e.target.value)} onClick={handleInputClick} />
+                                                            <button className="btn" onClick={()=>reply(commentData.commentId)}>send</button>
                                                             
                                                         </div>
                                                     )
