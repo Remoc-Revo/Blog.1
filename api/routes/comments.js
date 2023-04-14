@@ -51,8 +51,8 @@ exports.comments=(req,res)=>{
 
                   const commentTree= buildCommentTree(result)
 
-               
-
+                console.log("comment tree::",commentTree[0])
+                
                 return res.status(200).json({comments:commentTree})
             })
     }
@@ -63,11 +63,11 @@ exports.comments=(req,res)=>{
 exports.reply=(req,res)=>{
     console.log(req.body.reply)
     const reply=req.body.reply;
-    const parentCommentId=req.body.commentId;
+    const parentId=req.body.parentId;
     const newsId=req.body.newsId;
 
     pool.query(`INSERT INTO COMMENT VALUES(null,now(),?,?,?,?)`,
-            [newsId,req.session.userId,reply,parentCommentId],
+            [newsId,req.session.userId,reply,parentId],
             (err,result)=>{
                 if(err){
                     throw(err);
