@@ -7,7 +7,7 @@ const {register,login,updateUser,user}=require('./users')
 const multer=require('multer')
 const {news,single}=require('./getNews')
 const pool=require('../config/dbConnection')
-const {addComment,comments,reply}= require('./comments')
+const {addComment,comments,reply,clap}= require('./comments')
 
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
@@ -122,5 +122,8 @@ router.post('/addComment',ifNotLoggedin, addComment)
 router.get('/comments/:newsId',comments)
 
 router.post('/reply',ifNotLoggedin,reply)
+
+router.post('/clap',ifNotLoggedin, clap);
+
 
 module.exports = router;

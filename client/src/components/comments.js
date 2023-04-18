@@ -130,10 +130,10 @@ function Comment({
                         <img src={require('../icons/reply.png')} className="icon" alt="reply"/>
                         <span>22</span>
                     </button>
-                    <button className="btn" onClick={()=>clap(key)}>
+                    <button className="btn" onClick={()=>clap(key,1)}>
                         <img src={require('../icons/like.png')} className="icon" alt="like"/>
                     </button>
-                    <button className="btn" onClick={()=>slap(key)}>
+                    <button className="btn" onClick={()=>clap(key,0)}>
                         <img src={require('../icons/dislike.png')} className="icon" alt="dislike"/>
                     </button>
                     {
@@ -170,18 +170,12 @@ function Comment({
     )
 }
 
-function clap(commentId){
-    axios.post('http://localhost:9000/clap',{commentId:commentId})
+function clap(commentId,value){
+    axios.post('http://localhost:9000/clap',{commentId:commentId, value: value})
          .catch((err)=>{
             console.log(err);
          })
 }
 
-function slap(commentId){
-    axios.post('http://localhost:9000/slap',{commentId:commentId})
-         .catch((err)=>{
-            console.log(err);
-         })
-}
 
 export default Comments;

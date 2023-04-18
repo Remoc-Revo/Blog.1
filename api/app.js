@@ -5,11 +5,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors=require('cors');
 const session=require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+const pool=require('./config/dbConnection');
 
-var indexRouter = require('./routes/index');
+const sessionStore=new MySQLStore({},pool);
+
+const  indexRouter = require('./routes/index');
 
 
-var app = express();
+const app = express();
 
 // // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -31,7 +35,8 @@ app.use(cors({
 app.use(session({
   secret:'secreet',
   saveUninitialized:true,
-  resave:false
+  resave:false,
+  store: sessionStore
 }))
 
 app.use(indexRouter);
