@@ -8,27 +8,28 @@ const Comments=React.memo(({newsId})=>{
     let [comments,set_comments]=useState();
     let [newReply,set_newReply]=useState('');
     let [activeButtonKey,set_activeButtonKey]=useState(-1);
+    let [claps,set_claps]=useState();
 
     useEffect(()=>{
         axios.get(`http://localhost:9000/comments/${newsId}}`,{withCredentials:true})
             .then((response)=>{
-            console.log("comments",response.data.comments)
+            set_claps(response.data.claps)
             set_comments(response.data.comments);
             })
     },[newsId])
     
     const handleReplyButtonClick=(e,key)=>{
-        // e.stopPropagation();
+        e.stopPropagation();
         set_newReply('');
         set_activeButtonKey(key)
     }
 
     const handleOutsideClick=()=>{
-        // set_activeButtonKey(-1);
+        set_activeButtonKey(-1);
     }
 
     const handleInputClick=(e)=>{
-        // e.stopPropagation();
+        e.stopPropagation();
     }
 
 
@@ -68,6 +69,8 @@ const Comments=React.memo(({newsId})=>{
 
     }
 
+    
+
     return(
         <div className="container" onClick={handleOutsideClick}>
             <hr/>
@@ -84,7 +87,8 @@ const Comments=React.memo(({newsId})=>{
                 ?<div key="comments">
                     {
                         comments.map(comment=>{
-                            return <Comment comment={comment} 
+                            return <Comment newsId={newsId}
+                                            comment={comment} 
                                             key={comment.commentId}
                                             newReply={newReply} 
                                             set_newReply={set_newReply}
@@ -92,6 +96,7 @@ const Comments=React.memo(({newsId})=>{
                                             handleReplyButtonClick={handleReplyButtonClick}
                                             handleInputClick={handleInputClick}
                                             activeButtonKey={activeButtonKey}
+                                            claps={claps}
                                     />
                         })
                     }
@@ -106,16 +111,26 @@ const Comments=React.memo(({newsId})=>{
 })
 
 function Comment({
+        newsId,
         comment,
         sendReply,
         newReply,
         set_newReply,
         handleReplyButtonClick,
         handleInputClick,
-        activeButtonKey
+        activeButtonKey,
+        claps
     }){
     const key=comment.commentId;
     console.log("idddd:d:",key,"comment",comment.comment)
+
+    function clapSum(commentId,value){
+        let sum=0;
+        for(var clap of claps){
+            if(clap.commentId==commentId && clap.value==value) sum++;
+        }
+        return (sum>0) ? sum : '';
+    }
 
     return(
         <div className="pt-3 d-flex border-bottom">
@@ -128,13 +143,15 @@ function Comment({
                 <div className="">
                     <button className="btn" onClick={(e)=>handleReplyButtonClick(e,key)}>
                         <img src={require('../icons/reply.png')} className="icon" alt="reply"/>
-                        <span>22</span>
+                        <span>{comment.replies && comment.replies.length}</span>
                     </button>
-                    <button className="btn" onClick={()=>clap(key,1)}>
+                    <button className="btn" onClick={()=>clap(newsId,key,1)}>
                         <img src={require('../icons/like.png')} className="icon" alt="like"/>
+                        <span>{clapSum(key,1)}</span>
                     </button>
-                    <button className="btn" onClick={()=>clap(key,0)}>
+                    <button className="btn" onClick={()=>clap(newsId,key,0)}>
                         <img src={require('../icons/dislike.png')} className="icon" alt="dislike"/>
+                        <span>{clapSum(key,0)}</span>
                     </button>
                     {
                         (activeButtonKey===key) && (
@@ -149,7 +166,8 @@ function Comment({
                     {
                         comment.replies && comment.replies.map(reply=>{
                             
-                            return <Comment comment={reply} 
+                            return <Comment newsId={newsId}
+                                            comment={reply} 
                                             key={reply.commentId} 
                                             newReply={newReply} 
                                             set_newReply={set_newReply}
@@ -157,6 +175,7 @@ function Comment({
                                             handleReplyButtonClick={handleReplyButtonClick}
                                             handleInputClick={handleInputClick}
                                             activeButtonKey={activeButtonKey}
+                                            claps={claps}
                                     />
 
                         })
@@ -170,12 +189,17 @@ function Comment({
     )
 }
 
-function clap(commentId,value){
-    axios.post('http://localhost:9000/clap',{commentId:commentId, value: value})
+function clap(newsId,commentId,value){
+    axios.post('http://localhost:9000/clap',{commentId:commentId, value: value, newsId : newsId})
+         .then(()=>{
+            window.location.reload();
+         })
          .catch((err)=>{
             console.log(err);
          })
 }
+
+
 
 
 export default Comments;

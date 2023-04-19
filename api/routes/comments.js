@@ -21,11 +21,12 @@ exports.comments=(req,res)=>{
     const newsId=req.params.newsId;
     console.log("the idddd",newsId);
     
+
     if(newsId!==undefined){
-        pool.query(`SELECT c.*, u.userName AS comment_userName, CLAP.value
+        
+        pool.query(`SELECT c.*, u.userName AS comment_userName
                     FROM COMMENT c
                     LEFT JOIN USER u ON c.userId = u.userId
-                    LEFT JOIN CLAP ON c.commentId = CLAP.commentId
                     WHERE newsId=?`,[newsId],
             (err,result)=>{
                 if(err){
@@ -52,8 +53,17 @@ exports.comments=(req,res)=>{
                   const commentTree= buildCommentTree(result)
 
                 console.log("comment tree::",commentTree[0])
+
+                //feth claps-data of that news
+                pool.query(`SELECT commentId,value FROM CLAP WHERE newsId=?`,newsId,
+                    (err,result)=>{
+                        if(err) throw(err);
+
+                        console.log("clapps::",result)
+                        return res.status(200).json({claps:result,comments:commentTree})
+                    })
                 
-                return res.status(200).json({comments:commentTree})
+                
             })
     }
     
@@ -81,6 +91,7 @@ exports.reply=(req,res)=>{
 exports.clap=(req,res)=>{    
     const commentId=req.body.commentId
     const clap_value=req.body.value;
+    const newsId=req.body.newsId;
 
     console.log("claping or slaping::: clapp",commentId);
     
@@ -90,7 +101,7 @@ exports.clap=(req,res)=>{
 
             //the user has not reacted to the comment
             if(result.length==0){
-                pool.query(`INSERT INTO CLAP VALUES(?,?,1)`,[commentId,req.session.userId],
+                pool.query(`INSERT INTO CLAP VALUES(?,?,?,1)`,[newsId,commentId,req.session.userId],
                     (err,result)=>{
                         if(err) throw(err);
 
