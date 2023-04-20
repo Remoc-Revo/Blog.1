@@ -3,11 +3,13 @@ import { Button,Nav, Navbar, NavItem, NavDropdown,NavbarBrandProps,NavLink, Butt
 import { /*NavLink,*/useLocation,Link } from "react-router-dom";
 import axios from "axios";
 import parse from "html-react-parser"
+import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
 
 export default function MainNav(){
   var [userLevel,set_userLevel]=useState();
   var [userName,set_userName]=useState();
   var [dropdownOpen,set_dropdownOpen]=useState(false);
+  var [userId, set_userId]=useState();
   // var [profileImg,set_profileImg]=useState();
 
   var cat=useLocation().search;
@@ -29,6 +31,7 @@ export default function MainNav(){
                 set_userLevel(response.data.userLevel);
                 // const fetched_userName=decodeURIComponent(response.data.userName).replace(/&apos;/g,"'");
                 set_userName(response.data.userName);
+                set_userId(response.data.userId);
                 // set_profileImg(response.data.profileImg);
                 console.log("the namee",typeof  userName)
 
@@ -55,7 +58,7 @@ export default function MainNav(){
               {(typeof userName!=='undefined')
                   ?<NavItem>
                       <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown} className=" me-2">
-                        <Dropdown.Toggle className="btn btn-sm rounded-circle dropdown-toggle" noCaret>
+                        <Dropdown.Toggle className="btn btn-sm rounded-circle dropdown-toggle" noCaret style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(userId)})`}}>
                           {
                           // (profileImg!==undefined)
                           //     ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
@@ -68,7 +71,7 @@ export default function MainNav(){
                         <Dropdown.Menu className=" position-absolute translate-middle-x" id="user-dropdown-menu">
                           <div className="container">
                             <Dropdown.Item>                              
-                              <Button className="btn btn-lg rounded-circle">
+                              <Button className="btn btn-lg rounded-circle" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(userId)})`}}>
                                 {decodeURIComponent(parse(userName[0]))}
                               </Button>        
                             </Dropdown.Item>

@@ -201,3 +201,8 @@ p{
 .icon{
     width:13px;
 }
+
+.icon-label{
+    font-size: small;
+    font-weight: lighter;
+}

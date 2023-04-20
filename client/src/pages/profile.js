@@ -3,9 +3,11 @@ import axios from "axios";
 import MainNav from "../navs/mainNav";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
 
 export default function Profile(){
     var [userName,set_userName]=useState();
+    var [userId,set_userId]=useState();
     var [email,set_email]=useState();
     var [phone,set_phone]=useState();
     var [error,set_error]=useState();
@@ -25,6 +27,7 @@ export default function Profile(){
                 set_email(fetched_email);
                 const fetched_phone=decodeURIComponent(response.data.phone).replace(/&apos;/g,"'");
                 set_phone(fetched_phone);
+                set_userId(response.data.userId)
              })
              .catch((err)=>{
                 if(err.response.status===401){
@@ -92,7 +95,7 @@ export default function Profile(){
                 {(typeof userName !=="undefined" && typeof email!=="undefined" && typeof phone !== "undefined")
                     ?<div className="">
                         <div className="container pt-3  col-8 col-sm-3 ">
-                            <button className="btn btn-primary btn-lg rounded-circle" id="userName_Icon">{userName[0]}</button>
+                            <button className="btn  btn-lg rounded-circle" id="userName_Icon" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(userId)})`}}>{userName[0]}</button>
                             {/* <button className="btn" onClick={()=>{document.querySelector("#profileImg").click()}}>Edit</button>
                             <input type="file" id="profileImg" className="" onChange={(e)=>set_profileImg(e.target.files[0])}/>
                             <button onClick={upload}>save</button> */}

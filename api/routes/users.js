@@ -177,11 +177,13 @@ exports.user=(req,res)=>{
                throw(err);
             }
 
-            return res.json({profileImg:result[0].profileImg,
-                            userLevel:req.session.userLevel, 
-                            userName:req.session.userName,
-                            phone: result[0].phone,
-                            email:result[0].userEmail
+            return res.json({
+                              profileImg:result[0].profileImg,
+                              userId:req.session.userId,
+                              userLevel:req.session.userLevel, 
+                              userName:req.session.userName,
+                              phone: result[0].phone,
+                              email:result[0].userEmail
                            })
 
          })

@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
 
 const Comments=React.memo(({newsId})=>{
     const navigate=useNavigate();
@@ -9,6 +10,8 @@ const Comments=React.memo(({newsId})=>{
     let [newReply,set_newReply]=useState('');
     let [activeButtonKey,set_activeButtonKey]=useState(-1);
     let [claps,set_claps]=useState();
+    let [userId, set_userId]=useState();
+    let [userName, set_userName] = useState();
 
     useEffect(()=>{
         axios.get(`http://localhost:9000/comments/${newsId}}`,{withCredentials:true})
@@ -16,6 +19,12 @@ const Comments=React.memo(({newsId})=>{
             set_claps(response.data.claps)
             set_comments(response.data.comments);
             })
+
+        axios.get('http://localhost:9000/user')
+             .then((response)=>{
+                set_userId(response.data.userId);
+                set_userName(response.data.userName);
+             })
     },[newsId])
     
     const handleReplyButtonClick=(e,key)=>{
@@ -69,14 +78,16 @@ const Comments=React.memo(({newsId})=>{
 
     }
 
-    
+    function checkLogin(){
+        return (userId === undefined) && window.alert('Login to add comment');
+    }
 
     return(
         <div className="container" onClick={handleOutsideClick}>
             <hr/>
             <h4>Comments</h4>
             <form onSubmit={addComment}>
-                <textarea className="col-10" placeholder="What do you think about this?"
+                <textarea className="col-10" placeholder="What do you think about this?" onInput={checkLogin}
                      value={newComment} onChange={(e)=>set_newComment(e.target.value)} required/>
                 <input type="submit" value="Add Comment" className="btn"/>
                 
@@ -97,6 +108,8 @@ const Comments=React.memo(({newsId})=>{
                                             handleInputClick={handleInputClick}
                                             activeButtonKey={activeButtonKey}
                                             claps={claps}
+                                            userId={userId}
+                                            userName={userName}
                                     />
                         })
                     }
@@ -119,10 +132,12 @@ function Comment({
         handleReplyButtonClick,
         handleInputClick,
         activeButtonKey,
-        claps
+        claps,
+        userId,
+        userName
     }){
     const key=comment.commentId;
-    console.log("idddd:d:",key,"comment",comment.comment)
+    console.log("idddd:d:",key,"comment's parent",comment)
 
     function clapSum(commentId,value){
         let sum=0;
@@ -132,31 +147,41 @@ function Comment({
         return (sum>0) ? sum : '';
     }
 
+    function loginAlert(){
+        return window.alert(`You need to login first to respond to this post`);
+    }
+
     return(
-        <div className="pt-3 d-flex border-bottom">
+        <div className={`pt-3 d-flex ${(comment.parentCommentId == null) ? 'border-bottom':''}`}>
             <div>
-                <button className="btn btn-primary rounded-circle">{comment.comment_userName[0]}</button>
+                <button className="btn  rounded-circle" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(comment.userId)})`}}>{comment.comment_userName[0]}</button>
             </div>
             <div className="container">
                 <p><b>{comment.comment_userName}</b></p>
                 <p>{comment.comment}</p>
                 <div className="">
-                    <button className="btn" onClick={(e)=>handleReplyButtonClick(e,key)}>
-                        <img src={require('../icons/reply.png')} className="icon" alt="reply"/>
-                        <span>{comment.replies && comment.replies.length}</span>
-                    </button>
-                    <button className="btn" onClick={()=>clap(newsId,key,1)}>
-                        <img src={require('../icons/like.png')} className="icon" alt="like"/>
-                        <span>{clapSum(key,1)}</span>
-                    </button>
-                    <button className="btn" onClick={()=>clap(newsId,key,0)}>
-                        <img src={require('../icons/dislike.png')} className="icon" alt="dislike"/>
-                        <span>{clapSum(key,0)}</span>
-                    </button>
+                    <div className="d-flex">
+                       <div className="">
+                            <button className="btn " onClick={(userId == undefined) ? ()=>loginAlert() : ()=>clap(newsId,key,1)} title="Clap">
+                                <img src={require('../icons/clap.png')} className="icon" alt="clap"/>
+                                <span className="icon-label">{clapSum(key,1)}</span>
+                            </button>
+                            <button className="btn" onClick={(userId == undefined) ? ()=>loginAlert() : ()=>clap(newsId,key,0)} title="Slap">
+                                <img src={require('../icons/slap.png')} className="icon" alt="slap"/>
+                                <span className="icon-label">{clapSum(key,0)}</span>
+                            </button>
+                        </div>
+                        
+                        <button className="btn" onClick={(userId == undefined) ? ()=>loginAlert() : (e)=>handleReplyButtonClick(e,key)} title="Reply">
+                            <img src={require('../icons/reply.png')} className="icon" alt="reply"/>
+                            <span className="icon-label">{comment.replies && comment.replies.length}</span>
+                        </button> 
+                    </div>
+                    
                     {
-                        (activeButtonKey===key) && (
+                        (activeButtonKey===key) && (userName != undefined) && (
                             <div className="mt-3">
-                                <button className="btn btn-primary rounded-circle">{comment.comment_userName[0]}</button>
+                                <button className="btn  rounded-circle" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(userId)})`}}>{userName[0]}</button>
                                 <input type="text" className="col-10 ms-3" key={['reply',key].join('_')} value={newReply} onChange={(e)=>set_newReply(e.target.value)}   onClick={handleInputClick} />
                                 <button className="btn" onClick={()=>sendReply(comment.commentId)}>send</button>                                  
                             </div>
@@ -176,6 +201,8 @@ function Comment({
                                             handleInputClick={handleInputClick}
                                             activeButtonKey={activeButtonKey}
                                             claps={claps}
+                                            userId={userId}
+                                            userName={userName}
                                     />
 
                         })
