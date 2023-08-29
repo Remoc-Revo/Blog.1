@@ -9,7 +9,6 @@ export default function Profile(){
     var [userName,set_userName]=useState();
     var [userId,set_userId]=useState();
     var [email,set_email]=useState();
-    var [phone,set_phone]=useState();
     var [error,set_error]=useState();
     // const [userIconModal_show,set_userIconModal_show]=useState(false);
     // const [profileImg,set_profileImg]=useState();
@@ -26,7 +25,6 @@ export default function Profile(){
                 const fetched_email=decodeURIComponent(response.data.email).replace(/&apos;/g,"'");
                 set_email(fetched_email);
                 const fetched_phone=decodeURIComponent(response.data.phone).replace(/&apos;/g,"'");
-                set_phone(fetched_phone);
                 set_userId(response.data.userId)
              })
              .catch((err)=>{
@@ -52,7 +50,6 @@ export default function Profile(){
                     withCredentials:true,
                     userName:userName,
                     email:email,
-                    phone:phone
                 }
                 
                 )
@@ -92,7 +89,7 @@ export default function Profile(){
         <div className="position-relative full-page">
             <MainNav/>
             <div className="container pt-4 mb-5 col-sm-5 col-md-4 col-lg-3">
-                {(typeof userName !=="undefined" && typeof email!=="undefined" && typeof phone !== "undefined")
+                {(typeof userName !=="undefined" && typeof email!=="undefined" )
                     ?<div className="">
                         <div className="container pt-3  col-8 col-sm-3 ">
                             <button className="btn  btn-lg rounded-circle" id="userName_Icon" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(userId)})`}}>{userName[0]}</button>
@@ -113,10 +110,7 @@ export default function Profile(){
                                     <input type="email" value={email}  onChange={(e)=>set_email(e.target.value)} required/>
                                 </div>
 
-                                <div className="mt-3">
-                                    <label className="d-block">Phone</label>
-                                    <input  value={phone}  minLength={10} onChange={(e)=>set_phone(e.target.value)} required/>
-                                </div>
+                               
 
                                 <p style={{color:"red"}}>{error}</p>
                                 <div className="d-flex mt-3 col-9 justify-content-sm-end">

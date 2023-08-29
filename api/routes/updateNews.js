@@ -1,5 +1,5 @@
-const pool=require('../config/dbConnection')
-
+const createPool=require('../config/dbConnection')
+const pool = createPool();
 
 exports.updateNews=(req,res)=>{
     if(req.session.userLevel!=1){

@@ -41,26 +41,26 @@ export default function Footer(){
 
             <div className="d-flex justify-content-between" id="info-contacts">
                 <div className="">
-                    <h5>MOIVOICE</h5>
-                    <p>Keeping you updated with Campus news</p>
+                    <h5>BrianBlog</h5>
+                    <p>Keeping you updated...</p>
                  </div>
 
                 <div id="useful-links" className="d-flex flex-column">
                     <h5>USEFUL LINKS</h5>
-                    <a>Your Account</a>
+                    {/* <a>Your Account</a> */}
                     <a>Help</a>
                 </div>
                  <div className="">
                     <h5> CONTACTS</h5>
-                    <p><i className="fa fa-envelope"></i> mvoiceDev@gmail.com</p>
-                    <p><i className="fa fa-phone" style={{fontSize:"20px"}}></i> 0781521698</p>
-                    <p><i className="fa fa-phone" style={{fontSize:"20px"}}></i> 0704023534</p>
+                    <p><i className="fa fa-envelope"></i> BrianSoita@gmail.com</p>
+                    <p><i className="fa fa-phone" style={{fontSize:"20px"}}></i> +254707819708</p>
+                    {/* <p><i className="fa fa-phone" style={{fontSize:"20px"}}></i> </p> */}
                  </div>
             </div>
 
             
             <div className="" id="copyright">
-                <p>&copy;2023 Copyright: MoiVoice-news</p>
+                <p>&copy;2023 Copyright: idiazBuilders</p>
             </div>
             {/* <p>0769658733</p> */}
         </div>

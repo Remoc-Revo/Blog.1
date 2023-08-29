@@ -1,15 +1,26 @@
 const mysql=require('mysql2');
+require('dotenv').config();
 
-const pool=mysql.createPool(
-    {
-        host:'localhost',
-        user:'moiVoice_user',
-        password:'moi2021.',
-        database:'moiVoice_news',
-        waitForConnections:true,
-        connectionLimit:10,
-        queueLimit:0
+const createPool=()=>{
+    try
+        {
+            const pool = mysql.createPool(
+                {
+                    host:process.env.DB_HOST,
+                    user:process.env.DB_USER,
+                    password:process.env.DB_PASSWORD,
+                    database:process.env.DB_NAME,
+                    waitForConnections:true,
+                    connectionLimit:15,
+                    queueLimit:0
+                }
+            );
+            return pool;
+        }
+    catch(err){
+        console.log("\n\Error when creating db connection pool:\n\n",err)
+        // throw err; 
     }
-);
+}
 
-module.exports=pool;
+module.exports=createPool;

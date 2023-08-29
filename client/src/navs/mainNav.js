@@ -13,13 +13,7 @@ export default function MainNav(){
   // var [profileImg,set_profileImg]=useState();
 
   var cat=useLocation().search;
-    if(cat==="?cat=Lifestyle"){
-          console.log("categoryyyyy is",useLocation().search)
-    } 
-    if(cat==="?cat=Sports"){
-      console.log("categoryyyyy isporty",useLocation().search)
-    }  
-
+   
     const toggle_dropdown=()=>set_dropdownOpen(!dropdownOpen)
 
 
@@ -51,7 +45,7 @@ export default function MainNav(){
     return(
       <div className=" bg-light">
         <Navbar className=" d-flex justify-content-end ms-0 ms-md-4 me-1 position-relative" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}>
-          <Navbar.Brand  href="#home"  className="ms-2 me-auto"><h1>MoiVoice</h1></Navbar.Brand>
+          <Navbar.Brand  href="#home"  className="ms-2 me-auto"><h1>BrianBlog</h1></Navbar.Brand>
           
       
             <div id="user-nav" className="ml-auto d-flex  gap-2  order-lg-2 me-lg-5">
@@ -75,12 +69,14 @@ export default function MainNav(){
                                 {decodeURIComponent(parse(userName[0]))}
                               </Button>        
                             </Dropdown.Item>
-                            <Dropdown.Item className=" " href="/profile"> 
+
+                            {/* <Dropdown.Item className=" " href="/profile"> 
                               <div className="d-flex justify-content-between mb-0 pb-0">
                                 <p className="me-4">{decodeURIComponent(parse(userName))}</p>
                                 <p>&gt;</p>
                               </div>
-                            </Dropdown.Item>
+                            </Dropdown.Item> */}
+                            
                             <Dropdown.Item><Button className="btn btn-light" onClick={logout}>Logout</Button></Dropdown.Item>
                           </div>
                           

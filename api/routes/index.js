@@ -6,7 +6,9 @@ const { updateNews } = require('./updateNews');
 const {register,login,updateUser,user}=require('./users')
 const multer=require('multer')
 const {news,single}=require('./getNews')
-const pool=require('../config/dbConnection')
+const createPool=require('../config/dbConnection')
+
+const pool = createPool();
 const {addComment,comments,reply,clap}= require('./comments')
 
 const storage=multer.diskStorage({
@@ -71,10 +73,7 @@ router.get('/news',
 );
 
 router.post('/register',
-        [body('phone','Phone number must have at least 10 digits')
-             .notEmpty()
-             .isLength({min:10})
-             .trim(),
+        [
          body('userName')
              .trim(),
          body('email','invalid email')

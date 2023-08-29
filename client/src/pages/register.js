@@ -5,7 +5,6 @@ import {useNavigate} from "react-router-dom";
 export default function Register(){
     var [name,setName]=useState('');
     var [email,setEmail]=useState('');
-    var [phone,setPhone]=useState('');
     var [password,setpassword]=useState('');
     var [passwordConfirm,setpasswordConfirm]=useState('');
     var [errorMessage,setErrorMessage]=useState('');
@@ -26,9 +25,6 @@ export default function Register(){
         if(password!=passwordConfirm){
             errorBuffer+= "*Passwords don't match ";
          }
-        if(phone.length <10 || typeof parseInt(phone,10)!=="number"){
-            errorBuffer+= " *Phone must have at least 10 digits "
-        }
 
         const emailRegex=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if(!emailRegex.test(email)){
@@ -46,7 +42,6 @@ export default function Register(){
             
                 axios.post("http://localhost:9000/register",
                     {
-                        phone:phone,
                         email:email,
                         userName:name,
                         password:password,
@@ -64,7 +59,7 @@ export default function Register(){
                             // setPhone(responseData.enteredPhone);
                             // setRole(responseData.enteredRole);
 
-                            if(response.status===200){
+                            if(response && response.status===200){
                                 navigate("/login");
                             }
                     })
@@ -84,7 +79,7 @@ export default function Register(){
 
     return(
         <div className="container" style={{marginTop:"100px",backgroundColor:"white",padding:"40px",border:"1px solid lightgrey"}}>
-            <h1 style={{paddingLeft:"10%"}}>MoiVoice</h1>
+            <h1 style={{paddingLeft:"10%"}}>BrianBlog</h1>
             <br/>
 
             <form onSubmit={Register} method="post">
@@ -101,13 +96,6 @@ export default function Register(){
                     <input  className="col-md-3" type="text" value={email} onChange={(e)=>setEmail(e.target.value)} required
                         // <% if(typeof enteredEmail !='undefined'){%>value="<%=enteredEmail %>"<%}%>
                         />
-                </div>
-
-                <div className="d-flex" style={{marginBottom:"12px"}}>
-                    <p className="col-md-4">Phone</p>
-                    <input className="col-md-3" type="text" value={phone} onChange={(e)=>setPhone(e.target.value)} required
-                        // <% if(typeof enteredPhone !='undefined'){%>value="<%=enteredPhone %>"<%}%>
-                       />
                 </div>
 
 

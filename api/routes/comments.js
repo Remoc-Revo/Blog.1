@@ -1,6 +1,6 @@
 
-const pool=require('../config/dbConnection');
-
+const createPool=require('../config/dbConnection')
+const pool = createPool();
 
 exports.addComment=(req,res)=>{
     const newComment=req.body.comment;

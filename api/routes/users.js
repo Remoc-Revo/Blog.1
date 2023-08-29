@@ -1,5 +1,6 @@
 var {validationResult} = require('express-validator');
-const pool=require('../config/dbConnection')
+const createPool=require('../config/dbConnection')
+const pool = createPool();
 const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
 
@@ -17,7 +18,6 @@ exports.register=(req,res)=>{
          const {body}=req;
          const userName=body.userName;
          const email=body.email;
-         const phone=body.phone;
          const password=body.password;
 
          console.log("the bodyy::",body)
@@ -38,7 +38,7 @@ exports.register=(req,res)=>{
 
                
                //register the user
-               pool.query(`INSERT INTO USER VALUES(null,'${userName}','${email}',0,null,now(),${phone},'${hashedPassword}')`,
+               pool.query(`INSERT INTO USER VALUES(null,'${userName}','${email}',0,now(),'${hashedPassword}')`,
                   (err,result)=>{
                   if(err){
                      throw(err)
@@ -103,7 +103,7 @@ exports.login=(req,res)=>{
          return res.status(401).json({});
       }
       else{
-         const fetchedPassword=result[0].password;
+         const fetchedPassword=result[0].userPassword;
          const fetchedUserId=result[0].userId;
 
          req.session.userLevel=result[0].userLevel;
@@ -141,7 +141,6 @@ exports.updateUser=(req,res)=>{
    else{
       const new_userName=req.body.userName;
       const new_email=req.body.email;
-      const new_phone=req.body.phone;
 
       console.log("neww",new_userName);
       
@@ -155,8 +154,8 @@ exports.updateUser=(req,res)=>{
                   return res.status(400).json({error:"email already in use"});
                }
                else{
-                  pool.query(`UPDATE USER SET userName=? ,userEmail=? ,phone=? WHERE userId=?`,
-                     [new_userName, new_email, new_phone, req.session.userId],
+                  pool.query(`UPDATE USER SET userName=? ,userEmail=?  WHERE userId=?`,
+                     [new_userName, new_email, req.session.userId],
                      (err,result)=>{
                         if(err){
                            throw(err)
