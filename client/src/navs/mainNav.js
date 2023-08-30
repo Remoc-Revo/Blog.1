@@ -45,7 +45,7 @@ export default function MainNav(){
     return(
       <div className=" bg-light">
         <Navbar className=" d-flex justify-content-end ms-0 ms-md-4 me-1 position-relative" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}>
-          <Navbar.Brand  href="#home"  className="ms-2 me-auto"><h1>BrianBlog</h1></Navbar.Brand>
+          <Navbar.Brand  href="#home"  className="ms-2 me-auto"><h1>Modern Parenting</h1></Navbar.Brand>
           
       
             <div id="user-nav" className="ml-auto d-flex  gap-2  order-lg-2 me-lg-5">
@@ -76,7 +76,7 @@ export default function MainNav(){
                                 <p>&gt;</p>
                               </div>
                             </Dropdown.Item> */}
-                            
+
                             <Dropdown.Item><Button className="btn btn-light" onClick={logout}>Logout</Button></Dropdown.Item>
                           </div>
                           
@@ -94,13 +94,13 @@ export default function MainNav(){
           <Navbar.Collapse id="basic-navbar-nav" className="ms-3 row-md ">
             <Nav className="me-4" id="page-links" style={{}}>
               <Nav.Link href="/" className="" id={(cat==="")?"active":""} >Latest</Nav.Link>
-              <Nav.Link href="/?cat=Lifestyle" id={(cat==="?cat=Lifestyle")?"active":""} className="nav-link">Lifestyle</Nav.Link>
-              <Nav.Link href="/?cat=Sports" id={(cat==="?cat=Sports")?"active":""} className="nav-link">Sports</Nav.Link>
-              <Nav.Link href="/?cat=Entertainment" id={(cat==="?cat=Entertainment")?"active":""} className="nav-link">Entertainment</Nav.Link>
-              <Nav.Link href="/?cat=Academics" id={(cat==="?cat=Academics")?"active":""} className="nav-link">Academics</Nav.Link>
-              <Nav.Link href="/?cat=Health" id={(cat==="?cat=Health")?"active":""} className="nav-link">Health</Nav.Link>
-              <Nav.Link href="/?cat=Business" id={(cat==="?cat=Business")?"active":""} className="nav-link">Business</Nav.Link>
-              <Nav.Link href="/?cat=Politics" id={(cat==="?cat=Politics")?"active":""} className="nav-link">Politics</Nav.Link>
+              <Nav.Link href="/?cat=FoodAndRecipes" id={(cat==="?cat=FoodAndRecipes")?"active":""} className="nav-link">Food and recipes</Nav.Link>
+              <Nav.Link href="/?cat=NewbornCare" id={(cat==="?cat=NewbornCare")?"active":""} className="nav-link">Newborn care</Nav.Link>
+              <Nav.Link href="/?cat=KidsPartyIdeas" id={(cat==="?cat=KidsPartyIdeas")?"active":""} className="nav-link">Kids party ideas</Nav.Link>
+              <Nav.Link href="/?cat=Fashion" id={(cat==="?cat=Fashion")?"active":""} className="nav-link">Fashion</Nav.Link>
+              <Nav.Link href="/?cat=Travel" id={(cat==="?cat=Travel")?"active":""} className="nav-link">Travel</Nav.Link>
+              <Nav.Link href="/?cat=Pregnancy" id={(cat==="?cat=Pregnancy")?"active":""} className="nav-link">Pregnancy</Nav.Link>
+              <Nav.Link href="/?cat=HomeSchooling" id={(cat==="?cat=HomeSchooling")?"active":""} className="nav-link">Home Schooling</Nav.Link>
 
             </Nav>
             <div className="col-sm-2 col-md-3 d-lg-flex justify-content-lg-end ">

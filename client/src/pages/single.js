@@ -14,7 +14,7 @@ export default function Single(){
     const newsId=location.pathname.split('/')[2];
 
     useEffect(()=>{
-        axios.get(`http://localhost:9000/news/${newsId}`)
+        axios.get(`http://localhost:9000/single/${newsId}`)
              .then((response)=>{
                 console.log("response::",response)
                 setNews(response.data.news[0]) ;
@@ -45,25 +45,25 @@ export default function Single(){
             {(news.length!==0)
                 ?<div className="container-lg mt-5">
                     <div className="container-lg">
-                        <h1 className=" headline">{decodeString(news.headline)}</h1>
+                        <h1 className=" headline">{decodeString(news.articleHeadline)}</h1>
                     </div>
                     <div className="d-lg-flex container-lg mt-5 gap-3">
                         <div className=" col-lg-8 p-0">
                             <div className="container-lg p-0">
                                 <p className="pt-2 pb-2 border-top border-bottom">
-                                    By <span style={{color:"teal",fontWeight:"bold"}}>{decodeString(news.userName)}</span> | {moment(news.postDatetime).fromNow()}
+                                    By <span style={{color:"teal",fontWeight:"bold"}}>Brian</span> | {moment(news.articlePostingDate).fromNow()}
                                 </p>
-                                <img src={require(`../../public/uploads/${news.storage}`)} 
+                                <img src={require(`../../public/uploads/${news.multimediaUrl}`)} 
                                     style={{display:"block",width:"100%",height:"390px"}}/>
 
 
-                                <p className="mt-4">{decodeString(news.body)}</p>
+                                <p className="mt-4">{decodeString(news.articleBody)}</p>
                             </div>
 
                         </div>
                         
                         
-                        <More cat={news.section} current={news.newsId} />
+                        <More cat={news.section} current={news.articleId} />
                     </div>
                 </div>
                 :""

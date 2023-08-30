@@ -4,7 +4,7 @@ import '../styles/index.css';
 export  function PreviewBig({headline,time,briefDescription,imgUrl,newsId}){
     
         return(
-            <a href={`/news/${newsId}`} style={{textDecoration:"none",color:"black"}} className="">
+            <a href={`/sngl/${newsId}`} style={{textDecoration:"none",color:"black"}} className="">
                 <img src={require(`../../public/uploads/${imgUrl}`)} alt=""   style={{display:"block",width:"100%",height:"500px"}}></img>
 
                 <div  className="container">
@@ -21,7 +21,7 @@ export  function PreviewBig({headline,time,briefDescription,imgUrl,newsId}){
 export  function PreviewMid({headline,time,briefDescription,imgUrl,newsId}){
     
     return(
-        <a href={`/news/${newsId}`} style={{textDecoration:"none",padding:"0px"}} className="col preview-mid">
+        <a href={`/sngl/${newsId}`} style={{textDecoration:"none",padding:"0px"}} className="col preview-mid">
             <img src={require(`../../public/uploads/${imgUrl}`)}  className="" style={{display:"block",width:"100%",height:"300px"}}></img>
 
             <div style={{color:"black"}} className="container">
@@ -37,7 +37,7 @@ export  function PreviewMid({headline,time,briefDescription,imgUrl,newsId}){
 export  function PreviewSmall({headline,time,briefDescription,imgUrl,newsId}){
     
     return(
-        <a href={`/news/${newsId}`}  style={{textDecoration:"none",color:"black"}} className="mb-4 mt-3 d-flex container preview-small">
+        <a href={`/sngl/${newsId}`}  style={{textDecoration:"none",color:"black"}} className="mb-4 mt-3 d-flex container preview-small">
             <img src={require(`../../public/uploads/${imgUrl}`)}  className="col-md-5" style={{display:"block",width:"200px",height:"100px"}}></img>
             
             <div style={{}} className="ms-4">

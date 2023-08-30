@@ -38,10 +38,12 @@ export default function NewsUpdating(){
         console.log("encodeURIComponent:",encodeURI(newsBody).replace("'","&apos;"))
         console.log(newsBody,"\n",newsHeadline,"\n",newsSection,"\n",/*newsPhoto.name.replace(/ /g,"_")*/)
         
-        const imgUrl=await upload();
+        let imgUrl;
+        imgUrl = await upload();
         console.log("imgUrl",imgUrl)
 
-        await axios.post('http://localhost:9000/updateNews',
+        if(imgUrl !== undefined){
+            await axios.post('http://localhost:9000/updateNews',
                     {
                         headers: { 'content-type': 'multipart/form-data' },
                         newsSection:newsSection,
@@ -62,7 +64,7 @@ export default function NewsUpdating(){
                     navigate('/login');
                 }
              })
-             
+        }    
     }
 
     
@@ -74,14 +76,14 @@ export default function NewsUpdating(){
 
                 <div className=" container">
                     <select placeholder="News Section" id="newsSection" className="w-100 form-control" value={newsSection} onChange={(e)=>set_newsSection(e.target.value)} required>
-                        <option value="" >Select News Section</option>
-                        <option value="lifestyle">Lifestyle</option>
-                        <option value="sports">Sports</option>
-                        <option value="entertainment">Entertainment</option>
-                        <option value="academics">Academics</option>
-                        <option value="health"> Health</option>
-                        <option value="business">Business </option>
-                        <option value="politics"> Politics</option>
+                        <option value="" >Select Article Section</option>
+                        <option value="FoodAndRecipes">Food and recipes</option>
+                        <option value="NewbornCare">Newborn care</option>
+                        <option value="KidsPartyIdeas">Kids party ideas</option>
+                        <option value="Fashion">Fashion</option>
+                        <option value="Travel">Travel </option>
+                        <option value="Pregnancy"> Pregnancy</option>
+                        <option value="HomeSchooling">Home Schooling </option>
 
                         
                     </select>
@@ -109,7 +111,7 @@ export default function NewsUpdating(){
                 <div className="d-flex row container">
                     <div className="col">
                         <label for="newsImg">Upload image</label>
-                        <input type="file"  id="newsImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_newsPhoto(e.target.files[0])}/>
+                        <input type="file" required id="newsImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_newsPhoto(e.target.files[0])}/>
                     </div>
                     
                     <input className="btn-success col" type="submit" value="Publish"/>

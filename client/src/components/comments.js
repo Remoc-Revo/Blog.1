@@ -13,19 +13,19 @@ const Comments=React.memo(({newsId})=>{
     let [userId, set_userId]=useState();
     let [userName, set_userName] = useState();
 
-    useEffect(()=>{
-        axios.get(`http://localhost:9000/comments/${newsId}}`,{withCredentials:true})
-            .then((response)=>{
-            set_claps(response.data.claps)
-            set_comments(response.data.comments);
-            })
+    // useEffect(()=>{
+    //     axios.get(`http://localhost:9000/comments/${newsId}}`,{withCredentials:true})
+    //         .then((response)=>{
+    //         set_claps(response.data.claps)
+    //         set_comments(response.data.comments);
+    //         })
 
-        axios.get('http://localhost:9000/user')
-             .then((response)=>{
-                set_userId(response.data.userId);
-                set_userName(response.data.userName);
-             })
-    },[newsId])
+    //     axios.get('http://localhost:9000/user')
+    //          .then((response)=>{
+    //             set_userId(response.data.userId);
+    //             set_userName(response.data.userName);
+    //          })
+    // },[newsId])
     
     const handleReplyButtonClick=(e,key)=>{
         e.stopPropagation();

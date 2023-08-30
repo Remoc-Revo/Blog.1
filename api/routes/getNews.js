@@ -5,7 +5,7 @@ exports.news=(req,res)=>{
     console.log("the category",req.query)
     let fetchQuery=(req.query.cat)
                         ?`SELECT * FROM ARTICLE JOIN MULTIMEDIA ON ARTICLE.articleId=MULTIMEDIA.articleId 
-                          WHERE ARTICLE.section=? ORDER BY articlePostingDate DESC `
+                          WHERE ARTICLE.articleSection=? ORDER BY articlePostingDate DESC `
                         :`SELECT * FROM ARTICLE  JOIN MULTIMEDIA ON ARTICLE.articleId=MULTIMEDIA.articleId 
                           ORDER BY articlePostingDate DESC`;
 
@@ -14,10 +14,10 @@ exports.news=(req,res)=>{
             if(err){
                 console.log(err);
             }
-            console.log(result)
-            const news=result;
+            const articles=result;
+            console.log("the articles",articles)
 
-            res.status(200).json({news}); 
+            res.status(200).json({articles}); 
         }) 
 
 }
@@ -31,7 +31,6 @@ exports.single=(req,res)=>{
                 throw(err)
             }
             console.log("resullllt",result)
-
             return res.status(200).json({news:result})
         }) 
 }

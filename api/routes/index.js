@@ -68,7 +68,7 @@ function ifNotLoggedin(req,res,next){
    
 }
 
-router.get('/news',
+router.get('/',
     news
 );
 
@@ -93,7 +93,7 @@ router.get('/user',ifNotLoggedin,user
 
 router.post('/updateNews',ifNotLoggedin,updateNews)
 
-router.get('/news/:id',single)
+router.get('/single/:id',single)
 
 router.post('/updateUser',ifNotLoggedin,
         [body('phone','Phone number must have at least 10 digits')

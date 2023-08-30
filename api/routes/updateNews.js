@@ -10,19 +10,19 @@ exports.updateNews=(req,res)=>{
         const {body}=req;
 
         const headline=body.newsHeadline;
-        const newsBody=body.newsBody;
+        const articleBody=body.newsBody;
         const section=body.newsSection;
         const imgUrl=body.img;
 
         console.log("imgUrl::,",imgUrl)
-        pool.query(`INSERT INTO NEWS VALUES(null,'${section}','${headline}','${newsBody}',${req.session.userId},now())`,
+        pool.query(`INSERT INTO ARTICLE VALUES(null,?,?,?,now())`,[headline,articleBody,section],
              (err,result)=>{
                 if(err){
                     throw(err) 
                 }
-                const newsId=result.insertId;
+                const articleId=result.insertId;
 
-                pool.query(`INSERT INTO MULTIMEDIA VALUES(null,"img",${newsId},'${imgUrl}')`,
+                pool.query(`INSERT INTO MULTIMEDIA VALUES(null,${articleId},"img",'${imgUrl}')`,
                     (err,result)=>{
                         if(err){
                             console.log(err)

@@ -5,6 +5,7 @@ import { useNavigate,useLocation } from "react-router-dom";
 import {PreviewBig,PreviewMid,PreviewSmall} from "../components/news_preview";
 import moment from "moment"
 import Footer from "../components/footer";
+import parser from "html-react-parser";
 
 export default  function Home(){
     const navigate=useNavigate();
@@ -17,10 +18,10 @@ export default  function Home(){
     useEffect(()=>{
         setNews([]);
         function fetchNews(){
-            axios.get(`http://localhost:9000/news${cat}`,{withCredentials:true})
+            axios.get(`http://localhost:9000/${cat}`,{withCredentials:true})
                .then((response)=>{
-                   setNews(response.data.news)
-                   console.log('newss,',news)
+                   setNews(response.data.articles)
+                   console.log('newss,',response.data.articles)
                })
                .catch((err)=>{
                    console.log("the err",err);
@@ -39,7 +40,7 @@ export default  function Home(){
     // }
 
     function decodeString(str){
-        return decodeURIComponent(str).replace(/&apos;/g,"'").replace(/<p>/g,"").replace(/<\/p>/g,"")
+        return parser(decodeURIComponent(str).replace(/&apos;/g,"'").replace(/<p>/g,"").replace(/<\/p>/g,""))
     }
     
     return(
@@ -55,8 +56,8 @@ export default  function Home(){
                         */}     
                         <div className="preview-big">
                             {(news.length!==0)
-                                ?<PreviewBig headline={decodeString(news[0].headline)} time={moment(news[0].postDatetime).fromNow()} 
-                                             briefDescription={decodeString(news[0].body)} imgUrl={news[0].storage} newsId={news[0].newsId}/>
+                                ?<PreviewBig headline={decodeString(news[0].articleHeadline)} time={moment(news[0].articlePostingDate).fromNow()} 
+                                             briefDescription={decodeString(news[0].articleBody)} imgUrl={news[0].multimediaUrl} newsId={news[0].articleId}/>
                                 :<span></span>
                             }
                         </div>                   
@@ -64,17 +65,17 @@ export default  function Home(){
 
                         {/* There being only two news articles */}
                         {(news.length===2)
-                            ?<PreviewSmall headline={decodeString(news[1].headline)} time={moment(news[1].postDatetime).fromNow()} 
-                                           briefDescription={decodeString(news[1].body)} imgUrl={news[1].storage} newsId={news[1].newsId}/>
+                            ?<PreviewSmall headline={decodeString(news[1].articleHeadline)} time={moment(news[1].articlePostingDate).fromNow()} 
+                                           briefDescription={decodeString(news[1].articleBody)} imgUrl={news[1].multimediaUrl} newsId={news[1].articleId}/>
                             :<span></span>
                         }
 
                         {(news.length>2)
                             ?<div className="row preview-mid-container " style={{margin:"0px"}}>
-                                <PreviewMid headline={decodeString(news[1].headline)} time={moment(news[1].postDatetime).fromNow()}
-                                            briefDescription={decodeString(news[1].body)} imgUrl={news[1].storage} newsId={news[1].newsId}/>
-                                <PreviewMid headline={decodeString(news[2].headline)} time={moment(news[2].postDatetime).fromNow()}
-                                            briefDescription={decodeString(news[2].body)} imgUrl={news[2].storage} newsId={news[2].newsId}/>
+                                <PreviewMid headline={decodeString(news[1].articleHeadline)} time={moment(news[1].articlePostingDate).fromNow()}
+                                            briefDescription={decodeString(news[1].articleBody)} imgUrl={news[1].multimediaUrl} newsId={news[1].articleId}/>
+                                <PreviewMid headline={decodeString(news[2].articleHeadline)} time={moment(news[2].articlePostingDate).fromNow()}
+                                            briefDescription={decodeString(news[2].articleBody)} imgUrl={news[2].multimediaUrl} newsId={news[2].articleId}/>
                             </div> 
                             :<span></span>
                         }
@@ -86,8 +87,8 @@ export default  function Home(){
                                     news.map((article,index)=>{
                                         if(index>2){
                                             return <div className="container">
-                                                    <PreviewSmall headline={decodeString(article.headline)} time={moment(article.postDatetime).fromNow()} 
-                                                                  briefDescription={decodeString(article.body)} imgUrl={article.storage} newsId={article.newsId}/>
+                                                    <PreviewSmall headline={decodeString(article.articleHeadline)} time={moment(article.articlePostingDate).fromNow()} 
+                                                                  briefDescription={decodeString(article.articleBody)} imgUrl={article.multimediaUrl} newsId={article.articleId}/>
                                                     <hr/>
                                                 </div>
                                         }
