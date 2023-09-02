@@ -2,12 +2,13 @@ var express = require('express');
 var router = express.Router();
 var {body}=require('express-validator');
 const jwt=require('jsonwebtoken');
-const { updateNews } = require('./updateNews');
+const { updateArticles } = require('./updateArticles');
 const {register,login,updateUser,user}=require('./users')
 const multer=require('multer')
-const {news,single}=require('./getNews')
+const {article,single}=require('./getArticles')
 const createPool=require('../config/dbConnection')
-
+const uuid = require('uuid');
+const path = require('path');
 const pool = createPool();
 const {addComment,comments,reply,clap}= require('./comments')
 
@@ -16,13 +17,12 @@ const storage=multer.diskStorage({
         cb(null,'../client/public/uploads')
     },
     filename:(req,file,cb)=>{
-        cb(null,req.session.userId*18+"_"+Date.now()+file.originalname.replace(/ /g,"_"))
+        cb(null,`${uuid.v4()}${path.extname(file.originalname)}`)
         
     }
 
 })
 const upload=multer({storage:storage})
-
 
 router.post('/upload/:type',ifNotLoggedin, upload.single('file'),(req,res)=>{
 
@@ -69,7 +69,7 @@ function ifNotLoggedin(req,res,next){
 }
 
 router.get('/',
-    news
+    article
 );
 
 router.post('/register',
@@ -91,7 +91,7 @@ router.post('/login',login)
 router.get('/user',ifNotLoggedin,user
 )
 
-router.post('/updateNews',ifNotLoggedin,updateNews)
+router.post('/updateArticles',ifNotLoggedin,updateArticles)
 
 router.get('/single/:id',single)
 
@@ -118,7 +118,7 @@ router.post('/logout',(req,res,next)=>{
 
 router.post('/addComment',ifNotLoggedin, addComment)
 
-router.get('/comments/:newsId',comments)
+router.get('/comments/:articleId',comments)
 
 router.post('/reply',ifNotLoggedin,reply)
 

@@ -6,13 +6,13 @@ import "react-quill/dist/quill.snow.css";
 import MainNav from "../navs/mainNav";
 import Footer from "../components/footer";
 
-export default function NewsUpdating(){
+export default function ArticlesUpdating(){
     const navigate=useNavigate();
 
-    var [newsSection,set_newsSection]=useState();
-    var [newsHeadline,set_newsHeadline]=useState('');
-    var [newsBody,set_newsBody]=useState('');
-    var [newsPhoto,set_newsPhoto]=useState(null);
+    var [articleSection,set_articleSection]=useState();
+    var [articleHeadline,set_articleHeadline]=useState('');
+    var [articleBody,set_articleBody]=useState('');
+    var [articlePhoto,set_articlePhoto]=useState(null);
 
     axios.get('http://localhost:9000/user')
          .then((response)=>{
@@ -25,30 +25,30 @@ export default function NewsUpdating(){
     async function upload(){
         var formData=new FormData();
 
-        formData.append('file',newsPhoto);
+        formData.append('file',articlePhoto);
         console.log("the file",formData)
-        const res=await axios.post('http://localhost:9000/upload/newsImg',formData)
+        const res=await axios.post('http://localhost:9000/upload/articleImg',formData)
             
         return res.data;
 
     }
 
-    async function updateNews(e){
+    async function updateArticles(e){
         e.preventDefault();
-        console.log("encodeURIComponent:",encodeURI(newsBody).replace("'","&apos;"))
-        console.log(newsBody,"\n",newsHeadline,"\n",newsSection,"\n",/*newsPhoto.name.replace(/ /g,"_")*/)
+        console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
+        console.log(articleBody,"\n",articleHeadline,"\n",articleSection,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
         
         let imgUrl;
         imgUrl = await upload();
         console.log("imgUrl",imgUrl)
 
         if(imgUrl !== undefined){
-            await axios.post('http://localhost:9000/updateNews',
+            await axios.post('http://localhost:9000/updateArticles',
                     {
                         headers: { 'content-type': 'multipart/form-data' },
-                        newsSection:newsSection,
-                        newsHeadline:encodeURIComponent(newsHeadline).replace(/'/g,"&apos;"),
-                        newsBody:encodeURIComponent(newsBody).replace(/'/g,"&apos;"),
+                        articleSection:articleSection,
+                        articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
+                        articleBody:encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
                         withCredentials:true,
                         img:imgUrl
                     },
@@ -72,10 +72,10 @@ export default function NewsUpdating(){
     return(
         <div className="container">
             <MainNav/>
-            <form  onSubmit={updateNews} enctype="multipart/form-data" className="mb-5">
+            <form  onSubmit={updateArticles} enctype="multipart/form-data" className="mb-5">
 
                 <div className=" container">
-                    <select placeholder="News Section" id="newsSection" className="w-100 form-control" value={newsSection} onChange={(e)=>set_newsSection(e.target.value)} required>
+                    <select placeholder="Articles Section" id="articleSection" className="w-100 form-control" value={articleSection} onChange={(e)=>set_articleSection(e.target.value)} required>
                         <option value="" >Select Article Section</option>
                         <option value="FoodAndRecipes">Food and recipes</option>
                         <option value="NewbornCare">Newborn care</option>
@@ -89,17 +89,18 @@ export default function NewsUpdating(){
                     </select>
 
                     <div className="d-flex mb-3 mt-3">
-                        <input type="text"  name="newsHeadline" className="w-100 form-control"
-                            placeholder="Headline"  minlength="8" maxlength="200"required value={newsHeadline}
-                            onChange={(e)=>set_newsHeadline(e.target.value)}
+                        <input type="text"  name="articleHeadline" className="w-100 form-control"
+                            placeholder="Headline"  minlength="8" maxlength="200"required value={articleHeadline}
+                            onChange={(e)=>set_articleHeadline(e.target.value)}
                         />
                     </div>
 
                             
 
                     <div className="editor-container mb-4">
-                        <ReactQuill value={newsBody}
-                                onChange={set_newsBody}
+                        <ReactQuill value={articleBody}
+                                onChange={set_articleBody}
+                                required
                                 className="editor"
                                 // theme="snow"
                         />
@@ -110,8 +111,8 @@ export default function NewsUpdating(){
                 
                 <div className="d-flex row container">
                     <div className="col">
-                        <label for="newsImg">Upload image</label>
-                        <input type="file" required id="newsImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_newsPhoto(e.target.files[0])}/>
+                        <label for="articleImg">Upload image</label>
+                        <input type="file" required id="articleImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_articlePhoto(e.target.files[0])}/>
                     </div>
                     
                     <input className="btn-success col" type="submit" value="Publish"/>

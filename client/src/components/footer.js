@@ -6,8 +6,7 @@ export default function Footer(){
     return(
 
         <div className="mt-4" id="footer">
-            <div id="social-networks" className="d-flex justify-content-between">
-                <p className="ms-5">Get connected with us on social networks</p>
+            <div id="social-networks" className="d-flex justify-content-center">
                 <div className="mt-2">
 
                     {/* Facebook  */}
@@ -41,8 +40,8 @@ export default function Footer(){
 
             <div className="d-flex justify-content-between" id="info-contacts">
                 <div className="">
-                    <h5>BrianBlog</h5>
-                    <p>Keeping you updated...</p>
+                    <h5>Modern Parenting</h5>
+                    <p>Parenting and Lifestyle</p>
                  </div>
 
                 <div id="useful-links" className="d-flex flex-column">

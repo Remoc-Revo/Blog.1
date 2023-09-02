@@ -1,7 +1,7 @@
 const createPool=require('../config/dbConnection')
 const pool = createPool();
 
-exports.news=(req,res)=>{
+exports.article=(req,res)=>{
     console.log("the category",req.query)
     let fetchQuery=(req.query.cat)
                         ?`SELECT * FROM ARTICLE JOIN MULTIMEDIA ON ARTICLE.articleId=MULTIMEDIA.articleId 
@@ -31,6 +31,6 @@ exports.single=(req,res)=>{
                 throw(err)
             }
             console.log("resullllt",result)
-            return res.status(200).json({news:result})
+            return res.status(200).json({article:result})
         }) 
 }

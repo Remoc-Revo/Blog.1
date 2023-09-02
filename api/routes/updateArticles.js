@@ -1,7 +1,7 @@
 const createPool=require('../config/dbConnection')
 const pool = createPool();
 
-exports.updateNews=(req,res)=>{
+exports.updateArticles=(req,res)=>{
     if(req.session.userLevel!=1){
        return res.status(401).json({})
     }
@@ -9,9 +9,9 @@ exports.updateNews=(req,res)=>{
         console.log('we here')
         const {body}=req;
 
-        const headline=body.newsHeadline;
-        const articleBody=body.newsBody;
-        const section=body.newsSection;
+        const headline=body.articleHeadline;
+        const articleBody=body.articleBody;
+        const section=body.articleSection;
         const imgUrl=body.img;
 
         console.log("imgUrl::,",imgUrl)

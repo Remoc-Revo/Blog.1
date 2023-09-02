@@ -2,37 +2,37 @@ import React,{useState,useEffect} from "react";
 import MainNav from "../navs/mainNav";
 import axios from "axios";
 import { useNavigate,useLocation } from "react-router-dom";
-import {PreviewBig,PreviewMid,PreviewSmall} from "../components/news_preview";
+import {PreviewBig,PreviewMid,PreviewSmall} from "../components/article_preview";
 import moment from "moment"
 import Footer from "../components/footer";
 import parser from "html-react-parser";
 
 export default  function Home(){
     const navigate=useNavigate();
-    const [news,setNews]=useState([]);
+    const [article,setArticles]=useState([]);
     var cat=/*(useLocation().search==="")?"/latest":*/useLocation().search;
     console.log("cat",cat)
 
     const title=(cat==="")?"Latest":cat.split("=")[1];
 
     useEffect(()=>{
-        setNews([]);
-        function fetchNews(){
+        setArticles([]);
+        function fetchArticles(){
             axios.get(`http://localhost:9000/${cat}`,{withCredentials:true})
                .then((response)=>{
-                   setNews(response.data.articles)
-                   console.log('newss,',response.data.articles)
+                   setArticles(response.data.articles)
+                   console.log('articles,',response.data.articles)
                })
                .catch((err)=>{
                    console.log("the err",err);
                })
        }
-       fetchNews()
+       fetchArticles()
     },[cat])
      
 
     // for(var i=0;i<34;i++){
-    //     news.push({
+    //     article.push({
     //         headline:"The way we gooo is that, the president claims",
     //         time:`${new Date().getSeconds()} days ago`,
     //         briefDescription:"Those things are going to be done. No matter whaat the opposition says... "
@@ -51,44 +51,44 @@ export default  function Home(){
 
                         <h1>{title}</h1>
 
-                        {/*preview of news at the top of the page,
+                        {/*preview of article at the top of the page,
                         its image is the biggest
                         */}     
                         <div className="preview-big">
-                            {(news.length!==0)
-                                ?<PreviewBig headline={decodeString(news[0].articleHeadline)} time={moment(news[0].articlePostingDate).fromNow()} 
-                                             briefDescription={decodeString(news[0].articleBody)} imgUrl={news[0].multimediaUrl} newsId={news[0].articleId}/>
+                            {(article.length!==0)
+                                ?<PreviewBig headline={decodeString(article[0].articleHeadline)} time={moment(article[0].articlePostingDate).fromNow()} 
+                                             briefDescription={decodeString(article[0].articleBody)} imgUrl={article[0].multimediaUrl} articleId={article[0].articleId}/>
                                 :<span></span>
                             }
                         </div>                   
                         
 
-                        {/* There being only two news articles */}
-                        {(news.length===2)
-                            ?<PreviewSmall headline={decodeString(news[1].articleHeadline)} time={moment(news[1].articlePostingDate).fromNow()} 
-                                           briefDescription={decodeString(news[1].articleBody)} imgUrl={news[1].multimediaUrl} newsId={news[1].articleId}/>
+                        {/* There being only two article articles */}
+                        {(article.length===2)
+                            ?<PreviewSmall headline={decodeString(article[1].articleHeadline)} time={moment(article[1].articlePostingDate).fromNow()} 
+                                           briefDescription={decodeString(article[1].articleBody)} imgUrl={article[1].multimediaUrl} articleId={article[1].articleId}/>
                             :<span></span>
                         }
 
-                        {(news.length>2)
+                        {(article.length>2)
                             ?<div className="row preview-mid-container " style={{margin:"0px"}}>
-                                <PreviewMid headline={decodeString(news[1].articleHeadline)} time={moment(news[1].articlePostingDate).fromNow()}
-                                            briefDescription={decodeString(news[1].articleBody)} imgUrl={news[1].multimediaUrl} newsId={news[1].articleId}/>
-                                <PreviewMid headline={decodeString(news[2].articleHeadline)} time={moment(news[2].articlePostingDate).fromNow()}
-                                            briefDescription={decodeString(news[2].articleBody)} imgUrl={news[2].multimediaUrl} newsId={news[2].articleId}/>
+                                <PreviewMid headline={decodeString(article[1].articleHeadline)} time={moment(article[1].articlePostingDate).fromNow()}
+                                            briefDescription={decodeString(article[1].articleBody)} imgUrl={article[1].multimediaUrl} articleId={article[1].articleId}/>
+                                <PreviewMid headline={decodeString(article[2].articleHeadline)} time={moment(article[2].articlePostingDate).fromNow()}
+                                            briefDescription={decodeString(article[2].articleBody)} imgUrl={article[2].multimediaUrl} articleId={article[2].articleId}/>
                             </div> 
                             :<span></span>
                         }
                         
                         
-                        {(news.length>3)
+                        {(article.length>3)
                             ?<div className="preview-small-container mt-4">
                                 {
-                                    news.map((article,index)=>{
+                                    article.map((article,index)=>{
                                         if(index>2){
                                             return <div className="container">
                                                     <PreviewSmall headline={decodeString(article.articleHeadline)} time={moment(article.articlePostingDate).fromNow()} 
-                                                                  briefDescription={decodeString(article.articleBody)} imgUrl={article.multimediaUrl} newsId={article.articleId}/>
+                                                                  briefDescription={decodeString(article.articleBody)} imgUrl={article.multimediaUrl} articleId={article.articleId}/>
                                                     <hr/>
                                                 </div>
                                         }

@@ -76,7 +76,14 @@ p{
 
 /* MainNav */
 #main-nav{
-    padding-top:40px;
+    padding-top:10px;
+    background-color: white;
+}
+
+#blog-logo{
+    max-width: 100px;
+    margin:0px;
+    padding:0px;
 }
 
 #main-nav a{
@@ -90,7 +97,7 @@ p{
 }
 
 #main-nav #active,#main-nav h1{
-    color:green;
+    color:#89CFF0;
 }
 
 #main-nav h1{
@@ -108,7 +115,7 @@ p{
 
 
 
-/* newsUpdating */
+/* articleUpdating */
 .editor-container{
     overflow:scroll;
     height:400px;
@@ -142,7 +149,7 @@ p{
 
 #social-networks{
     color:white;
-    background-color:green;
+    background-color:#89CFF0;
     height:40px;
 }
 

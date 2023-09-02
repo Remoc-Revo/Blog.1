@@ -6,10 +6,14 @@ export default function More({cat,current}){
    var [more,set_more]=useState([]);
 
    useEffect(()=>{
-      axios.get(`http://localhost:9000/news/?cat=${cat}`,{withCredentials:true})
+      axios.get(`http://localhost:9000/?cat=${cat}`,{withCredentials:true})
       .then((response)=>{
-         set_more(response.data.news);
-      }) 
+         set_more(response.data.articles);
+         console.log("article43",response.data)
+      })
+      .catch((err)=>{
+         console.log(err);
+      })
    },[])
 
    return(
@@ -21,14 +25,14 @@ export default function More({cat,current}){
          <div className="container-lg">
            {
             more.map((article,index)=>{
-               if(index <= 5 && article.newsId !== current){
-                  return <a href={`/news/${article.newsId}`} className=" d-flex d-lg-block text-decoration-none row-xs mb-3 gap-3">
+               if(index <= 5 && article.articleId !== current){
+                  return <a href={`/sngl/${article.articleId}`} className=" d-flex d-lg-block text-decoration-none row-xs mb-3 gap-3">
                               <div className="col-4 col-sm-4  col-lg-12 container-xs">
-                                 <img src={require(`../../public/uploads/${article.storage}`)} className=" w-100 "/>
+                                 <img src={require(`../../public/uploads/${article.multimediaUrl}`)} className=" w-100 "/>
 
                               </div>
                                  
-                              <p className="text-success " style={{fontSize:"13px"}}>{decodeURIComponent(article.headline).replace(/&apos;/g,"'")}</p>
+                              <p className="text-success " style={{fontSize:"13px"}}>{decodeURIComponent(article.articleHeadline).replace(/&apos;/g,"'")}</p>
 
                         </a>
                            

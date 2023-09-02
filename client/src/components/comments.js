@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
 
-const Comments=React.memo(({newsId})=>{
+const Comments=React.memo(({articleId})=>{
     const navigate=useNavigate();
     let [newComment,set_newComment]=useState();
     let [comments,set_comments]=useState();
@@ -14,7 +14,7 @@ const Comments=React.memo(({newsId})=>{
     let [userName, set_userName] = useState();
 
     // useEffect(()=>{
-    //     axios.get(`http://localhost:9000/comments/${newsId}}`,{withCredentials:true})
+    //     axios.get(`http://localhost:9000/comments/${articleId}}`,{withCredentials:true})
     //         .then((response)=>{
     //         set_claps(response.data.claps)
     //         set_comments(response.data.comments);
@@ -25,7 +25,7 @@ const Comments=React.memo(({newsId})=>{
     //             set_userId(response.data.userId);
     //             set_userName(response.data.userName);
     //          })
-    // },[newsId])
+    // },[articleId])
     
     const handleReplyButtonClick=(e,key)=>{
         e.stopPropagation();
@@ -47,7 +47,7 @@ const Comments=React.memo(({newsId})=>{
              {
                 withCredentials:true,
                 comment:newComment,
-                newsId:newsId
+                articleId:articleId
             })
              .then((response)=>{
                 if(response.status===200){
@@ -66,7 +66,7 @@ const Comments=React.memo(({newsId})=>{
         
         axios.post('http://localhost:9000/reply',
             {
-                newsId:newsId,
+                articleId:articleId,
                 parentId: parentId,
                 reply: newReply
             })
@@ -98,7 +98,7 @@ const Comments=React.memo(({newsId})=>{
                 ?<div key="comments">
                     {
                         comments.map(comment=>{
-                            return <Comment newsId={newsId}
+                            return <Comment articleId={articleId}
                                             comment={comment} 
                                             key={comment.commentId}
                                             newReply={newReply} 
@@ -124,7 +124,7 @@ const Comments=React.memo(({newsId})=>{
 })
 
 function Comment({
-        newsId,
+        articleId,
         comment,
         sendReply,
         newReply,
@@ -162,11 +162,11 @@ function Comment({
                 <div className="">
                     <div className="d-flex">
                        <div className="">
-                            <button className="btn " onClick={(userId == undefined) ? ()=>loginAlert() : ()=>clap(newsId,key,1)} title="Clap">
+                            <button className="btn " onClick={(userId == undefined) ? ()=>loginAlert() : ()=>clap(articleId,key,1)} title="Clap">
                                 <img src={require('../icons/clap.png')} className="icon" alt="clap"/>
                                 <span className="icon-label">{clapSum(key,1)}</span>
                             </button>
-                            <button className="btn" onClick={(userId == undefined) ? ()=>loginAlert() : ()=>clap(newsId,key,0)} title="Slap">
+                            <button className="btn" onClick={(userId == undefined) ? ()=>loginAlert() : ()=>clap(articleId,key,0)} title="Slap">
                                 <img src={require('../icons/slap.png')} className="icon" alt="slap"/>
                                 <span className="icon-label">{clapSum(key,0)}</span>
                             </button>
@@ -191,7 +191,7 @@ function Comment({
                     {
                         comment.replies && comment.replies.map(reply=>{
                             
-                            return <Comment newsId={newsId}
+                            return <Comment articleId={articleId}
                                             comment={reply} 
                                             key={reply.commentId} 
                                             newReply={newReply} 
@@ -216,8 +216,8 @@ function Comment({
     )
 }
 
-function clap(newsId,commentId,value){
-    axios.post('http://localhost:9000/clap',{commentId:commentId, value: value, newsId : newsId})
+function clap(articleId,commentId,value){
+    axios.post('http://localhost:9000/clap',{commentId:commentId, value: value, articleId : articleId})
          .then(()=>{
             window.location.reload();
          })

@@ -16,7 +16,7 @@ import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
 
 import Home from "./pages/home";
 import Login from './pages/login'
-import NewsUpdating from './pages/newsUpdating';
+import ArticlesUpdating from './pages/articleUpdating';
 import Register from './pages/register';
 import Single from './pages/single';
 import Profile from './pages/profile';
@@ -27,7 +27,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/newsPosting' element={<NewsUpdating/>}/>
+        <Route path='/articlePosting' element={<ArticlesUpdating/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/sngl/:id' element={<Single/>}/>
         <Route path='/profile' element={<Profile/>}/>
