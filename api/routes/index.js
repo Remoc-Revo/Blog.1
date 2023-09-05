@@ -113,7 +113,7 @@ router.post('/logout',(req,res,next)=>{
     req.session.destroy((err)=>{
         next(err);
     })
-    return res.json({}).clearCookie('token');
+    return res.clearCookie('token').json({});
 })
 
 router.post('/addComment',ifNotLoggedin, addComment)

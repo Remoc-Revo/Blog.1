@@ -119,7 +119,12 @@ exports.login=(req,res)=>{
             
             return res.status(200)
                       .cookie('token',token,{httpOnly:true,secure:false,maxAge:3600*1000})
-                      .json({userLevel:req.session.userLevel})
+                      .json({
+                        userId:req.session.userId,
+                        userLevel:req.session.userLevel, 
+                        userName:req.session.userName,
+                        email:result[0].userEmail
+                     })
          }
          else{
             return res.status(401).json({});
@@ -175,13 +180,11 @@ exports.user=(req,res)=>{
             if(err){
                throw(err);
             }
-
+            console.log("getin user")
             return res.json({
-                              profileImg:result[0].profileImg,
                               userId:req.session.userId,
                               userLevel:req.session.userLevel, 
                               userName:req.session.userName,
-                              phone: result[0].phone,
                               email:result[0].userEmail
                            })
 

@@ -3,6 +3,7 @@ import { Button,Nav, Navbar, NavItem, NavDropdown,NavbarBrandProps,NavLink, Butt
 import { /*NavLink,*/useLocation,Link } from "react-router-dom";
 import axios from "axios";
 import parse from "html-react-parser"
+import { useUserContext } from "../userContext";
 import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
 
 export default function MainNav(){
@@ -11,7 +12,7 @@ export default function MainNav(){
   var [dropdownOpen,set_dropdownOpen]=useState(false);
   var [userId, set_userId]=useState();
   // var [profileImg,set_profileImg]=useState();
-
+  const {loading,user,contextLogin, contextLogout} = useUserContext();
   var cat=useLocation().search;
    
     const toggle_dropdown=()=>set_dropdownOpen(!dropdownOpen)
@@ -20,22 +21,15 @@ export default function MainNav(){
   var [windowWidth,set_windowWidth]=useState(window.innerWidth)
 
     useEffect(()=>{
-        axios.get('http://localhost:9000/user')
-            .then(async (response)=>{
-                set_userLevel(response.data.userLevel);
-                // const fetched_userName=decodeURIComponent(response.data.userName).replace(/&apos;/g,"'");
-                set_userName(response.data.userName);
-                set_userId(response.data.userId);
-                // set_profileImg(response.data.profileImg);
-                console.log("the namee",typeof  userName)
-
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
+      if(!loading && user != null){
+        console.log("user context!!!!",user);
+        set_userLevel(user.userLevel);
+        set_userId(user.userId);
+        set_userName(user.userName);
+      }
 
         window.addEventListener('resize',()=>{set_windowWidth(window.innerWidth)})
-        },[])
+        },[loading])
 
     function logout(){
       axios.post('http://localhost:9000/logout')

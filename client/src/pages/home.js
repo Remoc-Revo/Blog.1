@@ -6,6 +6,7 @@ import {PreviewBig,PreviewMid,PreviewSmall} from "../components/article_preview"
 import moment from "moment"
 import Footer from "../components/footer";
 import parser from "html-react-parser";
+import { useQuery } from "react-query";
 
 export default  function Home(){
     const navigate=useNavigate();
@@ -14,6 +15,18 @@ export default  function Home(){
     console.log("cat",cat)
 
     const title=(cat==="")?"Latest":cat.split("=")[1];
+
+    function fetchArticles(){
+        axios.get(`http://localhost:9000/${cat}`,{withCredentials:true})
+           .then((response)=>{
+               return response.data.articles.json();
+           })
+           .catch((err)=>{
+               console.log("the err",err);
+           })
+   }
+
+//    const {data,}
 
     useEffect(()=>{
         setArticles([]);

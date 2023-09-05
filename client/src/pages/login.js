@@ -1,6 +1,8 @@
 import React,{useState} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../userContext";
+
 axios.defaults.withCredentials=true;
 
 export default function Login(){
@@ -8,7 +10,8 @@ export default function Login(){
     var [email,set_email]=useState();
     var [password,set_password]=useState();
     var [errorMessage,set_errorMessage]=useState();
-
+    const {contextLogin} = useUserContext();
+    
     function login(e){
         e.preventDefault();
         set_errorMessage();
@@ -20,6 +23,7 @@ export default function Login(){
             })
             .then((response)=>{
                 if(response && response.status===200){
+                    contextLogin(response.data)
                     navigate("/");
                 }
             })

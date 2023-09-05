@@ -1,10 +1,11 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import MainNav from "../navs/mainNav";
 import Footer from "../components/footer";
+import { useUserContext } from "../userContext";
 
 export default function ArticlesUpdating(){
     const navigate=useNavigate();
@@ -14,13 +15,17 @@ export default function ArticlesUpdating(){
     var [articleBody,set_articleBody]=useState('');
     var [articlePhoto,set_articlePhoto]=useState(null);
 
-    axios.get('http://localhost:9000/user')
-         .then((response)=>{
-            // console.log("wriii",response.data.userLevel)
-            if(response.data.userLevel!==1){
+    const {loading,user} = useUserContext();
+
+    useEffect(()=>{
+        if(!loading && user != null){
+            if(user == 'unauthorized'){
                 navigate('/login')
             }
-         })
+        }
+          
+    },[loading])
+   
 
     async function upload(){
         var formData=new FormData();
