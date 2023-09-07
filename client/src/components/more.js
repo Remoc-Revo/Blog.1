@@ -6,7 +6,12 @@ export default function More({cat,current}){
    var [more,set_more]=useState([]);
 
    useEffect(()=>{
-      axios.get(`http://localhost:9000/?cat=${cat}`,{withCredentials:true})
+      axios.get(`http://localhost:9000/?cat=${cat}`,
+         {withCredentials:true,
+          params:{
+            lastArticleId:0
+          }
+         })
       .then((response)=>{
          set_more(response.data.articles);
          console.log("article43",response.data)

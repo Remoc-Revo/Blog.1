@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useRef} from "react";
 import MainNav from "../navs/mainNav";
 import axios from "axios";
 import { useNavigate,useLocation } from "react-router-dom";
@@ -7,58 +7,108 @@ import moment from "moment"
 import Footer from "../components/footer";
 import parser from "html-react-parser";
 import { useQuery } from "react-query";
+import {ReactQueryDevtools} from 'react-query/devtools';
 
 export default  function Home(){
     const navigate=useNavigate();
-    const [article,setArticles]=useState([]);
+    const [articles,setArticles]=useState([]);
+    const [lastArticleId, setLastArticleId] = useState(null);
     var cat=/*(useLocation().search==="")?"/latest":*/useLocation().search;
-    console.log("cat",cat)
-
+    const lastArticleRef = useRef(null);
     const title=(cat==="")?"Latest":cat.split("=")[1];
+    const [initialFetch, setInitialFetch] = useState(true);
+    const [fullyLoaded, setFullyLoaded] = useState(false);
+    function fetchArticles(lastArticleId){
+        console.log("the lasssst",lastArticleId)
 
-    function fetchArticles(){
-        axios.get(`http://localhost:9000/${cat}`,{withCredentials:true})
-           .then((response)=>{
-               return response.data.articles.json();
-           })
-           .catch((err)=>{
-               console.log("the err",err);
-           })
+        if(lastArticleId != null){
+            axios.get(`http://localhost:9000/${cat}`,
+                {withCredentials:true,
+                params:{
+                    lastArticleId:lastArticleId
+                }
+                })
+                .then((response)=>{
+                    console.log("articles response",response.data.articles)
+                    if(response.data.articles.length == 0){
+                        setFullyLoaded(true);
+                    }
+                    else if(response.data.articles.length > 0 && response.data.articles.length <5){
+                        setArticles((prevArticles)=>[...prevArticles,...response.data.articles])
+                        setFullyLoaded(true);
+                    }
+                    else {
+                        setArticles((prevArticles)=>[...prevArticles,...response.data.articles])
+                    }
+                })
+                .catch((err)=>{
+                    console.log("Encountered Error when fetching articles",err);
+                })
+        //    .catch((err)=>{
+        //        console.log("the err",err);
+        //        throw err;
+        //    })
+        }
    }
 
-//    const {data,}
 
-    useEffect(()=>{
-        setArticles([]);
-        function fetchArticles(){
-            axios.get(`http://localhost:9000/${cat}`,{withCredentials:true})
-               .then((response)=>{
-                   setArticles(response.data.articles)
-                   console.log('articles,',response.data.articles)
-               })
-               .catch((err)=>{
-                   console.log("the err",err);
-               })
-       }
-       fetchArticles()
-    },[cat])
-     
+//    if(isLoading){
+//     return <div>Loading...</div>;
+//    }
 
-    // for(var i=0;i<34;i++){
-    //     article.push({
-    //         headline:"The way we gooo is that, the president claims",
-    //         time:`${new Date().getSeconds()} days ago`,
-    //         briefDescription:"Those things are going to be done. No matter whaat the opposition says... "
-    //     })
-    // }
+//    if(isError){
+//     return <div>Error: {error.message}</div>;
+//    }
+
+//    if(articles){
+//     console.log("deeee articulddddd",articles)
+
+//    }
 
     function decodeString(str){
         return parser(decodeURIComponent(str).replace(/&apos;/g,"'").replace(/<p>/g,"").replace(/<\/p>/g,""))
     }
+
+    if(initialFetch){
+        fetchArticles(0);
+        setInitialFetch(false);
+    }
+
+    const options={
+        root:null,
+        rootMargin: "0px",
+        threshold : 0.1,
+    }
+
+    const observerCallback = (entries)=>{
+        if(entries[0].isIntersecting){
+            const lastArticleId = entries[0].target.getAttribute('id');
+            console.log("uwwwwwwwwwwdwwwaadaaaaasd::",lastArticleId)
+            if(!fullyLoaded){
+                fetchArticles(lastArticleId)
+            }
+        }
+    }
+
+    useEffect(()=>{
+        
+        const observer = new IntersectionObserver(observerCallback,options);
+
+        if(lastArticleRef.current){
+            observer.observe(lastArticleRef.current);
+        }
+
+        return ()=>{
+            if(lastArticleRef.current){
+                observer.unobserve(lastArticleRef.current);
+            }
+        }
+    },[lastArticleRef,options])
     
     return(
-        <div className="full-page ">
+        <div className="full-page">
             <MainNav/>
+                <ReactQueryDevtools/>
                 <div className="container d-flex mb-4">
                     <div className="container single-content">
 
@@ -68,38 +118,46 @@ export default  function Home(){
                         its image is the biggest
                         */}     
                         <div className="preview-big">
-                            {(article.length!==0)
-                                ?<PreviewBig headline={decodeString(article[0].articleHeadline)} time={moment(article[0].articlePostingDate).fromNow()} 
-                                             briefDescription={decodeString(article[0].articleBody)} imgUrl={article[0].multimediaUrl} articleId={article[0].articleId}/>
+                            {(articles.length!==0)
+                                ?<PreviewBig headline={decodeString(articles[0].articleHeadline)} time={moment(articles[0].articlePostingDate).fromNow()} 
+                                             briefDescription={decodeString(articles[0].articleBody)} imgUrl={articles[0].multimediaUrl} articleId={articles[0].articleId}/>
                                 :<span></span>
                             }
                         </div>                   
                         
 
-                        {/* There being only two article articles */}
-                        {(article.length===2)
-                            ?<PreviewSmall headline={decodeString(article[1].articleHeadline)} time={moment(article[1].articlePostingDate).fromNow()} 
-                                           briefDescription={decodeString(article[1].articleBody)} imgUrl={article[1].multimediaUrl} articleId={article[1].articleId}/>
+                        {/* There being only two articles */}
+                        {(articles.length===2)
+                            ?<PreviewSmall headline={decodeString(articles[1].articleHeadline)} time={moment(articles[1].articlePostingDate).fromNow()} 
+                                           briefDescription={decodeString(articles[1].articleBody)} imgUrl={articles[1].multimediaUrl} articleId={articles[1].articleId}/>
                             :<span></span>
                         }
 
-                        {(article.length>2)
+                        {(articles.length>2)
                             ?<div className="row preview-mid-container " style={{margin:"0px"}}>
-                                <PreviewMid headline={decodeString(article[1].articleHeadline)} time={moment(article[1].articlePostingDate).fromNow()}
-                                            briefDescription={decodeString(article[1].articleBody)} imgUrl={article[1].multimediaUrl} articleId={article[1].articleId}/>
-                                <PreviewMid headline={decodeString(article[2].articleHeadline)} time={moment(article[2].articlePostingDate).fromNow()}
-                                            briefDescription={decodeString(article[2].articleBody)} imgUrl={article[2].multimediaUrl} articleId={article[2].articleId}/>
+                                <PreviewMid headline={decodeString(articles[1].articleHeadline)} time={moment(articles[1].articlePostingDate).fromNow()}
+                                            briefDescription={decodeString(articles[1].articleBody)} imgUrl={articles[1].multimediaUrl} articleId={articles[1].articleId}/>
+                                <PreviewMid headline={decodeString(articles[2].articleHeadline)} time={moment(articles[2].articlePostingDate).fromNow()}
+                                            briefDescription={decodeString(articles[2].articleBody)} imgUrl={articles[2].multimediaUrl} articleId={articles[2].articleId}/>
                             </div> 
                             :<span></span>
                         }
                         
                         
-                        {(article.length>3)
+                        {(articles.length>3)
                             ?<div className="preview-small-container mt-4">
                                 {
-                                    article.map((article,index)=>{
-                                        if(index>2){
-                                            return <div className="container">
+                                    articles.map((article,index)=>{
+                                        if(index === articles.length-1 && index >=4){
+                                            return <div className="container" ref={lastArticleRef} id={article.articleId} key={article.articleId}>
+                                                    <PreviewSmall headline={decodeString(article.articleHeadline)} time={moment(article.articlePostingDate).fromNow()} 
+                                                                briefDescription={decodeString(article.articleBody)} imgUrl={article.multimediaUrl} articleId={article.articleId}
+                                                                />
+                                                    <hr/>
+                                                </div>
+                                        }
+                                        else if(index>2){
+                                            return <div className="container" key={article.articleId}>
                                                     <PreviewSmall headline={decodeString(article.articleHeadline)} time={moment(article.articlePostingDate).fromNow()} 
                                                                   briefDescription={decodeString(article.articleBody)} imgUrl={article.multimediaUrl} articleId={article.articleId}/>
                                                     <hr/>

@@ -37,7 +37,7 @@ export  function PreviewMid({headline,time,briefDescription,imgUrl,articleId}){
 export  function PreviewSmall({headline,time,briefDescription,imgUrl,articleId}){
     
     return(
-        <a href={`/sngl/${articleId}`}  style={{textDecoration:"none",color:"black"}} className="mb-4 mt-3 d-flex container preview-small">
+        <a href={`/sngl/${articleId}`}  style={{textDecoration:"none",color:"black"}} className="mb-4 mt-3 d-flex container preview-small" >
             <img src={require(`../../public/uploads/${imgUrl}`)}  className="col-md-5" style={{display:"block",width:"200px",height:"100px"}}></img>
             
             <div style={{}} className="ms-4">
