@@ -1,12 +1,11 @@
 import React,{useState,useEffect} from "react";
-import axios from "axios";
-
+import api from "../config/api";
 
 export default function More({cat,current}){
    var [more,set_more]=useState([]);
 
    useEffect(()=>{
-      axios.get(`http://localhost:9000/?cat=${cat}`,
+      api.get(`/?cat=${cat}`,
          {withCredentials:true,
           params:{
             lastArticleId:0

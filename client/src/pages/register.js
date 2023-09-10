@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import axios from "axios";
+import api from "../config/api";
 import {useNavigate} from "react-router-dom";
 
 export default function Register(){
@@ -40,7 +40,7 @@ export default function Register(){
          
         if(validationErrors().length==0){
             
-                axios.post("http://localhost:9000/register",
+                api.post("/register",
                     {
                         email:email,
                         userName:name,

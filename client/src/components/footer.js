@@ -45,9 +45,9 @@ export default function Footer(){
                  </div>
 
                 <div id="useful-links" className="d-flex flex-column">
-                    <h5>USEFUL LINKS</h5>
-                    {/* <a>Your Account</a> */}
-                    <a>Help</a>
+                    {/* <h5>USEFUL LINKS</h5>
+                    {/* <a>Your Account</a> 
+                    <a>Help</a> */}
                 </div>
                  <div className="">
                     <h5> CONTACTS</h5>

@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from "react";
 import { Button,Nav, Navbar, NavItem, NavDropdown,NavbarBrandProps,NavLink, ButtonGroup, Container, Dropdown } from "react-bootstrap";
 import { /*NavLink,*/useLocation,Link } from "react-router-dom";
-import axios from "axios";
 import parse from "html-react-parser"
 import { useUserContext } from "../userContext";
-import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
+import api from "../config/api";
+
 
 export default function MainNav(){
   var [userLevel,set_userLevel]=useState();
@@ -32,7 +32,7 @@ export default function MainNav(){
         },[loading])
 
     function logout(){
-      axios.post('http://localhost:9000/logout')
+      api.post('/logout')
            .then(()=>{set_userName();set_userLevel(0)})
     }
 

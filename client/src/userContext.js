@@ -1,5 +1,5 @@
 import { useContext, createContext, useState, useEffect, Children } from "react";
-import axios from "axios";
+import api from "./config/api";
 
 const UserContext = createContext();
 
@@ -16,7 +16,7 @@ export function UserProvider({children}){
         if(user == null){
             setLoading(true);
 
-            axios.get('http://localhost:9000/user')
+            api.get('/user')
             .then((response)=>{
             // console.log("wriii",response.data.userLevel)
                 setUser(response.data);

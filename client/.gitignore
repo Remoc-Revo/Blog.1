@@ -24,3 +24,6 @@ yarn-error.log*
 
 #temporarily used for upload storage
 /public/uploads/
+
+
+.env

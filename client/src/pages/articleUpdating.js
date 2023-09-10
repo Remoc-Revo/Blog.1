@@ -1,11 +1,11 @@
 import React,{useState,useEffect} from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import MainNav from "../navs/mainNav";
 import Footer from "../components/footer";
 import { useUserContext } from "../userContext";
+import api from "../config/api";
 
 export default function ArticlesUpdating(){
     const navigate=useNavigate();
@@ -32,7 +32,7 @@ export default function ArticlesUpdating(){
 
         formData.append('file',articlePhoto);
         console.log("the file",formData)
-        const res=await axios.post('http://localhost:9000/upload/articleImg',formData)
+        const res=await api.post('/upload/articleImg',formData)
             
         return res.data;
 
@@ -48,7 +48,7 @@ export default function ArticlesUpdating(){
         console.log("imgUrl",imgUrl)
 
         if(imgUrl !== undefined){
-            await axios.post('http://localhost:9000/updateArticles',
+            await api.post('/updateArticles',
                     {
                         headers: { 'content-type': 'multipart/form-data' },
                         articleSection:articleSection,
@@ -81,7 +81,7 @@ export default function ArticlesUpdating(){
 
                 <div className=" container">
                     <select placeholder="Articles Section" id="articleSection" className="w-100 form-control" value={articleSection} onChange={(e)=>set_articleSection(e.target.value)} required>
-                        <option value="" >Select Article Section</option>
+                        <option value="" selected disabled>Select Article Section</option>
                         <option value="FoodAndRecipes">Food and recipes</option>
                         <option value="NewbornCare">Newborn care</option>
                         <option value="KidsPartyIdeas">Kids party ideas</option>

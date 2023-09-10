@@ -8,6 +8,7 @@ import Footer from "../components/footer";
 import parser from "html-react-parser";
 import { useQuery } from "react-query";
 import {ReactQueryDevtools} from 'react-query/devtools';
+import api from "../config/api";
 
 export default  function Home(){
     const navigate=useNavigate();
@@ -22,7 +23,7 @@ export default  function Home(){
         console.log("the lasssst",lastArticleId)
 
         if(lastArticleId != null){
-            axios.get(`http://localhost:9000/${cat}`,
+            api.get(`/${cat}`,
                 {withCredentials:true,
                 params:{
                     lastArticleId:lastArticleId

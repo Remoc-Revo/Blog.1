@@ -1,12 +1,12 @@
 import React,{useState,useEffect} from "react";
 import MainNav from "../navs/mainNav";
-import axios from "axios";
+import api from "../config/api";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
 import parse from "html-react-parser"
 import Footer from "../components/footer";
 import More from "../components/more";
-import Comments from "../components/comments";
+// import Comments from "../components/comments";
 
 export default function Single(){
     var [article,setArticles]=useState([]);
@@ -14,7 +14,7 @@ export default function Single(){
     const articleId=location.pathname.split('/')[2];
 
     useEffect(()=>{
-        axios.get(`http://localhost:9000/single/${articleId}`)
+        api.get(`/single/${articleId}`)
              .then((response)=>{
                 console.log("response::",response)
                 setArticles(response.data.article[0]) ;
