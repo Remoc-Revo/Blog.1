@@ -32,7 +32,7 @@ export default function More({cat,current}){
                if(index <= 5 && article.articleId !== current){
                   return <a href={`/sngl/${article.articleId}`} className=" d-flex d-lg-block text-decoration-none row-xs mb-3 gap-3">
                               <div className="col-4 col-sm-4  col-lg-12 container-xs">
-                                 <img src={require(`../../public/uploads/${article.multimediaUrl}`)} alt="" className=" w-100 "/>
+                                 <img src={require(`${article.multimediaUrl}`)} alt="" className=" w-100 "/>
 
                               </div>
                                  
