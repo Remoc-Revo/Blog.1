@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useRef} from "react";
+import React,{useState,useEffect,useRef,useCallback,useMemo} from "react";
 import MainNav from "../navs/mainNav";
 import { useLocation } from "react-router-dom";
 import {PreviewBig,PreviewMid,PreviewSmall} from "../components/article_preview";
@@ -16,7 +16,9 @@ export default  function Home(){
     const title=(cat==="")?"Latest":cat.split("=")[1].replaceAll('_',' ');
     const [initialFetch, setInitialFetch] = useState(true);
     const [fullyLoaded, setFullyLoaded] = useState(false);
-    function fetchArticles(lastArticleId){
+
+
+    const  fetchArticles = useCallback((lastArticleId)=>{
         console.log("the lasssst",lastArticleId)
 
         if(lastArticleId != null){
@@ -47,7 +49,7 @@ export default  function Home(){
         //        throw err;
         //    })
         }
-   }
+   },[cat]);
 
 
 //    if(isLoading){
@@ -72,13 +74,13 @@ export default  function Home(){
         setInitialFetch(false);
     }
 
-    const options={
+    const options=useMemo(()=>({
         root:null,
         rootMargin: "0px",
         threshold : 0.1,
-    }
+    }),[]);
 
-    const observerCallback = (entries)=>{
+    const observerCallback = useCallback((entries)=>{
         if(entries[0].isIntersecting){
             const lastArticleId = entries[0].target.getAttribute('id');
             console.log("uwwwwwwwwwwdwwwaadaaaaasd::",lastArticleId)
@@ -86,19 +88,20 @@ export default  function Home(){
                 fetchArticles(lastArticleId)
             }
         }
-    }
+    }, [fullyLoaded,fetchArticles]);
 
     useEffect(()=>{
         
         const observer = new IntersectionObserver(observerCallback,options);
+        const lastArticleRefCurrent = lastArticleRef.current;
 
-        if(lastArticleRef.current){
+        if(lastArticleRefCurrent){
             observer.observe(lastArticleRef.current);
         }
 
         return ()=>{
-            if(lastArticleRef.current){
-                observer.unobserve(lastArticleRef.current);
+            if(lastArticleRefCurrent){
+                observer.unobserve(lastArticleRefCurrent);
             }
         }
     },[lastArticleRef,options,observerCallback])
@@ -160,6 +163,9 @@ export default  function Home(){
                                                                   briefDescription={decodeString(article.articleBody)} imgUrl={article.multimediaUrl} articleId={article.articleId}/>
                                                     <hr/>
                                                 </div>
+                                        }
+                                        else{
+                                            return <></>
                                         }
                                     })
                                 }

@@ -24,7 +24,7 @@ export default function Register(){
             errorBuffer+= "*Passwords don't match ";
          }
 
-        const emailRegex=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const emailRegex=/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
         if(!emailRegex.test(email)){
             errorBuffer+= " *Invalid email"
         }

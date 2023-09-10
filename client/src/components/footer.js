@@ -9,14 +9,14 @@ export default function Footer(){
             <div id="social-networks" className="d-flex justify-content-center">
                 <div className="mt-2">
 
-                    {/* Facebook  */}
-                    <a className="fb-ic" href="">
+                    Facebook 
+                    {/* <a className="fb-ic" href="">
                         <i className="fa fa-facebook-f fa-lg   fa-2x"> </i>
-                    </a>
+                    </a> */}
                     {/* Twitter  */}
-                    <a className="tw-ic" href="">
+                    {/* <a className="tw-ic" href="">
                         <i className="fa fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                    </a>
+                    </a> */}
                     {/*  Google + */}
                     {/* <a className="gplus-ic">
                         <i className="fa fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
@@ -26,13 +26,13 @@ export default function Footer(){
                         <i className="fa fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
                     </a> */}
                     {/* Instagram */}
-                    <a className="ins-ic" href="">
+                    {/* <a className="ins-ic" href="">
                         <i className="fa fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                    </a>
+                    </a> */}
                     {/* Pinterest */}
-                    <a className="pin-ic" href="">
+                    {/* <a className="pin-ic" href="">
                         <i className="fa fa-pinterest fa-lg white-text fa-2x"> </i>
-                    </a>
+                    </a> */}
         
 
                 </div>

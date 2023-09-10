@@ -43,6 +43,9 @@ export default function More({cat,current}){
                            
                         
                }
+               else{
+                  return <></>
+               }
             })
             } 
          </div>
