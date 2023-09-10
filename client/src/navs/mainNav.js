@@ -90,13 +90,13 @@ export default function MainNav(){
           <Navbar.Collapse id="basic-navbar-nav" className="ms-3 row-md ">
             <Nav className="me-4" id="page-links" style={{}}>
               <Nav.Link href="/" className="" id={(cat==="")?"active":""} >Latest</Nav.Link>
-              <Nav.Link href="/?cat=FoodAndRecipes" id={(cat==="?cat=FoodAndRecipes")?"active":""} className="nav-link">Food-and-recipes</Nav.Link>
-              <Nav.Link href="/?cat=NewbornCare" id={(cat==="?cat=NewbornCare")?"active":""} className="nav-link">Newborn-care</Nav.Link>
-              <Nav.Link href="/?cat=KidsPartyIdeas" id={(cat==="?cat=KidsPartyIdeas")?"active":""} className="nav-link">Kids-party-ideas</Nav.Link>
+              <Nav.Link href="/?cat=Food_and_Recipes" id={(cat==="?cat=Food_and_Recipes")?"active":""} className="nav-link">Food-and-recipes</Nav.Link>
+              <Nav.Link href="/?cat=Newborn_Care" id={(cat==="?cat=Newborn_Care")?"active":""} className="nav-link">Newborn-care</Nav.Link>
+              <Nav.Link href="/?cat=Kids_Party_Ideas" id={(cat==="?cat=Kids_Party_Ideas")?"active":""} className="nav-link">Kids-party-ideas</Nav.Link>
               <Nav.Link href="/?cat=Fashion" id={(cat==="?cat=Fashion")?"active":""} className="nav-link">Fashion</Nav.Link>
               <Nav.Link href="/?cat=Travel" id={(cat==="?cat=Travel")?"active":""} className="nav-link">Travel</Nav.Link>
               <Nav.Link href="/?cat=Pregnancy" id={(cat==="?cat=Pregnancy")?"active":""} className="nav-link">Pregnancy</Nav.Link>
-              <Nav.Link href="/?cat=HomeSchooling" id={(cat==="?cat=HomeSchooling")?"active":""} className="nav-link">Home-Schooling</Nav.Link>
+              <Nav.Link href="/?cat=Home_Schooling" id={(cat==="?cat=Home_Schooling")?"active":""} className="nav-link">Home-Schooling</Nav.Link>
 
             </Nav>
             <div className="col-sm-2 col-md-3 d-lg-flex justify-content-lg-end ">

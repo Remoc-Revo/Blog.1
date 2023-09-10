@@ -16,7 +16,7 @@ export default  function Home(){
     const [lastArticleId, setLastArticleId] = useState(null);
     var cat=/*(useLocation().search==="")?"/latest":*/useLocation().search;
     const lastArticleRef = useRef(null);
-    const title=(cat==="")?"Latest":cat.split("=")[1];
+    const title=(cat==="")?"Latest":cat.split("=")[1].replaceAll('_',' ');
     const [initialFetch, setInitialFetch] = useState(true);
     const [fullyLoaded, setFullyLoaded] = useState(false);
     function fetchArticles(lastArticleId){

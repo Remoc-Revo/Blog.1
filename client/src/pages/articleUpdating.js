@@ -82,13 +82,13 @@ export default function ArticlesUpdating(){
                 <div className=" container">
                     <select placeholder="Articles Section" id="articleSection" className="w-100 form-control" value={articleSection} onChange={(e)=>set_articleSection(e.target.value)} required>
                         <option value="" selected disabled>Select Article Section</option>
-                        <option value="FoodAndRecipes">Food and recipes</option>
-                        <option value="NewbornCare">Newborn care</option>
-                        <option value="KidsPartyIdeas">Kids party ideas</option>
+                        <option value="Food_and_Recipes">Food and recipes</option>
+                        <option value="Newborn_Care">Newborn care</option>
+                        <option value="Kids_Party_Ideas">Kids party ideas</option>
                         <option value="Fashion">Fashion</option>
                         <option value="Travel">Travel </option>
                         <option value="Pregnancy"> Pregnancy</option>
-                        <option value="HomeSchooling">Home Schooling </option>
+                        <option value="Home_Schooling">Home Schooling </option>
 
                         
                     </select>
