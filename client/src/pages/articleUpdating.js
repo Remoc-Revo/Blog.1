@@ -19,12 +19,12 @@ export default function ArticlesUpdating(){
 
     useEffect(()=>{
         if(!loading && user != null){
-            if(user == 'unauthorized'){
+            if(user === 'unauthorized'){
                 navigate('/login')
             }
         }
           
-    },[loading])
+    },[loading,navigate,user])
    
 
     async function upload(){

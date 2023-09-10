@@ -53,7 +53,7 @@ export default function Single(){
                                 <p className="pt-2 pb-2 border-top border-bottom">
                                     By <span style={{color:"teal",fontWeight:"bold"}}>Brian</span> | {moment(article.articlePostingDate).fromNow()}
                                 </p>
-                                <img src={require(`../../public/uploads/${article.multimediaUrl}`)} 
+                                <img src={require(`../../public/uploads/${article.multimediaUrl}`)} alt="article img"
                                     style={{display:"block",width:"100%",height:"390px"}}/>
 
 

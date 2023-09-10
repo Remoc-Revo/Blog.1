@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, useEffect, Children } from "react";
+import { useContext, createContext, useState, useEffect,} from "react";
 import api from "./config/api";
 
 const UserContext = createContext();
@@ -28,7 +28,7 @@ export function UserProvider({children}){
                 setLoading(false);
             })
         }
-   },[])
+   },[user])
 
    function contextLogin(user){
     setUser(user)

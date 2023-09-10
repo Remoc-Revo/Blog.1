@@ -142,7 +142,7 @@ function Comment({
     function clapSum(commentId,value){
         let sum=0;
         for(var clap of claps){
-            if(clap.commentId==commentId && clap.value==value) sum++;
+            if(clap.commentId===commentId && clap.value===value) sum++;
         }
         return (sum>0) ? sum : '';
     }
@@ -152,7 +152,7 @@ function Comment({
     }
 
     return(
-        <div className={`pt-3 d-flex ${(comment.parentCommentId == null) ? 'border-bottom':''}`}>
+        <div className={`pt-3 d-flex ${(comment.parentCommentId === null) ? 'border-bottom':''}`}>
             <div>
                 <button className="btn  rounded-circle" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(comment.userId)})`}}>{comment.comment_userName[0]}</button>
             </div>
@@ -162,24 +162,24 @@ function Comment({
                 <div className="">
                     <div className="d-flex">
                        <div className="">
-                            <button className="btn " onClick={(userId == undefined) ? ()=>loginAlert() : ()=>clap(articleId,key,1)} title="Clap">
+                            <button className="btn " onClick={(userId === undefined) ? ()=>loginAlert() : ()=>clap(articleId,key,1)} title="Clap">
                                 <img src={require('../icons/clap.png')} className="icon" alt="clap"/>
                                 <span className="icon-label">{clapSum(key,1)}</span>
                             </button>
-                            <button className="btn" onClick={(userId == undefined) ? ()=>loginAlert() : ()=>clap(articleId,key,0)} title="Slap">
+                            <button className="btn" onClick={(userId === undefined) ? ()=>loginAlert() : ()=>clap(articleId,key,0)} title="Slap">
                                 <img src={require('../icons/slap.png')} className="icon" alt="slap"/>
                                 <span className="icon-label">{clapSum(key,0)}</span>
                             </button>
                         </div>
                         
-                        <button className="btn" onClick={(userId == undefined) ? ()=>loginAlert() : (e)=>handleReplyButtonClick(e,key)} title="Reply">
+                        <button className="btn" onClick={(userId === undefined) ? ()=>loginAlert() : (e)=>handleReplyButtonClick(e,key)} title="Reply">
                             <img src={require('../icons/reply.png')} className="icon" alt="reply"/>
                             <span className="icon-label">{comment.replies && comment.replies.length}</span>
                         </button> 
                     </div>
                     
                     {
-                        (activeButtonKey===key) && (userName != undefined) && (
+                        (activeButtonKey===key) && (userName !== undefined) && (
                             <div className="mt-3">
                                 <button className="btn  rounded-circle" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(userId)})`}}>{userName[0]}</button>
                                 <input type="text" className="col-10 ms-3" key={['reply',key].join('_')} value={newReply} onChange={(e)=>set_newReply(e.target.value)}   onClick={handleInputClick} />

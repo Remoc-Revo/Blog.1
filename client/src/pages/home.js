@@ -1,19 +1,16 @@
 import React,{useState,useEffect,useRef} from "react";
 import MainNav from "../navs/mainNav";
-import axios from "axios";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {PreviewBig,PreviewMid,PreviewSmall} from "../components/article_preview";
 import moment from "moment"
 import Footer from "../components/footer";
 import parser from "html-react-parser";
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
 import {ReactQueryDevtools} from 'react-query/devtools';
 import api from "../config/api";
 
 export default  function Home(){
-    const navigate=useNavigate();
     const [articles,setArticles]=useState([]);
-    const [lastArticleId, setLastArticleId] = useState(null);
     var cat=/*(useLocation().search==="")?"/latest":*/useLocation().search;
     const lastArticleRef = useRef(null);
     const title=(cat==="")?"Latest":cat.split("=")[1].replaceAll('_',' ');
@@ -31,7 +28,7 @@ export default  function Home(){
                 })
                 .then((response)=>{
                     console.log("articles response",response.data.articles)
-                    if(response.data.articles.length == 0){
+                    if(response.data.articles.length === 0){
                         setFullyLoaded(true);
                     }
                     else if(response.data.articles.length > 0 && response.data.articles.length <5){
@@ -104,7 +101,7 @@ export default  function Home(){
                 observer.unobserve(lastArticleRef.current);
             }
         }
-    },[lastArticleRef,options])
+    },[lastArticleRef,options,observerCallback])
     
     return(
         <div className="full-page">

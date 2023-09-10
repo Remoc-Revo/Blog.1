@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
-import { Button,Nav, Navbar, NavItem, NavDropdown,NavbarBrandProps,NavLink, ButtonGroup, Container, Dropdown } from "react-bootstrap";
-import { /*NavLink,*/useLocation,Link } from "react-router-dom";
+import { Button,Nav, Navbar, NavItem, Dropdown } from "react-bootstrap";
+import { /*NavLink,*/useLocation, } from "react-router-dom";
 import parse from "html-react-parser"
 import { useUserContext } from "../userContext";
 import api from "../config/api";
@@ -10,9 +10,8 @@ export default function MainNav(){
   var [userLevel,set_userLevel]=useState();
   var [userName,set_userName]=useState();
   var [dropdownOpen,set_dropdownOpen]=useState(false);
-  var [userId, set_userId]=useState();
   // var [profileImg,set_profileImg]=useState();
-  const {loading,user,contextLogin, contextLogout} = useUserContext();
+  const {loading,user,contextLogout} = useUserContext();
   var cat=useLocation().search;
    
     const toggle_dropdown=()=>set_dropdownOpen(!dropdownOpen)
@@ -24,16 +23,19 @@ export default function MainNav(){
       if(!loading && user != null){
         console.log("user context!!!!",user);
         set_userLevel(user.userLevel);
-        set_userId(user.userId);
         set_userName(user.userName);
       }
 
         window.addEventListener('resize',()=>{set_windowWidth(window.innerWidth)})
-        },[loading])
+        },[loading,user])
 
     function logout(){
       api.post('/logout')
-           .then(()=>{set_userName();set_userLevel(0)})
+           .then(()=>{
+              set_userName();
+              set_userLevel(0);
+              contextLogout();
+            })
     }
 
     return(

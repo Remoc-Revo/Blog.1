@@ -10,11 +10,11 @@ export default function Footer(){
                 <div className="mt-2">
 
                     {/* Facebook  */}
-                    <a className="fb-ic">
+                    <a className="fb-ic" href="">
                         <i className="fa fa-facebook-f fa-lg   fa-2x"> </i>
                     </a>
                     {/* Twitter  */}
-                    <a className="tw-ic">
+                    <a className="tw-ic" href="">
                         <i className="fa fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
                     </a>
                     {/*  Google + */}
@@ -26,11 +26,11 @@ export default function Footer(){
                         <i className="fa fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
                     </a> */}
                     {/* Instagram */}
-                    <a className="ins-ic">
+                    <a className="ins-ic" href="">
                         <i className="fa fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
                     </a>
                     {/* Pinterest */}
-                    <a className="pin-ic">
+                    <a className="pin-ic" href="">
                         <i className="fa fa-pinterest fa-lg white-text fa-2x"> </i>
                     </a>
         

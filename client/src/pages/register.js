@@ -9,8 +9,6 @@ export default function Register(){
     var [passwordConfirm,setpasswordConfirm]=useState('');
     var [errorMessage,setErrorMessage]=useState('');
 
-    var [et,set_et]=useState();
-
     const navigate=useNavigate();
 
 
@@ -22,7 +20,7 @@ export default function Register(){
             errorBuffer+= "*Password must have at least 4 characters";
 
         }
-        if(password!=passwordConfirm){
+        if(password!==passwordConfirm){
             errorBuffer+= "*Passwords don't match ";
          }
 
@@ -38,7 +36,7 @@ export default function Register(){
     const Register=(e)=>{
         e.preventDefault();
          
-        if(validationErrors().length==0){
+        if(validationErrors().length===0){
             
                 api.post("/register",
                     {
@@ -48,17 +46,7 @@ export default function Register(){
                         withCredentials:true
                     }
                     ).then((response)=>{
-                            var responseData=response.data;
-                            // setErrorMessage("todaf");
-                            set_et("trtr")
-                            // document.write(response);
-                            // //setName(responseData.enteredName);
-                            // setpassword(responseData.enteredpassword);
-                            // setpasswordConfirm(responseData.enteredpasswordConfirm);
-                            // setEmail(responseData.enteredEmail);
-                            // setPhone(responseData.enteredPhone);
-                            // setRole(responseData.enteredRole);
-
+                            
                             if(response && response.status===200){
                                 navigate("/login");
                             }

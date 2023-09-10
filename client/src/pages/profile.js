@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import axios from "axios";
 import MainNav from "../navs/mainNav";
-import { Modal } from "react-bootstrap";
+// import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
 
@@ -24,7 +24,7 @@ export default function Profile(){
                 set_userName(fetched_userName);
                 const fetched_email=decodeURIComponent(response.data.email).replace(/&apos;/g,"'");
                 set_email(fetched_email);
-                const fetched_phone=decodeURIComponent(response.data.phone).replace(/&apos;/g,"'");
+                // const fetched_phone=decodeURIComponent(response.data.phone).replace(/&apos;/g,"'");
                 set_userId(response.data.userId)
              })
              .catch((err)=>{
@@ -33,13 +33,13 @@ export default function Profile(){
                 }
              })
              
-    },[])
+    },[navigate])
 
-    const config={
-        headers:{
-            'Content-Type' : 'application/json'
-        }
-    }
+    // const config={
+    //     headers:{
+    //         'Content-Type' : 'application/json'
+    //     }
+    // }
 
     function updateUser(){
         axios.post("http://localhost:9000/updateUser",
@@ -54,7 +54,7 @@ export default function Profile(){
                 
                 )
              .then((response)=>{
-                if(response.status==200){
+                if(response.status===200){
                     window.location.reload();
                 }
              })
