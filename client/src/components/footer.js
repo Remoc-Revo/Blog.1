@@ -9,7 +9,7 @@ export default function Footer(){
             <div id="social-networks" className="d-flex justify-content-center">
                 <div className="mt-2">
 
-                    Facebook 
+                    {/* Facebook  */}
                     {/* <a className="fb-ic" href="">
                         <i className="fa fa-facebook-f fa-lg   fa-2x"> </i>
                     </a> */}
