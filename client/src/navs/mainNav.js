@@ -81,7 +81,7 @@ export default function MainNav(){
                         </Dropdown.Menu>
                       </Dropdown>
                     </NavItem>
-                  : <Nav.Link href="/login" className=" ">login</Nav.Link>
+                  : <Nav.Link href="/login" className="nav-link">login</Nav.Link>
               }
               {(userLevel===1)?<Nav.Link href="/articlePosting" className="col-xs col-md ">Write</Nav.Link>:<span/>}
             
