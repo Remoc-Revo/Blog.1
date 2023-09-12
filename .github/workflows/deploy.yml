@@ -24,7 +24,11 @@ jobs:
         run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY }} --secret ${{ secrets.AWS_SECRET_KEY }}
 
       - name: Change to client directory
-        run: cd client
+        run: cd api
+
+      - name: Print current directory
+        run: |
+          pwd
         
       - name: Install npm dependencies
         run: npm ci
