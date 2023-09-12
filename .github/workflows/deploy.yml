@@ -26,6 +26,6 @@ jobs:
       - name: Install npm dependencies
         working-directory: ./api
         run: npm ci
-     
+    
       - name: Deploy lambda function
         run: sls deploy
