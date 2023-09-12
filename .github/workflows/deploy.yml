@@ -31,10 +31,10 @@ jobs:
         run: |
           pwd
 
-      - name: create aws-nodejs template
-        working-directory: ./api
-        run: sls create --template aws-nodejs --path api-service
+      # - name: create aws-nodejs template
+      #   working-directory: ./api
+      #   run: sls create --template aws-nodejs --path api-service
         
       - name: Deploy lambda function
-        working-directory: ./api/api-service
+        working-directory: ./api
         run: sls deploy
