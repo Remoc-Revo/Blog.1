@@ -4,3 +4,6 @@ provider:
   runtime: nodejs18.x
   region: eu-north-1
 
+functions:
+  serverRoot:
+    handler: ./bin/www.server
