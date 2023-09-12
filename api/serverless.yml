@@ -1,6 +1,6 @@
 service: your-service-name
 provider:
   name: aws
-  runtime: nodejs16.x # or your preferred runtime
-  region: eu-north-1 # Specify your desired AWS region here
+  runtime: nodejs16.x
+  region: eu-north-1
 
