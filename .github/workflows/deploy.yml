@@ -23,14 +23,15 @@ jobs:
       - name: Configure serverless authentication
         run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY }} --secret ${{ secrets.AWS_SECRET_KEY }}
 
-      - name: Change to client directory
-        run: cd api
+      # - name: Change to api directory
+      #   run: cd api
 
-      - name: Print current directory
-        run: |
-          pwd
+      # - name: Print current directory
+      #   run: |
+      #     pwd
         
       - name: Install npm dependencies
+        working-directory: ./api
         run: npm ci
 
       - name: Deploy lambda function
