@@ -1,6 +1,6 @@
 service: your-service-name
 provider:
   name: aws
-  runtime: nodejs20.x # or your preferred runtime
+  runtime: nodejs18.x # or your preferred runtime
   region: eu-north-1 # Specify your desired AWS region here
 
