@@ -39,7 +39,7 @@ app.use(session({
   saveUninitialized:true,
   resave:false,
   store: sessionStore
-}))
+}));
 
 app.use(indexRouter);
 
