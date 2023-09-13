@@ -24,15 +24,15 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-app.use(cors({
-  allowedHeaders:['Content-Type'],
-  credentials:true,
-  origin: 'http://localhost:3000'
-}));
+// app.use(cors({
+//   allowedHeaders:['Content-Type'],
+//   credentials:true,
+//   origin: 'http://localhost:3000'
+// }));
 
 app.use(session({
   secret:'secreet',
@@ -41,7 +41,7 @@ app.use(session({
   store: sessionStore
 }))
 
-app.use(indexRouter);
+// app.use(indexRouter);
 
 app.get('/ye',async (req,res,next)=>{res.status(200).send("Yeaaaaa"+process.env.DB_NAME)})
 
