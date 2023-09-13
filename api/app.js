@@ -42,7 +42,8 @@ app.use(session({
 }))
 
 app.use(indexRouter);
-app.get('/article',(req,res)=>{console.log("YEewww");res.status(200)})
+app.get('/',(req,res)=>{console.log("YEewww");res.status(200).send("Yeaaaaa")})
+
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

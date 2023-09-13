@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
-
+const sls = require('serverless-http');
 /**
  * Get port from environment and store in Express.
  */
@@ -91,4 +91,4 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-module.exports.server = server
+module.exports.server = sls(server)
