@@ -42,14 +42,18 @@
 
 // app.use(indexRouter);
 
-
-var express = require('express');
-const app = express();
-const sls = require('serverless-http');
-
-app.get('/',async (req,res,next)=>{res.status(200).send("Yeaaaaa")})
-
-
-
-module.exports.server = sls(app);
+try{
+  var express = require('express');
+  const app = express();
+  const sls = require('serverless-http');
+  
+  app.get('/',async (req,res,next)=>{res.status(200).send("Yeaaaaa")})
+  
+  
+  
+  module.exports.server = sls(app);
+}
+catch(err){
+  console.log(err);
+}
 
