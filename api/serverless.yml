@@ -7,3 +7,15 @@ provider:
 functions:
   serverRoot:
     handler: ./bin/www.server
+
+  events:
+    -http: #event trigger for the root route of an API Gateway HTTP
+      path: /
+      method: ANY # accept any HTTP method
+      cors: true
+
+    -http:
+      path: /{proxy+}
+      method: ANY
+      cors: true
+
