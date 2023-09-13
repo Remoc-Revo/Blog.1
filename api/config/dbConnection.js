@@ -19,7 +19,7 @@ const createPool=()=>{
         }
     catch(err){
         console.log("\n\Error when creating db connection pool:\n\n",err)
-        // throw err; 
+        throw err; 
     }
 }
 
