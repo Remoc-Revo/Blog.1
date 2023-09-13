@@ -6,7 +6,7 @@ provider:
   region: eu-north-1
 
 functions:
-  serverRoot:
+  Blog1Server:
     handler: app.server
 
     events:
