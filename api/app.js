@@ -47,7 +47,7 @@ var express = require('express');
 const app = express();
 const sls = require('serverless-http');
 
-app.get('/',async (req,res,next)=>{console.log("We are here oooh ooh ");res.status(200).send("Yeaaaaa")})
+app.get('/',async (req,res,next)=>{res.status(200).send("Yeaaaaa")})
 
 
 
