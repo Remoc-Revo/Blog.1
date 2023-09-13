@@ -28,18 +28,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-// app.use(cors({
-//   allowedHeaders:['Content-Type'],
-//   credentials:true,
-//   origin: 'http://localhost:3000'
-// }));
+app.use(cors({
+  allowedHeaders:['Content-Type'],
+  credentials:true,
+  origin: 'http://localhost:3000'
+}));
 
-app.use(session({
-  secret:'secreet',
-  saveUninitialized:true,
-  resave:false,
-  store: sessionStore
-}))
+// app.use(session({
+//   secret:'secreet',
+//   saveUninitialized:true,
+//   resave:false,
+//   store: sessionStore
+// }))
 
 app.use(indexRouter);
 
