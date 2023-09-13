@@ -6,7 +6,7 @@ provider:
 
 functions:
   serverRoot:
-    handler: bin/www.server
+    handler: app.server
 
     events:
       - http: #event trigger for the root route of an API Gateway HTTP
