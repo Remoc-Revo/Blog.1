@@ -41,7 +41,7 @@ const  indexRouter = require('./routes/index');
 //   store: sessionStore
 // }))
 
-// app.use(indexRouter);
+app.use(indexRouter);
 
 app.get('/ye',async (req,res,next)=>{res.status(200).send("Yeaaaaa"+process.env.DB_NAME)})
 
