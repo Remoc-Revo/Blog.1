@@ -20,10 +20,10 @@ const  indexRouter = require('./routes/index');
 
 // app.set('view engine', 'jade');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(logger('dev'));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+// app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -34,12 +34,12 @@ app.use(cookieParser());
 //   origin: 'http://localhost:3000'
 // }));
 
-app.use(session({
-  secret:'secreet',
-  saveUninitialized:true,
-  resave:false,
-  store: sessionStore
-}))
+// app.use(session({
+//   secret:'secreet',
+//   saveUninitialized:true,
+//   resave:false,
+//   store: sessionStore
+// }))
 
 // app.use(indexRouter);
 
