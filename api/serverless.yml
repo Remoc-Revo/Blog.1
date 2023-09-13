@@ -2,6 +2,7 @@ service: Blog1
 provider:
   name: aws
   runtime: nodejs18.x
+  stage: dev
   region: eu-north-1
 
 functions:
