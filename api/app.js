@@ -34,12 +34,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   origin: 'http://localhost:3000'
 // }));
 
-// app.use(session({
-//   secret:'secreet',
-//   saveUninitialized:true,
-//   resave:false,
-//   store: sessionStore
-// }))
+app.use(session({
+  secret:'secreet',
+  saveUninitialized:true,
+  resave:false,
+  store: sessionStore
+}))
 
 app.use(indexRouter);
 
