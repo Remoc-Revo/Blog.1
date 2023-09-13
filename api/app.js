@@ -42,7 +42,7 @@ app.use(session({
 }))
 
 app.use(indexRouter);
-app.get('/',(req,res)=>{console.log("YEewww");res.status(200).send("Yeaaaaa")})
+app.get('/',async (req,res,next)=>{res.status(200).send("Yeaaaaa")})
 
 
 // catch 404 and forward to error handler
