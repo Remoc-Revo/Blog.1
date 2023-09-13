@@ -50,16 +50,7 @@ const sls = require('serverless-http');
 
 app.get('/',async (req,res,next)=>{res.status(200).send("Yeaaaaa")})
 
-app.get('/sm',(req,res)=>{
-  const response={
-    'statusCode':200,
-    message: "Howwww"
-  }
-  return response;
-});
 
 module.exports.server = sls(app);
-
-console.log(err);
 
 
