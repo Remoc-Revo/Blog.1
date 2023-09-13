@@ -16,6 +16,6 @@ functions:
   
       - http:
           path: /{proxy+}
-          method: ANY
+          method: ANY #Accept any HTTP method
           cors: true
 
