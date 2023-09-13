@@ -56,7 +56,7 @@ app.get('/sm',(req,res)=>{
     message: "Howwww"
   }
   return response;
-}
+});
 
 module.exports.server = sls(app);
 
