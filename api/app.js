@@ -34,16 +34,16 @@ app.use(cors({
   origin: 'http://localhost:3000'
 }));
 
-// app.use(session({
-//   secret:'secreet',
-//   saveUninitialized:true,
-//   resave:false,
-//   store: sessionStore
-// }));
+app.use(session({
+  secret:'secreet',
+  saveUninitialized:true,
+  resave:false,
+  store: sessionStore
+}));
 
 app.use(indexRouter);
 
-app.get('/ye',async (req,res,next)=>{res.status(200).send("Yeaaaaa"+process.env.DB_NAME+" usr "+process.env.DB_USER+" "+process.env.DB_PASSWORD+process.env.DB_NAME)})
+app.get('/ye',async (req,res,next)=>{res.status(200).send("Yeaaaaa"+process.env.DB_NAME+" usr "+process.env.DB_USER+" "+process.env.DB_PASSWORD+process.env.DB_HOST)})
 
 
 module.exports.server = sls(app);
