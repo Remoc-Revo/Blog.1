@@ -9,7 +9,7 @@ const MySQLStore = require('express-mysql-session')(session);
 const createPool=require('./config/dbConnection');
 const pool = createPool();
 require('dotenv').config();
-// const serverless = require('serverlesshttp');
+const sls = require('serverless-http');
 
 const sessionStore=new MySQLStore({},pool);
 
@@ -77,6 +77,6 @@ app.get('/',(req,res)=>{console.log("YEewww");res.status(200).send("Yeaaaaa")})
 
 
 
-module.exports = app;
+module.exports.server = sls(app);
 
 // module.exports.handler = serverless(app);
