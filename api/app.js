@@ -8,12 +8,12 @@ require('dotenv').config();
 // var cookieParser = require('cookie-parser');
 // var logger = require('morgan');
 // const cors=require('cors');
-// const session=require('express-session');
-// const MySQLStore = require('express-mysql-session')(session);
-// const createPool=require('./config/dbConnection');
-// const pool = createPool();
 
-// const sessionStore=new MySQLStore({},pool);
+const session=require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+const createPool=require('./config/dbConnection');
+const pool = createPool();
+const sessionStore=new MySQLStore({},pool);
 
 // const  indexRouter = require('./routes/index');
 
