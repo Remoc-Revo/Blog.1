@@ -64,7 +64,22 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-app.get('/ye',async (req,res,next)=>{res.status(200).send("Yeaaaaaa"+createPool())})
+app.get('/ye',async (req,res,next)=>{
+  pool = createPool();
+  pool.query(`select articleId, articleHeadline from ARTICLE`,(err,result)=>{
+    if(err){
+      console.log(err);
+    }
+    if(result){
+      res.status(200).send("Yuuuuuu"+JSON.stringify(result));
+    }
+    else{
+      res.status(200).send("Yeaaaaaa"+)
+    }
+  });
+  
+  
+})
 
 
 module.exports.server = sls(app);
