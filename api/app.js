@@ -74,7 +74,7 @@ app.get('/ye',async (req,res,next)=>{
       res.status(200).send("Yuuuuuu"+JSON.stringify(result));
     }
     else{
-      res.status(200).send("Yeaaaaaa"+)
+      res.status(200).send("Yeaaaaaa")
     }
   });
   
