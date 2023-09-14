@@ -12,7 +12,7 @@ const cors=require('cors');
 const session=require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const createPool=require('./config/dbConnection');
-const pool = await createPool();
+const pool = createPool();
 const sessionStore=new MySQLStore({},pool);
 
 
@@ -42,6 +42,27 @@ app.use(session({
 }));
 
 app.use(indexRouter);
+
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+
+  // Handle specific database-related error (e.g., connection lost)
+  if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+    // Attempt to re-establish the database connection
+    pool = createPool();
+
+    // You may want to log the reconnection attempt here
+    console.log('Reconnecting to the database...');
+
+    // You can also clear the session or perform other error recovery tasks as needed
+
+    // Continue processing the request or send an appropriate response
+    return next();
+  }
+
+  // Handle other errors
+  next(err);
+});
 
 app.get('/ye',async (req,res,next)=>{res.status(200).send("Yeaaaaaa"+createPool())})
 
