@@ -1,7 +1,7 @@
 const mysql=require('mysql2');
 require('dotenv').config();
 
-const createPool=async()=>{
+const createPool=()=>{
     try
         {
             const pool = mysql.createPool(
