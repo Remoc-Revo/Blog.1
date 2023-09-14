@@ -68,7 +68,7 @@ app.get('/ye',async (req,res,next)=>{
   pool = createPool();
   pool.query(`select articleId, articleHeadline from ARTICLE`,(err,result)=>{
     if(err){
-      console.log(err);
+      console.log("yeee error:",err);
     }
     if(result){
       res.status(200).send("Yuuuuuu"+JSON.stringify(result));
