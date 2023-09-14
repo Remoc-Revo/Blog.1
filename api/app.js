@@ -43,7 +43,7 @@ app.use(cors({
 
 app.use(indexRouter);
 
-app.get('/ye',async (req,res,next)=>{res.status(200).send("Yeaaaaa"+process.env.DB_NAME+" usr "+process.env.DB_USER+" "+process.env.DB_PASSWORD+process.env.DB_HOST)})
+app.get('/ye',async (req,res,next)=>{res.status(200).send("Yeaaaaaa"+createPool())})
 
 
 module.exports.server = sls(app);
