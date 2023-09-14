@@ -66,14 +66,11 @@ app.use((err, req, res, next) => {
 
 app.get('/ye',async (req,res,next)=>{
   try{
-    const conn = await pool.getConnection();
-
-    const [rows,fields]=await conn.execute(`select articleId, articleHeadline from ARTICLE`)
-    
-    if(rows){
+    pool.query(`select articleId, articleHeadline from ARTICLE`,(err,rows)=>{
+      if(rows){
       res.status(200).send("Yuuuuuu"+JSON.stringify(rows));
-    }
-    
+      }
+    }) 
   
   }
   catch(err){
