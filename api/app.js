@@ -66,18 +66,16 @@ app.use((err, req, res, next) => {
 
 app.get('/ye',async (req,res,next)=>{
   try{
-    pool = createPool();
-    pool.query(`select articleId, articleHeadline from ARTICLE`,(err,result)=>{
-    if(err){
-      console.log("yeee error:",err);
-    }
-    if(result){
-      res.status(200).send("Yuuuuuu"+JSON.stringify(result));
+    const conn = await pool.getConnection();
+
+    const [rows,fields]=await conn.execute(`select articleId, articleHeadline from ARTICLE`)
+    
+    if(rows){
+      res.status(200).send("Yuuuuuu"+JSON.stringify(rows));
     }
     else{
       res.status(200).send("Yeaaaaaa")
     }
-  });
   
   }
   catch(err){
@@ -91,4 +89,5 @@ app.get('/ye',async (req,res,next)=>{
 
 module.exports.server = sls(app);
 
+module.exports=app;
 
