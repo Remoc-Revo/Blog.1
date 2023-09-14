@@ -65,8 +65,9 @@ app.use((err, req, res, next) => {
 });
 
 app.get('/ye',async (req,res,next)=>{
-  pool = createPool();
-  pool.query(`select articleId, articleHeadline from ARTICLE`,(err,result)=>{
+  try{
+    pool = createPool();
+    pool.query(`select articleId, articleHeadline from ARTICLE`,(err,result)=>{
     if(err){
       console.log("yeee error:",err);
     }
@@ -77,6 +78,12 @@ app.get('/ye',async (req,res,next)=>{
       res.status(200).send("Yeaaaaaa")
     }
   });
+  
+  }
+  catch(err){
+    console.log("connection pooling error",err);
+  }
+  
   
   
 })
