@@ -73,13 +73,13 @@ app.get('/ye',async (req,res,next)=>{
     if(rows){
       res.status(200).send("Yuuuuuu"+JSON.stringify(rows));
     }
-    else{
-      res.status(200).send("Yeaaaaaa")
-    }
+    
   
   }
   catch(err){
     console.log("connection pooling error",err);
+    res.status(200).send("Yeaaaaaa")
+
   }
   
   
