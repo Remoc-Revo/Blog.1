@@ -12,7 +12,7 @@ const cors=require('cors');
 const session=require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const createPool=require('./config/dbConnection');
-const pool = createPool();
+const pool = await createPool();
 const sessionStore=new MySQLStore({},pool);
 
 
