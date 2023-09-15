@@ -86,5 +86,5 @@ app.get('/ye',async (req,res,next)=>{
 
 module.exports.server = sls(app);
 
-// module.exports=app;
+module.exports=app;
 

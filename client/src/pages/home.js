@@ -74,29 +74,30 @@ export default  function Home(){
         setInitialFetch(false);
     }
 
+    //disabling eslint from insisting on non-empty dependency array
+    //eslint-disable-next-line 
     const options=useMemo(()=>({
         root:null,
         rootMargin: "0px",
         threshold : 0.1,
-    }),[]);
-
-    const observerCallback = useCallback((entries)=>{
-        if(entries[0].isIntersecting){
-            const lastArticleId = entries[0].target.getAttribute('id');
-            console.log("uwwwwwwwwwwdwwwaadaaaaasd::",lastArticleId)
-            if(!fullyLoaded){
-                fetchArticles(lastArticleId)
-            }
-        }
-    }, [fullyLoaded,fetchArticles]);
+    }));
 
     useEffect(()=>{
+        const observerCallback = (entries)=>{
+            if(entries[0].isIntersecting){
+                const lastArticleId = entries[0].target.getAttribute('id');
+                console.log("uwwwwwwwwwwdwwwaadaaaaasd::",lastArticleId)
+                if(!fullyLoaded){
+                    fetchArticles(lastArticleId)
+                }
+            }
+        };
         
         const observer = new IntersectionObserver(observerCallback,options);
         const lastArticleRefCurrent = lastArticleRef.current;
 
         if(lastArticleRefCurrent){
-            observer.observe(lastArticleRef.current);
+            observer.observe(lastArticleRefCurrent);
         }
 
         return ()=>{
@@ -104,7 +105,7 @@ export default  function Home(){
                 observer.unobserve(lastArticleRefCurrent);
             }
         }
-    },[lastArticleRef,options,observerCallback])
+    },[lastArticleRef,fetchArticles,fullyLoaded,options])
     
     return(
         <div className="full-page">
