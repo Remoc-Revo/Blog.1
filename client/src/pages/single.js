@@ -6,25 +6,40 @@ import moment from "moment";
 import parse from "html-react-parser"
 import Footer from "../components/footer";
 import More from "../components/more";
+import s3GetImage from "../reusables/s3GetImage";
 // import Comments from "../components/comments";
 
 export default function Single(){
-    var [article,setArticles]=useState([]);
+    var [article,setArticle]=useState([]);
     const location=useLocation();
     const articleId=location.pathname.split('/')[2];
+    const [fetchedImgUrl,setFetchedImgUrl] = useState('');
+
+    async function fetchImage(imgUrl){
+        try{
+           const url = await s3GetImage(imgUrl);
+           setFetchedImgUrl(url)
+           console.log("urlllll",url)
+
+        }catch(err){
+           console.log('error fetching image',err);
+        }
+  }
+
 
     useEffect(()=>{
         api.get(`/single/${articleId}`)
              .then((response)=>{
                 console.log("response::",response)
-                setArticles(response.data.article[0]) ;
-
+                setArticle(response.data.article[0]) ;
+                fetchImage(article.multimediaUrl);
             })
             .catch((err)=>{
                 console.log("get single article error",err)
             });
-                
-    },[articleId])
+
+                           
+    },[articleId,article.multimediaUrl])
 
 
     function decodeString(str){
@@ -53,7 +68,7 @@ export default function Single(){
                                 <p className="pt-2 pb-2 border-top border-bottom">
                                     By <span style={{color:"teal",fontWeight:"bold"}}>Brian</span> | {moment(article.articlePostingDate).fromNow()}
                                 </p>
-                                <img src={require(`${process.env.REACT_APP_IMG_LOCATION}/${article.multimediaUrl}`)} alt="article img"
+                                <img src={fetchedImgUrl} alt="article img"
                                     style={{display:"block",width:"100%",height:"390px"}}/>
 
 
