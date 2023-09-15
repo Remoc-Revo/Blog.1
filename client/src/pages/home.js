@@ -17,7 +17,7 @@ export default  function Home(){
     const [initialFetch, setInitialFetch] = useState(true);
     const [fullyLoaded, setFullyLoaded] = useState(false);
 
-
+    
     const  fetchArticles = useCallback((lastArticleId)=>{
         console.log("the lasssst",lastArticleId)
 
@@ -82,7 +82,10 @@ export default  function Home(){
         threshold : 0.1,
     }));
 
+
     useEffect(()=>{
+
+
         const observerCallback = (entries)=>{
             if(entries[0].isIntersecting){
                 const lastArticleId = entries[0].target.getAttribute('id');
