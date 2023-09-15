@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from "react";
 import api from "../config/api";
+import s3GetImage from "../reusables/s3GetImage";
 
 export default function More({cat,current}){
    var [more,set_more]=useState([]);
@@ -30,18 +31,9 @@ export default function More({cat,current}){
            {
             more.map((article,index)=>{
                if(index <= 5 && article.articleId !== current){
-                  return <a href={`/sngl/${article.articleId}`} className=" d-flex d-lg-block text-decoration-none row-xs mb-3 gap-3">
-                              <div className="col-4 col-sm-4  col-lg-12 container-xs">
-                                 <img src={require(`${process.env.REACT_APP_IMG_LOCATION}/${article.multimediaUrl}`)} alt="" className=" w-100 "/>
-
-                              </div>
-                                 
-                              <p className="text-success " style={{fontSize:"13px"}}>{decodeURIComponent(article.articleHeadline).replace(/&apos;/g,"'")}</p>
-
-                        </a>
-                           
-                           
-                        
+                     return <SinglePreview headline={article.articleHeadline}  
+                      imgUrl={article.multimediaUrl} articleId={article.articleId}/>                
+                                               
                }
                else{
                   return <></>
@@ -56,3 +48,36 @@ export default function More({cat,current}){
 
     
 }
+
+
+function SinglePreview({headline,imgUrl,articleId}){
+   const [fetchedImgUrl,setFetchedImgUrl] = useState('');
+
+   useEffect(()=>{
+      async function fetchImage(){
+            try{
+               const url = await s3GetImage(imgUrl);
+               setFetchedImgUrl(url)
+               console.log("urlllll",url)
+
+            }catch(err){
+               console.log('error fetching image',err);
+            }
+      }
+
+      fetchImage();
+   },[imgUrl])
+
+   return <a href={`/sngl/${articleId}`} className=" d-flex d-lg-block text-decoration-none row-xs mb-3 gap-3">
+                              <div className="col-4 col-sm-4  col-lg-12 container-xs">
+                                 <img src={fetchedImgUrl} alt="" className=" w-100 "/>
+
+                              </div>
+                                 
+                              <p className="text-success " style={{fontSize:"13px"}}>{decodeURIComponent(headline).replace(/&apos;/g,"'")}</p>
+
+         </a>
+
+
+}
+
