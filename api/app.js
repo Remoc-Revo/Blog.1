@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use(cors({
-  allowedHeaders:['Content-Type'],
+  allowedHeaders:['Content-Type','Access-Control-Allow-Origin'],
   credentials:true,
   origin: process.env.CLIENT_HOST
 }));
