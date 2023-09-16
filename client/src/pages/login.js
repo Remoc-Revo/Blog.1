@@ -17,6 +17,7 @@ export default function Login(){
 
         api.post('/login',
             {
+                withCredentials:true,
                 email:email,
                 password:password
             })
