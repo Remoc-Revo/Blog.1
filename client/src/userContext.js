@@ -30,9 +30,9 @@ export function UserProvider({children}){
         }
    },[user,loading])
 
-   function contextLogin(user){
-    setUser(user);
-    setLoading(false);
+   function contextLogin(){
+    //force fetching of login status
+    setUser(null);
    }
 
    function loggingIn(){
