@@ -72,7 +72,7 @@ function ifNotLoggedin(req,res,next){
 
     console.log("the token::",token);
 
-    if(token==undefined || req.session.userId==undefined){
+    if(token==undefined){
         return res.status(401).json({})  
     }
 
