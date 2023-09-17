@@ -9,12 +9,13 @@ export default function Login(){
     var [email,set_email]=useState();
     var [password,set_password]=useState();
     var [errorMessage,set_errorMessage]=useState();
-    const {user,contextLogin} = useUserContext();
+    const {user,contextLogin,loggingIn} = useUserContext();
     
     function login(e){
         e.preventDefault();
         set_errorMessage();
-
+        loggingIn();
+        
         api.post('/login',
             {
                 withCredentials:true,
