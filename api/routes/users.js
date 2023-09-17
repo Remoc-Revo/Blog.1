@@ -61,8 +61,8 @@ exports.register=(req,res)=>{
                         return res.status(200)
                                   .cookie('token',
                                           token,
-                                          {httpOnly:true,
-                                          secure:false,
+                                          {sameSite: 'none',
+                                           secure: true,
                                           maxAge:3600*1000*24
                                           })
                                   .json({});
