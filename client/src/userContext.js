@@ -15,10 +15,11 @@ export function UserProvider({children}){
     useEffect(()=>{
         if(user == null && ! loading){
             setLoading(true);
+            console.log("either way:::",response.data.userLevel,"  time",new Date().getTime())
 
             api.get('/user',{withCredentials:true})
             .then((response)=>{
-            console.log("wriii",response.data.userLevel,"  time",new Date().getTime())
+            console.log("response of user context:::",response.data.userLevel,"  time",new Date().getTime())
                 setUser(response.data);
                 setLoading(false);
             })
