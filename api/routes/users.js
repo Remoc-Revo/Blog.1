@@ -62,8 +62,9 @@ exports.register=(req,res)=>{
                                   .cookie('token',
                                           token,
                                           {sameSite: 'none',
+                                           httpOnly:true,
                                            secure: true,
-                                          maxAge:3600*1000*24
+                                           maxAge:3600*1000*24
                                           })
                                   .json({});
 
@@ -118,7 +119,13 @@ exports.login=(req,res)=>{
 
             
             return res.status(200)
-                      .cookie('token',token,{httpOnly:true,secure:false,maxAge:3600*1000})
+                      .cookie('token',
+                              token,
+                              {sameSite: 'none',
+                               httpOnly:true,
+                               secure: true,
+                               maxAge:3600*1000*24
+                              })
                       .json({
                         userId:req.session.userId,
                         userLevel:req.session.userLevel, 
