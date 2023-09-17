@@ -19,7 +19,7 @@ export function UserProvider({children}){
 
             api.get('/user',{withCredentials:true})
             .then((response)=>{
-            console.log("response of user context:::",response.data.userLevel,"  time",new Date().getTime())
+            console.log("response of user context:::",response.data,"  time",new Date().getTime())
                 setUser(response.data);
                 setLoading(false);
             })
