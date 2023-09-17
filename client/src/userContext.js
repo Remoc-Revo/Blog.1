@@ -13,7 +13,7 @@ export function UserProvider({children}){
     const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
-        if(user == null){
+        if(user == null && ! loading){
             setLoading(true);
 
             api.get('/user',{withCredentials:true})
@@ -28,18 +28,22 @@ export function UserProvider({children}){
                 setLoading(false);
             })
         }
-   },[user])
+   },[user,loading])
 
    function contextLogin(user){
     setUser(user)
    }
 
+   function loggingIn(){
+       setLoading(true);
+   }
+    
    function contextLogout(){
     setUser(null)
    }
 
    return(
-        <UserContext.Provider value={{user,loading,contextLogin,contextLogout}}>
+        <UserContext.Provider value={{user,loading,contextLogin,contextLogout,loggingIn}}>
             {children}
         </UserContext.Provider>
    )
