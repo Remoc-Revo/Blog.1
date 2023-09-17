@@ -13,12 +13,13 @@ export function UserProvider({children}){
     const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
-        if(user == null){
+        if(user == null && ! loading){
             setLoading(true);
+            console.log("either way:::  time",new Date().getTime())
 
             api.get('/user',{withCredentials:true})
             .then((response)=>{
-            // console.log("wriii",response.data.userLevel)
+            console.log("response of user context:::",response.data.userLevel,"  time",new Date().getTime())
                 setUser(response.data);
                 setLoading(false);
             })
@@ -28,18 +29,23 @@ export function UserProvider({children}){
                 setLoading(false);
             })
         }
-   },[user])
+   },[user,loading])
 
-   function contextLogin(user){
-    setUser(user)
+   function contextLogin(){
+    //force fetching of login status
+    setUser(null);
    }
 
+   function loggingIn(){
+       setLoading(true);
+   }
+    
    function contextLogout(){
     setUser(null)
    }
 
    return(
-        <UserContext.Provider value={{user,loading,contextLogin,contextLogout}}>
+        <UserContext.Provider value={{user,loading,contextLogin,contextLogout,loggingIn}}>
             {children}
         </UserContext.Provider>
    )
