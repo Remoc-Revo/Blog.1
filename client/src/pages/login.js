@@ -10,11 +10,11 @@ export default function Login(){
     var [password,set_password]=useState();
     var [errorMessage,set_errorMessage]=useState();
     const {user,contextLogin,loggingIn} = useUserContext();
-    
+    loggingIn();
+
     function login(e){
         e.preventDefault();
         set_errorMessage();
-        loggingIn();
         
         api.post('/login',
             {
