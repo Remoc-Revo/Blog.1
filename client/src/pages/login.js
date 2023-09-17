@@ -23,7 +23,7 @@ export default function Login(){
             })
             .then((response)=>{
                 if(response && response.status===200){
-                    contextLogin();
+                    contextLogin(response.data);
                     console.log("user after login ",user);
                     navigate("/");
                 }
