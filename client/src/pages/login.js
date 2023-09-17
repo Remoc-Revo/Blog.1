@@ -9,7 +9,7 @@ export default function Login(){
     var [email,set_email]=useState();
     var [password,set_password]=useState();
     var [errorMessage,set_errorMessage]=useState();
-    const {contextLogin} = useUserContext();
+    const {user,contextLogin} = useUserContext();
     
     function login(e){
         e.preventDefault();
@@ -24,6 +24,7 @@ export default function Login(){
             .then((response)=>{
                 if(response && response.status===200){
                     contextLogin(response.data)
+                    console.log("user after login ",user);
                     navigate("/");
                 }
             })
