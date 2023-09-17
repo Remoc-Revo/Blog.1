@@ -20,6 +20,7 @@ export default function ArticlesUpdating(){
     useEffect(()=>{
         if(!loading && user != null){
             if(user === 'unauthorized'){
+                console.log("user current state: ",user);
                 navigate('/login')
             }
         }
