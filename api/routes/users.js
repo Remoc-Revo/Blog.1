@@ -119,6 +119,7 @@ exports.login=(req,res)=>{
             
             return res.status(200)
                       .cookie('token',token,{httpOnly:true,secure:false,maxAge:3600*1000})
+                      .headers("Access-Control-Allow-Origin",process.env.CLIENT_HOST)
                       .json({
                         userId:req.session.userId,
                         userLevel:req.session.userLevel, 
