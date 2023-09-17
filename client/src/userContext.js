@@ -15,7 +15,7 @@ export function UserProvider({children}){
     useEffect(()=>{
         if(user == null && ! loading){
             setLoading(true);
-            console.log("either way:::",response.data.userLevel,"  time",new Date().getTime())
+            console.log("either way:::  time",new Date().getTime())
 
             api.get('/user',{withCredentials:true})
             .then((response)=>{
