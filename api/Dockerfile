@@ -1,5 +1,5 @@
 #use an official Node.js runtime as th base image
-from node:14
+from node:20
 
 #set the working directory in the container
 WORKDIR ../api
