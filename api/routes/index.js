@@ -10,14 +10,13 @@ const createPool=require('../config/dbConnection')
 const uuid = require('uuid');
 const path = require('path');
 const pool = createPool();
-const Aws = require('aws-sdk');
 const fs = require('fs');
 const {addComment,comments,reply,clap}= require('./comments')
 require('dotenv').config();
 
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
-        cb(null,'')
+        cb(null,'../../client/public/uploads')
     },
     filename:(req,file,cb)=>{
         cb(null,`${uuid.v4()}${path.extname(file.originalname)}`)
@@ -27,24 +26,12 @@ const storage=multer.diskStorage({
 })
 const upload=multer({storage:storage})
 
-const s3 = new Aws.S3();
 
 router.post('/upload/:type',ifNotLoggedin, upload.single('file'),(req,res)=>{
 
     console.log("the name",req.file)//.filename);
     console.log("the type::",req.params.type)
-    params = {
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: req.file.filename,
-        Body: fs.readFileSync(req.file.path)
-    }
-    console.log("params.Body",params.Body)
-
-    s3.upload(params,(err,data)=>{
-        if(err){
-            console.log("s3 upload Error: ",err);
-        }
-        else{
+    
             //profile pic upload
             if(req.params.type=="profileImg"){
                 console.log("werwwerw")
@@ -60,8 +47,7 @@ router.post('/upload/:type',ifNotLoggedin, upload.single('file'),(req,res)=>{
             else{                
                 return res.status(200).json(req.file.filename)
             }
-        }
-    })
+    
 
 })
  
