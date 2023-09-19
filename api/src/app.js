@@ -86,5 +86,7 @@ app.get('/ye',async (req,res,next)=>{
 
 // module.exports.server = sls(app);
 
-module.exports=app;
+// module.exports=app;
+
+app.listen(9000,()=>{console.log("again again and...")})
 
