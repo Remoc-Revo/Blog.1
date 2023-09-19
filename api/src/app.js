@@ -79,8 +79,12 @@ app.get('/ye',async (req,res,next)=>{
 
   }
   
+
   
-  
+})
+
+app.get('/oi', async(req,res)=>{
+  res.status(200).send("whyyyyyyyyyyy");
 })
 
 
