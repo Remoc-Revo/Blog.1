@@ -86,8 +86,5 @@ app.get('/ye',async (req,res,next)=>{
 
 // module.exports.server = sls(app);
 
-// module.exports=app;
-const port = process.env.PORT || 9000
-
-app.listen(port,'0.0.0.0',()=>{console.log("again again and...")})
+module.exports=app;
 
