@@ -90,5 +90,9 @@ app.get('/oi', async(req,res)=>{
 
 // module.exports.server = sls(app);
 
-module.exports=app;
+// module.exports=app;
+
+const port = process.env.PORT || 9000
+
+app.listen(port,'0.0.0.0',()=>{console.log("again and again...")})
 
