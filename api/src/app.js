@@ -12,9 +12,9 @@ const cors=require('cors');
 const session=require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 
-// const createPool=require('./config/dbConnection');
-// let pool = createPool();
-// const sessionStore=new MySQLStore({},pool);
+const createPool=require('./config/dbConnection');
+let pool = createPool();
+const sessionStore=new MySQLStore({},pool);
 
 
 const  indexRouter = require('./routes/index');
@@ -29,18 +29,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-// app.use(cors({
-//   allowedHeaders:['Content-Type'],
-//   credentials:true,
-//   origin: process.env.CLIENT_HOST
-// }));
+app.use(cors({
+  allowedHeaders:['Content-Type'],
+  credentials:true,
+  origin: process.env.CLIENT_HOST
+}));
 
-// app.use(session({
-//   secret:'secreet',
-//   saveUninitialized:true,
-//   resave:false,
-//   store: sessionStore
-// }));
+app.use(session({
+  secret:'secreet',
+  saveUninitialized:true,
+  resave:false,
+  store: sessionStore
+}));
 
 app.use(indexRouter);
 
