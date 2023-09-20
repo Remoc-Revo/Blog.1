@@ -190,7 +190,7 @@ exports.user=(req,res)=>{
                throw(err);
             }
             console.log("getin user")
-            return res.json({
+            return res.status(200).json({
                               userId:req.session.userId,
                               userLevel:req.session.userLevel, 
                               userName:req.session.userName,
