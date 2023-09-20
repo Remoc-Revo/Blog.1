@@ -6,7 +6,7 @@ import moment from "moment";
 import parse from "html-react-parser"
 import Footer from "../components/footer";
 import More from "../components/more";
-import s3GetImage from "../reusables/s3GetImage";
+import s3GetImage from "../reusables/getImage";
 // import Comments from "../components/comments";
 
 export default function Single(){
