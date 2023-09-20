@@ -48,7 +48,6 @@ router.post('/upload/:type',ifNotLoggedin, upload.single('file'),(req,res)=>{
                 return res.status(200).json(req.file.filename)
             }
     
-
 })
  
 
@@ -58,7 +57,7 @@ function ifNotLoggedin(req,res,next){
 
     console.log("the token::",token);
 
-    if(token==undefined){
+    if(token==undefined || req.session.userId == undefined){
         return res.status(401).json({})  
     }
 

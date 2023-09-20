@@ -40,8 +40,8 @@ export default function Login(){
 
             <div id="login-form">
                 <div class="pageHead container">
-                    <img class="voiceIcon" src="" alt=""/>
-                    <h2><b style={{color:"black"}}>Mordern </b>Mum and Dad</h2>
+                    <img class="" src={require("../logos/logo2.png")} style={{width:"18%",marginLeft:"30%"}} alt=""/>
+                    
                 </div>
                 <form onSubmit={login}>
                     <div  >
