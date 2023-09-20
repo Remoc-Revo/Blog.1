@@ -33,7 +33,7 @@ export default function MainNav(){
       api.post('/logout')
            .then(()=>{
               set_userName(null);
-              set_userLevel(null);
+              set_userLevel(0);
               contextLogout();
             })
     }
