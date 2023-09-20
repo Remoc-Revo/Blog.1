@@ -118,7 +118,6 @@ exports.login=(req,res)=>{
 
             const token=jwt.sign({userId:fetchedUserId},"secreet",{expiresIn:"1h"});
 
-            
             return res.status(200)
                       .cookie('token',
                               token,
@@ -189,7 +188,8 @@ exports.user=(req,res)=>{
             if(err){
                throw(err);
             }
-            console.log("getin user")
+            console.log("theee name and level",req.session.userName,req.session.userLevel)
+
             return res.json({
                               userId:req.session.userId,
                               userLevel:req.session.userLevel, 
