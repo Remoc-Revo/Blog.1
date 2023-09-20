@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import api from "../config/api";
-import s3GetImage from "../reusables/s3GetImage";
+import GetImage from "../reusables/getImage";
 
 export default function More({cat,current}){
    var [more,set_more]=useState([]);
@@ -56,7 +56,7 @@ function SinglePreview({headline,imgUrl,articleId}){
    useEffect(()=>{
       async function fetchImage(){
             try{
-               const url = await s3GetImage(imgUrl);
+               const url = await GetImage(imgUrl);
                setFetchedImgUrl(url)
                console.log("urlllll",url)
 

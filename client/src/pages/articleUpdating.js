@@ -17,22 +17,20 @@ export default function ArticlesUpdating(){
 
     const {loading,user} = useUserContext();
 
-    //remeeeemberrr
 
-    // useEffect(()=>{
-    //     if(!loading && user != null){
-    //         if(user === 'unauthorized'){
-    //             console.log("user current state: ",user);
-    //             navigate('/login')
-    //         }
-    //     }
+    useEffect(()=>{
+        if(!loading && user != null){
+            if(user === 'unauthorized'){
+                console.log("user current state: ",user);
+                navigate('/login')
+            }
+        }
           
-    // },[loading,navigate,user])
+    },[loading,navigate,user])
    
 
     async function upload(){
         var formData=new FormData();
-        let reader = new FileReader();
 
         formData.append('file',articlePhoto);
         formData.append('upload_preset',process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
@@ -49,6 +47,7 @@ export default function ArticlesUpdating(){
                 let data;
                 data  = await res.json()
                 if(data!== undefined){
+                   
                     console.log("\n secure_url",data.secure_url)
                     return data.secure_url
                 }
@@ -80,13 +79,13 @@ export default function ArticlesUpdating(){
                     },
                     )
              .then((response)=>{
-                if(response.status===200){
+                if(response && response.status===200){
                     navigate('/');
                 }
              })
              .catch((err)=>{
                 console.log(err)
-                if(err.response.status===401){
+                if(err.response && err.response.status===401){
                     navigate('/login');
                 }
              })

@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import '../styles/index.css';
-import s3GetImage from "../reusables/s3GetImage";
+import GetImage from "../reusables/getImage";
 
 export  function PreviewBig({headline,time,briefDescription,imgUrl,articleId}){
 
@@ -9,7 +9,7 @@ export  function PreviewBig({headline,time,briefDescription,imgUrl,articleId}){
         useEffect(()=>{
             async function fetchImage(){
                 try{
-                    const url = await s3GetImage(imgUrl);
+                    const url = await GetImage(imgUrl);
                     setFetchedImgUrl(url)
                     console.log("urlllll",url)
 
@@ -42,7 +42,7 @@ export  function PreviewMid({headline,time,briefDescription,imgUrl,articleId}){
         useEffect(()=>{
             async function fetchImage(){
                 try{
-                    const url = await s3GetImage(imgUrl);
+                    const url = await GetImage(imgUrl);
                     setFetchedImgUrl(url)
                     console.log("urlllll",url)
 
@@ -74,7 +74,7 @@ export  function PreviewSmall({headline,time,briefDescription,imgUrl,articleId})
         useEffect(()=>{
             async function fetchImage(){
                 try{
-                    const url = await s3GetImage(imgUrl);
+                    const url = await GetImage(imgUrl);
                     setFetchedImgUrl(url)
                     console.log("urlllll",url)
 
