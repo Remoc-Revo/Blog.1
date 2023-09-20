@@ -63,11 +63,12 @@ function ifNotLoggedin(req,res,next){
 
     jwt.verify(token,"secreet",(err,user)=>{
         if(err){
+            console.log("error verifying tocken::",err);
             return res.status(401).json({})
         }
         else{
             req.session.userId=user.userId; 
-            console.log("hereeee")
+            console.log("token validated hereeee")
             next();
         }
     })
