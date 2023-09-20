@@ -191,9 +191,9 @@ exports.user=(req,res)=>{
             console.log("theee name and level",req.session.userName,req.session.userLevel)
 
             return res.json({
-                              userId:req.session.userId,
-                              userLevel:req.session.userLevel, 
-                              userName:req.session.userName,
+                              userId:result[0].userId,
+                              userLevel:result[0].userLevel, 
+                              userName:result[0].userName,
                               email:result[0].userEmail
                            })
 
