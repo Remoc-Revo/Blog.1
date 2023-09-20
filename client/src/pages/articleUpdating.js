@@ -17,26 +17,46 @@ export default function ArticlesUpdating(){
 
     const {loading,user} = useUserContext();
 
-    useEffect(()=>{
-        if(!loading && user != null){
-            if(user === 'unauthorized'){
-                console.log("user current state: ",user);
-                navigate('/login')
-            }
-        }
+    //remeeeemberrr
+
+    // useEffect(()=>{
+    //     if(!loading && user != null){
+    //         if(user === 'unauthorized'){
+    //             console.log("user current state: ",user);
+    //             navigate('/login')
+    //         }
+    //     }
           
-    },[loading,navigate,user])
+    // },[loading,navigate,user])
    
 
     async function upload(){
         var formData=new FormData();
+        let reader = new FileReader();
 
         formData.append('file',articlePhoto);
+        formData.append('upload_preset',process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
         console.log("the file",formData)
-        const res=await api.post('/upload/articleImg',formData)
-            
-        return res.data;
 
+        try{
+            const res=await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD__NAME}/image/upload/`,
+                            {
+                                method:"post",
+                                body:formData
+                            }
+                    )
+            if(res.ok){
+                let data;
+                data  = await res.json()
+                if(data!== undefined){
+                    console.log("\n secure_url",data.secure_url)
+                    return data.secure_url
+                }
+            }   
+           
+        }catch(err){
+            console.log("file upload err",err);
+        }
     }
 
     async function updateArticles(e){
@@ -118,7 +138,7 @@ export default function ArticlesUpdating(){
                 <div className="d-flex row container">
                     <div className="col">
                         <label for="articleImg">Upload image</label>
-                        <input type="file" required id="articleImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_articlePhoto(e.target.files[0])}/>
+                        <input type="file" accept="image/*" required id="articleImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_articlePhoto(e.target.files[0])}/>
                     </div>
                     
                     <input className="btn-success col" type="submit" value="Publish"/>
