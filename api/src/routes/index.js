@@ -56,6 +56,8 @@ function ifNotLoggedin(req,res,next){
    var token=req.cookies.token;
 
     console.log("the token::",token);
+    console.log("the session id::",req.session.userId);
+
 
     if(token==undefined || req.session.userId == undefined){
         return res.status(401).json({})  
