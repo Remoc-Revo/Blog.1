@@ -119,10 +119,15 @@ router.post('/updateUser',ifNotLoggedin,
 
 router.post('/logout',(req,res,next)=>{
     console.log("logging out")
-    req.session.destroy((err)=>{
-        next(err);
-    })
-    return res.clearCookie('token').json({});
+    try{
+        req.session.destroy((err)=>{            
+            next(err);
+        })
+        return res.clearCookie('token').json({});
+    }
+    catch(err){
+        console.log("error when logging out: ", err);
+    }
 })
 
 router.post('/addComment',ifNotLoggedin, addComment)
