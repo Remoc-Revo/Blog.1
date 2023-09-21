@@ -32,8 +32,8 @@ export default function MainNav(){
     function logout(){
       api.post('/logout')
            .then(()=>{
-              set_userName(null);
-              set_userLevel(0);
+              set_userName();
+              set_userLevel();
               contextLogout();
             })
     }
