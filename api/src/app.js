@@ -28,13 +28,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
-app.use(cors({
-  allowedHeaders:['Content-Type'],
-  credentials:true,
-  origin: process.env.CLIENT_HOST
-}));
-
 app.use(session({
   secret:'secreet',
   saveUninitialized:true,
@@ -48,6 +41,13 @@ app.use(session({
     path: '/'
   }
 }));
+
+app.use(cors({
+  allowedHeaders:['Content-Type'],
+  credentials:true,
+  origin: process.env.CLIENT_HOST
+}));
+
 
 app.use(indexRouter);
 
