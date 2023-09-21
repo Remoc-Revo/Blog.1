@@ -20,6 +20,7 @@ const sessionStore=new MySQLStore({},pool);
 const  indexRouter = require('./routes/index');
 
 // app.set('view engine', 'jade');
+app.set('trust proxy', 1);
 
 app.use(logger('dev'));
 app.use(express.json());
