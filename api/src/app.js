@@ -39,7 +39,12 @@ app.use(session({
   secret:'secreet',
   saveUninitialized:true,
   resave:false,
-  store: sessionStore
+  store: sessionStore,
+  cookie: {
+    maxAge: 24*60*60*1000,
+    httpOnly: true,
+    path: '/'
+  }
 }));
 
 app.use(indexRouter);
