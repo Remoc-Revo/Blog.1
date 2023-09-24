@@ -56,7 +56,7 @@ export  function PreviewMid({headline,time,briefDescription,imgUrl,articleId}){
 
     return(
         <a href={`/sngl/${articleId}`} style={{textDecoration:"none",padding:"0px",height:"100%"}} className="col-md preview-mid">
-            <img src={fetchedImgUrl} alt="" className="" style={{display:"block",width:"100%"}}></img>
+            <img src={fetchedImgUrl} alt="" className="" style={{display:"block",width:"100%",maxHeight:"180px"}}></img>
 
             <div style={{color:"black"}} className="container">
                 <i className="duration">{time}</i>
@@ -87,10 +87,10 @@ export  function PreviewSmall({headline,time,briefDescription,imgUrl,articleId})
         },[imgUrl])
         
     return(
-        <a href={`/sngl/${articleId}`}  style={{textDecoration:"none",color:"black"}} className="mb-4 mt-3 d-flex container preview-small" >
-            <img src={fetchedImgUrl} alt="" className="col-md-5" style={{display:"block",width:"200px",height:"100px"}}></img>
+        <a href={`/sngl/${articleId}`}  style={{textDecoration:"none",color:"black"}} className="mb-4 mt-3 d-md-flex container preview-small" >
+            <img src={fetchedImgUrl} alt="" className="col-12 col-md-8" style={{display:"block",width:"",maxHeight:"180px"}}></img>
             
-            <div style={{}} className="ms-4">
+            <div style={{}} className="ms-md-4">
                 <i className="duration">{time}</i>
                 <h5 >{headline}</h5>
                 <p className=" briefDescription">{briefDescription}</p>

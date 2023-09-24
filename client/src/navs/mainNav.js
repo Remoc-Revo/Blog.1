@@ -40,13 +40,13 @@ export default function MainNav(){
 
     return(
       <div className=" bg-light">
-        <Navbar className=" d-flex justify-content-end ps-md-4 me-1 position-relative" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}>
-          <Navbar.Brand  href="#home"  className=" me-auto">
+        <Navbar className=" d-flex justify-content-xl-between ps-md-4 me-1"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
+          <Navbar.Brand  href="#home"  className="ps-xl-1 ps-sm-5 me-auto">
             <img src={require("../logos/logo2.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
           </Navbar.Brand>
           
       
-            <div id="user-nav" className="ml-auto d-flex  gap-2  order-lg-2 me-lg-5">
+            <div id="user-nav" className="ml-auto d-flex  gap-2  order-xl-2 me-lg-5">
               {(typeof userName!=='undefined')
                   ?<NavItem>
                       <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown} className=" me-2">
@@ -88,9 +88,9 @@ export default function MainNav(){
 
             </div>
           
-          <Navbar.Toggle  aria-controls="basic-navbar-nav" className="order-lg-1 me-2 ms-2"/>
-          <Navbar.Collapse id="basic-navbar-nav" className="ms-3 row-md ">
-            <Nav className="me-4" id="page-links" style={{}}>
+          <Navbar.Toggle  aria-controls="basic-navbar-nav" className="order-xl-1 me-2 ms-2"/>
+          <Navbar.Collapse id="basic-navbar-nav" className="ms-5 ">
+            <Nav className="container-xl gap-2" id="page-links" style={{}}>
               <Nav.Link href="/" className="" id={(cat==="")?"active":""} >Latest</Nav.Link>
               <Nav.Link href="/?cat=Food_and_Recipes" id={(cat==="?cat=Food_and_Recipes")?"active":""} className="nav-link">Food-and-recipes</Nav.Link>
               <Nav.Link href="/?cat=Newborn_Care" id={(cat==="?cat=Newborn_Care")?"active":""} className="nav-link">Newborn-care</Nav.Link>
@@ -101,9 +101,9 @@ export default function MainNav(){
               <Nav.Link href="/?cat=Home_Schooling" id={(cat==="?cat=Home_Schooling")?"active":""} className="nav-link">Home-Schooling</Nav.Link>
 
             </Nav>
-            <div className="col-sm-2 col-md-3 d-lg-flex justify-content-lg-end ">
-                {/* {(userLevel===1 || userLevel===0)?<Nav.Link href="/logout" className=" col-xs col-md ms-1">Logout</Nav.Link>:<span/>} */}
-            </div>
+           {/*  <div className="col-sm-2 col-md-3 d-lg-flex justify-content-lg-end ">
+                {(userLevel===1 || userLevel===0)?<Nav.Link href="/logout" className=" col-xs col-md ms-1">Logout</Nav.Link>:<span/>} 
+            </div>*/}
           </Navbar.Collapse>
           
         </Navbar>
@@ -111,52 +111,7 @@ export default function MainNav(){
       </div>
         
   
-        // <nav className="nav-bar container" id='main-nav'>
-            
-        //     <div className=" d-flex space-between">
-                    
-        //             <h1>MoiVoice</h1>
-
-        //             <ul className="nav" id='flexed-nav'>
-                        
-        //                 <li className="nav-item">
-        //                 </li>
-
-        //                 <li>
-        //                 </li>
-
-        //                 <li>
-        //                 </li>
-
-        //                 <li>
-        //                 </li>
-
-        //                 <li>
-        //                 </li>
-
-        //                 <li>
-        //                 </li>
-
-        //                 <li>
-        //                 </li>
-
-        //                 <li>
-        //                 </li>
-
-
-        //             </ul>
-                
-        //         <div>
-        //             {(userLevel===undefined)?<a href="/login" className="btn ">login</a>:<span/> }
-        //             {(userLevel===1)?<a href="/articlePosting" className="btn ">Update Articles</a>:<span/>}
-        //         </div>
-        //     </div>
-
-        //     <hr/>
-
-
-           
-        // </nav>
+       
 
 
     )
