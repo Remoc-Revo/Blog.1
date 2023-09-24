@@ -40,7 +40,7 @@ export default function MainNav(){
 
     return(
       <div className=" bg-light">
-        <Navbar className=" d-flex justify-content-xl-between ps-md-4 me-1"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
+        <Navbar className=" d-flex me-1"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
           <Navbar.Brand  href="#home"  className="ps-xl-1 ps-sm-5 me-auto">
             <img src={require("../logos/logo2.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
           </Navbar.Brand>
@@ -90,7 +90,7 @@ export default function MainNav(){
           
           <Navbar.Toggle  aria-controls="basic-navbar-nav" className="order-xl-1 me-2 ms-2"/>
           <Navbar.Collapse id="basic-navbar-nav" className="ms-5 ">
-            <Nav className="container-xl gap-2" id="page-links" style={{}}>
+            <Nav className=" gap-2" id="page-links" style={{}}>
               <Nav.Link href="/" className="" id={(cat==="")?"active":""} >Latest</Nav.Link>
               <Nav.Link href="/?cat=Food_and_Recipes" id={(cat==="?cat=Food_and_Recipes")?"active":""} className="nav-link">Food-and-recipes</Nav.Link>
               <Nav.Link href="/?cat=Newborn_Care" id={(cat==="?cat=Newborn_Care")?"active":""} className="nav-link">Newborn-care</Nav.Link>
