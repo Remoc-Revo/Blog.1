@@ -22,8 +22,8 @@ export  function PreviewBig({headline,time,briefDescription,imgUrl,articleId}){
         },[imgUrl])
 
         return(
-            <a href={`/sngl/${articleId}`} style={{textDecoration:"none",color:"black"}} className="">
-                <img src={fetchedImgUrl} alt=""   style={{display:"block",width:"100%",height:"500px"}}></img>
+            <a href={`/sngl/${articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
+                <img src={fetchedImgUrl} alt=""   style={{display:"block",width:"100%",maxHeight:"390px"}}></img>
 
                 <div  className="container">
                     <i className="duration">{time}</i>
@@ -55,8 +55,8 @@ export  function PreviewMid({headline,time,briefDescription,imgUrl,articleId}){
         },[imgUrl])
 
     return(
-        <a href={`/sngl/${articleId}`} style={{textDecoration:"none",padding:"0px"}} className="col preview-mid">
-            <img src={fetchedImgUrl} alt="" className="" style={{display:"block",width:"100%",height:"300px"}}></img>
+        <a href={`/sngl/${articleId}`} style={{textDecoration:"none",padding:"0px",height:"100%"}} className="col-md preview-mid">
+            <img src={fetchedImgUrl} alt="" className="" style={{display:"block",width:"100%"}}></img>
 
             <div style={{color:"black"}} className="container">
                 <i className="duration">{time}</i>

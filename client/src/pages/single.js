@@ -69,7 +69,7 @@ export default function Single(){
                                     By <span style={{color:"teal",fontWeight:"bold"}}>Brian</span> | {moment(article.articlePostingDate).fromNow()}
                                 </p>
                                 <img src={fetchedImgUrl} alt="article img"
-                                    style={{display:"block",width:"100%",height:"390px"}}/>
+                                    style={{display:"block",width:"100%",maxHeight:"390px"}}/>
 
 
                                 <p className="mt-4">{decodeString(article.articleBody)}</p>
