@@ -40,8 +40,8 @@ export default function MainNav(){
 
     return(
       <div className=" bg-light">
-        <Navbar className=" d-flex justify-content-end ms-0 ms-md-4 me-1 position-relative" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}>
-          <Navbar.Brand  href="#home"  className="ms-2 me-auto">
+        <Navbar className=" d-flex justify-content-end ps-md-4 me-1 position-relative" collapseOnSelect  id='main-nav' expand={(windowWidth>=995)?true:false}>
+          <Navbar.Brand  href="#home"  className=" me-auto">
             <img src={require("../logos/logo2.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
           </Navbar.Brand>
           

@@ -22,7 +22,7 @@ i.duration{
     text-overflow: ellipsis;
 }
 
-.preview-mid-container,.preview-small-container,.preview-big{
+.preview-mid-container,.preview-small-container,.preview-big-container{
     width:100%
 }
 
@@ -30,6 +30,7 @@ i.duration{
     border:.1em solid white;   
     padding:0px;
     background-color: white;
+    
 }
 
 .preview-mid-container{
@@ -93,7 +94,7 @@ p{
 }
 
 #main-nav #page-links{
-    width:68%;
+    width:80%;
 }
 
 #main-nav #active,#main-nav h1{
@@ -177,7 +178,7 @@ p{
 
 @media screen and (min-width:992px){
     #page-links{
-        margin-right:5px;    
+        margin-right:30px;    
     }
 
     
@@ -187,6 +188,10 @@ p{
     
     #main-nav h1{
         font-size: 25px;
+    }
+
+    .preview-mid-container{
+        /* height: 400px; */
     }
 }
 
