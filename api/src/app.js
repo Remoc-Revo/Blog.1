@@ -19,7 +19,7 @@ const sessionStore=new MySQLStore({},pool);
 
 const  indexRouter = require('./routes/index');
 
-// app.set('view engine', 'jade');
+//uncomment before merging to main branch!!!
 app.set('trust proxy', 1);
 
 app.use(logger('dev'));
@@ -29,6 +29,23 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+//uncomment before merging to main branch!!!
+// app.use(session({
+//   secret:'secreet',
+//   saveUninitialized:false,
+//   resave:false,
+//   store: sessionStore,
+//   cookie: {
+//     maxAge: 24*60*60*1000,
+//     sameSite:'none',
+//     httpOnly:true,
+//     secure: true,
+//     path: '/'
+//   }
+// }));
+
+
+//for location_tracing branch
 app.use(session({
   secret:'secreet',
   saveUninitialized:false,
@@ -36,9 +53,9 @@ app.use(session({
   store: sessionStore,
   cookie: {
     maxAge: 24*60*60*1000,
-    sameSite:'none',
+    // sameSite:'none',
     httpOnly:true,
-    secure: true,
+    // secure:true,
     path: '/'
   }
 }));
