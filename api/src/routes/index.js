@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var {body}=require('express-validator');
 const jwt=require('jsonwebtoken');
-const { updateArticles } = require('./updateArticles');
+const { addArticle } = require('./addArticle');
 const {updateArticle} = require('./updateArticle');
 const {register,login,updateUser,user}=require('./users')
 const multer=require('multer')
@@ -101,7 +101,7 @@ router.post('/login',login)
 router.get('/user',ifNotLoggedin,user
 )
 
-router.post('/updateArticles',ifNotLoggedin,updateArticles)
+router.post('/addArticle',ifNotLoggedin,addArticle)
 
 router.post('/updateArticle',ifNotLoggedin,updateArticle)
 
