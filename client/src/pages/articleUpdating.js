@@ -26,7 +26,6 @@ export default function ArticlesUpdating(){
                 navigate('/login')
             }
         }
-        console.log("the photoo",articleToUpdate.multimediaUrl)
         if(articleToUpdate != null && ! articleToUpdateLoaded){
             set_articleSection(articleToUpdate.articleSection);
             set_articleHeadline(articleToUpdate.articleHeadline);
@@ -76,7 +75,7 @@ export default function ArticlesUpdating(){
         console.log("imgUrl",imgUrl)
 
         if(imgUrl !== undefined){
-            await api.post('/updateArticles',
+            await api.post('/addArticle',
                     {
                         headers: { 'content-type': 'multipart/form-data' },
                         articleSection:articleSection,

@@ -1,7 +1,7 @@
 const createPool=require('../config/dbConnection')
 const pool = createPool();
 
-exports.updateArticles=(req,res)=>{
+exports.addArticle=(req,res)=>{
     if(req.session.userLevel!=1){
        return res.status(401).json({})
     }
@@ -15,7 +15,7 @@ exports.updateArticles=(req,res)=>{
         const imgUrl=body.img;
 
         console.log("imgUrl::,",imgUrl)
-        pool.query(`INSERT INTO ARTICLE VALUES(null,?,?,?,now())`,[headline,articleBody,section],
+        pool.query(`INSERT INTO ARTICLE VALUES(null,?,?,?,now(),null)`,[headline,articleBody,section],
              (err,result)=>{
                 if(err){
                     throw(err) 
