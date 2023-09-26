@@ -6,6 +6,7 @@ import MainNav from "../navs/mainNav";
 import Footer from "../components/footer";
 import { useUserContext } from "../userContext";
 import api from "../config/api";
+import axios from "axios";
 
 export default function ArticlesUpdating(){
     const navigate=useNavigate();
@@ -18,6 +19,7 @@ export default function ArticlesUpdating(){
     const {loading,user} = useUserContext();
     let {articleToUpdate} = useParams();
     articleToUpdate = JSON.parse(decodeURIComponent(articleToUpdate));
+       
 
     useEffect(()=>{
         if(!loading && user != null){
@@ -102,9 +104,30 @@ export default function ArticlesUpdating(){
     async function updateArticle(e){
         e.preventDefault();
         let imgUrl;
+        let prevImg;
         //if a new image has been uploaded
         if(articlePhoto !== articleToUpdate.multimediaUrl){
+            const cloudinaryDeleteUrl = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD__NAME}/image/delete_by_url`
+            await axios.delete(cloudinaryDeleteUrl,{
+                auth:{
+                    username: process.env.REACT_APP_CLOUDINARY_API_KEY,
+                    password: process.env.REACT_APP_CLOUDINARY_API_SECRET
+                },
+                data: {
+                    url: articleToUpdate.multimediaUrl
+                }
+            })
+            .then(()=>{
+                console.log("Deleted ?")
+            })
+            .catch((err)=>{
+                console.log("Error while deleting :", err );
+            })
+
+
             imgUrl = await upload();
+            prevImg = articleToUpdate.multimediaUrl
+
         }
         //the image is unchanged
         else{
@@ -119,7 +142,8 @@ export default function ArticlesUpdating(){
                         articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
                         articleBody:encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
                         withCredentials:true,
-                        img:imgUrl
+                        img:imgUrl,
+                        prevImg : prevImg
                     },
                     )
              .then((response)=>{
