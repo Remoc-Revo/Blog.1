@@ -13,6 +13,7 @@ const path = require('path');
 const pool = createPool();
 const fs = require('fs');
 const {addComment,comments,reply,clap}= require('./comments')
+const {deleteArticle} = require('./deleteArticle')
 require('dotenv').config();
 
 const storage=multer.diskStorage({
@@ -132,6 +133,8 @@ router.post('/logout',(req,res,next)=>{
         console.log("error when logging out: ", err);
     }
 })
+
+router.delete('/article/:articleId',ifNotLoggedin,deleteArticle)
 
 router.post('/addComment',ifNotLoggedin, addComment)
 

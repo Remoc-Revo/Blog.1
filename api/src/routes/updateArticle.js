@@ -60,9 +60,7 @@ exports.updateArticle=(req,res)=>{
 
 function deletePrevImg(prevImg){
     try{
-        console.log("prevImg",prevImg.split('h'))
-        let splitUrl = prevImg.split('/');
-        let img = splitUrl[splitUrl.length-1];
+        
 
         cloudinary.uploader.destroy(extractPublicId(prevImg),(err,result)=>{
             if(err){

@@ -18,6 +18,8 @@ export default function Single(){
     const articleId=location.pathname.split('/')[2];
     const [fetchedImgUrl,setFetchedImgUrl] = useState('');
     const {user} = useUserContext();
+    const [deleting, setDeleting] = useState(false);
+
 
     async function fetchImage(imgUrl){
         try{
@@ -68,6 +70,32 @@ export default function Single(){
        
     }
 
+    function deleteArticle(){
+
+        if(window.confirm(`Are you sure you want to delete the article: '${decodeString(article.articleHeadline)}' ?`)){
+            setDeleting(true);
+
+            api.delete(`/article/${article.articleId}`,
+                {withCredentials:true,
+                imgUrl: article.multimediaUrl
+            })
+            .then((response)=>{
+                    if(response.status === 200){
+                        setDeleting(false);
+                        navigate('/')
+                    }
+            })
+            .catch((err)=>{
+                    if(err.response && err.response.status === 401){
+                        setDeleting(false);
+                        navigate('/login');
+                    }
+            })
+
+        }
+        
+    }    
+
     return(
         <div className="full-page">
             <MainNav/>
@@ -112,7 +140,14 @@ export default function Single(){
             
             <div className="container-lg">
                 {(user !== null && user.userLevel === 1)
-                    ? <button onClick={navigateToUpdate} className="btn btn-danger">DELETE ARTICLE</button>
+                    ?<button onClick={deleteArticle} className="btn btn-danger">
+                        {(deleting)
+                            ?<div className="spinner-border text-light">
+                                <span className="sr-only">Loading</span>
+                            </div>
+                            :"DELETE ARTICLE"
+                        }
+                    </button>
                     : <></>
                 }
             </div>
