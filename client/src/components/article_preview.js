@@ -60,7 +60,7 @@ export  function PreviewMid({headline,time,briefDescription,imgUrl,articleId}){
 
             <div style={{color:"black"}} className="container">
                 <i className="duration">{time}</i>
-                <h5 >{headline}</h5>
+                <h5 className="briefHeadline">{headline}</h5>
                 <p className="briefDescription">{briefDescription}</p>
             </div>
         </a>

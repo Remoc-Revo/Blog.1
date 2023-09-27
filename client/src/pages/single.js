@@ -57,8 +57,15 @@ export default function Single(){
     }
 
     function navigateToUpdate(){
-        let articleString = encodeURIComponent(JSON.stringify(article));
-        navigate(`/articlePosting/${articleString}`);
+        try{
+    
+            navigate(`/articlePosting/${article.articleId}`);
+                    
+        }
+        catch(err){
+            console.log("navigateToUpdate error:", err)
+        }
+       
     }
 
     return(
@@ -102,6 +109,13 @@ export default function Single(){
             }
            
             {/* <Comments articleId={article.articleId}/> */}
+            
+            <div className="container-lg">
+                {(user !== null && user.userLevel === 1)
+                    ? <button onClick={navigateToUpdate} className="btn btn-danger">DELETE ARTICLE</button>
+                    : <></>
+                }
+            </div>
             
             <Footer/>
         </div>
