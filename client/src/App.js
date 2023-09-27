@@ -25,7 +25,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/login' element={<Login/>}/>
-          <Route path='/articlePosting/:articleToUpdate' element={<ArticlesUpdating/>}/>
+          <Route path='/articlePosting/:articleIdToUpdate' element={<ArticlesUpdating/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/sngl/:id' element={<Single/>}/>
           <Route path='/profile' element={<Profile/>}/>

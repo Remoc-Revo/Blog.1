@@ -6,7 +6,6 @@ import MainNav from "../navs/mainNav";
 import Footer from "../components/footer";
 import { useUserContext } from "../userContext";
 import api from "../config/api";
-import axios from "axios";
 
 export default function ArticlesUpdating(){
     const navigate=useNavigate();
@@ -17,9 +16,31 @@ export default function ArticlesUpdating(){
     var [articlePhoto,set_articlePhoto]=useState(null);
     var [articleToUpdateLoaded, set_articleToUpdateLoaded] = useState(false);
     const {loading,user} = useUserContext();
-    let {articleToUpdate} = useParams();
-    articleToUpdate = JSON.parse(decodeURIComponent(articleToUpdate));
-       
+    let {articleIdToUpdate} = useParams();
+    const [articleToUpdate,setArticleToUpdate] = useState();
+    const [awaitingResponse, set_awaitingResponse] = useState(false);
+
+    function fetchArticleToUpdate(){
+        api.get(`/single/${articleIdToUpdate}`)
+             .then((response)=>{
+                console.log("fetched articleToBeUpdated::",response)
+                setArticleToUpdate(response.data.article[0]) ;
+                set_articleSection(articleToUpdate.articleSection);
+                set_articleHeadline(decodeURIComponent(articleToUpdate.articleHeadline))
+                set_articleBody(decodeURIComponent(articleToUpdate.articleBody))
+                set_articlePhoto(articleToUpdate.multimediaUrl)
+                set_articleToUpdateLoaded(true);
+            })
+            .catch((err)=>{
+                console.log("get single article error",err)
+            });
+    }
+
+    if(articleIdToUpdate != null && ! articleToUpdateLoaded){
+        console.log("here in uu")
+        fetchArticleToUpdate();
+
+    }
 
     useEffect(()=>{
         if(!loading && user != null){
@@ -28,13 +49,7 @@ export default function ArticlesUpdating(){
                 navigate('/login')
             }
         }
-        if(articleToUpdate != null && ! articleToUpdateLoaded){
-            set_articleSection(articleToUpdate.articleSection);
-            set_articleHeadline(articleToUpdate.articleHeadline);
-            set_articleBody(articleToUpdate.articleBody);
-            set_articlePhoto(articleToUpdate.multimediaUrl)
-            set_articleToUpdateLoaded(true);
-        }
+        
     },[loading,navigate,user,articleToUpdate, articleToUpdateLoaded])
    
 
@@ -69,6 +84,7 @@ export default function ArticlesUpdating(){
 
     async function addArticle(e){
         e.preventDefault();
+        set_awaitingResponse(true);
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
         console.log(articleBody,"\n",articleHeadline,"\n",articleSection,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
         
@@ -89,12 +105,14 @@ export default function ArticlesUpdating(){
                     )
              .then((response)=>{
                 if(response && response.status===200){
+                    set_awaitingResponse(false);
                     navigate('/');
                 }
              })
              .catch((err)=>{
                 console.log(err)
                 if(err.response && err.response.status===401){
+                    set_awaitingResponse(false);
                     navigate('/login');
                 }
              })
@@ -103,28 +121,12 @@ export default function ArticlesUpdating(){
 
     async function updateArticle(e){
         e.preventDefault();
+        set_awaitingResponse(true);
         let imgUrl;
         let prevImg;
         //if a new image has been uploaded
         if(articlePhoto !== articleToUpdate.multimediaUrl){
-            const cloudinaryDeleteUrl = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD__NAME}/image/delete_by_url`
-            await axios.delete(cloudinaryDeleteUrl,{
-                auth:{
-                    username: process.env.REACT_APP_CLOUDINARY_API_KEY,
-                    password: process.env.REACT_APP_CLOUDINARY_API_SECRET
-                },
-                data: {
-                    url: articleToUpdate.multimediaUrl
-                }
-            })
-            .then(()=>{
-                console.log("Deleted ?")
-            })
-            .catch((err)=>{
-                console.log("Error while deleting :", err );
-            })
-
-
+            
             imgUrl = await upload();
             prevImg = articleToUpdate.multimediaUrl
 
@@ -148,12 +150,14 @@ export default function ArticlesUpdating(){
                     )
              .then((response)=>{
                 if(response && response.status===200){
+                    set_awaitingResponse(false);
                     navigate('/');
                 }
              })
              .catch((err)=>{
                 console.log(err)
                 if(err.response && err.response.status===401){
+                    set_awaitingResponse(false);
                     navigate('/login');
                 }
              })
@@ -164,7 +168,8 @@ export default function ArticlesUpdating(){
     return(
         <div className="container">
             <MainNav/>
-            <form  onSubmit={(articleToUpdate===null) ? addArticle : updateArticle} enctype="multipart/form-data" className="mb-5">
+            
+            <form  onSubmit={(articleToUpdate == null) ? addArticle : updateArticle} enctype="multipart/form-data" className="mb-5">
 
                 <div className=" container">
                     <select placeholder="Articles Section" id="articleSection" className="w-100 form-control" value={articleSection} onChange={(e)=>set_articleSection(e.target.value)} required>
@@ -207,7 +212,13 @@ export default function ArticlesUpdating(){
                         <input type="file" accept="image/*" id="articleImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_articlePhoto(e.target.files[0])}/>
                     </div>
                     
-                    <input className="btn-success col" type="submit" value={(articleToUpdate===null) ? "Publish" : "Update"}/>
+                    {(awaitingResponse)
+                        ?<div className="spinner-border text-info">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                        
+                        :<input className="btn-success col" type="submit" value={(articleToUpdate===null) ? "Publish": "Update"}/>
+                    }                                              
                 </div>
 
                 
