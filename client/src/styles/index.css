@@ -22,6 +22,14 @@ i.duration{
     text-overflow: ellipsis;
 }
 
+.briefHeadline{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .preview-mid-container,.preview-small-container,.preview-big-container{
     width:100%
 }

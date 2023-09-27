@@ -1,19 +1,25 @@
 import React,{useState,useEffect} from "react";
 import MainNav from "../navs/mainNav";
 import api from "../config/api";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 import moment from "moment";
 import parse from "html-react-parser"
 import Footer from "../components/footer";
 import More from "../components/more";
 import s3GetImage from "../reusables/getImage";
+import { useUserContext } from "../userContext";
+
 // import Comments from "../components/comments";
 
 export default function Single(){
     var [article,setArticle]=useState([]);
     const location=useLocation();
+    const navigate = useNavigate();
     const articleId=location.pathname.split('/')[2];
     const [fetchedImgUrl,setFetchedImgUrl] = useState('');
+    const {user} = useUserContext();
+    const [deleting, setDeleting] = useState(false);
+
 
     async function fetchImage(imgUrl){
         try{
@@ -38,7 +44,7 @@ export default function Single(){
                 console.log("get single article error",err)
             });
 
-                           
+         
     },[articleId,article.multimediaUrl])
 
 
@@ -52,6 +58,44 @@ export default function Single(){
         return parse(htmlString);
     }
 
+    function navigateToUpdate(){
+        try{
+    
+            navigate(`/articlePosting/${article.articleId}`);
+                    
+        }
+        catch(err){
+            console.log("navigateToUpdate error:", err)
+        }
+       
+    }
+
+    function deleteArticle(){
+
+        if(window.confirm(`Are you sure you want to delete the article: '${decodeString(article.articleHeadline)}' ?`)){
+            setDeleting(true);
+
+            api.delete(`/article/${article.articleId}`,
+                {withCredentials:true,
+                imgUrl: article.multimediaUrl
+            })
+            .then((response)=>{
+                    if(response.status === 200){
+                        setDeleting(false);
+                        navigate('/')
+                    }
+            })
+            .catch((err)=>{
+                    if(err.response && err.response.status === 401){
+                        setDeleting(false);
+                        navigate('/login');
+                    }
+            })
+
+        }
+        
+    }    
+
     return(
         <div className="full-page">
             <MainNav/>
@@ -60,13 +104,20 @@ export default function Single(){
             {(article.length!==0)
                 ?<div className="container-lg mt-5">
                     <div className="container-lg">
+                        {(user !== null && user.userLevel === 1)
+                            ? <button onClick={navigateToUpdate} className="btn btn-secondary">UPDATE ARTICLE</button>
+                            : <></>
+                        }
                         <h1 className=" headline">{decodeString(article.articleHeadline)}</h1>
                     </div>
                     <div className="d-lg-flex container-lg mt-5 gap-3">
                         <div className=" col-lg-8 p-0">
                             <div className="container-lg p-0">
                                 <p className="pt-2 pb-2 border-top border-bottom">
-                                    By <span style={{color:"teal",fontWeight:"bold"}}>Brian</span> | {moment(article.articlePostingDate).fromNow()}
+                                    Published {moment(article.articlePostingDate).fromNow()} 
+                                    <span> | </span>
+                                    {(article.articleUpdatingDate !== null)? "Updated  "+moment(article.articleUpdatingDate).fromNow() : <></>} 
+                                    <span> </span>| By <span style={{color:"teal",fontWeight:"bold"}}>Brian</span>
                                 </p>
                                 <img src={fetchedImgUrl} alt="article img"
                                     style={{display:"block",width:"100%",maxHeight:"390px"}}/>
@@ -86,6 +137,20 @@ export default function Single(){
             }
            
             {/* <Comments articleId={article.articleId}/> */}
+            
+            <div className="container-lg">
+                {(user !== null && user.userLevel === 1)
+                    ?<button onClick={deleteArticle} className="btn btn-danger">
+                        {(deleting)
+                            ?<div className="spinner-border text-light">
+                                <span className="sr-only">Loading</span>
+                            </div>
+                            :"DELETE ARTICLE"
+                        }
+                    </button>
+                    : <></>
+                }
+            </div>
             
             <Footer/>
         </div>

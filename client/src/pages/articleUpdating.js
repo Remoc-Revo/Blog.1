@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import MainNav from "../navs/mainNav";
@@ -14,9 +14,33 @@ export default function ArticlesUpdating(){
     var [articleHeadline,set_articleHeadline]=useState('');
     var [articleBody,set_articleBody]=useState('');
     var [articlePhoto,set_articlePhoto]=useState(null);
-
+    var [articleToUpdateLoaded, set_articleToUpdateLoaded] = useState(false);
     const {loading,user} = useUserContext();
+    let {articleIdToUpdate} = useParams();
+    const [articleToUpdate,setArticleToUpdate] = useState();
+    const [awaitingResponse, set_awaitingResponse] = useState(false);
 
+    function fetchArticleToUpdate(){
+        api.get(`/single/${articleIdToUpdate}`)
+             .then((response)=>{
+                console.log("fetched articleToBeUpdated::",response)
+                setArticleToUpdate(response.data.article[0]) ;
+                set_articleSection(articleToUpdate.articleSection);
+                set_articleHeadline(decodeURIComponent(articleToUpdate.articleHeadline))
+                set_articleBody(decodeURIComponent(articleToUpdate.articleBody))
+                set_articlePhoto(articleToUpdate.multimediaUrl)
+                set_articleToUpdateLoaded(true);
+            })
+            .catch((err)=>{
+                console.log("get single article error",err)
+            });
+    }
+
+    if(articleIdToUpdate != null && ! articleToUpdateLoaded){
+        console.log("here in uu")
+        fetchArticleToUpdate();
+
+    }
 
     useEffect(()=>{
         if(!loading && user != null){
@@ -25,8 +49,8 @@ export default function ArticlesUpdating(){
                 navigate('/login')
             }
         }
-          
-    },[loading,navigate,user])
+        
+    },[loading,navigate,user,articleToUpdate, articleToUpdateLoaded])
    
 
     async function upload(){
@@ -58,8 +82,9 @@ export default function ArticlesUpdating(){
         }
     }
 
-    async function updateArticles(e){
+    async function addArticle(e){
         e.preventDefault();
+        set_awaitingResponse(true);
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
         console.log(articleBody,"\n",articleHeadline,"\n",articleSection,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
         
@@ -68,7 +93,7 @@ export default function ArticlesUpdating(){
         console.log("imgUrl",imgUrl)
 
         if(imgUrl !== undefined){
-            await api.post('/updateArticles',
+            await api.post('/addArticle',
                     {
                         headers: { 'content-type': 'multipart/form-data' },
                         articleSection:articleSection,
@@ -80,24 +105,71 @@ export default function ArticlesUpdating(){
                     )
              .then((response)=>{
                 if(response && response.status===200){
+                    set_awaitingResponse(false);
                     navigate('/');
                 }
              })
              .catch((err)=>{
                 console.log(err)
                 if(err.response && err.response.status===401){
+                    set_awaitingResponse(false);
                     navigate('/login');
                 }
              })
         }    
     }
 
+    async function updateArticle(e){
+        e.preventDefault();
+        set_awaitingResponse(true);
+        let imgUrl;
+        let prevImg;
+        //if a new image has been uploaded
+        if(articlePhoto !== articleToUpdate.multimediaUrl){
+            
+            imgUrl = await upload();
+            prevImg = articleToUpdate.multimediaUrl
+
+        }
+        //the image is unchanged
+        else{
+            imgUrl = articleToUpdate.multimediaUrl;
+        }
+
+        if(imgUrl !== undefined){
+            await api.post('/updateArticle',
+                    {
+                        articleId: articleToUpdate.articleId,
+                        articleSection:articleSection,
+                        articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
+                        articleBody:encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
+                        withCredentials:true,
+                        img:imgUrl,
+                        prevImg : prevImg
+                    },
+                    )
+             .then((response)=>{
+                if(response && response.status===200){
+                    set_awaitingResponse(false);
+                    navigate('/');
+                }
+             })
+             .catch((err)=>{
+                console.log(err)
+                if(err.response && err.response.status===401){
+                    set_awaitingResponse(false);
+                    navigate('/login');
+                }
+             })
+        }
+    }
     
 
     return(
         <div className="container">
             <MainNav/>
-            <form  onSubmit={updateArticles} enctype="multipart/form-data" className="mb-5">
+            
+            <form  onSubmit={(articleToUpdate == null) ? addArticle : updateArticle} enctype="multipart/form-data" className="mb-5">
 
                 <div className=" container">
                     <select placeholder="Articles Section" id="articleSection" className="w-100 form-control" value={articleSection} onChange={(e)=>set_articleSection(e.target.value)} required>
@@ -137,10 +209,16 @@ export default function ArticlesUpdating(){
                 <div className="d-flex row container">
                     <div className="col">
                         <label for="articleImg">Upload image</label>
-                        <input type="file" accept="image/*" required id="articleImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_articlePhoto(e.target.files[0])}/>
+                        <input type="file" accept="image/*" id="articleImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_articlePhoto(e.target.files[0])}/>
                     </div>
                     
-                    <input className="btn-success col" type="submit" value="Publish"/>
+                    {(awaitingResponse)
+                        ?<div className="spinner-border text-info">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                        
+                        :<input className="btn-success col" type="submit" value={(articleToUpdate===null) ? "Publish": "Update"}/>
+                    }                                              
                 </div>
 
                 
