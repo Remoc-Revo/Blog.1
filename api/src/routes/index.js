@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var {body}=require('express-validator');
 const jwt=require('jsonwebtoken');
-const { updateArticles } = require('./updateArticles');
+const { addArticle } = require('./addArticle');
+const {updateArticle} = require('./updateArticle');
 const {register,login,updateUser,user}=require('./users')
 const multer=require('multer')
 const {article,single}=require('./getArticles')
@@ -12,6 +13,7 @@ const path = require('path');
 const pool = createPool();
 const fs = require('fs');
 const {addComment,comments,reply,clap}= require('./comments')
+const {deleteArticle} = require('./deleteArticle')
 require('dotenv').config();
 
 const storage=multer.diskStorage({
@@ -100,7 +102,9 @@ router.post('/login',login)
 router.get('/user',ifNotLoggedin,user
 )
 
-router.post('/updateArticles',ifNotLoggedin,updateArticles)
+router.post('/addArticle',ifNotLoggedin,addArticle)
+
+router.post('/updateArticle',ifNotLoggedin,updateArticle)
 
 router.get('/single/:id',single)
 
@@ -129,6 +133,8 @@ router.post('/logout',(req,res,next)=>{
         console.log("error when logging out: ", err);
     }
 })
+
+router.delete('/article/:articleId',ifNotLoggedin,deleteArticle)
 
 router.post('/addComment',ifNotLoggedin, addComment)
 

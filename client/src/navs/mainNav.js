@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import { Button,Nav, Navbar, NavItem, Dropdown } from "react-bootstrap";
-import { /*NavLink,*/useLocation, } from "react-router-dom";
+import { /*NavLink,*/useLocation, useNavigate} from "react-router-dom";
 import parse from "html-react-parser"
 import { useUserContext } from "../userContext";
 import api from "../config/api";
@@ -12,9 +12,10 @@ export default function MainNav(){
   var [dropdownOpen,set_dropdownOpen]=useState(false);
   // var [profileImg,set_profileImg]=useState();
   const {loading,user,contextLogout} = useUserContext();
+  const navigate = useNavigate();
   var cat=useLocation().search;
    
-    const toggle_dropdown=()=>set_dropdownOpen(!dropdownOpen)
+  const toggle_dropdown=()=>set_dropdownOpen(!dropdownOpen)
 
 
   var [windowWidth,set_windowWidth]=useState(window.innerWidth)
@@ -46,7 +47,7 @@ export default function MainNav(){
           </Navbar.Brand>
           
       
-            <div id="user-nav" className="ml-auto d-flex  gap-2  order-xl-2 me-lg-5">
+            <div id="user-nav" className="d-flex  gap-1  order-xl-2 me-lg-5">
               {(typeof userName!=='undefined')
                   ?<NavItem>
                       <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown} className=" me-2">
@@ -83,14 +84,21 @@ export default function MainNav(){
                     </NavItem>
                   : <Nav.Link href="/login" className="nav-link">login</Nav.Link>
               }
-              {(userLevel===1)?<Nav.Link href="/articlePosting" className="col-xs col-md ">Write</Nav.Link>:<span/>}
+              {(userLevel===1)
+                ?<div className="d-flex">
+                  <button onClick={()=>{navigate(`/articlePosting/${null}`)}} className="btn btn-transparent col-xs col-md " title="Write">
+                    <img src={require("../icons/write.png")} alt="" style={{width:"30px"}}/>
+                  </button>
+                                    
+                 </div>
+                :<span/>}
             
 
             </div>
           
           <Navbar.Toggle  aria-controls="basic-navbar-nav" className="order-xl-1 me-2 ms-2"/>
           <Navbar.Collapse id="basic-navbar-nav" className="ms-5 ">
-            <Nav className=" gap-2" id="page-links" style={{}}>
+            <Nav className="container-xl gap-gap-1" id="page-links" style={{}}>
               <Nav.Link href="/" className="" id={(cat==="")?"active":""} >Latest</Nav.Link>
               <Nav.Link href="/?cat=Food_and_Recipes" id={(cat==="?cat=Food_and_Recipes")?"active":""} className="nav-link">Food-and-recipes</Nav.Link>
               <Nav.Link href="/?cat=Newborn_Care" id={(cat==="?cat=Newborn_Care")?"active":""} className="nav-link">Newborn-care</Nav.Link>
