@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import '../styles/index.css';
+import '../styles/index.scss';
 import GetImage from "../reusables/getImage";
 
 export  function PreviewBig({headline,time,briefDescription,imgUrl,articleId}){

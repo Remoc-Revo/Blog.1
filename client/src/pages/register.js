@@ -67,7 +67,7 @@ export default function Register(){
 
     return(
         <div className="container" style={{marginTop:"100px",backgroundColor:"white",padding:"40px",border:"1px solid lightgrey"}}>
-            <img class="" src={require("../logos/logo2.png")} style={{width:"18%",marginLeft:"30%"}} alt=""/>
+            <img class="" src={require("../logos/logo.png")} style={{width:"18%",marginLeft:"30%"}} alt=""/>
             <br/>
 
             <form onSubmit={Register} method="post">
