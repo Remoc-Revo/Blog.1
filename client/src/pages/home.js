@@ -13,7 +13,7 @@ export default  function Home(){
     const [articles,setArticles]=useState([]);
     var cat=/*(useLocation().search==="")?"/latest":*/useLocation().search;
     const lastArticleRef = useRef(null);
-    const title=(cat==="")?"Latest":cat.split("=")[1].replaceAll('_',' ');
+    // const title=(cat==="")?"Latest":cat.split("=")[1].replaceAll('_',' ');
     const [initialFetch, setInitialFetch] = useState(true);
     const [fullyLoaded, setFullyLoaded] = useState(false);
 
@@ -117,7 +117,7 @@ export default  function Home(){
                 <div className="container d-md-flex mb-4">
                     <div className="container single-content">
 
-                        <h1>{title}</h1>
+                        {/* <h1>{title}</h1> */}
 
                         {/*preview of article at the top of the page,
                         its image is the biggest

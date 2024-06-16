@@ -1,6 +1,8 @@
 
+$lightGreen: #b9e7e7;
+
 .full-page{
-    background-color:aliceblue;
+    // background-color:aliceblue;
 }
 
 .w-100{
@@ -83,20 +85,20 @@ p{
 }
 
 
-/* MainNav */
+//MainNav
 #main-nav{
     padding-top:10px;
     background-color: white;
 }
 
 #blog-logo{
-    max-width: 100px;
+    max-width:  180px;
     margin:0px;
     padding:0px;
 }
 
 #main-nav a{
-    color: black;
+    // color: black;
     padding:5px;
 
 }
@@ -117,7 +119,7 @@ p{
 
 #user-dropdown-menu{
     
-}
+} 
 
 
 
@@ -140,45 +142,6 @@ p{
 }
 
 
-/* Footer */
-
-
-
-
-#footer :is(p,h5,a){
-    margin:10px;
-    font-weight: lighter;
-}
-
-
-
-
-#social-networks{
-    color:white;
-    background-color:#89CFF0;
-    height:40px;
-}
-
-#social-networks a{
-    color:white;
-    margin:0px 20px;
-}
-
-#info-contacts {
-    background-color: white;
-    padding:0px 35px;
-}
-
-#copyright{
-    background-color: lightgray;
-
-}
-
-#copyright p{
-    text-align: center;
-    margin-top:0px;
-
-}
 
 
 @media screen and (min-width:992px){
@@ -223,3 +186,90 @@ p{
     font-size: small;
     font-weight: lighter;
 }
+
+
+
+
+/* 
+
+    FROM INITIAL BLOG
+
+    REMOVE THIS COMMENT AFTER REFACTORING
+
+*/
+
+
+
+// main nav
+
+#menu-button{
+    // position:absolute;
+    // right:5%;
+    // top:3%;
+    // display:block;
+    border: 0;
+    height: 40px;
+    width: 40px;
+    padding: 0.5rem;
+    border-radius: 50%;
+    background-color: $lightGreen;
+  }
+
+
+/* FOOTER */
+
+footer {
+  margin-top: 100px;
+  padding: 20px;
+  background-color: $lightGreen;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  img {
+    height: 80px;
+  }
+}
+
+
+@media only screen and (max-width:1200px){
+    #nav-brand{
+        z-index:10;
+
+    }
+
+      #basic-navbar-nav{     
+        position:absolute;
+        flex-direction: column;
+        left:0px;
+        top:0;
+        padding-top: 160px;
+        padding-bottom: 100px;
+        padding-right: 0px;
+        width:60%;
+        height: 900px;;
+        background-color:teal;
+        transition: .5s ease;
+        justify-content: start;
+        z-index:1;
+        #blog-logo{
+          width:10px;
+          
+        }
+      }
+
+      #basic-navbar-nav{
+        padding-left: 20px;
+      }
+    
+  }
+
+  @media only screen and (min-width: 1200px){
+    #menu-button{
+        display: none;
+    }
+    #basic-navbar-nav{
+        margin-left: 48px;
+    }
+  }
+  

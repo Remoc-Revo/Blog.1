@@ -40,7 +40,7 @@ export default function Login(){
 
             <div id="login-form">
                 <div class="pageHead container">
-                    <img class="" src={require("../logos/logo2.png")} style={{width:"18%",marginLeft:"30%"}} alt=""/>
+                    <img class="" src={require("../logos/logo.png")} style={{width:"18%",marginLeft:"30%"}} alt=""/>
                     
                 </div>
                 <form onSubmit={login}>

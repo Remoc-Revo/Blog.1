@@ -39,11 +39,37 @@ export default function MainNav(){
             })
     }
 
+    const customToggle = ({onClick})=>{
+      return <button
+                onClick={
+                  (e) =>{
+                    e.preventDefault();
+                    onClick(e);
+                  }
+                }
+                className=""
+                id = "menu-button"
+              >
+                <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="white"
+          >
+            <path
+            fillRule="evenodd"
+            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
+            clipRule="evenodd"
+          />
+          </svg>
+              </button>
+    }
+
     return(
       <div className=" bg-light">
         <Navbar className=" d-flex me-1"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
-          <Navbar.Brand  href="#home"  className="ps-xl-1 ps-sm-5 me-auto">
-            <img src={require("../logos/logo2.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
+          <Navbar.Brand  href="#home" id="nav-brand" className="ps-xl-1 ps-sm-3 me-auto p-0">
+            <img src={require("../logos/logo.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
           </Navbar.Brand>
           
       
@@ -96,8 +122,8 @@ export default function MainNav(){
 
             </div>
           
-          <Navbar.Toggle  aria-controls="basic-navbar-nav" className="order-xl-1 me-2 ms-2"/>
-          <Navbar.Collapse id="basic-navbar-nav" className="ms-5 ">
+          <Navbar.Toggle as={customToggle} aria-controls="basic-navbar-nav" className="order-xl-1 me-2 ms-2"/>
+          <Navbar.Collapse id="basic-navbar-nav" className="">
             <Nav className="container-xl gap-gap-1" id="page-links" style={{}}>
               <Nav.Link href="/" className="" id={(cat==="")?"active":""} >Latest</Nav.Link>
               <Nav.Link href="/?cat=Food_and_Recipes" id={(cat==="?cat=Food_and_Recipes")?"active":""} className="nav-link">Food-and-recipes</Nav.Link>
