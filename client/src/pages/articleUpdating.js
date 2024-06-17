@@ -10,34 +10,44 @@ import api from "../config/api";
 export default function ArticlesUpdating(){
     const navigate=useNavigate();
 
-    var [articleSection,set_articleSection]=useState();
-    var [articleHeadline,set_articleHeadline]=useState('');
-    var [articleBody,set_articleBody]=useState('');
-    var [articlePhoto,set_articlePhoto]=useState(null);
-    var [articleToUpdateLoaded, set_articleToUpdateLoaded] = useState(false);
+    var [articleSection,setArticleSection]=useState();
+    var [articleHeadline,setArticleHeadline]=useState('');
+    var [articleBody,setArticleBody]=useState('');
+    var [articlePhoto,setArticlePhoto]=useState(null);
+    var [articleToUpdateLoaded, setArticleToUpdateLoaded] = useState(false);
     const {loading,user} = useUserContext();
     let {articleIdToUpdate} = useParams();
     const [articleToUpdate,setArticleToUpdate] = useState();
-    const [awaitingResponse, set_awaitingResponse] = useState(false);
+    const [awaitingResponse, setAwaitingResponse] = useState(false);
+
+    const [articleSections, setArticleSections]= useState([
+        "Food and recipes",
+        "Newborn care",
+        "Pregnancy",
+        "Fashion",
+        "Travel",    "Fashion",
+        "Travel",     "Fashion",
+        "Travel",     "Fashion",
+        "Travel",      
+    ]);
 
     function fetchArticleToUpdate(){
         api.get(`/single/${articleIdToUpdate}`)
              .then((response)=>{
                 console.log("fetched articleToBeUpdated::",response)
                 setArticleToUpdate(response.data.article[0]) ;
-                set_articleSection(articleToUpdate.articleSection);
-                set_articleHeadline(decodeURIComponent(articleToUpdate.articleHeadline))
-                set_articleBody(decodeURIComponent(articleToUpdate.articleBody))
-                set_articlePhoto(articleToUpdate.multimediaUrl)
-                set_articleToUpdateLoaded(true);
+                setArticleSection(articleToUpdate.articleSection);
+                setArticleHeadline(decodeURIComponent(articleToUpdate.articleHeadline))
+                setArticleBody(decodeURIComponent(articleToUpdate.articleBody))
+                setArticlePhoto(articleToUpdate.multimediaUrl)
+                setArticleToUpdateLoaded(true);
             })
             .catch((err)=>{
                 console.log("get single article error",err)
             });
     }
 
-    if(articleIdToUpdate != null && ! articleToUpdateLoaded){
-        console.log("here in uu")
+    if(articleIdToUpdate === 'null' && ! articleToUpdateLoaded){
         fetchArticleToUpdate();
 
     }
@@ -84,7 +94,7 @@ export default function ArticlesUpdating(){
 
     async function addArticle(e){
         e.preventDefault();
-        set_awaitingResponse(true);
+        setAwaitingResponse(true);
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
         console.log(articleBody,"\n",articleHeadline,"\n",articleSection,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
         
@@ -105,14 +115,14 @@ export default function ArticlesUpdating(){
                     )
              .then((response)=>{
                 if(response && response.status===200){
-                    set_awaitingResponse(false);
+                    setAwaitingResponse(false);
                     navigate('/');
                 }
              })
              .catch((err)=>{
                 console.log(err)
                 if(err.response && err.response.status===401){
-                    set_awaitingResponse(false);
+                    setAwaitingResponse(false);
                     navigate('/login');
                 }
              })
@@ -121,7 +131,7 @@ export default function ArticlesUpdating(){
 
     async function updateArticle(e){
         e.preventDefault();
-        set_awaitingResponse(true);
+        setAwaitingResponse(true);
         let imgUrl;
         let prevImg;
         //if a new image has been uploaded
@@ -150,14 +160,14 @@ export default function ArticlesUpdating(){
                     )
              .then((response)=>{
                 if(response && response.status===200){
-                    set_awaitingResponse(false);
+                    setAwaitingResponse(false);
                     navigate('/');
                 }
              })
              .catch((err)=>{
                 console.log(err)
                 if(err.response && err.response.status===401){
-                    set_awaitingResponse(false);
+                    setAwaitingResponse(false);
                     navigate('/login');
                 }
              })
@@ -166,61 +176,98 @@ export default function ArticlesUpdating(){
     
 
     return(
-        <div className="container">
+        <div className="m-2 " id ="article-update">
             <MainNav/>
             
             <form  onSubmit={(articleToUpdate == null) ? addArticle : updateArticle} enctype="multipart/form-data" className="mb-5">
 
-                <div className=" container">
-                    <select placeholder="Articles Section" id="articleSection" className="w-100 form-control" value={articleSection} onChange={(e)=>set_articleSection(e.target.value)} required>
-                        <option value="" selected disabled>Select Article Section</option>
-                        <option value="Food_and_Recipes">Food and recipes</option>
-                        <option value="Newborn_Care">Newborn care</option>
-                        <option value="Kids_Party_Ideas">Kids party ideas</option>
-                        <option value="Fashion">Fashion</option>
-                        <option value="Travel">Travel </option>
-                        <option value="Pregnancy"> Pregnancy</option>
-                        <option value="Home_Schooling">Home Schooling </option>
+                <div className=" d-lg-flex justify-content-between">
+                   
 
-                        
-                    </select>
-
-                    <div className="d-flex mb-3 mt-3">
-                        <input type="text"  name="articleHeadline" className="w-100 form-control"
-                            placeholder="Headline"  minlength="8" maxlength="200"required value={articleHeadline}
-                            onChange={(e)=>set_articleHeadline(e.target.value)}
-                        />
-                    </div>
-
-                            
-
-                    <div className="editor-container mb-4">
-                        <ReactQuill value={articleBody}
-                                onChange={set_articleBody}
-                                required
-                                className="editor"
-                                // theme="snow"
-                        />
-                    </div>
-                </div>
-                
-                
-                
-                <div className="d-flex row container">
-                    <div className="col">
-                        <label for="articleImg">Upload image</label>
-                        <input type="file" accept="image/*" id="articleImg" name="file" data-buttonText="Upload image" onChange={(e)=>set_articlePhoto(e.target.files[0])}/>
-                    </div>
-                    
-                    {(awaitingResponse)
-                        ?<div className="spinner-border text-info">
-                            <span className="sr-only">Loading...</span>
+                    <div className="col-lg-9 me-lg-1">
+                        <div className="d-flex mb-3 ">
+                            <input type="text"  name="articleHeadline" className="w-100 form-control"
+                                placeholder="Title"  minlength="8" maxlength="200"required value={articleHeadline}
+                                onChange={(e)=>setArticleHeadline(e.target.value)}
+                            />
                         </div>
-                        
-                        :<input className="btn-success col" type="submit" value={(articleToUpdate===null) ? "Publish": "Update"}/>
-                    }                                              
-                </div>
 
+                                
+
+                        <div className="editor-container mb-4">
+                            <ReactQuill value={articleBody}
+                                    onChange={setArticleBody}
+                                    required
+                                    className="editor"
+                                    // theme="snow"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="menu col-lg-3" id="publish-menu">
+                        <div className=" border p-3 mb-2">
+                            <h5 className="">Publish</h5>
+                            <span className="d-block pb-2">
+                                <b>Status: </b> Draft
+                            </span>
+                            <span className="d-block pb-2">
+                                <b>Visibility: </b> Public
+                            </span>
+                            <div className="col pb-2">
+                                <label for="articleImg" className="text-decoration-underline">Upload image</label>
+                                <input type="file" accept="image/*" id="articleImg" 
+                                    name="file" data-buttonText="Upload image" 
+                                    style={{ display: "none", }}
+                                    onChange={(e)=>setArticlePhoto(e.target.files[0])}/>
+                            </div>
+                           
+                            <div className="d-flex justify-content-between mt-1" >
+                               <div className="" id="save-draft"> 
+                                    <button className="btn border" >
+                                        <span>Save as a draft</span>
+                                    </button>
+                                </div>
+
+                                <div className="">
+                                {(awaitingResponse)
+                                    ?<div className="spinner-border text-info">
+                                        <span className="sr-only">Loading...</span>
+                                    </div>
+                                    
+                                    :<button className="btn btn-success col" 
+                                        id = "publish-btn"
+                                        type="submit" 
+                                        
+                                    >{(articleIdToUpdate === 'null') 
+                                        ? "Publish"
+                                        : "Update"}</button>
+                                } 
+                                </div>
+                            </div>
+                        </div>
+                        <div className="border p-3" id="category">
+                            <h5>Category</h5>
+                            {articleSections.map((section,index)=>{
+                                return <div className="section pb-2">
+                                    <input
+                                    type="radio"
+                                    checked={section === articleSection}
+                                    name="section"
+                                    value= {section }                               
+                                    id={section}
+                                    onChange={(e)=>setArticleSection(e.target.value)}                                />
+                                    <label htmlFor={section}>{section}</label>
+                                </div>
+                            })
+                           }
+                           
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+               
                 
                 
             </form>
