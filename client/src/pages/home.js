@@ -114,7 +114,7 @@ export default  function Home(){
         <div className="full-page">
             <MainNav/>
                 <ReactQueryDevtools/>
-                <div className="container d-md-flex mb-4">
+                <div className="container d-md-flex mb-4 ps-5">
                     <div className="container single-content">
 
                         {/* <h1>{title}</h1> */}

@@ -74,7 +74,7 @@ function SinglePreview({headline,imgUrl,articleId}){
 
                               </div>
                                  
-                              <p className="" style={{fontSize:"13px"}}>{decodeURIComponent(headline).replace(/&apos;/g,"'")}</p>
+                              <p className="" style={{fontSize:"15px",color:"teal"}}>{decodeURIComponent(headline).replace(/&apos;/g,"'")}</p>
 
          </a>
 

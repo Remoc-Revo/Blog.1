@@ -20,19 +20,22 @@ import { UserProvider } from './userContext';
 
 function App() {
   return (
-    <Router>
-      <UserProvider>
-        <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/articlePosting/:articleIdToUpdate' element={<ArticlesUpdating/>}/>
-          <Route path='/register' element={<Register/>}/>
-          <Route path='/sngl/:id' element={<Single/>}/>
-          <Route path='/profile' element={<Profile/>}/>
-        </Routes>
-      </UserProvider>
-      
-    </Router>
+    
+    <div id="app">
+      <Router>
+        <UserProvider>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/articlePosting/:articleIdToUpdate' element={<ArticlesUpdating/>}/>
+            <Route path='/register' element={<Register/>}/>
+            <Route path='/sngl/:id' element={<Single/>}/>
+            <Route path='/profile' element={<Profile/>}/>
+          </Routes>
+        </UserProvider>
+        
+      </Router>
+    </div>
   );
 }
 

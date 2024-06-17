@@ -102,35 +102,39 @@ export default function Single(){
             
             
             {(article.length!==0)
-                ?<div className="container-lg mt-5">
-                    <div className="container-lg">
-                        {(user !== null && user.userLevel === 1)
-                            ? <button onClick={navigateToUpdate} className="btn btn-secondary">UPDATE ARTICLE</button>
-                            : <></>
-                        }
-                        <h1 className=" headline">{decodeString(article.articleHeadline)}</h1>
-                    </div>
-                    <div className="d-lg-flex container-lg mt-5 gap-3">
-                        <div className=" col-lg-8 p-0">
-                            <div className="container-lg p-0">
-                                <p className="pt-2 pb-2 border-top border-bottom">
-                                    Published {moment(article.articlePostingDate).fromNow()} 
-                                    <span> | </span>
-                                    {(article.articleUpdatingDate !== null)? "Updated  "+moment(article.articleUpdatingDate).fromNow() : <></>} 
-                                    <span> </span>| By <span style={{color:"teal",fontWeight:"bold"}}>Brian</span>
-                                </p>
-                                <img src={fetchedImgUrl} alt="article img"
-                                    style={{display:"block",width:"100%",maxHeight:"390px"}}/>
-
-
-                                <p className="mt-4">{decodeString(article.articleBody)}</p>
-                            </div>
-
+                ?<div className="container-lg mt-5 ">
+                    <div className="ps-5">
+                        <div className="container-lg d-flex">
+                            {(user !== null && user.userLevel === 1)
+                                ? <button onClick={navigateToUpdate} className="btn btn-secondary">UPDATE ARTICLE</button>
+                                : <></>
+                            }
+                            <h1 className=" headline">{decodeString(article.articleHeadline)}</h1>
                         </div>
-                        
-                        
-                        <More cat={article.articleSection} current={article.articleId} />
+                        <div className="d-lg-flex container-lg mt-5  gap-3">
+                            <div className=" col-lg-8 p-0">
+                                <div className="container-lg p-0">
+                                    <p className="pt-2 pb-2 border-top border-bottom">
+                                        Published {moment(article.articlePostingDate).fromNow()} 
+                                        <span> | </span>
+                                        {(article.articleUpdatingDate !== null)? "Updated  "+moment(article.articleUpdatingDate).fromNow() : <></>} 
+                                        <span> </span>| By <span style={{color:"teal",fontWeight:"bold"}}>Brian</span>
+                                    </p>
+                                    <img src={fetchedImgUrl} alt="article img"
+                                        style={{display:"block",width:"100%",maxHeight:"390px"}}/>
+
+
+                                    <p className="mt-4">{decodeString(article.articleBody)}</p>
+                                </div>
+
+                            </div>
+                            
+                            
+                            <More cat={article.articleSection} current={article.articleId} />
+                        </div>
+
                     </div>
+                   
                 </div>
                 :""
 

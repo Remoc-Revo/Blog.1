@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import { Button,Nav, Navbar, NavItem, Dropdown } from "react-bootstrap";
-import { /*NavLink,*/useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 import parse from "html-react-parser"
 import { useUserContext } from "../userContext";
 import api from "../config/api";
@@ -67,8 +67,8 @@ export default function MainNav(){
 
     return(
       <div className=" bg-light">
-        <Navbar className=" d-flex me-1"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
-          <Navbar.Brand  href="#home" id="nav-brand" className="ps-xl-1 ps-sm-3 me-auto p-0">
+        <Navbar className=" d-flex "   id='main-nav' expand={(windowWidth>=1200)?true:false}>
+          <Navbar.Brand  href="#home" id="nav-brand" className="ps-xl-3 ps-3 me-auto ">
             <img src={require("../logos/logo.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
           </Navbar.Brand>
           
@@ -77,7 +77,7 @@ export default function MainNav(){
               {(typeof userName!=='undefined')
                   ?<NavItem>
                       <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown} className=" me-2">
-                        <Dropdown.Toggle className="btn btn-sm rounded-circle dropdown-toggle" noCaret style={{backgroundColor:`light-blue`}}>
+                        <Dropdown.Toggle className="btn  rounded-circle dropdown-toggle" noCaret style={{backgroundColor:`light-green`}}>
                           {
                           // (profileImg!==undefined)
                           //     ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
@@ -90,7 +90,7 @@ export default function MainNav(){
                         <Dropdown.Menu className=" position-absolute translate-middle-x" id="user-dropdown-menu">
                           <div className="container">
                             <Dropdown.Item>                              
-                              <Button className="btn btn-lg rounded-circle" style={{backgroundColor:`light-blue`}}>
+                              <Button className="btn btn-lg rounded-circle">
                                 {decodeURIComponent(parse(userName[0]))}
                               </Button>        
                             </Dropdown.Item>
@@ -110,21 +110,14 @@ export default function MainNav(){
                     </NavItem>
                   : <Nav.Link href="/login" className="nav-link">login</Nav.Link>
               }
-              {(userLevel===1)
-                ?<div className="d-flex">
-                  <button onClick={()=>{navigate(`/articlePosting/${null}`)}} className="btn btn-transparent col-xs col-md " title="Write">
-                    <img src={require("../icons/write.png")} alt="" style={{width:"30px"}}/>
-                  </button>
-                                    
-                 </div>
-                :<span/>}
+              
             
 
             </div>
           
           <Navbar.Toggle as={customToggle} aria-controls="basic-navbar-nav" className="order-xl-1 me-2 ms-2"/>
           <Navbar.Collapse id="basic-navbar-nav" className="">
-            <Nav className="container-xl gap-gap-1" id="page-links" style={{}}>
+            <Nav className="container-xl gap-1" id="page-links" style={{}}>
               <Nav.Link href="/" className="" id={(cat==="")?"active":""} >Latest</Nav.Link>
               <Nav.Link href="/?cat=Food_and_Recipes" id={(cat==="?cat=Food_and_Recipes")?"active":""} className="nav-link">Food-and-recipes</Nav.Link>
               <Nav.Link href="/?cat=Newborn_Care" id={(cat==="?cat=Newborn_Care")?"active":""} className="nav-link">Newborn-care</Nav.Link>
@@ -133,7 +126,14 @@ export default function MainNav(){
               <Nav.Link href="/?cat=Travel" id={(cat==="?cat=Travel")?"active":""} className="nav-link">Travel</Nav.Link>
               <Nav.Link href="/?cat=Pregnancy" id={(cat==="?cat=Pregnancy")?"active":""} className="nav-link">Pregnancy</Nav.Link>
               <Nav.Link href="/?cat=Home_Schooling" id={(cat==="?cat=Home_Schooling")?"active":""} className="nav-link">Home-Schooling</Nav.Link>
-
+              {(userLevel===1)
+                ?<div className="d-flex" id = "write-button-container">
+                  <button onClick={()=>{navigate(`/articlePosting/${null}`)}} className="btn btn-transparent  col-xs col-md " title="Write">
+                    <h6>Write</h6>
+                  </button>
+                                    
+                 </div>
+                :<span/>}
             </Nav>
            {/*  <div className="col-sm-2 col-md-3 d-lg-flex justify-content-lg-end ">
                 {(userLevel===1 || userLevel===0)?<Nav.Link href="/logout" className=" col-xs col-md ms-1">Logout</Nav.Link>:<span/>} 
