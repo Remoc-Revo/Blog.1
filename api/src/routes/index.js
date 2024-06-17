@@ -14,6 +14,7 @@ const pool = createPool();
 const fs = require('fs');
 const {addComment,comments,reply,clap}= require('./comments')
 const {deleteArticle} = require('./deleteArticle')
+const {getSections} = require('./sections')
 require('dotenv').config();
 
 const storage=multer.diskStorage({
@@ -144,5 +145,6 @@ router.post('/reply',ifNotLoggedin,reply)
 
 router.post('/clap',ifNotLoggedin, clap);
 
+router.get('/sections', getSections)
 
 module.exports = router;
