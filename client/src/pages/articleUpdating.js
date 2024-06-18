@@ -19,7 +19,7 @@ export default function ArticlesUpdating(){
     let {articleIdToUpdate} = useParams();
     const [articleToUpdate,setArticleToUpdate] = useState();
     const [awaitingResponse, setAwaitingResponse] = useState(false);
-
+    const [isDraft, setIsdraft] = useState();
     const [articleSections, setArticleSections]= useState([]);
 
     function fetchArticleToUpdate(){
@@ -62,9 +62,9 @@ export default function ArticlesUpdating(){
                 console.log("user current state: ",user);
                 navigate('/login')
             }
-        }
+            fetchSections();
 
-        fetchSections();
+        }
 
         
     },[loading,navigate,user,articleToUpdate, articleToUpdateLoaded])
@@ -103,8 +103,7 @@ export default function ArticlesUpdating(){
         }
     }
 
-    async function addArticle(e){
-        e.preventDefault();
+    async function addArticle(){
         setAwaitingResponse(true);
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
         console.log(articleBody,"\n",articleHeadline,"\n",articleSectionId,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
@@ -124,7 +123,7 @@ export default function ArticlesUpdating(){
                         articleBody:encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
                         withCredentials:true,
                         img:imgUrl,
-                        y:"nooooow"
+                        isDraft: isDraft
                     },
                     )
              .then((response)=>{
@@ -143,8 +142,7 @@ export default function ArticlesUpdating(){
         }    
     }
 
-    async function updateArticle(e){
-        e.preventDefault();
+    async function updateArticle(){
         setAwaitingResponse(true);
         let imgUrl;
         let prevImg;
@@ -169,7 +167,8 @@ export default function ArticlesUpdating(){
                         articleBody:encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
                         withCredentials:true,
                         img:imgUrl,
-                        prevImg : prevImg
+                        prevImg : prevImg,
+                        isDraft:isDraft
                     },
                     )
              .then((response)=>{
@@ -187,13 +186,24 @@ export default function ArticlesUpdating(){
              })
         }
     }
+
+    function handleSubmit(e){
+        e.preventDefault();
+
+        if(articleToUpdate == null){
+             addArticle();
+        }
+        else{
+            updateArticle();
+        }
+    }
     
 
     return(
         <div className="m-2 " id ="article-update">
             <MainNav/>
             
-            <form  onSubmit={(articleToUpdate == null) ? addArticle : updateArticle} enctype="multipart/form-data" className="mb-5">
+            <form  onSubmit={handleSubmit} enctype="multipart/form-data" className="mb-5 " id = "article-form">
 
                 <div className=" d-lg-flex justify-content-between">
                    
@@ -237,7 +247,11 @@ export default function ArticlesUpdating(){
                            
                             <div className="d-flex justify-content-between mt-1" >
                                <div className="" id="save-draft"> 
-                                    <button className="btn border" >
+                                    <button className="btn border" 
+                                        onClick={(e)=>{
+                                            setIsdraft(true);
+                                            document.getElementById("article-form").submit()
+                                            }} >
                                         <span>Save as a draft</span>
                                     </button>
                                 </div>
@@ -251,7 +265,7 @@ export default function ArticlesUpdating(){
                                     :<button className="btn btn-success col" 
                                         id = "publish-btn"
                                         type="submit" 
-                                        
+                                        onClick={(e)=>{setIsdraft(false)}}
                                     >{(articleIdToUpdate === 'null') 
                                         ? "Publish"
                                         : "Update"}</button>

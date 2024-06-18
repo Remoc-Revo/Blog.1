@@ -15,10 +15,11 @@ exports.addArticle=(req,res)=>{
 
         const sectionId=body.articleSectionId;
         const imgUrl=body.img;
+        const isDraft = body.isDraft;
 
         console.log("imgUrl::,",imgUrl)
-        pool.query(`INSERT INTO ARTICLE VALUES(null,?,?,?,now(),null)`,
-            [headline,articleBody,sectionId],
+        pool.query(`INSERT INTO ARTICLE VALUES(null,?,?,?,now(),null,?)`,
+            [headline,articleBody,sectionId,isDraft],
              (err,result)=>{
                 if(err){
                     throw(err) 

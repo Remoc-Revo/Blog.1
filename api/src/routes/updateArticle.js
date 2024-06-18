@@ -24,6 +24,7 @@ exports.updateArticle=(req,res)=>{
         const sectionId=body.articleSectionId;
         const imgUrl=body.img;
         const prevImg = body.prevImg;
+        const isDraft = body.isDraft ;
 
         if(prevImg != undefined){
             deletePrevImg(prevImg);
@@ -34,9 +35,10 @@ exports.updateArticle=(req,res)=>{
                     SET articleHeadline = ?,
                         articleBody = ?,
                         articleSectionId = ?,
-                        articleUpdatingDate = now()
+                        articleUpdatingDate = now(),
+                        articleIsDraft = ?
                     WHERE articleId = ?
-                    `,[headline,articleBody,sectionId,articleId],
+                    `,[headline,articleBody,sectionId,isDraft, articleId],
              (err,result)=>{
                 if(err){
                     throw(err) 
