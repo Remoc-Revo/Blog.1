@@ -25,7 +25,14 @@ export default function MainNav(){
       async function fetchSections(){
         await api.get('/sections')
             .then((response)=>{
-              setSections(response.data.sections);
+              // document.write("section name: ", response.data.sections)
+
+              let sectionsBuffer = []
+              for(var section of response.data.sections){
+                  sectionsBuffer.push(section.sectionName);
+
+              }
+              setSections(sectionsBuffer);
 
             })
             .catch((err)=>{
@@ -134,14 +141,7 @@ export default function MainNav(){
               {
                 (sections.length !== 0)
                   ?sections.map((section,index)=>{
-                    if(index === 0){
-                      return <Nav.Link 
-                                href={`/?cat=${section}`} 
-                                className="" 
-                                id={(cat==='')?"active":""} >
-                                  {section.toUpperCase()}
-                              </Nav.Link>
-                    }
+                   
                     return <Nav.Link 
                               href={`/?cat=${section}`}
                               id={(cat===`?cat=${section}`)?"active":""} 

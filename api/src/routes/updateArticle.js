@@ -21,7 +21,7 @@ exports.updateArticle=(req,res)=>{
         const articleId = body.articleId;
         const headline=body.articleHeadline;
         const articleBody=body.articleBody;
-        const section=body.articleSection;
+        const sectionId=body.articleSectionId;
         const imgUrl=body.img;
         const prevImg = body.prevImg;
 
@@ -33,10 +33,10 @@ exports.updateArticle=(req,res)=>{
         pool.query(`UPDATE ARTICLE 
                     SET articleHeadline = ?,
                         articleBody = ?,
-                        articleSection = ?,
+                        articleSectionId = ?,
                         articleUpdatingDate = now()
                     WHERE articleId = ?
-                    `,[headline,articleBody,section,articleId],
+                    `,[headline,articleBody,sectionId,articleId],
              (err,result)=>{
                 if(err){
                     throw(err) 

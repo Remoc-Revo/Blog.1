@@ -9,14 +9,16 @@ exports.article=(req,res)=>{
     const fetchQuery = `
         SELECT * 
         FROM ARTICLE  
+        JOIN SECTION ON ARTICLE.articleSectionId = SECTION.sectionId
         JOIN MULTIMEDIA ON ARTICLE.articleId=MULTIMEDIA.articleId 
+
         WHERE ( 
         CASE 
             WHEN ? !=0 THEN ARTICLE.articleId < ?
             ELSE TRUE
         END
         )
-        ${req.query.cat ? 'AND ARTICLE.articleSection = ?' : ''}
+        ${req.query.cat ? 'AND SECTION.sectionName = ?' : ''}
         ORDER BY articlePostingDate DESC 
         LIMIT 5
     `;
@@ -30,7 +32,7 @@ exports.article=(req,res)=>{
             }
             const articles=result;
             console.log("the last  article",lastArticleId)
-
+            console.log("articles: ",result);
             res.status(200).json({articles}); 
         }) 
 
