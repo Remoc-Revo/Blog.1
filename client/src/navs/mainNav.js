@@ -4,6 +4,8 @@ import { useLocation, useNavigate} from "react-router-dom";
 import parse from "html-react-parser"
 import { useUserContext } from "../userContext";
 import api from "../config/api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function MainNav(){
   var [userLevel,set_userLevel]=useState();
@@ -97,12 +99,12 @@ export default function MainNav(){
               {(typeof userName!=='undefined')
                   ?<NavItem>
                       <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown} className=" me-2">
-                        <Dropdown.Toggle className="btn  rounded-circle dropdown-toggle" noCaret style={{backgroundColor:`light-green`}}>
+                        <Dropdown.Toggle className="btn btn-light btn-user rounded-circle dropdown-toggle" noCaret style={{backgroundColor:``}}>
                           {
                           // (profileImg!==undefined)
                           //     ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
                           //     :userName[0]
-                            userName[0]
+                          <FontAwesomeIcon icon={faUser} />
 
                           }
                         </Dropdown.Toggle>
