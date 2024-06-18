@@ -206,6 +206,7 @@ export default function ArticlesUpdating(){
                      .then((response)=>{
                         setArticleSectionId(response.data.sectionId);
                         setNewCategory("");
+                        setIsAddingNewCategory(false);
                         fetchSections();
                      })
 
@@ -286,9 +287,9 @@ export default function ArticlesUpdating(){
                                 </div>
                             </div>
                         </div>
-                        <div className="border p-3">
-                            <div className="mb-3" id="category">
-                                <h5>Category</h5>
+                        <div className="border p-3 d-flex flex-column" id="category">
+                            <h5>Category</h5>
+                            <div className="mb-3" id="available-categories">
                                 {articleSections.map((section,index)=>{
                                     return <div className="section pb-2">
                                         <input

@@ -126,7 +126,7 @@ p{
 /* articleUpdating */
 .editor-container{
     overflow:scroll;
-    height:400px;
+    height:558px;
     /* border:1px solid lightgray; */
     
 }
@@ -215,6 +215,19 @@ p{
     background-color: teal;
   }
 
+.btn-user{
+    border: 0;
+    height: 40px;
+    width: 40px;
+    padding: 0.5rem;
+    border-radius: 50%;
+    &:focus{
+        outline: none;
+        box-shadow: none;
+        border:none;
+    }
+}
+
 #write-button-container{
     background-color: $lightGreen;
     width: 55px;
@@ -271,17 +284,26 @@ footer {
     }
 
     #category{
-        height:242px;
-        overflow: scroll;
+        height:400px;
+       
+           
+        #available-categories{
+            height:250px;
+            overflow: scroll;
 
-        &::-webkit-scrollbar{
-            display:none;
+            &::-webkit-scrollbar{
+                display:none;
+            }
+
+            //hide scrollbar for IE, Edge and Firefox
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+
+           
         }
 
-        //hide scrollbar for IE, Edge and Firefox
-        -ms-overflow-style: none;
-        scrollbar-width: none;
     }
+
 
     .section{
         color: teal;
