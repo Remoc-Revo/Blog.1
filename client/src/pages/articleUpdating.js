@@ -10,7 +10,7 @@ import api from "../config/api";
 export default function ArticlesUpdating(){
     const navigate=useNavigate();
 
-    var [articleSection,setArticleSection]=useState();
+    var [articleSectionId,setArticleSectionId]=useState();
     var [articleHeadline,setArticleHeadline]=useState('');
     var [articleBody,setArticleBody]=useState('');
     var [articlePhoto,setArticlePhoto]=useState(null);
@@ -20,23 +20,14 @@ export default function ArticlesUpdating(){
     const [articleToUpdate,setArticleToUpdate] = useState();
     const [awaitingResponse, setAwaitingResponse] = useState(false);
 
-    const [articleSections, setArticleSections]= useState([
-        "Food and recipes",
-        "Newborn care",
-        "Pregnancy",
-        "Fashion",
-        "Travel",    "Fashion",
-        "Travel",     "Fashion",
-        "Travel",     "Fashion",
-        "Travel",      
-    ]);
+    const [articleSections, setArticleSections]= useState([]);
 
     function fetchArticleToUpdate(){
         api.get(`/single/${articleIdToUpdate}`)
              .then((response)=>{
                 console.log("fetched articleToBeUpdated::",response)
                 setArticleToUpdate(response.data.article[0]) ;
-                setArticleSection(articleToUpdate.articleSection);
+                setArticleSectionId(articleToUpdate.articleSectionId);
                 setArticleHeadline(decodeURIComponent(articleToUpdate.articleHeadline))
                 setArticleBody(decodeURIComponent(articleToUpdate.articleBody))
                 setArticlePhoto(articleToUpdate.multimediaUrl)
@@ -47,10 +38,23 @@ export default function ArticlesUpdating(){
             });
     }
 
-    if(articleIdToUpdate === 'null' && ! articleToUpdateLoaded){
+    if(articleIdToUpdate !== 'null' && ! articleToUpdateLoaded){
+    console.log("articleToUpdate not nulll")
         fetchArticleToUpdate();
 
     }
+
+    async function fetchSections(){
+        await api.get('/sections')
+            .then((response)=>{
+              setArticleSections(response.data.sections);
+              console.log("section : ", articleSections)              
+
+            })
+            .catch((err)=>{
+              console.log("error fetching sections", err)
+            });        
+          }
 
     useEffect(()=>{
         if(!loading && user != null){
@@ -59,11 +63,17 @@ export default function ArticlesUpdating(){
                 navigate('/login')
             }
         }
+
+        fetchSections();
+
         
     },[loading,navigate,user,articleToUpdate, articleToUpdateLoaded])
    
 
     async function upload(){
+        if(articlePhoto===null){
+            return null;
+        }
         var formData=new FormData();
 
         formData.append('file',articlePhoto);
@@ -71,12 +81,13 @@ export default function ArticlesUpdating(){
         console.log("the file",formData)
 
         try{
-            const res=await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD__NAME}/image/upload/`,
-                            {
-                                method:"post",
-                                body:formData
-                            }
-                    )
+            const res=await fetch(
+                `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD__NAME}/image/upload/`,
+                        {
+                            method:"post",
+                            body:formData
+                        }
+                )
             if(res.ok){
                 let data;
                 data  = await res.json()
@@ -96,21 +107,24 @@ export default function ArticlesUpdating(){
         e.preventDefault();
         setAwaitingResponse(true);
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
-        console.log(articleBody,"\n",articleHeadline,"\n",articleSection,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
+        console.log(articleBody,"\n",articleHeadline,"\n",articleSectionId,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
         
         let imgUrl;
         imgUrl = await upload();
         console.log("imgUrl",imgUrl)
 
+
+
         if(imgUrl !== undefined){
             await api.post('/addArticle',
                     {
                         headers: { 'content-type': 'multipart/form-data' },
-                        articleSection:articleSection,
+                        articleSectionId: 3,//articleSectionId,
                         articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
                         articleBody:encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
                         withCredentials:true,
-                        img:imgUrl
+                        img:imgUrl,
+                        y:"nooooow"
                     },
                     )
              .then((response)=>{
@@ -150,7 +164,7 @@ export default function ArticlesUpdating(){
             await api.post('/updateArticle',
                     {
                         articleId: articleToUpdate.articleId,
-                        articleSection:articleSection,
+                        articleSectionId:articleSectionId,
                         articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
                         articleBody:encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
                         withCredentials:true,
@@ -251,12 +265,13 @@ export default function ArticlesUpdating(){
                                 return <div className="section pb-2">
                                     <input
                                     type="radio"
-                                    checked={section === articleSection}
+                                    required
+                                    checked={section.sectionId === parseInt(articleSectionId,10)}
                                     name="section"
-                                    value= {section }                               
-                                    id={section}
-                                    onChange={(e)=>setArticleSection(e.target.value)}                                />
-                                    <label htmlFor={section}>{section}</label>
+                                    value= {section.sectionId}                               
+                                    id={section.sectionId}
+                                    onChange={(e)=>{setArticleSectionId(e.target.value); }} />
+                                    <label htmlFor={section.sectionId}>{section.sectionName}</label>
                                 </div>
                             })
                            }

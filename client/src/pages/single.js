@@ -120,8 +120,15 @@ export default function Single(){
                                         {(article.articleUpdatingDate !== null)? "Updated  "+moment(article.articleUpdatingDate).fromNow() : <></>} 
                                         <span> </span>| By <span style={{color:"teal",fontWeight:"bold"}}>Brian</span>
                                     </p>
-                                    <img src={fetchedImgUrl} alt="article img"
-                                        style={{display:"block",width:"100%",maxHeight:"390px"}}/>
+
+                                    {
+                                        (fetchedImgUrl!=='null')
+                                            ?<img src={fetchedImgUrl} alt="article img"
+                                            style={{display:"block",width:"100%",maxHeight:"390px"}}/>
+                                            :null
+
+                                    }
+                                    
 
 
                                     <p className="mt-4">{decodeString(article.articleBody)}</p>

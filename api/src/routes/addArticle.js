@@ -9,13 +9,16 @@ exports.addArticle=(req,res)=>{
         console.log('we here')
         const {body}=req;
 
+        console.log("body", body)
         const headline=body.articleHeadline;
         const articleBody=body.articleBody;
-        const section=body.articleSection;
+
+        const sectionId=body.articleSectionId;
         const imgUrl=body.img;
 
         console.log("imgUrl::,",imgUrl)
-        pool.query(`INSERT INTO ARTICLE VALUES(null,?,?,?,now(),null)`,[headline,articleBody,section],
+        pool.query(`INSERT INTO ARTICLE VALUES(null,?,?,?,now(),null)`,
+            [headline,articleBody,sectionId],
              (err,result)=>{
                 if(err){
                     throw(err) 
