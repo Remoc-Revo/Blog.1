@@ -12,3 +12,18 @@ exports.getSections = (req,res)=>{
         return res.status(200).json({sections:result});
     })
 }
+
+exports.addSection = (req,res)=>{
+    const sectionName = req.body.sectionName;
+
+    pool.query(`INSERT INTO SECTION (sectionName) VALUES(?)`,[sectionName],
+        (err,result)=>{
+            if(err){
+                console.log("error adding ", sectionName, err);
+            }
+            if(result && result.insertId !=null){
+                res.status(200).json({sectionId: result.insertId});
+            }
+        }
+    )
+}

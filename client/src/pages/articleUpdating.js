@@ -21,6 +21,8 @@ export default function ArticlesUpdating(){
     const [awaitingResponse, setAwaitingResponse] = useState(false);
     const [isDraft, setIsdraft] = useState();
     const [articleSections, setArticleSections]= useState([]);
+    const [isAddingNewCategory,setIsAddingNewCategory] = useState(false);
+    const [newCategory, setNewCategory] = useState("");
 
     function fetchArticleToUpdate(){
         api.get(`/single/${articleIdToUpdate}`)
@@ -198,6 +200,17 @@ export default function ArticlesUpdating(){
         }
     }
     
+    async function addNewSection(){
+        if(newCategory!==""){
+            await api.post('/addSection',{sectionName: newCategory})
+                     .then((response)=>{
+                        setArticleSectionId(response.data.sectionId);
+                        setNewCategory("");
+                        fetchSections();
+                     })
+
+        }
+    }
 
     return(
         <div className="m-2 " id ="article-update">
@@ -211,7 +224,7 @@ export default function ArticlesUpdating(){
                     <div className="col-lg-9 me-lg-1">
                         <div className="d-flex mb-3 ">
                             <input type="text"  name="articleHeadline" className="w-100 form-control"
-                                placeholder="Title"  minlength="8" maxlength="200"required value={articleHeadline}
+                                placeholder="Title"  minlength="2" maxlength="200"required value={articleHeadline}
                                 onChange={(e)=>setArticleHeadline(e.target.value)}
                             />
                         </div>
@@ -247,7 +260,7 @@ export default function ArticlesUpdating(){
                            
                             <div className="d-flex justify-content-between mt-1" >
                                <div className="" id="save-draft"> 
-                                    <button className="btn border" 
+                                    <button className="btn border" type="submit"
                                         onClick={(e)=>{
                                             setIsdraft(true);
                                             document.getElementById("article-form").submit()
@@ -262,7 +275,7 @@ export default function ArticlesUpdating(){
                                         <span className="sr-only">Loading...</span>
                                     </div>
                                     
-                                    :<button className="btn btn-success col" 
+                                    :<button className="btn btn-light col" 
                                         id = "publish-btn"
                                         type="submit" 
                                         onClick={(e)=>{setIsdraft(false)}}
@@ -273,24 +286,51 @@ export default function ArticlesUpdating(){
                                 </div>
                             </div>
                         </div>
-                        <div className="border p-3" id="category">
-                            <h5>Category</h5>
-                            {articleSections.map((section,index)=>{
-                                return <div className="section pb-2">
-                                    <input
-                                    type="radio"
-                                    required
-                                    checked={section.sectionId === parseInt(articleSectionId,10)}
-                                    name="section"
-                                    value= {section.sectionId}                               
-                                    id={section.sectionId}
-                                    onChange={(e)=>{setArticleSectionId(e.target.value); }} />
-                                    <label htmlFor={section.sectionId}>{section.sectionName}</label>
-                                </div>
-                            })
-                           }
-                           
+                        <div className="border p-3">
+                            <div className="mb-3" id="category">
+                                <h5>Category</h5>
+                                {articleSections.map((section,index)=>{
+                                    return <div className="section pb-2">
+                                        <input
+                                        type="radio"
+                                        required
+                                        checked={section.sectionId === parseInt(articleSectionId,10)}
+                                        name="section"
+                                        value= {section.sectionId}                               
+                                        id={section.sectionId}
+                                        onChange={(e)=>{setArticleSectionId(e.target.value); }} />
+                                        <label htmlFor={section.sectionId}>{section.sectionName}</label>
+                                    </div>
+                                })
+                            }
+                            
+                            </div>
+                            <div id="add-category">
+                                <button className="btn btn-link p-0 mb-3" id="new-category-btn" type="button" onClick={()=>{setIsAddingNewCategory(true)}}>
+                                    Add New Category
+                                </button>
+
+                                {(isAddingNewCategory)
+                                    ?<div className="d-flex flex-column gap-3">
+                                        <input type="text"  name="newCategory" className="w-100 form-control"
+                                            placeholder="New Category name"  minlength="" maxlength="200" value={newCategory}
+                                            onChange={(e)=>setNewCategory(e.target.value)}
+                                        />
+
+                                        <button className={newCategory===""?"btn btn-light": "btn-ready"}
+                                            type="button"
+                                            id="add-category-btn"
+                                            onClick={addNewSection}
+                                            >
+                                            Add new category
+                                        </button>
+                                    </div>
+
+                                    :null
+                                }
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
                 

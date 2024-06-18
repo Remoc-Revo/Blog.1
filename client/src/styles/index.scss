@@ -212,7 +212,7 @@ p{
     width: 40px;
     padding: 0.5rem;
     border-radius: 50%;
-    background-color: $lightGreen;
+    background-color: teal;
   }
 
 #write-button-container{
@@ -308,6 +308,29 @@ footer {
     #publish-btn{
         background-color: teal;
         border: none;
+        color: white;
+    }
+
+    #new-category-btn{
+        border:none;
+        color: black;
+    }
+
+    #add-category-btn{
+        border:none;
+        
+    }
+
+    .btn-ready{
+        background-color: teal;
+        color: white;
+    }
+
+    input{
+        &:focus{
+            outline: none;
+            box-shadow: none;
+        }
     }
 
 }
