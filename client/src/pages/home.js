@@ -177,7 +177,7 @@ export default  function Home(){
                             :<span></span>
                         }
                     </div>
-                <div className="side-page" style={{width:"38%"}}></div>
+                {/* <div className="side-page" style={{width:"38%"}}></div> */}
             </div>
 
             

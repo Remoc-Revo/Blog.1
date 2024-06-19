@@ -7,7 +7,6 @@ exports.getSections = (req,res)=>{
         if(err){
             console.log("error fetching sections", err)
         }
-        console.log("obtained sections: ",result)
         
         return res.status(200).json({sections:result});
     })

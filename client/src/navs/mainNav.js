@@ -89,15 +89,17 @@ export default function MainNav(){
 
     return(
       <div className=" bg-light">
-        <Navbar className=" d-flex "   id='main-nav' expand={(windowWidth>=1200)?true:false}>
+        <Navbar className="d-flex justify-content-between"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
           <Navbar.Brand  href="#home" id="nav-brand" className="ps-xl-3 ps-3 me-auto ">
             <img src={require("../logos/logo.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
           </Navbar.Brand>
           
       
-            <div id="user-nav" className="d-flex  gap-1  order-xl-2 me-lg-5">
+            <div id="user-nav" className="d-flex  gap-1  order-xl-2 pe-lg-2">
               {(typeof userName!=='undefined')
                   ?<NavItem>
+
+                      
                       <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown} className=" me-2">
                         <Dropdown.Toggle className="btn btn-light btn-user rounded-circle dropdown-toggle" noCaret style={{backgroundColor:``}}>
                           {
@@ -116,7 +118,7 @@ export default function MainNav(){
                                 {decodeURIComponent(parse(userName[0]))}
                               </Button>        
                             </Dropdown.Item>
-
+                            
                             {/* <Dropdown.Item className=" " href="/profile"> 
                               <div className="d-flex justify-content-between mb-0 pb-0">
                                 <p className="me-4">{decodeURIComponent(parse(userName))}</p>
@@ -134,7 +136,14 @@ export default function MainNav(){
               }
               
             
-
+              {(userLevel===1)
+                ?<div className="d-flex" id = "write-button-container">
+                  <button onClick={()=>{navigate(`/articlePosting/${null}`)}} className="btn btn-transparent  col-xs col-md " title="Write">
+                    <h6>Write</h6>
+                  </button>
+                                    
+                 </div>
+                :<span/>}
             </div>
           
           <Navbar.Toggle as={customToggle} aria-controls="basic-navbar-nav" className="order-xl-1 me-2 ms-2"/>
@@ -155,14 +164,7 @@ export default function MainNav(){
                   :null
               }
              
-              {(userLevel===1)
-                ?<div className="d-flex" id = "write-button-container">
-                  <button onClick={()=>{navigate(`/articlePosting/${null}`)}} className="btn btn-transparent  col-xs col-md " title="Write">
-                    <h6>Write</h6>
-                  </button>
-                                    
-                 </div>
-                :<span/>}
+             
             </Nav>
            {/*  <div className="col-sm-2 col-md-3 d-lg-flex justify-content-lg-end ">
                 {(userLevel===1 || userLevel===0)?<Nav.Link href="/logout" className=" col-xs col-md ms-1">Logout</Nav.Link>:<span/>} 

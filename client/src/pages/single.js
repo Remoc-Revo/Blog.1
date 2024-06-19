@@ -8,6 +8,8 @@ import Footer from "../components/footer";
 import More from "../components/more";
 import s3GetImage from "../reusables/getImage";
 import { useUserContext } from "../userContext";
+import Delete from "../img/delete.png";
+import Edit from "../img/edit.png";
 
 // import Comments from "../components/comments";
 
@@ -104,31 +106,51 @@ export default function Single(){
             {(article.length!==0)
                 ?<div className="container-lg mt-5 ">
                     <div className="ps-5">
-                        <div className="container-lg d-flex">
-                            {(user !== null && user.userLevel === 1)
-                                ? <button onClick={navigateToUpdate} className="btn btn-secondary">UPDATE ARTICLE</button>
-                                : <></>
-                            }
-                            <h1 className=" headline">{decodeString(article.articleHeadline)}</h1>
-                        </div>
+                        
                         <div className="d-lg-flex container-lg mt-5  gap-3">
                             <div className=" col-lg-8 p-0">
-                                <div className="container-lg p-0">
-                                    <p className="pt-2 pb-2 border-top border-bottom">
-                                        Published {moment(article.articlePostingDate).fromNow()} 
-                                        <span> | </span>
-                                        {(article.articleUpdatingDate !== null)? "Updated  "+moment(article.articleUpdatingDate).fromNow() : <></>} 
-                                        <span> </span>| By <span style={{color:"teal",fontWeight:"bold"}}>Brian</span>
-                                    </p>
+                                {
+                                    (fetchedImgUrl!=='null')
+                                        ?<img src={fetchedImgUrl} alt="article img"
+                                        style={{display:"block",width:"100%",maxHeight:"390px"}}/>
+                                        :null
 
-                                    {
-                                        (fetchedImgUrl!=='null')
-                                            ?<img src={fetchedImgUrl} alt="article img"
-                                            style={{display:"block",width:"100%",maxHeight:"390px"}}/>
-                                            :null
-
-                                    }
+                                }
                                     
+                                <div className="container-lg p-0">
+                                    <div className="pt-2 mb-2 border-top border-bottom d-flex justify-content-between">
+                                        <div className="d-flex flex-column gap-0">
+                                            <h5 style={{color:"teal",fontWeight:"bold"}}>Lorem Ips</h5>
+                                            <p>                                           
+                                                {(article.articleUpdatingDate !== null)
+                                                    ? "Updated  "+moment(article.articleUpdatingDate).fromNow() 
+                                                    :  `Published ${moment(article.articlePostingDate).fromNow()} `
+                                                    
+                                                } 
+                                    
+                                            </p>
+                                        </div>
+                                        
+                                        
+                                        {(user !== null && user.userLevel === 1)
+                                            ? <div className="d-flex gap-2">
+                                                <img src={Edit} alt ="" onClick={navigateToUpdate} className="edit-img"/>
+                                                {(deleting)
+                                                    ?<div className="spinner-border text-light">
+                                                        <span className="sr-only">Loading</span>
+                                                    </div>
+                                                    :<img src={Delete} alt ="" onClick={deleteArticle} className="delete-img"/>
+                                                }
+                                              </div>
+                                            : <></>
+                                        }
+                                        
+                                    </div>
+
+                                    <div className="container-lg d-flex">
+                           
+                                        <h1 className=" headline">{decodeString(article.articleHeadline)}</h1>
+                                    </div>
 
 
                                     <p className="mt-4">{decodeString(article.articleBody)}</p>
@@ -149,19 +171,7 @@ export default function Single(){
            
             {/* <Comments articleId={article.articleId}/> */}
             
-            <div className="container-lg">
-                {(user !== null && user.userLevel === 1)
-                    ?<button onClick={deleteArticle} className="btn btn-danger">
-                        {(deleting)
-                            ?<div className="spinner-border text-light">
-                                <span className="sr-only">Loading</span>
-                            </div>
-                            :"DELETE ARTICLE"
-                        }
-                    </button>
-                    : <></>
-                }
-            </div>
+           
             
             <Footer/>
         </div>
