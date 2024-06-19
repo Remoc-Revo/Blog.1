@@ -6,6 +6,7 @@ import { useUserContext } from "../userContext";
 import api from "../config/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import parser from "html-react-parser";
 
 export default function MainNav(){
   var [userLevel,set_userLevel]=useState();
@@ -22,6 +23,10 @@ export default function MainNav(){
 
 
   var [windowWidth,set_windowWidth]=useState(window.innerWidth)
+
+  function decodeString(str){
+    return parser(decodeURIComponent(str).replace(/&apos;/g,"'").replace(/<p>/g,"").replace(/<\/p>/g,""))
+}
 
     useEffect(()=>{
       async function fetchSections(){
@@ -155,7 +160,7 @@ export default function MainNav(){
                    
                     return <Nav.Link 
                               href={`/?cat=${section}`}
-                              id={(cat===`?cat=${section}`)?"active":""} 
+                              id={(decodeString(cat)===`?cat=${section}`)?"active":""} 
                               className="nav-link">
                                 {section.toUpperCase()}
                             </Nav.Link>

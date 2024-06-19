@@ -23,7 +23,7 @@ export  function PreviewBig({headline,time,briefDescription,imgUrl,articleId}){
 
         return(
             <a href={`/sngl/${articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
-                <img src={fetchedImgUrl} alt=""   style={{display:"block",width:"100%",maxHeight:"390px"}}></img>
+                <img src={fetchedImgUrl} alt=""   style={{display:"block",width:"100%",maxHeight:"450px"}}></img>
 
                 <div  className="container">
                     <i className="duration">{time}</i>
