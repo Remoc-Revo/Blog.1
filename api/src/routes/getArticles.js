@@ -4,7 +4,7 @@ const pool = createPool();
 exports.article=(req,res)=>{
     let {lastArticleId} = req.query;
     lastArticleId = parseInt(lastArticleId,10)
-    console.log("the whats now?",lastArticleId)
+    console.log("the cat",req.query.cat)
 
     const fetchQuery = `
         SELECT * 
@@ -41,7 +41,9 @@ exports.article=(req,res)=>{
 
 exports.single=(req,res)=>{
     
-    pool.query(`SELECT * FROM ARTICLE JOIN MULTIMEDIA ON ARTICLE.articleId=MULTIMEDIA.articleId
+    pool.query(`SELECT * FROM ARTICLE 
+                JOIN SECTION ON ARTICLE.articleSectionId = SECTION.sectionId
+                JOIN MULTIMEDIA ON ARTICLE.articleId=MULTIMEDIA.articleId
                  WHERE ARTICLE.articleId=${req.params.id} `,
         (err,result)=>{
             if(err){

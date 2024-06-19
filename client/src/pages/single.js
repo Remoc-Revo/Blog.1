@@ -11,6 +11,7 @@ import { useUserContext } from "../userContext";
 import Delete from "../img/delete.png";
 import Edit from "../img/edit.png";
 
+
 // import Comments from "../components/comments";
 
 export default function Single(){
@@ -38,7 +39,7 @@ export default function Single(){
     useEffect(()=>{
         api.get(`/single/${articleId}`)
              .then((response)=>{
-                console.log("response::",response)
+                console.log("response of single  req::",response)
                 setArticle(response.data.article[0]) ;
                 fetchImage(article.multimediaUrl);
             })
@@ -118,19 +119,25 @@ export default function Single(){
                                 }
                                     
                                 <div className="container-lg p-0">
-                                    <div className="pt-2 mb-2 border-top border-bottom d-flex justify-content-between">
+                                    <div className="pt-2 mb-2 border-top border-bottom d-flex justify-content-between align-items-center">
+                                    <div className="d-flex gap-3">
+                                        <img src={require("../img/author_placeholder.jpeg") }
+                                            className="rounded-circle"
+                                            style={{width:"60px",height:"60px"}}
+                                            alt=""
+                                        />
                                         <div className="d-flex flex-column gap-0">
-                                            <h5 style={{color:"teal",fontWeight:"bold"}}>Lorem Ips</h5>
-                                            <p>                                           
-                                                {(article.articleUpdatingDate !== null)
-                                                    ? "Updated  "+moment(article.articleUpdatingDate).fromNow() 
-                                                    :  `Published ${moment(article.articlePostingDate).fromNow()} `
-                                                    
-                                                } 
-                                    
-                                            </p>
-                                        </div>
+                                                <h5 style={{color:"teal",fontWeight:"bold"}}>Dr. Lorem</h5>
+                                                <p>                                           
+                                                    {(article.articleUpdatingDate !== null)
+                                                        ? "Updated  "+moment(article.articleUpdatingDate).fromNow() 
+                                                        :  `Published ${moment(article.articlePostingDate).fromNow()} `
+                                                        
+                                                    } 
                                         
+                                                </p>
+                                            </div>
+                                    </div>    
                                         
                                         {(user !== null && user.userLevel === 1)
                                             ? <div className="d-flex gap-2">
@@ -159,7 +166,7 @@ export default function Single(){
                             </div>
                             
                             
-                            <More cat={article.articleSection} current={article.articleId} />
+                            <More cat={article.sectionName} current={article.articleId} />
                         </div>
 
                     </div>

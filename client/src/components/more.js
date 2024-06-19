@@ -27,7 +27,7 @@ export default function More({cat,current}){
             <h5>More like this</h5>
          </div>
 
-         <div className="container-lg">
+         <div className="container-lg" >
            {
             more.map((article,index)=>{
                if(index <= 5 && article.articleId !== current){
@@ -70,7 +70,9 @@ function SinglePreview({headline,imgUrl,articleId}){
 
    return <a href={`/sngl/${articleId}`} className=" d-flex d-lg-block text-decoration-none row-xs mb-3 gap-3">
                               <div className="col-4 col-sm-4  col-lg-12 container-xs">
-                                 <img src={fetchedImgUrl} alt="" className=" w-100 "/>
+                                 <img src={fetchedImgUrl} alt="" className=" w-100 " 
+                                       style={{maxHeight:"150px"}}
+                                 />
 
                               </div>
                                  
