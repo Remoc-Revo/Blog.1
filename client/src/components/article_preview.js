@@ -102,3 +102,83 @@ export  function PreviewSmall({headline,time,briefDescription,imgUrl,articleId})
 }
 
 
+
+export function GridItemBig({articleSection,headline,time,briefDescription,imgUrl,articleId}){
+
+    const [fetchedImgUrl,setFetchedImgUrl] = useState('');
+
+    useEffect(()=>{
+        async function fetchImage(){
+            try{
+                const url = await GetImage(imgUrl);
+                setFetchedImgUrl(url)
+                console.log("urlllll",url)
+
+            }catch(err){
+                console.log('error fetching image',err);
+            }
+        }
+
+        fetchImage();
+    },[imgUrl])
+
+    return(
+        <div className="col-lg-4">
+            <a href={`/sngl/${articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
+                <img src={fetchedImgUrl} alt=""   style={{display:"block",minHeight:"250px", maxHeight:"250px"}} className="w-100"></img>
+
+                <div  className="container">
+                    <h5>{articleSection.toUpperCase()}</h5>
+                    <i className="duration">{time}</i>
+                    <h5 className="articleHeadline">{headline}</h5>
+                    {/* <p className="briefDescription">{briefDescription}</p> */}
+                </div>
+                
+            </a>
+        </div>
+            
+        )
+
+}
+
+
+export function GridItemSmall({articleSection,headline,time,briefDescription,imgUrl,articleId}){
+
+    const [fetchedImgUrl,setFetchedImgUrl] = useState('');
+
+    useEffect(()=>{
+        async function fetchImage(){
+            try{
+                const url = await GetImage(imgUrl);
+                setFetchedImgUrl(url)
+                console.log("urlllll",url)
+
+            }catch(err){
+                console.log('error fetching image',err);
+            }
+        }
+
+        fetchImage();
+    },[imgUrl])
+
+    return(
+        <div className="col-lg-3">
+            <a href={`/sngl/${articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
+                <img src={fetchedImgUrl} alt=""   style={{display:"block",minHeight:"180px", maxHeight:"180px"}} className="w-100"></img>
+
+                <div  className="container">
+                    <h6>{articleSection.toUpperCase()}</h6>
+                    <i className="duration">{time}</i>
+                    <h5 className="articleHeadline">{headline}</h5>
+                    {/* <p className="briefDescription">{briefDescription}</p> */}
+                </div>
+                
+            </a>
+        </div>
+            
+        )
+
+}
+
+
+

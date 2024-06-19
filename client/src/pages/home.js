@@ -1,7 +1,7 @@
 import React,{useState,useEffect,useRef,useCallback,useMemo} from "react";
 import MainNav from "../navs/mainNav";
 import { useLocation } from "react-router-dom";
-import {PreviewBig,PreviewMid,PreviewSmall} from "../components/article_preview";
+import {PreviewBig,PreviewMid,PreviewSmall, GridItemBig,GridItemSmall} from "../components/article_preview";
 import moment from "moment"
 import Footer from "../components/footer";
 import parser from "html-react-parser";
@@ -113,26 +113,100 @@ export default  function Home(){
     return(
         <div className="full-page">
             <MainNav/>
-                <ReactQueryDevtools/>
-                <div className="container d-md-flex mb-4 ps-5">
+                {/* <ReactQueryDevtools/> */}
+                <div className="container d-md-flex mb-4 ps-5 mt-4">
                     <div className="container single-content">
 
-                        {/* <h1>{title}</h1> */}
+                    <div className="row">
+                            
+                            {articles.map((article,index)=>{
+                                if(index<3){
+                                    return <GridItemBig 
+                                                articleSection={decodeString(article.sectionName)}
+                                                headline={decodeString(article.articleHeadline)} 
+                                                time={moment(article.articlePostingDate).fromNow()} 
+                                                briefDescription={decodeString(article.articleBody)} 
+                                                imgUrl={article.multimediaUrl}
+                                                articleId={article.articleId}
+                                                
+                                            /> 
+                                }
+                            })
+                                
+                            }
+                     </div>  
+
+                     <div className="position-absolute bg-dark text-light p-3 mt-3 mb-3 " style={{left:"0",right:"0",height:"100px",}}>
+                            <div className="container d-flex justify-content-between align-items-center" style={{marginLeft:"240px"}}>
+                                <div className="d-flex flex-column ">
+                                <h5>Subscribe to Our Newsletter</h5>
+                                <p>Receive the latest health tips and medical news directly in your inbox</p>
+                                </div>
+                                <div className="d-flex flex-row gap-3 align-items-center"
+                                     style={{height:"20px", marginRight:"63px"}}
+                                >
+                                    <input type="text" 
+                                           className="" 
+                                           placeholder="Enter your email.."
+                                            style={{height:"34px"}}
+                                    />
+                                    <button className="btn btn-dark btn-outline-light"
+                                            style={{height:"34px"}}
+                                    >
+                                        Subscribe
+                                    </button>
+                                </div>
+                            </div>
+                     </div>
+                    
+                    {/* Spacer */}
+                    <div style={{height:"140px"}}></div>
+
+
+                    <div className="row">
+                            
+                            {articles.map((article,index)=>{
+                                if(index>2 && index < 7){
+                                    return <GridItemSmall 
+                                                articleSection={decodeString(article.sectionName)}
+                                                headline={decodeString(article.articleHeadline)} 
+                                                time={moment(article.articlePostingDate).fromNow()} 
+                                                briefDescription={decodeString(article.articleBody)} 
+                                                imgUrl={article.multimediaUrl}
+                                                articleId={article.articleId}
+                                                
+                                            /> 
+                                }
+                            })
+                                
+                            }
+                     </div>  
+
+
+
+
+
+                        {/* 
+                            ORIGINAL PREVIEWS 
+                            FROM HERE
+                            COMMENTED FOR EXPERIMENTATION
+                        */}
 
                         {/*preview of article at the top of the page,
                         its image is the biggest
                         */}     
-                        <div className="preview-big">
+                        {/* <div className="preview-big">
                             {(articles.length!==0)
                                 ?<PreviewBig headline={decodeString(articles[0].articleHeadline)} time={moment(articles[0].articlePostingDate).fromNow()} 
                                              briefDescription={decodeString(articles[0].articleBody)} imgUrl={articles[0].multimediaUrl} articleId={articles[0].articleId}/>
                                 :<span></span>
                             }
-                        </div>                   
+                        </div>                    */}
                         
 
                         {/* There being only two articles */}
-                        {(articles.length===2)
+
+                        {/* {(articles.length===2)
                             ?<PreviewSmall headline={decodeString(articles[1].articleHeadline)} time={moment(articles[1].articlePostingDate).fromNow()} 
                                            briefDescription={decodeString(articles[1].articleBody)} imgUrl={articles[1].multimediaUrl} articleId={articles[1].articleId}/>
                             :<span></span>
@@ -146,10 +220,10 @@ export default  function Home(){
                                             briefDescription={decodeString(articles[2].articleBody)} imgUrl={articles[2].multimediaUrl} articleId={articles[2].articleId}/>
                             </div> 
                             :<span></span>
-                        }
+                        } */}
                         
                         
-                        {(articles.length>3)
+                        {/* {(articles.length>3)
                             ?<div className="preview-small-container mt-4">
                                 {
                                     articles.map((article,index)=>{
@@ -175,7 +249,7 @@ export default  function Home(){
                                 }
                             </div> 
                             :<span></span>
-                        }
+                        } */}
                     </div>
                 {/* <div className="side-page" style={{width:"38%"}}></div> */}
             </div>
