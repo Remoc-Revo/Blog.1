@@ -4,7 +4,7 @@ const pool = createPool();
 exports.article=(req,res)=>{
     let {lastArticleId} = req.query;
     lastArticleId = parseInt(lastArticleId,10)
-    console.log("the whats?",lastArticleId)
+    console.log("the whats now?",lastArticleId)
 
     const fetchQuery = `
         SELECT * 

@@ -120,7 +120,7 @@ export default function ArticlesUpdating(){
             await api.post('/addArticle',
                     {
                         headers: { 'content-type': 'multipart/form-data' },
-                        articleSectionId: 3,//articleSectionId,
+                        articleSectionId: articleSectionId,
                         articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
                         articleBody:encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
                         withCredentials:true,
