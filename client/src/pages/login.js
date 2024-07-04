@@ -36,32 +36,27 @@ export default function Login(){
             });
     }
     return(
-        <div className="login-page">
+        <div className="login-page ">
 
-            <div id="login-form">
-                <div class="pageHead container">
-                    <img class="" src={require("../logos/logo.png")} style={{width:"18%",marginLeft:"30%"}} alt=""/>
+            <div id="login-form" className="d-flex flex-column">
+                <div className="d-flex justify-content-center">
+                    <img class="" src={require("../logos/logo.png")} style={{width:"48%"}} alt=""/>
                     
                 </div>
-                <form onSubmit={login}>
-                    <div  >
-                        <label className="col-md-3">Email</label>
-                        <input className="col-md-5" type="text" name="email" placeholder="email" required
+                <form onSubmit={login} >
+                  
+                        <input className="col-md-12" type="text" name="email" placeholder="email" required
                                 value={email} onChange={(e)=>{set_email(e.target.value)}}
                         />
 
-                    </div>
 
-                    <div >
-                        <label className="col-md-3">Password</label>
-                        <input className="col-md-5" type="password" name="password" placeholder="password" required
+                        <input className="col-md-12" type="password" name="password" placeholder="password" required
                             value={password} onChange={(e)=>{set_password(e.target.value)}}
                         />
-                    </div>
                     
                     <p style={{color:"red"}}>{errorMessage}</p>
-                    <input className="col-md-8 btn-success" type="submit" value="login"/>
-                    <p>Don't have an account?<a href="/register">Sign up</a></p>
+                    <input className="col-md-12 " id="btn-login" type="submit" value="login"/>
+                    <span>Don't have an account?<a href="/register">Sign up</a></span>
                 </form>
             </div>
         </div>

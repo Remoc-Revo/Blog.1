@@ -132,7 +132,7 @@ export default  function Home(){
                                 </img>
                             </div>
                             <div  className="container position-absolute bottom-0 bg-white m-3"style={{ width:"320px"}}  >
-                                <h6>{decodeString(articles[0].sectionName)}</h6>
+                                <h5 className="text-secondary">{decodeString(articles[0].sectionName)}</h5>
                                 <i className="duration">{moment(articles[0].articlePostingDate).fromNow()}</i>
                                 <h5 className="articleHeadline">{decodeString(articles[0].articleHeadline)}</h5>
                                 {/* <p className="briefDescription">{briefDescription}</p> */}

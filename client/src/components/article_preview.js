@@ -169,10 +169,10 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
                         className="w-100 h-100  rounded object-fit-cover">                            
                     </img>
                 </div>
-                <div  className="container">
-                    <h6>{articleSection}</h6>
+                <div  className="mt-2">
+                    <h6 className="text-secondary">{articleSection}</h6>
                     <i className="duration">{time}</i>
-                    <h5 className="articleHeadline">{headline}</h5>
+                    <h6 className="articleHeadline">{headline}</h6>
                     {/* <p className="briefDescription">{briefDescription}</p> */}
                 </div>
                 
