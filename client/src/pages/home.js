@@ -122,20 +122,22 @@ export default  function Home(){
                     
                    {
                    (articles.length>0)
-                   ?<div className=" bg-light ">
-                        
-                        <div className="overflow-hidden"  style={{display:"block", height:"350px"}}                 > 
-                            <img src={articles[0].multimediaUrl} alt=""   
-                                className="w-100 h-100 img-fluid rounded object-fit-cover">                            
-                            </img>
-                        </div>
-                        <div  className="container">
-                        <h6>{decodeString(articles[0].sectionName)}</h6>
-                        <i className="duration">{moment(articles[0].articlePostingDate).fromNow()}</i>
-                        <h5 className="articleHeadline">{decodeString(articles[0].articleHeadline)}</h5>
-                        {/* <p className="briefDescription">{briefDescription}</p> */}
-                    </div>
-                    
+                   ?<div className="position-relative">
+                        <a href={`/sngl/${articles[0].articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
+
+                            <div className="overflow-hidden w-100 "  style={{ height:"450px"}}                 > 
+                                <img src={articles[0].multimediaUrl} alt=""   
+                                    className="w-100 rounded object-fit-cover"
+                                    >                            
+                                </img>
+                            </div>
+                            <div  className="container position-absolute bottom-0 bg-white m-3"style={{ width:"320px"}}  >
+                                <h6>{decodeString(articles[0].sectionName)}</h6>
+                                <i className="duration">{moment(articles[0].articlePostingDate).fromNow()}</i>
+                                <h5 className="articleHeadline">{decodeString(articles[0].articleHeadline)}</h5>
+                                {/* <p className="briefDescription">{briefDescription}</p> */}
+                            </div>
+                        </a>
                     </div>
                      :<></>}
 
