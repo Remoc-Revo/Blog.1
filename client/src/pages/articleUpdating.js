@@ -217,7 +217,7 @@ export default function ArticlesUpdating(){
         <div className="m-2 " id ="article-update">
             <MainNav/>
             
-            <form  onSubmit={handleSubmit} enctype="multipart/form-data" className="mb-5 " id = "article-form">
+            <form  onSubmit={handleSubmit} enctype="multipart/form-data" className="mb-5 container" id = "article-form">
 
                 <div className=" d-lg-flex justify-content-between">
                    
