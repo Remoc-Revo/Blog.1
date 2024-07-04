@@ -162,12 +162,15 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
     },[imgUrl])
 
     return(
-        <div className="col-lg-3">
+        <div className="col-lg-3 mb-4">
             <a href={`/sngl/${articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
-                <img src={fetchedImgUrl} alt=""   style={{display:"block",minHeight:"180px", maxHeight:"180px"}} className="w-100"></img>
-
+                <div className="overflow-hidden"  style={{display:"block", height:"180px"}}                 > 
+                    <img src={fetchedImgUrl} alt=""   
+                        className="w-100 h-100 img-fluid rounded object-fit-cover">                            
+                    </img>
+                </div>
                 <div  className="container">
-                    <h6>{articleSection.toUpperCase()}</h6>
+                    <h6>{articleSection}</h6>
                     <i className="duration">{time}</i>
                     <h5 className="articleHeadline">{headline}</h5>
                     {/* <p className="briefDescription">{briefDescription}</p> */}

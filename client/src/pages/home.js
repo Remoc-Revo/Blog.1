@@ -33,7 +33,9 @@ export default  function Home(){
                     if(response.data.articles.length === 0){
                         setFullyLoaded(true);
                     }
-                    else if(response.data.articles.length > 0 && response.data.articles.length <5){
+                    else if(response.data.articles.length > 0 //&& response.data.articles.length <5
+
+                    ){
                         setArticles((prevArticles)=>[...prevArticles,...response.data.articles])
                         setFullyLoaded(true);
                     }
@@ -114,59 +116,39 @@ export default  function Home(){
         <div className="full-page">
             <MainNav/>
                 {/* <ReactQueryDevtools/> */}
-                <div className="container d-md-flex mb-4 ps-5 mt-4">
-                    <div className="container single-content">
+                <div className="container d-md-flex mb-4  mt-4">
+                    <div className=" single-content">
 
-                    <div className="row">
-                            
-                            {articles.map((article,index)=>{
-                                if(index<3){
-                                    return <GridItemBig 
-                                                articleSection={decodeString(article.sectionName)}
-                                                headline={decodeString(article.articleHeadline)} 
-                                                time={moment(article.articlePostingDate).fromNow()} 
-                                                briefDescription={decodeString(article.articleBody)} 
-                                                imgUrl={article.multimediaUrl}
-                                                articleId={article.articleId}
-                                                
-                                            /> 
-                                }
-                            })
-                                
-                            }
-                     </div>  
-
-                     <div className="position-absolute bg-dark text-light p-3 mt-3 mb-3 " style={{left:"0",right:"0",height:"100px",}}>
-                            <div className="container d-flex justify-content-between align-items-center" style={{marginLeft:"240px"}}>
-                                <div className="d-flex flex-column ">
-                                <h5>Subscribe to Our Newsletter</h5>
-                                <p>Receive the latest health tips and medical news directly in your inbox</p>
-                                </div>
-                                <div className="d-flex flex-row gap-3 align-items-center"
-                                     style={{height:"20px", marginRight:"63px"}}
-                                >
-                                    <input type="text" 
-                                           className="" 
-                                           placeholder="Enter your email.."
-                                            style={{height:"34px"}}
-                                    />
-                                    <button className="btn btn-dark btn-outline-light"
-                                            style={{height:"34px"}}
-                                    >
-                                        Subscribe
-                                    </button>
-                                </div>
-                            </div>
-                     </div>
                     
+                   {
+                   (articles.length>0)
+                   ?<div className=" bg-light ">
+                        
+                        <div className="overflow-hidden"  style={{display:"block", height:"350px"}}                 > 
+                            <img src={articles[0].multimediaUrl} alt=""   
+                                className="w-100 h-100 img-fluid rounded object-fit-cover">                            
+                            </img>
+                        </div>
+                        <div  className="container">
+                        <h6>{decodeString(articles[0].sectionName)}</h6>
+                        <i className="duration">{moment(articles[0].articlePostingDate).fromNow()}</i>
+                        <h5 className="articleHeadline">{decodeString(articles[0].articleHeadline)}</h5>
+                        {/* <p className="briefDescription">{briefDescription}</p> */}
+                    </div>
+                    
+                    </div>
+                     :<></>}
+
                     {/* Spacer */}
-                    <div style={{height:"140px"}}></div>
+                    <div style={{height:"40px"}}></div>
 
 
-                    <div className="row">
+                    <div className="row ">
                             
                             {articles.map((article,index)=>{
-                                if(index>2 && index < 7){
+                                if(index>0 && index < 12
+
+                                ){
                                     return <GridItemSmall 
                                                 articleSection={decodeString(article.sectionName)}
                                                 headline={decodeString(article.articleHeadline)} 

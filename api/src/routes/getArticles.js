@@ -21,7 +21,7 @@ exports.article=(req,res)=>{
         ${req.query.cat ? 'AND SECTION.sectionName = ?' : ''}
         AND articleIsDraft = 0
         ORDER BY articlePostingDate DESC 
-        LIMIT 5
+        LIMIT 12
     `;
 
     

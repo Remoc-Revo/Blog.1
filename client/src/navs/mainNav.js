@@ -93,14 +93,14 @@ export default function MainNav(){
     }
 
     return(
-      <div className=" bg-light">
-        <Navbar className="d-flex justify-content-between"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
-          <Navbar.Brand  href="#home" id="nav-brand" className="ps-xl-3 ps-3 me-auto ">
+      <div className="container ">
+        <Navbar className=" d-flex justify-content-between"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
+          <Navbar.Brand  href="#home" id="nav-brand" className=" me-auto ">
             <img src={require("../logos/logo.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
           </Navbar.Brand>
           
       
-            <div id="user-nav" className="d-flex  gap-1  order-xl-2 pe-lg-2">
+            <div id="user-nav" className="d-flex  gap-1  order-xl-2 ">
               {(typeof userName!=='undefined')
                   ?<NavItem>
 
