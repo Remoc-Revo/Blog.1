@@ -166,7 +166,7 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
             <a href={`/sngl/${articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
                 <div className="overflow-hidden"  style={{display:"block", height:"180px"}}                 > 
                     <img src={fetchedImgUrl} alt=""   
-                        className="w-100 h-100 img-fluid rounded object-fit-cover">                            
+                        className="w-100 h-100  rounded object-fit-cover">                            
                     </img>
                 </div>
                 <div  className="container">
