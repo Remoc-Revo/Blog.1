@@ -2,17 +2,14 @@
 $lightGreen: #b9e7e7;
 
 .full-page{
-    margin-right: 150px;
-    margin-left: 150px;
+   
 }
 
 .w-100{
     width:100%;
 }
 
-.bg-white{
-    background-color: white;
-}
+
 
 i.duration{
     font-size:12px;
@@ -35,6 +32,16 @@ i.duration{
     -webkit-line-clamp: 1;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.articlePreview{
+    .articleHeadline{
+        display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
 }
 
 .preview-mid-container,.preview-small-container,.preview-big-container{
@@ -237,6 +244,16 @@ p{
 }
 
 
+
+
+@media screen and (min-width:768px){
+    .latest-article-preview{
+       position:absolute;
+       bottom:-20px;
+       box-shadow: 0 2px 6px -2px rgba(0,0,0,0.4);
+    }
+    
+}
 
 
 /* 
@@ -446,13 +463,18 @@ footer {
     #basic-navbar-nav{
     }
 
+ 
     #root{
         display: flex;
         justify-content: center;
         #app{
             width: 100%;
             
-
+            .full-page{
+                margin-right: 150px;
+                margin-left: 150px;
+            }
+            
         }
     }
   }
@@ -462,3 +484,5 @@ footer {
     width:30px;
     height: 30px;
 }
+
+

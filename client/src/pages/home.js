@@ -125,14 +125,20 @@ export default  function Home(){
                    ?<div className="position-relative">
                         <a href={`/sngl/${articles[0].articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
 
-                            <div className="overflow-hidden w-100 "  style={{ height:"450px"}}                 > 
+                            <div className="overflow-hidden w-100"  style={{ height:"450px"}}  > 
                                 <img src={articles[0].multimediaUrl} alt=""   
                                     className="w-100 rounded object-fit-cover"
                                     >                            
                                 </img>
                             </div>
-                            <div  className="container position-absolute bottom-0 bg-white m-3"style={{ width:"320px"}}  >
-                                <h5 className="text-secondary">{decodeString(articles[0].sectionName)}</h5>
+                            <div  className="latest-article-preview container-md bg-white ms-md-5 pb-3 rounded" 
+                                style={{width:"420px"}}
+                                >
+                                <div className="row">
+                                    <div className="col-auto bg-primary m-2 rounded">
+                                        <h5 className="text-white pt-2">{decodeString(articles[0].sectionName)}</h5>
+                                    </div>
+                                </div>
                                 <i className="duration">{moment(articles[0].articlePostingDate).fromNow()}</i>
                                 <h5 className="articleHeadline">{decodeString(articles[0].articleHeadline)}</h5>
                                 {/* <p className="briefDescription">{briefDescription}</p> */}
@@ -141,8 +147,12 @@ export default  function Home(){
                     </div>
                      :<></>}
 
+                     {/* Spacer */}
+                    <div style={{height:"80px"}}></div>
+
+                    <h4>Latest Posts</h4>
                     {/* Spacer */}
-                    <div style={{height:"40px"}}></div>
+                    <div style={{height:"15px"}}></div>
 
 
                     <div className="row ">
