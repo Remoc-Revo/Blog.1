@@ -66,54 +66,55 @@ export default function Register(){
     }
 
     return(
-        <div className="container" style={{marginTop:"100px",backgroundColor:"white",padding:"40px",border:"1px solid lightgrey"}}>
-            <img class="" src={require("../logos/logo.png")} style={{width:"18%",marginLeft:"30%"}} alt=""/>
-            <br/>
+    <div id="register-page" className="d-flex flex-column justify-content-center ">
+        <div className="container d-flex flex-column bg-white justify-content-center align-items-center" 
+            id="register-form"
+            style={{}}>
+            <div className="d-flex justify-content-center mb-4">
+                <img className="" src={require("../logos/logo.png")} style={{width:"78%"}} alt=""/>
+            </div> 
 
-            <form onSubmit={Register} method="post">
-                <div className="d-flex" style={{marginBottom:"12px"}}>
-                    <p className="col-md-4">User Name</p>
-                    <input className="col-md-3" type="text" onChange={(e)=>setName(e.target.value)} value={name} required
+            <form onSubmit={Register} method="post" className="d-flex flex-column gap-2">
+               
+                    <input className="col-12" type="text" placeholder="User name" onChange={(e)=>setName(e.target.value)} value={name} required
                         // <% if(typeof enteredName !='undefined'){%>value="<%=enteredName %>"<%}%> 
                         />
-                </div>
 
                
-                <div className="d-flex" style={{marginBottom:"12px"}}>
-                    <p className="col-md-4">Email</p>
-                    <input  className="col-md-3" type="text" value={email} onChange={(e)=>setEmail(e.target.value)} required
+               
+                    <input  className="col-12" type="text" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} required
                         // <% if(typeof enteredEmail !='undefined'){%>value="<%=enteredEmail %>"<%}%>
                         />
-                </div>
 
 
                
-                <div className="d-flex" style={{marginBottom:"12px"}}>
-                    <p className="col-md-4">Password</p>
-                    <input className="col-md-3" type="password" value={password} onChange={(e)=>setpassword(e.target.value)} required
+               
+                    <input className="col-12" type="password" placeholder="Password" value={password} onChange={(e)=>setpassword(e.target.value)} required
                         // <% if(typeof enteredpassword !='undefined'){%>value="<%=enteredpassword %>"<%}%>
                         />
-                </div>
 
-                <div className="d-flex" style={{marginBottom:"12px"}}>
-                    <p className="col-md-4">Confirm Password</p>
-                    <input className="col-md-3" type="password" value={passwordConfirm} onChange={(e)=>setpasswordConfirm(e.target.value)} required
+               
+                    <input className="col-12" type="password" placeholder="Confirm Password" value={passwordConfirm} onChange={(e)=>setpasswordConfirm(e.target.value)} required
                         // <% if(typeof enteredpasswordConfirm !='undefined'){%>value="<%=enteredpasswordConfirm %>"<%}%>
                         />
-                </div>
 
                 
-                    <div style={{marginBottom:"12px"}}>
+                    <div style={{}}>
                         <p style={{color:"red"}}>{errorMessage}</p>
                     </div>
                 
-                <div className="d-flex">
-                    <input type="submit" value="Register"/>
-                    <a href="/login" style={{paddingLeft:"60%"}}>Have an account?Login</a>
-                </div>
+                    <div className="d-flex flex-column">
+                        <input type="submit" value="Register" className="col-12 btn-submit"/>
+                       <div className="col-12 d-flex justify-content-center">
+                        <p className="mt-3 ">
+                                Have an account?
+                                <a href="/login" style={{}}>Login</a>
+                            </p>
+                        </div>
+                    </div>
             </form>
         </div>
-
+    </div>
 
     )
 }

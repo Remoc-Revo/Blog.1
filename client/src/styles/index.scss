@@ -73,6 +73,32 @@ i.duration{
     justify-content:space-between;
 }
 
+.btn-submit{
+    padding: 10px;
+    border: none;
+    background-color: teal;
+    cursor: pointer;
+    color: white;
+  }
+
+//REGISTER
+#register-page{
+    background-color: $lightGreen;
+    height: 100vh;
+ 
+}
+#register-form{
+    width:280px;
+    height: 500px;
+    input {
+        padding: 10px;
+        border: none;
+        border-bottom: 1px solid gray;
+      }
+    
+}
+
+//   LOGIN
 #login-form{
    
     align-items: center;
@@ -100,13 +126,7 @@ i.duration{
         border-bottom: 1px solid gray;
       }
 
-      #btn-login {
-        padding: 10px;
-        border: none;
-        background-color: teal;
-        cursor: pointer;
-        color: white;
-      }
+      
 
       p {
         font-size: 12px;

@@ -55,7 +55,7 @@ export default function Login(){
                         />
                     
                     <p style={{color:"red"}}>{errorMessage}</p>
-                    <input className="col-md-12 " id="btn-login" type="submit" value="login"/>
+                    <input className="col-md-12 btn-submit" id="" type="submit" value="login"/>
                     <span>Don't have an account?<a href="/register">Sign up</a></span>
                 </form>
             </div>
