@@ -31,7 +31,7 @@ exports.updateArticle=(req,res)=>{
         }
 
         console.log("imgUrl::,",imgUrl)
-        pool.query(`UPDATE ARTICLE 
+        try{pool.query(`UPDATE ARTICLE 
                     SET articleHeadline = ?,
                         articleBody = ?,
                         articleSectionId = ?,
@@ -55,7 +55,12 @@ exports.updateArticle=(req,res)=>{
                             return res.status(200).json({})
                         }
                     })
-             }) 
+             })
+            
+        }catch(articleUpdateError){
+            console.log("Article update error: ",articleUpdateError);
+            
+        }
     }
     
 }

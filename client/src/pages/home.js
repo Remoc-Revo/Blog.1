@@ -116,21 +116,27 @@ export default  function Home(){
         <div className="full-page">
             <MainNav/>
                 {/* <ReactQueryDevtools/> */}
-                <div className="container d-md-flex mb-4  mt-4">
+                <div className="container  mb-4  mt-4">
                     <div className=" single-content">
 
                     
                    {
                    (articles.length>0)
                    ?<div className="position-relative">
-                        <a href={`/sngl/${articles[0].articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
+                        <a href={`/sngl/${articles[0].articleId}`} style={{textDecoration:"none",color:"black"}} className="">
 
-                            <div className="overflow-hidden w-100"  style={{ height:"450px"}}  > 
+                          
+                            <div className="rounded"  style={{width:"100%", height:"450px",overflow:"hidden"}}  > 
                                 <img src={articles[0].multimediaUrl} alt=""   
-                                    className="w-100 rounded object-fit-cover"
+                                    className=" object-fit-cover"
+                                    style={{display:"block",width:"100%",height:"100%"}} 
                                     >                            
                                 </img>
                             </div>
+
+                            
+                            
+                           
                             <div  className="latest-article-preview container-md bg-white ms-md-5 pb-3 rounded" 
                                 style={{width:"420px"}}
                                 >

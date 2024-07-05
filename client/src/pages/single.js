@@ -105,68 +105,69 @@ export default function Single(){
             
             
             {(article.length!==0)
-                ?<div className="container-lg mt-5 ">
-                    <div className="ps-5">
+                ?<div className=" mt-2 ">
+                    <div className="">
                         
-                        <div className="d-lg-flex container-lg mt-5  gap-3">
-                            <div className=" col-lg-8 p-0">
-                                {
-                                    (fetchedImgUrl!=='null')
-                                        ?<img src={fetchedImgUrl} alt="article img"
-                                        style={{display:"block",width:"100%",maxHeight:"390px"}}/>
-                                        :null
+                        <div className="d-lg-flex container-lg mt-2 justify-content-center gap-3">
+                            <div className="col-lg-8 p-0">
 
-                                }
+                                <div className="">
+                            
+                                    <h2 className="text-center headline">{decodeString(article.articleHeadline)}</h2>
+                                </div>
+                                <div className="pt-3 pb-2 mb-2  d-flex justify-content-between align-items-center">
                                     
-                                <div className="container-lg p-0">
-                                    <div className="pt-2 mb-2 border-top border-bottom d-flex justify-content-between align-items-center">
-                                    <div className="d-flex gap-3">
+                                    <div className=" d-flex gap-3 align-items-center">
                                         <img src={require("../img/author_placeholder.jpeg") }
                                             className="rounded-circle"
-                                            style={{width:"60px",height:"60px"}}
+                                            style={{width:"40px",height:"40px"}}
                                             alt=""
                                         />
-                                        <div className="d-flex flex-column gap-0">
-                                                <h5 style={{color:"teal",fontWeight:"bold"}}>Dr. Lorem</h5>
-                                                <p>                                           
-                                                    {(article.articleUpdatingDate !== null)
-                                                        ? "Updated  "+moment(article.articleUpdatingDate).fromNow() 
-                                                        :  `Published ${moment(article.articlePostingDate).fromNow()} `
-                                                        
-                                                    } 
-                                        
-                                                </p>
-                                            </div>
+                                        <p style={{color:"teal",fontWeight:"bold"}}>Dr. Lorem</p>
+                                        <p className="fw-lighter">                                           
+                                            {(article.articleUpdatingDate !== null)
+                                                ? "Updated  "+moment(article.articleUpdatingDate).fromNow() 
+                                                :  `Published ${moment(article.articlePostingDate).fromNow()} `
+                                                
+                                            } 
+                                
+                                        </p>
                                     </div>    
-                                        
-                                        {(user !== null && user.userLevel === 1)
-                                            ? <div className="d-flex gap-2">
-                                                <img src={Edit} alt ="" onClick={navigateToUpdate} className="edit-img"/>
-                                                {(deleting)
-                                                    ?<div className="spinner-border text-light">
-                                                        <span className="sr-only">Loading</span>
-                                                    </div>
-                                                    :<img src={Delete} alt ="" onClick={deleteArticle} className="delete-img"/>
-                                                }
-                                              </div>
-                                            : <></>
-                                        }
-                                        
-                                    </div>
+                                    
+                                    {(user !== null && user.userLevel === 1)
+                                        ? <div className="d-flex gap-2">
+                                            <img src={Edit} alt ="" onClick={navigateToUpdate} className="edit-img"/>
+                                            {(deleting)
+                                                ?<div className="spinner-border text-light">
+                                                    <span className="sr-only">Loading</span>
+                                                </div>
+                                                :<img src={Delete} alt ="" onClick={deleteArticle} className="delete-img"/>
+                                            }
+                                            </div>
+                                        : <></>
+                                    }
+                                    
+                                </div>
 
-                                    <div className="container-lg d-flex">
-                           
-                                        <h1 className=" headline">{decodeString(article.articleHeadline)}</h1>
-                                    </div>
-
-
+                                <div className="w-100" style={{height:"430px",overflow:"hidden"}}>
+                                    {
+                                    
+                                        (fetchedImgUrl!=='null')
+                                            ?<img src={fetchedImgUrl} alt="article img"
+                                            className="rounded object-fit-cover img-fluid"
+                                            style={{display:"block",width:"100%",height:"100%"}}/>
+                                            :null
+                                    }
+                                </div>
+ 
+                                <div className="container-lg p-0">              
                                     <p className="mt-4">{decodeString(article.articleBody)}</p>
                                 </div>
 
                             </div>
                             
                             
-                            <More cat={article.sectionName} current={article.articleId} />
+                            {/* <More cat={article.sectionName} current={article.articleId} /> */}
                         </div>
 
                     </div>
