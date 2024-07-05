@@ -216,7 +216,18 @@ p{
 
 }
 
+@keyframes slideIn{
+    from{
+        transform: translateX(-100%);
+    }
+    to{
+        transform: translateX(0);
+    }
+}
 
+.slide-in{
+    animation: slideIn 1s ease-in forwards;
+}
 
 
 @media screen and (min-width:992px){
@@ -262,6 +273,9 @@ p{
     font-size: small;
     font-weight: lighter;
 }
+
+
+
 
 
 

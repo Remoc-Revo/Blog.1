@@ -93,6 +93,7 @@ export default function MainNav(){
     }
 
     return(
+      
       <div className="container ">
         <Navbar className=" d-flex justify-content-between"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
           <Navbar.Brand  href="#home" id="nav-brand" className=" me-auto ">
