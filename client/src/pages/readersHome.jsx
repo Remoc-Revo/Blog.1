@@ -9,7 +9,7 @@ import parser from "html-react-parser";
 import {ReactQueryDevtools} from 'react-query/devtools';
 import api from "../config/api";
 
-export default  function Home(){
+export default  function ReadersHome(){
     const [articles,setArticles]=useState([]);
     var cat=/*(useLocation().search==="")?"/latest":*/useLocation().search;
     const lastArticleRef = useRef(null);
@@ -186,70 +186,7 @@ export default  function Home(){
 
 
 
-                        {/* 
-                            ORIGINAL PREVIEWS 
-                            FROM HERE
-                            COMMENTED FOR EXPERIMENTATION
-                        */}
-
-                        {/*preview of article at the top of the page,
-                        its image is the biggest
-                        */}     
-                        {/* <div className="preview-big">
-                            {(articles.length!==0)
-                                ?<PreviewBig headline={decodeString(articles[0].articleHeadline)} time={moment(articles[0].articlePostingDate).fromNow()} 
-                                             briefDescription={decodeString(articles[0].articleBody)} imgUrl={articles[0].multimediaUrl} articleId={articles[0].articleId}/>
-                                :<span></span>
-                            }
-                        </div>                    */}
                         
-
-                        {/* There being only two articles */}
-
-                        {/* {(articles.length===2)
-                            ?<PreviewSmall headline={decodeString(articles[1].articleHeadline)} time={moment(articles[1].articlePostingDate).fromNow()} 
-                                           briefDescription={decodeString(articles[1].articleBody)} imgUrl={articles[1].multimediaUrl} articleId={articles[1].articleId}/>
-                            :<span></span>
-                        }
-
-                        {(articles.length>2)
-                            ?<div className="row preview-mid-container " style={{margin:"0px"}}>
-                                <PreviewMid headline={decodeString(articles[1].articleHeadline)} time={moment(articles[1].articlePostingDate).fromNow()}
-                                            briefDescription={decodeString(articles[1].articleBody)} imgUrl={articles[1].multimediaUrl} articleId={articles[1].articleId}/>
-                                <PreviewMid headline={decodeString(articles[2].articleHeadline)} time={moment(articles[2].articlePostingDate).fromNow()}
-                                            briefDescription={decodeString(articles[2].articleBody)} imgUrl={articles[2].multimediaUrl} articleId={articles[2].articleId}/>
-                            </div> 
-                            :<span></span>
-                        } */}
-                        
-                        
-                        {/* {(articles.length>3)
-                            ?<div className="preview-small-container mt-4">
-                                {
-                                    articles.map((article,index)=>{
-                                        if(index === articles.length-1 && index >=4){
-                                            return <div className="container" ref={lastArticleRef} id={article.articleId} key={article.articleId}>
-                                                    <PreviewSmall headline={decodeString(article.articleHeadline)} time={moment(article.articlePostingDate).fromNow()} 
-                                                                briefDescription={decodeString(article.articleBody)} imgUrl={article.multimediaUrl} articleId={article.articleId}
-                                                                />
-                                                    <hr/>
-                                                </div>
-                                        }
-                                        else if(index>2){
-                                            return <div className="container" key={article.articleId}>
-                                                    <PreviewSmall headline={decodeString(article.articleHeadline)} time={moment(article.articlePostingDate).fromNow()} 
-                                                                  briefDescription={decodeString(article.articleBody)} imgUrl={article.multimediaUrl} articleId={article.articleId}/>
-                                                    <hr/>
-                                                </div>
-                                        }
-                                        else{
-                                            return <></>
-                                        }
-                                    })
-                                }
-                            </div> 
-                            :<span></span>
-                        } */}
                     </div>
                 {/* <div className="side-page" style={{width:"38%"}}></div> */}
             </div>
