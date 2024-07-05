@@ -142,7 +142,7 @@ export default function MainNav(){
               
             
               {(userLevel===1)
-                ?<div className="d-flex" id = "write-button-container">
+                ?<div className="d-flex me-2" id = "write-button-container">
                   <button onClick={()=>{navigate(`/articlePosting/${null}`)}} className="btn btn-transparent  col-xs col-md " title="Write">
                     <h6>Write</h6>
                   </button>
