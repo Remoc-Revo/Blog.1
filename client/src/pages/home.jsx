@@ -4,7 +4,7 @@ import ReadersHome from "./readersHome";
 import AdminPanel from "./adminPanel";
 
 export default  function Home(){
-    var [userLevel,set_userLevel]=useState();
+    var [userLevel,set_userLevel]=useState(null);
     var [userName,set_userName]=useState();   
     const {loading,user} = useUserContext();
 
@@ -16,14 +16,18 @@ export default  function Home(){
             console.log("user context!!!!",user);
             set_userLevel(user.userLevel);
             set_userName(user.userName);
-          }       
+          } 
+        else{
+            set_userLevel(0);
+        }      
     },[loading,user])
     
     if(!loading)
         return(  
             (userLevel===1)  
             ?<AdminPanel/>        
-            :<ReadersHome/> 
+                :<ReadersHome/> 
+                
                 
         )
 }
