@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useRef,useCallback,useMemo} from "react";
 import MainNav from "../navs/mainNav";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate} from "react-router-dom";
 import {PreviewBig,PreviewMid,PreviewSmall, GridItemBig,GridItemSmall} from "../components/article_preview";
 import moment from "moment"
 import Footer from "../components/footer";
@@ -16,7 +16,7 @@ export default  function ReadersHome(){
     // const title=(cat==="")?"Latest":cat.split("=")[1].replaceAll('_',' ');
     const [initialFetch, setInitialFetch] = useState(true);
     const [fullyLoaded, setFullyLoaded] = useState(false);
-
+    const navigate = useNavigate();
     
     const  fetchArticles = useCallback((lastArticleId)=>{
         console.log("the lasssst",lastArticleId)
@@ -174,7 +174,7 @@ export default  function ReadersHome(){
                                                 briefDescription={decodeString(article.articleBody)} 
                                                 imgUrl={article.multimediaUrl}
                                                 articleId={article.articleId}
-                                                
+                                                handleClick = {()=>{navigate(`/sngl/${article.articleId}`)}}
                                             /> 
                                 }
                             })

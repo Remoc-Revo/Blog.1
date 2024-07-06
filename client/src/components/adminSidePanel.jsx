@@ -9,7 +9,7 @@ import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
 
- const AdminSidePanel=()=>{
+ const AdminSidePanel=({updateAdminPanelSection})=>{
     const [adminPanel, setAdminPanel] = useState(useLocation().search);
     const [showPostsLinks, setShowPostsLinks] = useState(false);
 
@@ -25,14 +25,15 @@ import { useLocation } from "react-router-dom";
     function onLinkClick(e,path){
         e.preventDefault();
         window.history.pushState({},'',path);
+        updateAdminPanelSection(path);
         setAdminPanel(path)
     }
 
 
-    return <div className="text-white">
+    return <div className="text-white ">
 
-        <div className=" bg-dark  pt-3 slide-in"
-            style={{width:"240px",height:"100%"}}
+        <div className=" bg-dark  pt-3 slide-in position-fixed"
+            style={{width:"240px",height:"100%",top:"40px"}}
         >
             <div className="d-flex ps-2"
                 >
@@ -90,7 +91,7 @@ import { useLocation } from "react-router-dom";
                         <span className=" m-0">All Posts</span>
                     </a>
 
-                    <a href="/articlePosting" 
+                    <a href="/articlePosting/null"
                     className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
                     id=""
 

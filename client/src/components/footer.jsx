@@ -28,7 +28,7 @@ const Footer = () => {
         }
     fetchSections();
   
-  });
+  },[]);
 
   return (
     <footer className="d-md-flex p-5">

@@ -142,7 +142,7 @@ export function GridItemBig({articleSection,headline,time,briefDescription,imgUr
 }
 
 
-export function GridItemSmall({articleSection,headline,time,briefDescription,imgUrl,articleId}){
+export function GridItemSmall({articleSection,headline,time,briefDescription,imgUrl,articleId,handleClick}){
 
     const [fetchedImgUrl,setFetchedImgUrl] = useState('');
 
@@ -163,7 +163,7 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
 
     return(
         <div className="col-lg-3 mb-4 articlePreview">
-            <a href={`/sngl/${articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
+            <a style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
                 <div className="overflow-hidden"  style={{display:"block", height:"180px"}}                 > 
                     <img src={fetchedImgUrl} alt=""   
                         className="w-100 h-100  rounded object-fit-cover">                            
