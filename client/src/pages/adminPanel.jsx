@@ -4,6 +4,7 @@ import { useNavigate,useLocation } from "react-router-dom";
 import AdminNav from "../navs/adminNav";
 import AdminSidePanel from "../components/adminSidePanel";
 import AdminHome from "./adminHome";
+import AdminAllPosts from "./adminAllPosts";
 
 export default function AdminPanel(){
     const navigate = useNavigate();
@@ -43,16 +44,16 @@ export default function AdminPanel(){
     
     return <div>
         <AdminNav/>
-        <div className="d-flex position-relative" style={{height:"100vh"}}>
+        <div className="d-flex position-relative w-100" style={{height:"100vh"}}>
             <AdminSidePanel updateAdminPanelSection={updateAdminPanelSection}/>
-                <div className="position-absolute" id="adminPanelMainContent"
-                    style={{left:"240px",top:"60px"}}
+                <div className="position-absolute w-100 d-flex justify-content-center" id="adminPanelMainContent"
+                    style={{left:"140px",top:"60px"}}
                 >
                     {(adminPanelSection === "")&&<AdminHome />}
                     
                     {(adminPanelSection === "?adminPanel=stats")&&<>stats</>}
                     
-                    {(adminPanelSection === "?adminPanel=posts")&&<>posts</>}
+                    {(adminPanelSection === "?adminPanel=posts")&&<AdminAllPosts/>}
                     
                     {(adminPanelSection === "?adminPanel=posts/categories")&&<>categories</>}
                     

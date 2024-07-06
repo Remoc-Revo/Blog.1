@@ -1,16 +1,6 @@
-const { resolve } = require('path');
-const createPool=require('../config/dbConnection')
-const pool = createPool();
+const {queryDb} = require('../global')
 
 
-function queryDb(query){ 
-    return new Promise((resolve,reject)=>{
-        pool.query(query,(err,result)=>{
-            if(err) reject(err);
-            resolve(result);
-        })
-    });
-}
 
 exports.getAdminHomeData = async (req,res) =>{
     let adminHomeData ={
