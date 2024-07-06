@@ -10,7 +10,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
 
  const AdminSidePanel=()=>{
-    let adminPanel = useLocation().search;
+    const [adminPanel, setAdminPanel] = useState(useLocation().search);
     const [showPostsLinks, setShowPostsLinks] = useState(false);
 
     useEffect(()=>{
@@ -21,6 +21,13 @@ import { useLocation } from "react-router-dom";
             setShowPostsLinks(false);
         }
     },[showPostsLinks,adminPanel])
+
+    function onLinkClick(e,path){
+        e.preventDefault();
+        window.history.pushState({},'',path);
+        setAdminPanel(path)
+    }
+
 
     return <div className="text-white">
 
@@ -40,6 +47,7 @@ import { useLocation } from "react-router-dom";
                 <a href="/" 
                    className="d-flex gap-2 ps-3 pt-1 pb-1"
                    id={adminPanel===""?"active":""}
+                   onClick={(e)=>{onLinkClick(e,"")} }
                    >
                     <FontAwesomeIcon icon={faHouseChimney} className=""/>
                     <span className=" m-0">My Home</span>
@@ -47,6 +55,8 @@ import { useLocation } from "react-router-dom";
                 <a  href="/?adminPanel=stats"
                     className="d-flex gap-2 ps-3 pt-1 pb-1 align-items-center"
                     id={adminPanel==="?adminPanel=stats"?"active":""}
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=stats")} }
+
                      >
                     <FontAwesomeIcon icon={faChartSimple}/>
                     <span className="pt-1 m-0">Stats</span>
@@ -58,6 +68,8 @@ import { useLocation } from "react-router-dom";
                     ||adminPanel==="?adminPanel=posts/categories"
                         ?"sub-active"
                         :""}
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=posts")} }
+
                    >
                     <FontAwesomeIcon icon={faCalendar}/>
                     <span className=" m-0">Posts</span>
@@ -72,6 +84,8 @@ import { useLocation } from "react-router-dom";
                     id={adminPanel==="?adminPanel=posts"
                             ?"active"
                             :"" }
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=posts")} }
+
                     >
                         <span className=" m-0">All Posts</span>
                     </a>
@@ -79,6 +93,7 @@ import { useLocation } from "react-router-dom";
                     <a href="/articlePosting" 
                     className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
                     id=""
+
                     >
                         <span className=" m-0">Add New Post</span>
                     </a>
@@ -86,6 +101,8 @@ import { useLocation } from "react-router-dom";
                     <a href="/?adminPanel=posts/categories" 
                     className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
                     id={adminPanel==="?adminPanel=posts/categories"?"active":""}
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=posts/categories")} }
+
                     >
                         <span className=" m-0">Categories</span>
                     </a>
@@ -94,6 +111,8 @@ import { useLocation } from "react-router-dom";
                 <a href="/?adminPanel=comments" 
                    className="d-flex gap-2 ps-3 pt-1 pb-1"
                    id={adminPanel==="?adminPanel=comments"?"active":""}
+                   onClick={(e)=>{onLinkClick(e,"?adminPanel=comments")} }
+
                    >
                     <FontAwesomeIcon icon={faComment} className=""/>
                     <span className=" m-0">Comments</span>
@@ -102,6 +121,8 @@ import { useLocation } from "react-router-dom";
                 <a href="/?adminPanel=users" 
                    className="d-flex gap-2 ps-3 pt-1 pb-1"
                    id={adminPanel==="?adminPanel=users"?"active":""}
+                   onClick={(e)=>{onLinkClick(e,"?adminPanel=users")} }
+
                    >
                     <FontAwesomeIcon icon={faUser} className=""/>
                     <span className=" m-0">Users</span>
@@ -112,4 +133,4 @@ import { useLocation } from "react-router-dom";
 }
 
 
-export default React.memo(AdminSidePanel);
+export default AdminSidePanel;
