@@ -1,5 +1,5 @@
 
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { faHouseChimney } from "@fortawesome/free-solid-svg-icons";
 import Logo from "../logos/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,53 +10,93 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
 
  const AdminSidePanel=()=>{
-    let adminPanel = ""//useLocation().search;
-    // document.write("adminPanel ",adminPanel);
+    let adminPanel = useLocation().search;
+    const [showPostsLinks, setShowPostsLinks] = useState(false);
+
+    useEffect(()=>{
+        if(adminPanel.includes("posts")){
+            setShowPostsLinks(true);
+        }
+        else{
+            setShowPostsLinks(false);
+        }
+    },[showPostsLinks,adminPanel])
 
     return <div className="text-white">
 
         <div className=" bg-dark  pt-3 slide-in"
             style={{width:"240px",height:"100%"}}
         >
-            <div className="d-flex align-items-start ps-2"
+            <div className="d-flex ps-2"
                 >
-                <img src={Logo} alt="" style={{width:"35%"}} />
-                <div className="d-flex flex-column mt-2 gap-0">
-                    <h6 className="d-flex p-0 m-0">Lorem Healthline</h6>
-                    <p className=" fw-lighter">loremhealthline.com</p>
+                <img src={Logo} alt="" style={{maxWidth:"35%"}} />
+                <div className="d-flex flex-column  gap-0 justify-content-center">
+                    <h6 className="d-flex  m-0" id="blog-title">Lorem Healthline</h6>
+                    <span className=" fw-lighter" id="blog-domain">loremhealthline.com</span>
                 </div>
             </div>
            
-            <div className="mt-4 d-flex flex-column gap-2 admin-side-panel-links">
+            <div className="mt-4 d-flex flex-column gap-0 admin-side-panel-links">
                 <a href="/" 
                    className="d-flex gap-2 ps-3 pt-1 pb-1"
                    id={adminPanel===""?"active":""}
                    >
                     <FontAwesomeIcon icon={faHouseChimney} className=""/>
-                    <p className=" m-0">My Home</p>
+                    <span className=" m-0">My Home</span>
                 </a>
                 <a  href="/?adminPanel=stats"
                     className="d-flex gap-2 ps-3 pt-1 pb-1 align-items-center"
                     id={adminPanel==="?adminPanel=stats"?"active":""}
                      >
                     <FontAwesomeIcon icon={faChartSimple}/>
-                    <p className="pt-1 m-0">Stats</p>
+                    <span className="pt-1 m-0">Stats</span>
                 </a>
 
                 <a href="/?adminPanel=posts" 
-                   className="d-flex gap-2 ps-3 pt-1 pb-1"
-                   id={adminPanel==="?adminPanel=posts"?"active":""}
+                   className="d-flex gap-2 ps-3 pt-2 pb-1"
+                   id={adminPanel==="?adminPanel=posts"
+                    ||adminPanel==="?adminPanel=posts/categories"
+                        ?"sub-active"
+                        :""}
                    >
                     <FontAwesomeIcon icon={faCalendar}/>
-                    <p className=" m-0">Posts</p>
+                    <span className=" m-0">Posts</span>
                 </a>
+
+                <div id="posts-links" className="pt-2 mb-2"
+                    style={{display:showPostsLinks?"block":"none"}}
+                >
+
+                    <a href="/?adminPanel=posts" 
+                    className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
+                    id={adminPanel==="?adminPanel=posts"
+                            ?"active"
+                            :"" }
+                    >
+                        <span className=" m-0">All Posts</span>
+                    </a>
+
+                    <a href="/articlePosting" 
+                    className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
+                    id=""
+                    >
+                        <span className=" m-0">Add New Post</span>
+                    </a>
+
+                    <a href="/?adminPanel=posts/categories" 
+                    className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
+                    id={adminPanel==="?adminPanel=posts/categories"?"active":""}
+                    >
+                        <span className=" m-0">Categories</span>
+                    </a>
+                </div>
 
                 <a href="/?adminPanel=comments" 
                    className="d-flex gap-2 ps-3 pt-1 pb-1"
                    id={adminPanel==="?adminPanel=comments"?"active":""}
                    >
                     <FontAwesomeIcon icon={faComment} className=""/>
-                    <p className=" m-0">Comments</p>
+                    <span className=" m-0">Comments</span>
                 </a>
 
                 <a href="/?adminPanel=users" 
@@ -64,7 +104,7 @@ import { useLocation } from "react-router-dom";
                    id={adminPanel==="?adminPanel=users"?"active":""}
                    >
                     <FontAwesomeIcon icon={faUser} className=""/>
-                    <p className=" m-0">Users</p>
+                    <span className=" m-0">Users</span>
                 </a>
             </div>
         </div>

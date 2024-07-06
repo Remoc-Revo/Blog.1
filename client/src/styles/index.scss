@@ -276,27 +276,49 @@ p{
 
 
 // ADMIN PANEL
+#blog-title{
+    font-size: 13px;
+}
+#blog-domain{
+    font-size:12px;
+}
 .admin-side-panel-links{
     a{
         color: lightgray;
         text-decoration: none;
         border-left: 4px solid transparent;
+
+        span{
+            font-size: 13px;
+        }
     }
     a:hover{
-        color: green;
-        border-left: 4px solid green; 
+        color: teal;
+        border-left: 4px solid teal; 
     }
     #active{
-        background-color:darkgreen;
-        border-left: 4px solid white;
+        background-color:teal;
+        // border-left: 4px solid white;
     }
     #active:hover{
         border-left: 4px solid white;
         color: white;
     }
+    #sub-active{
+        color: teal;
+        border-left: 4px solid teal; 
+        border-top: 1px dotted teal;
+        background-color: rgb(27, 26, 26);
+    }
+    #posts-links{
+        background-color: rgb(39, 39, 40);
+    }
 }
 
-
+.admin-nav-icon{
+    color: white;
+    height: 20px;
+}
 
 
 @media screen and (min-width:768px){
