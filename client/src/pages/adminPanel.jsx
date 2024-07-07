@@ -46,8 +46,8 @@ export default function AdminPanel(){
         <AdminNav/>
         <div className="d-flex position-relative w-100" style={{height:"100vh"}}>
             <AdminSidePanel updateAdminPanelSection={updateAdminPanelSection}/>
-                <div className="position-absolute w-100 d-flex justify-content-center" id="adminPanelMainContent"
-                    style={{left:"140px",top:"60px"}}
+                <div className="position-absolute col-md-8 col-lg-10 d-flex justify-content-center" id="adminPanelMainContent"
+                    style={{left:"240px",top:"60px"}}
                 >
                     {(adminPanelSection === "")&&<AdminHome />}
                     

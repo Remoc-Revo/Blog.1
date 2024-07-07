@@ -146,8 +146,9 @@ export default function ArticlesUpdating(){
 
     async function updateArticle(){
         setAwaitingResponse(true);
-        let imgUrl;
+        let imgUrl= null;
         let prevImg;
+
         //if a new image has been uploaded
         if(articlePhoto !== articleToUpdate.multimediaUrl){
             
@@ -159,7 +160,7 @@ export default function ArticlesUpdating(){
         else{
             imgUrl = articleToUpdate.multimediaUrl;
         }
-
+        
         if(imgUrl !== undefined){
             await api.post('/updateArticle',
                     {
@@ -264,7 +265,7 @@ export default function ArticlesUpdating(){
                                     <button className="btn border" type="submit"
                                         onClick={(e)=>{
                                             setIsdraft(true);
-                                            document.getElementById("article-form").submit()
+                                            // document.getElementById("article-form").submit()
                                             }} >
                                         <span>Save as a draft</span>
                                     </button>
