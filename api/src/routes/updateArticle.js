@@ -15,8 +15,10 @@ exports.updateArticle=(req,res)=>{
        return res.status(401).json({})
     }
     else{
-        console.log('we here')
         const {body}=req;
+
+        console.log('updating articles here',body)
+
 
         const articleId = body.articleId;
         const headline=body.articleHeadline;

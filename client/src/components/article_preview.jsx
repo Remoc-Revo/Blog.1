@@ -164,11 +164,16 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
     return(
         <div className="col-lg-3 mb-4 articlePreview">
             <a style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
-                <div className="overflow-hidden"  style={{display:"block", height:"180px"}}                 > 
+                {
+                   (fetchedImgUrl!=='null')
+                   ?<div className="overflow-hidden"  style={{display:"block", height:"180px"}}                 > 
                     <img src={fetchedImgUrl} alt=""   
-                        className="w-100 h-100  rounded object-fit-cover">                            
-                    </img>
-                </div>
+                            className="w-100 h-100  rounded object-fit-cover">                            
+                        </img>
+                        
+                    </div>
+                    :<></>    
+                }
                 <div  className="mt-2">
                     <div className="row">
                         <div className="col-auto bg-light m-2 rounded">
