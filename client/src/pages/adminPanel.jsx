@@ -30,7 +30,7 @@ export default function AdminPanel(){
     
         validateUser(); 
         
-        
+       
      
     },[loading,navigate,user])
 
@@ -53,7 +53,7 @@ export default function AdminPanel(){
                     
                     {(adminPanelSection === "?adminPanel=stats")&&<>stats</>}
                     
-                    {(adminPanelSection === "?adminPanel=posts")&&<AdminAllPosts/>}
+                    {(adminPanelSection.includes("?adminPanel=posts"))&&<AdminAllPosts updateAdminPanelSection={updateAdminPanelSection}/>}
                     
                     {(adminPanelSection === "?adminPanel=posts/categories")&&<>categories</>}
                     

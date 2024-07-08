@@ -1,20 +1,24 @@
 import React,{useState,useEffect} from "react";
 import api from "../config/api";
 import { AdminPostPreview } from "../components/article_preview";
-import { decodeString } from "../reusables/global";
+import { decodeString,updateHistory } from "../reusables/global";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
+import { faSearch } from "@fortawesome/free-solid-svg-icons"; 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function AdminAllPosts(){
-    const [allPosts, setAllPosts] = useState([]);
+
+export default function AdminAllPosts({updateAdminPanelSection}){
+    const [allPosts, setAllPosts] = useState(null);
     const navigate = useNavigate();
+    const [postsType, setPostsType] = useState(useLocation().search);
 
     useEffect(()=>{
          function fetchAdminHomeData(){
             api.get("/adminAllPosts",{withCredentials:true})
                .then((response)=>{
-                    console.log("response",response.data.posts)
-                    setAllPosts(response.data.posts);
+                    setAllPosts(response.data);
+                    console.log("allposts response",response.data['published'])
 
                })
                .catch((e)=>{
@@ -22,7 +26,21 @@ export default function AdminAllPosts(){
                })
         }
         fetchAdminHomeData();
+
+        window.addEventListener('popstate',(event)=>{
+            console.log("new location: ",window.location.search);
+            setPostsType(window.location.search);
+        })
     },[])
+
+    function onPostsButtonClick(e,path){
+        e.preventDefault();
+        updateHistory(path);
+        updateAdminPanelSection(path);
+        setPostsType(path)
+    }
+
+    
 
     return <div className="container d-flex justify-content-center ">
         
@@ -31,27 +49,36 @@ export default function AdminAllPosts(){
             <h4>All Posts</h4>
             <p className="fw-lighter">Create, edit and manage your posts</p>
             <div className=" mt-md-5">  
-                <div className="d-flex mb-5">
-                    <div>
-                        <div className="d-flex">
-                            <button >
-                                Published
-                            </button>
-                            <button>
-                                Draft
-                            </button>
-                        </div>
-                        
-                       
+                <div className="d-flex justify-content-between mb-5" id="posts-nav">
+                    
+                    <div className="d-flex" id="admin-posts-buttons">
+                        <button className="btn rounded-0"
+                                id={postsType ==="?adminPanel=posts"?"active":""}
+                                onClick={(e)=>onPostsButtonClick(e,"?adminPanel=posts")}>
+                            <span>Published</span>
+                        </button>
+                        <button className="btn rounded-0"
+                            id={postsType ==="?adminPanel=posts/drafts"?"active":""}
+                            onClick={(e)=>onPostsButtonClick(e,"?adminPanel=posts/drafts")}>
+ 
+                            Drafts
+                        </button>
                     </div>
+                    
+                    <button className="btn rounded-0">
+                        <FontAwesomeIcon icon={faSearch}/>
+                    </button>
                 </div>
                 {
                 
-                (allPosts.length===0)
+                (allPosts===null)
                 ?<div className="d-flex justify-content-center"><h5 className="fw-lighter">No article published yet</h5></div>
-                :
-                <table className="">
-                    {allPosts.map((article,index)=>{
+                :<table className="">
+                    {allPosts[
+                        (postsType ==="?adminPanel=posts/drafts")
+                        ?'drafts'
+                        :'published'
+                    ].map((article,index)=>{
                         return <tr className="">
                                 <td>
                                     <AdminPostPreview 

@@ -124,7 +124,7 @@ export function GridItemBig({articleSection,headline,time,briefDescription,imgUr
 
     return(
         <div className="col-lg-4">
-            <a href={`/sngl/${articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="">
+            <a href={`/sngl/${articleId}`} style={{textDecoration:"none",color:"black",height:"100%"}} className="w-100">
                 <img src={fetchedImgUrl} alt=""   style={{display:"block",minHeight:"250px", maxHeight:"250px"}} className="w-100"></img>
 
                 <div  className="container">
@@ -163,9 +163,10 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
 
     return(
         <div className="col-lg-3 mb-4 articlePreview">
-            <button style={{textDecoration:"none",color:"black",height:"100%"}} className="btn" onClick={handleClick}>
-                {
-                   (fetchedImgUrl!=='null')
+            
+            <a href='' style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
+            {
+                   (fetchedImgUrl!==null)
                    ?<div className="overflow-hidden"  style={{display:"block", height:"180px"}}                 > 
                     <img src={fetchedImgUrl} alt=""   
                             className="w-100 h-100  rounded object-fit-cover">                            
@@ -184,8 +185,7 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
                     <h5 className="articleHeadline">{headline}</h5>
                     {/* <p className="briefDescription">{briefDescription}</p> */}
                 </div>
-                
-            </button>
+            </a>
         </div>
             
         )
@@ -213,32 +213,34 @@ export function AdminPostPreview({articleSection,headline,time,briefDescription,
     },[imgUrl])
 
     return(
-        <div className="col-md-12  articlePreview ">
-            <a style={{textDecoration:"none",color:"black",height:""}} 
+        <div className="col-md-12  articlePreview p-2">
+            <a style={{textDecoration:"none",color:"black"}} 
                 className="d-flex  align-items-center justify-content-between" 
                 onClick={handleClick}>
                 
-                <div  className="mt-2 col-md-9">
+                <div  className=" col-md-9">
                     <h5 className="articleHeadline">{headline}</h5>
-                    <div className="row ms-1">
-                        <div className="col-auto bg-light  pt-1 rounded">
-                            <h6 className="text-secondary">{articleSection}</h6>
+                    <div className="row ">
+                        <div className="col-auto">
+                            <h6 className="text-secondary m-0">{articleSection}</h6>
                         </div>
                     </div>
-                    <i className="duration">{time}</i>
+                    <i className="duration ">{time}</i>
                     
                     {/* <p className="briefDescription">{briefDescription}</p> */}
                 </div>
                 
                 {
                    (fetchedImgUrl!==null)
-                   ?<div className="overflow-hidden  p-1 d-flex "  style={{display:"block",height:"90px", width:"90px"}}                 > 
+                   ?<div className="overflow-hidden   d-flex "  style={{display:"block",height:"100px", width:"100px"}}                 > 
                     <img src={fetchedImgUrl} alt=""   
                             className="w-100 h-100   object-fit-cover">                            
                         </img>
                         
                     </div>
-                    :<></>    
+                    :<div style={{ width:"30vw"}}>
+                        
+                    </div>    
                 }
             </a>
         </div>

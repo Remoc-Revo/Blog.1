@@ -322,8 +322,29 @@ p{
 
 
 //ADMIN ALL POSTS
+#posts-nav{
+    border: 1px solid lightgray;
+
+    #admin-posts-buttons{
+
+        button{
+            color:rgb(0, 153, 255);
+
+            &:focus{
+                outline: none;
+                box-shadow: none;
+                border:none;
+            }
+        }
+        #active{
+            color:black;
+            border-bottom: 2px solid black;
+        }
+    }
+}
+
 table{
-    border-top: 1px solid lightgrey;
+    border: 1px solid lightgrey;
 
     tr{
         border-bottom: 1px solid lightgrey;
