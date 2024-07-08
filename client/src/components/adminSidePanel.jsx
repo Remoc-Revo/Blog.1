@@ -24,7 +24,12 @@ import { useLocation } from "react-router-dom";
 
     function onLinkClick(e,path){
         e.preventDefault();
-        window.history.pushState({},'',path);
+        if(path==""){
+            window.history.pushState({},'',"/")
+        }
+        else{
+            window.history.pushState({},'',path)
+        }
         updateAdminPanelSection(path);
         setAdminPanel(path)
     }
