@@ -163,7 +163,7 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
 
     return(
         <div className="col-lg-3 mb-4 articlePreview">
-            <a style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
+            <button style={{textDecoration:"none",color:"black",height:"100%"}} className="btn" onClick={handleClick}>
                 {
                    (fetchedImgUrl!=='null')
                    ?<div className="overflow-hidden"  style={{display:"block", height:"180px"}}                 > 
@@ -185,7 +185,7 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
                     {/* <p className="briefDescription">{briefDescription}</p> */}
                 </div>
                 
-            </a>
+            </button>
         </div>
             
         )
@@ -193,4 +193,56 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
 }
 
 
+export function AdminPostPreview({articleSection,headline,time,briefDescription,imgUrl,articleId,handleClick}){
 
+    const [fetchedImgUrl,setFetchedImgUrl] = useState('');
+
+    useEffect(()=>{
+        async function fetchImage(){
+            try{
+                const url = await GetImage(imgUrl);
+                setFetchedImgUrl(url)
+                console.log("urlllll",url)
+
+            }catch(err){
+                console.log('error fetching image',err);
+            }
+        }
+
+        fetchImage();
+    },[imgUrl])
+
+    return(
+        <div className="col-md-12  articlePreview ">
+            <a style={{textDecoration:"none",color:"black",height:""}} 
+                className="d-flex  align-items-center justify-content-between" 
+                onClick={handleClick}>
+                
+                <div  className="mt-2 col-md-9">
+                    <h5 className="articleHeadline">{headline}</h5>
+                    <div className="row ms-1">
+                        <div className="col-auto bg-light  pt-1 rounded">
+                            <h6 className="text-secondary">{articleSection}</h6>
+                        </div>
+                    </div>
+                    <i className="duration">{time}</i>
+                    
+                    {/* <p className="briefDescription">{briefDescription}</p> */}
+                </div>
+                
+                {
+                   (fetchedImgUrl!==null)
+                   ?<div className="overflow-hidden  p-1 d-flex "  style={{display:"block",height:"90px", width:"90px"}}                 > 
+                    <img src={fetchedImgUrl} alt=""   
+                            className="w-100 h-100   object-fit-cover">                            
+                        </img>
+                        
+                    </div>
+                    :<></>    
+                }
+            </a>
+        </div>
+            
+        )
+
+}
