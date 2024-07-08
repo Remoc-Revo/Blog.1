@@ -49,19 +49,22 @@ export default function AdminAllPosts({updateAdminPanelSection}){
             <h4>All Posts</h4>
             <p className="fw-lighter">Create, edit and manage your posts</p>
             <div className=" mt-md-5">  
-                <div className="d-flex justify-content-between mb-5" id="posts-nav">
+                <div className="d-flex justify-content-between mb-4" id="posts-nav">
                     
-                    <div className="d-flex" id="admin-posts-buttons">
-                        <button className="btn rounded-0"
+                    <div className="d-flex gap-3" id="admin-posts-buttons">
+                        <button className="btn rounded-0 "
                                 id={postsType ==="?adminPanel=posts"?"active":""}
                                 onClick={(e)=>onPostsButtonClick(e,"?adminPanel=posts")}>
                             <span>Published</span>
+                            {(allPosts!==null)&&<span className="ms-2 text-black rounded-circle border">{allPosts['published'].length}</span>}
                         </button>
                         <button className="btn rounded-0"
                             id={postsType ==="?adminPanel=posts/drafts"?"active":""}
                             onClick={(e)=>onPostsButtonClick(e,"?adminPanel=posts/drafts")}>
  
                             Drafts
+                            {(allPosts!==null)&&<span className="ms-2 ps-1 pe-1 text-black rounded-circle border">{allPosts['drafts'].length}</span>}
+
                         </button>
                     </div>
                     
