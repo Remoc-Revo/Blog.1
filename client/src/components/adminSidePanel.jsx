@@ -3,11 +3,9 @@ import React,{useState,useEffect} from "react";
 import { faHouseChimney } from "@fortawesome/free-solid-svg-icons";
 import Logo from "../logos/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import { faComment } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faChartSimple,faComment, faUser,faCalendar} from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
+import { updateHistory } from "../reusables/global";
 
  const AdminSidePanel=({updateAdminPanelSection})=>{
     const [adminPanel, setAdminPanel] = useState(useLocation().search);
@@ -20,16 +18,17 @@ import { useLocation } from "react-router-dom";
         else{
             setShowPostsLinks(false);
         }
+
+        window.addEventListener('popstate',(event)=>{
+            console.log("new location: ",window.location.search);
+            setAdminPanel(window.location.search);
+            updateAdminPanelSection(window.location.search);
+        })
     },[showPostsLinks,adminPanel])
 
     function onLinkClick(e,path){
         e.preventDefault();
-        if(path==""){
-            window.history.pushState({},'',"/")
-        }
-        else{
-            window.history.pushState({},'',path)
-        }
+        updateHistory(path);
         updateAdminPanelSection(path);
         setAdminPanel(path)
     }
@@ -70,8 +69,7 @@ import { useLocation } from "react-router-dom";
 
                 <a href="/?adminPanel=posts" 
                    className="d-flex gap-2 ps-3 pt-2 pb-1"
-                   id={adminPanel==="?adminPanel=posts"
-                    ||adminPanel==="?adminPanel=posts/categories"
+                   id={adminPanel.includes("?adminPanel=posts")
                         ?"sub-active"
                         :""}
                     onClick={(e)=>{onLinkClick(e,"?adminPanel=posts")} }
@@ -88,6 +86,7 @@ import { useLocation } from "react-router-dom";
                     <a href="/?adminPanel=posts" 
                     className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
                     id={adminPanel==="?adminPanel=posts"
+                            || adminPanel === "?adminPanel=posts/drafts"
                             ?"active"
                             :"" }
                     onClick={(e)=>{onLinkClick(e,"?adminPanel=posts")} }

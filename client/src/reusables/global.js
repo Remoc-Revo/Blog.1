@@ -7,3 +7,12 @@ export function decodeString(str){
             .replace(/<p>/g,"")
             .replace(/<\/p>/g,""))
 }
+
+export function updateHistory(path){
+    if(path==""){
+        window.history.pushState({},'',"/")
+    }
+    else{
+        window.history.pushState({},'',path)
+    }
+}

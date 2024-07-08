@@ -16,7 +16,7 @@ export default function fetchImage(imgUrl){
         const match = imgUrl.match(baseUrlPattern);
 
         if(!match){
-            reject(null);
+            resolve(null);
         }
         const baseUrl = match[1];
         const imagePath = match[2];
