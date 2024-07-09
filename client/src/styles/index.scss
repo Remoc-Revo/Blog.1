@@ -330,18 +330,21 @@ p{
         button{
             color:rgb(0, 153, 255);
 
-            &:focus{
-                outline: none;
-                box-shadow: none;
-                border:none;
-            }
+            
         }
         #active{
             color:black;
             border-bottom: 2px solid black;
         }
     }
+
+    :focus{
+        outline: none;
+        box-shadow: none;
+        border:none;
+    }
 }
+
 
 table{
     border: 1px solid lightgrey;
