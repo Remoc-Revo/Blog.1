@@ -17,6 +17,7 @@ const {deleteArticle} = require('./deleteArticle')
 const {getSections,addSection} = require('./sections')
 const {getAdminHomeData}= require('./getAdminHomeData');
 const {getAdminAllPosts} = require('./getAdminAllPosts');
+const {getAdminPostsCategories} = require('./getAdminPostsCategories');
 require('dotenv').config();
 
 const storage=multer.diskStorage({
@@ -154,5 +155,7 @@ router.post('/addSection',addSection);
 router.get('/adminHomeData', getAdminHomeData);
 
 router.get('/adminAllPosts',getAdminAllPosts);
+
+router.get('/adminPostsCategories',getAdminPostsCategories);
 
 module.exports = router;

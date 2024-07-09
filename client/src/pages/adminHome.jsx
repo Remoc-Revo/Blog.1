@@ -29,8 +29,8 @@ export default function AdminHome(){
         fetchAdminHomeData();
     },[])
 
-    return <div className="container ">
-        <div className="container-md mb-5">
+    return <div className="container col-lg-10 ">
+        <div className="container-md  mb-5">
             <h2>Latest Drafts</h2>
             <div className="row ">                            
                 {
