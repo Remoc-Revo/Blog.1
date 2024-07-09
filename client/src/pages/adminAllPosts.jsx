@@ -15,6 +15,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
     const navigate = useNavigate();
     const [postsType, setPostsType] = useState(useLocation().search);
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
+    const [searchedText, setSearchedText] = useState('');
 
     const updateDisplayedPosts = useCallback(()=>{
         const posts = (postsType ==="?adminPanel=posts/drafts")?drafts:published;
@@ -72,14 +73,27 @@ export default function AdminAllPosts({updateAdminPanelSection}){
     }
 
     function handleSearch(e){
-        const textSearch = e.target.value;
-        console.log("text search: ",textSearch)
+        const text = e.target.value.toLowerCase();
+        setSearchedText(text);
 
-        const fitleredPosts = displayedPosts.filter(
-            (article) => {
-                console.log(article.articleHeadline)
-                return article;
-            }
+        const viewedPosts = (postsType ==="?adminPanel=posts/drafts")?drafts:published;
+
+        
+
+        const fitleredPosts = viewedPosts.filter(
+            article => 
+                {
+                    const decodedHeadline = decodeString(article.articleHeadline.toLowerCase());
+                    const decodedBody = decodeString(article.articleBody.toLowerCase());
+                    
+                     if(decodedHeadline.includes(text) 
+                    || decodedBody.includes(text)){
+                    
+                        return article;
+                    }
+
+
+                 }
         )
 
         setDisplayedPosts(fitleredPosts);
@@ -135,7 +149,10 @@ export default function AdminAllPosts({updateAdminPanelSection}){
                                 style={{zIndex:"1"}}
                                 />
                             <button className="btn position-absolute end-0 top-0 h-100"
-                                onClick={toggleIsSearchInputVisible}
+                                onClick={()=>{
+                                    toggleIsSearchInputVisible();
+                                    updateDisplayedPosts();
+                                }}
                                 style={{zIndex:"1"}}>
                                 <FontAwesomeIcon icon={faTimes}/>
                             </button>
@@ -144,7 +161,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
                     
                 </div>
                 {                
-                (displayedPosts!==null && displayedPosts.length===0)
+                (displayedPosts!==null && displayedPosts.length===0 && !isSearchInputVisible)
                 &&<div className="d-flex justify-content-center">
                     <h5 className="fw-lighter">
                         {
@@ -179,6 +196,20 @@ export default function AdminAllPosts({updateAdminPanelSection}){
                         })
                         }
                     </table>   
+                }
+
+                {                
+                (displayedPosts!==null && displayedPosts.length===0 && isSearchInputVisible)
+                &&<div className="d-flex justify-content-center">
+                    <h5 className="fw-lighter">
+                        {
+                            <span> No result for "{searchedText}"</span>
+                        }
+                    
+                    
+                    </h5>
+                </div>
+                
                 }
             </div>
         </div>
