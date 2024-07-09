@@ -274,6 +274,10 @@ p{
     font-weight: lighter;
 }
 
+.ic-grey{
+    color:grey;
+}
+
 
 // ADMIN PANEL
 #blog-title{
@@ -338,7 +342,7 @@ p{
         }
     }
 
-    :focus{
+    button:focus{
         outline: none;
         box-shadow: none;
         border:none;
@@ -346,11 +350,42 @@ p{
 }
 
 
+
+
 table{
     border: 1px solid lightgrey;
 
     tr{
         border-bottom: 1px solid lightgrey;
+    }
+}
+
+
+//ADMIN-CATEGORIES
+#admin-posts-categories{
+    .category-name{
+        font-weight: 500;
+    }
+}
+#categories-nav{
+    // padding-right: 15px;
+    
+
+    button:focus{
+        outline: none;
+        box-shadow: none;
+        border:none;
+    }
+
+    input:focus{
+        outline:1px solid grey;
+        box-shadow: none;
+    }
+
+    .btn-new-category{
+        background-color:teal;
+        color:white;
+        margin-right: 60px;
     }
 }
 

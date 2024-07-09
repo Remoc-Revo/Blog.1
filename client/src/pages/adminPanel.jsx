@@ -5,6 +5,7 @@ import AdminNav from "../navs/adminNav";
 import AdminSidePanel from "../components/adminSidePanel";
 import AdminHome from "./adminHome";
 import AdminAllPosts from "./adminAllPosts";
+import AdminPostsCategories from "./adminPostsCategories";
 
 export default function AdminPanel(){
     const navigate = useNavigate();
@@ -53,9 +54,10 @@ export default function AdminPanel(){
                     
                     {(adminPanelSection === "?adminPanel=stats")&&<>stats</>}
                     
-                    {(adminPanelSection.includes("?adminPanel=posts"))&&<AdminAllPosts updateAdminPanelSection={updateAdminPanelSection}/>}
+                    {(adminPanelSection==="?adminPanel=posts"|| adminPanelSection==="?adminPanel=posts/drafts")
+                    &&<AdminAllPosts updateAdminPanelSection={updateAdminPanelSection}/>}
                     
-                    {(adminPanelSection === "?adminPanel=posts/categories")&&<>categories</>}
+                    {(adminPanelSection === "?adminPanel=posts/categories")&&<AdminPostsCategories/>}
                     
                     {(adminPanelSection === "?adminPanel=comments")&&<>comments</>}
                     

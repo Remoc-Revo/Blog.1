@@ -99,10 +99,10 @@ export default function AdminAllPosts({updateAdminPanelSection}){
         setDisplayedPosts(fitleredPosts);
     }
 
-    return <div className="container d-flex justify-content-center ">
+    return <div className="container  d-flex justify-content-center ">
         
 
-        <div className="container mb-5 col-md-12 col-lg-9 ps-5">
+        <div className="container mb-5 col-md-9 ">
             <h4>All Posts</h4>
             <p className="fw-lighter">Create, edit and manage your posts</p>
             <div className=" mt-md-5">  
