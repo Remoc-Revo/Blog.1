@@ -86,7 +86,7 @@ export default function AdminPostsCategories(){
             {
                 withCredentials:true,
                 sectionName: activeCategory.sectionName,
-                description: activeCategory.description
+                categoryDescription: activeCategory.sectionDescription
             })
             .then(()=>{
                 fetchCategories();

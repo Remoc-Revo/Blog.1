@@ -14,9 +14,11 @@ exports.getSections = (req,res)=>{
 
 exports.addSection = (req,res)=>{
     const sectionName = req.body.sectionName;
+    const categoryDescription =req.body.categoryDescription;
+
     console.log("adding section",req.body);
 
-    pool.query(`INSERT INTO SECTION (sectionName) VALUES(?)`,[sectionName],
+    pool.query(`INSERT INTO SECTION (sectionName,sectionDescription) VALUES(?,?)`,[sectionName,categoryDescription],
         (err,result)=>{
             if(err){
                 console.log("error adding ", sectionName, err);
