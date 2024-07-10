@@ -3,6 +3,7 @@ import api from "../config/api";
 import { decodeString } from "../reusables/global";
 import { faSearch,faTimes,faFolder,faEllipsisH, faEllipsisV,faPen, faTrash } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Modal} from 'react-bootstrap';
 
 export default function AdminPostsCategories(){
     const [fetchedCategories,setFetchedCategories] = useState([]);
@@ -12,8 +13,9 @@ export default function AdminPostsCategories(){
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState({top:'0px',left:'0px'});
     const menuRef = useRef(null);
-    const [activeMenu, setActiveMenu] = useState(null);
-
+    const [activeCategory, setActiveCategory] = useState(null);
+    const [showDeletionModal,setShowDeletionModal] = useState(false);
+    const [showCategoryEditingModal, setShowCategoryEditingModal] = useState(false);
 
     useEffect(()=>{
 
@@ -62,11 +64,11 @@ export default function AdminPostsCategories(){
     setMenuVisible(!menuVisible);
    }
 
-    function handleMemuClick(e,id){
+    function handleMemuClick(e,category){
         e.preventDefault();
         e.stopPropagation();
 
-        !menuVisible? setActiveMenu(id): setActiveMenu(null);
+        !menuVisible? setActiveCategory(category): setActiveCategory(null);
         toggleMenuVisible();
 
         const buttonRect = e.target.getBoundingClientRect();
@@ -147,7 +149,11 @@ export default function AdminPostsCategories(){
                 (displayedCategories!==null && displayedCategories.length!==0)
                 &&<table className="w-100 " id="admin-posts-categories">
                     {displayedCategories.map((category,index)=>{
-                        return <tr className="">
+                        return <tr className="" 
+                                    onClick={()=>{
+                                        setActiveCategory(category);
+                                        setShowCategoryEditingModal(true)
+                                    }}>
                                 
                                     <div className="p-2 d-flex justify-content-between ">
                                        
@@ -164,8 +170,8 @@ export default function AdminPostsCategories(){
                                             <button 
                                                 className="btn" 
                                                 
-                                                onClick={(e)=>handleMemuClick(e,category.sectionId)}>
-                                                 {menuVisible && activeMenu == category.sectionId ?
+                                                onClick={(e)=>handleMemuClick(e,category)}>
+                                                 {menuVisible && activeCategory.sectionId == category.sectionId ?
                                                     <FontAwesomeIcon 
                                                         icon={ faEllipsisV} 
                                                         className="ic-orange"/>
@@ -196,12 +202,14 @@ export default function AdminPostsCategories(){
                     }}
                     className="d-flex flex-column align-items-start border bg-white">
 
-                        <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center">
+                        <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center"
+                            onClick={()=>setShowCategoryEditingModal(true)}>
                             <FontAwesomeIcon icon={faPen} className="ic ic-grey "/>
                             Edit
                         </button>
 
-                        <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center ">
+                        <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center "
+                            onClick={()=>{setShowDeletionModal(true)}}>
                             <FontAwesomeIcon icon={faTrash} className="ic ic-grey "/>
                             Delete
                         </button>
@@ -226,6 +234,61 @@ export default function AdminPostsCategories(){
     </div>
 
 
+    
+    <Modal show={showDeletionModal} centered >
 
+            <Modal.Body>
+                <span>Are your sure you want to permanently delete '{activeCategory!==null && activeCategory.sectionName}' ?</span>
+
+                <div className="d-flex justify-content-between mt-2">
+                    <button className="btn btn-secondary" onClick={()=>setShowDeletionModal(false)}>
+                        Cancel
+                    </button>
+                    <button className="btn btn-danger">
+                        Delete
+                    </button>
+            </div>
+            </Modal.Body>
+
+            
+    </Modal>
+
+
+    <Modal show={showCategoryEditingModal} centered >
+
+    {activeCategory!==null &&
+    <Modal.Body className="d-flex flex-column gap-2">
+        <div>
+            <label>Name</label>
+            <input type="text" 
+                className="w-100"
+                value={activeCategory.sectionName}
+                />
+        </div>
+        
+        <div>
+            <label>Description</label>
+            <input type="text" className="w-100 h-100"
+
+            />
+        </div>
+       
+
+        <div className="d-flex justify-content-between mt-3">
+            <button className="btn btn-secondary" onClick={()=>setShowCategoryEditingModal(false)}>
+                Cancel
+            </button>
+            <button className="btn btn-success">
+                Update
+            </button>
+        </div>
+    </Modal.Body>
+    }
+
+    </Modal>
 </div>
 }
+
+
+
+
