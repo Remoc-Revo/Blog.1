@@ -1,7 +1,7 @@
-import React,{useEffect,useState} from "react";
+import React,{useEffect,useRef,useState} from "react";
 import api from "../config/api";
 import { decodeString } from "../reusables/global";
-import { faSearch,faTimes,faFolder } from "@fortawesome/free-solid-svg-icons"; 
+import { faSearch,faTimes,faFolder,faEllipsisH, faEllipsisV,faPen, faTrash } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function AdminPostsCategories(){
@@ -9,6 +9,10 @@ export default function AdminPostsCategories(){
     const [displayedCategories, setDisplayedCategories] = useState(null);
     const [isSearchInputActive, setIsSearchInputActive] = useState(false);
     const [searchedText, setSearchedText] = useState('');
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [menuPosition, setMenuPosition] = useState({top:'0px',left:'0px'});
+    const menuRef = useRef(null);
+    const [activeMenu, setActiveMenu] = useState(null);
 
 
     useEffect(()=>{
@@ -48,15 +52,41 @@ export default function AdminPostsCategories(){
     }
 
 
-    return <div className="container  d-flex justify-content-center ">
+    window.addEventListener('click',()=>{
+        if(menuVisible) setMenuVisible(false);
+    }
+    );
+
+   function toggleMenuVisible(){
+    
+    setMenuVisible(!menuVisible);
+   }
+
+    function handleMemuClick(e,id){
+        e.preventDefault();
+        e.stopPropagation();
+
+        !menuVisible? setActiveMenu(id): setActiveMenu(null);
+        toggleMenuVisible();
+
+        const buttonRect = e.target.getBoundingClientRect();
+        setMenuPosition({
+            top: buttonRect.bottom + window.scrollY -40,
+            left: buttonRect.left + window.scrollX -309//-  menuRef.current.offsetWidth
+        })
+    }
+
+    
+
+    return <div className="container d-flex justify-content-center ">
         
 
     <div className="container mb-5 col-md-9 ">
         <h4>Categories</h4>
         <p className="fw-lighter">Create, edit and manage categories</p>
         <div className=" mt-md-5">  
-            <div className="d-flex justify-content-between  mb-4 " id="categories-nav">
-                <div className="col-9 position-relative d-flex justify-content-between " >                
+            <div className="d-flex  mb-4 " id="categories-nav">
+                <div className="col-9 position-relative d-flex justify-content-between border" >                
                     <button className="btn rounded-0">
                         <FontAwesomeIcon icon={faSearch}/>
                     </button>                
@@ -92,7 +122,7 @@ export default function AdminPostsCategories(){
                     
                 </div>
 
-                <button className="h-100 col-3 btn rounded-0 btn-new-category m-0 ">
+                <button className=" col-3 btn rounded-0 btn-new-category m-0 ">
                     <span>Add new Category</span>
                 </button>
                 
@@ -110,7 +140,9 @@ export default function AdminPostsCategories(){
                 </h5>
             </div>
             
+            
             }
+            
             {
                 (displayedCategories!==null && displayedCategories.length!==0)
                 &&<table className="w-100 " id="admin-posts-categories">
@@ -129,7 +161,19 @@ export default function AdminPostsCategories(){
                                             <span className=" border rounded-circle ps-2 pe-2">
                                                 {category.articleCount}
                                             </span>
-
+                                            <button 
+                                                className="btn" 
+                                                
+                                                onClick={(e)=>handleMemuClick(e,category.sectionId)}>
+                                                 {menuVisible && activeMenu == category.sectionId ?
+                                                    <FontAwesomeIcon 
+                                                        icon={ faEllipsisV} 
+                                                        className="ic-orange"/>
+                                                    :<FontAwesomeIcon 
+                                                        icon={faEllipsisH} 
+                                                        className="ic-grey"/>
+                                                }
+                                            </button>
                                         </div>
                                     </div>
                                 
@@ -138,6 +182,31 @@ export default function AdminPostsCategories(){
                     })
                     }
                 </table>   
+            }
+
+            {
+                menuVisible&&(
+                    <div 
+                    ref={menuRef}
+                    id="category-menu"
+                    style={{
+                        position:"absolute",
+                        top:`${menuPosition.top}px`,
+                        left:`${menuPosition.left}px`,
+                    }}
+                    className="d-flex flex-column align-items-start border bg-white">
+
+                        <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center">
+                            <FontAwesomeIcon icon={faPen} className="ic ic-grey "/>
+                            Edit
+                        </button>
+
+                        <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center ">
+                            <FontAwesomeIcon icon={faTrash} className="ic ic-grey "/>
+                            Delete
+                        </button>
+                    </div>
+                )
             }
 
             {                

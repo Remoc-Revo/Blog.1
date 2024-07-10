@@ -278,6 +278,10 @@ p{
     color:grey;
 }
 
+.ic-orange{
+    color:orange;
+}
+
 
 // ADMIN PANEL
 #blog-title{
@@ -369,7 +373,7 @@ table{
 }
 #categories-nav{
     // padding-right: 15px;
-    
+    // height: 50px;
 
     button:focus{
         outline: none;
@@ -383,9 +387,26 @@ table{
     }
 
     .btn-new-category{
+        
         background-color:teal;
         color:white;
         margin-right: 60px;
+        font-size: 13px;
+    }
+}
+
+#category-menu{
+    button{
+        border-bottom: 1px solid lightgrey;
+    }
+    button:hover{
+        
+        background-color: rgb(70, 164, 164);
+        color: white;
+
+        .ic{
+            color:white;
+        }
     }
 }
 
