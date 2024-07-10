@@ -45,3 +45,28 @@ exports.deleteCategory = (req,res)=>{
         console.log("error deleting category",e);
     }
 }
+
+exports.editCategory =(req,res)=>{
+    const {body} = req;
+    const categoryId = body.categoryId;
+    const categoryName = body.categoryName;
+    const categoryDescription = body.categoryDescription;
+
+    console.log("editing category", body)
+
+    try{
+        pool.query(`UPDATE SECTION
+                         SET sectionName = ?, 
+                         sectionDescription = ? 
+                         WHERE sectionId = ?`,
+                [categoryName,categoryDescription,categoryId],
+                (err,result)=>{
+                    if(result){
+                        return res.status(200).json({});
+                    }
+                })
+    }
+    catch(e){
+        console.log("Error editing category",e);
+    }
+}

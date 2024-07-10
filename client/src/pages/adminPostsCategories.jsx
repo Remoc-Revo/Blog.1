@@ -98,11 +98,43 @@ export default function AdminPostsCategories(){
         }
     }
 
+    function editCategory(){
+        if(activeCategory.sectionName!==null)
+        {api.post('/editCategory',
+            {
+                withCredentials:true,
+                categoryId: activeCategory.sectionId,
+                categoryName: activeCategory.sectionName,
+                categoryDescription: activeCategory.sectionDescription
+            })
+            .then(()=>{
+                fetchCategories();
+                setShowCategoryEditingModal(false);
+            })
+            .catch((e)=>{
+                console.log("Error editing category",e);
+            })
+        }
+    }
+
     function onCategoryNameChange(e){
         const newName = e.target.value;
-        const category = activeCategory;
-        category.sectionName = newName;
-        setActiveCategory(category);
+        console.log("new name", newName);
+        const updatedCategory = {
+            ...activeCategory,
+            sectionName:newName
+        };
+        setActiveCategory(updatedCategory);
+    }
+
+    function onCategoryDescriptionChange(e){
+        const newDescription = e.target.value;
+        console.log("new description",newDescription);
+        const updatedCategory = {
+            ...activeCategory,
+            sectionDescription:newDescription
+        };
+        setActiveCategory(updatedCategory);
     }
 
     function deleteCategory(){
@@ -169,7 +201,7 @@ export default function AdminPostsCategories(){
                     onClick={()=>{
                         setActiveCategory({})
                         setShowNewCategoryModal(true)
-
+                        console.log("active category na,e")
                     }}>
                     <span>Add new Category</span>
                 </button>
@@ -309,13 +341,15 @@ export default function AdminPostsCategories(){
             <input type="text" 
                 className="w-100 modal-input"
                 value={activeCategory.sectionName}
+                onChange={onCategoryNameChange}
                 />
         </div>
         
         <div>
             <label>Description</label>
             <textarea rows={5} className="w-100 h-100 modal-input"
-
+                onChange={onCategoryDescriptionChange}
+                value={activeCategory.sectionDescription}
             />
         </div>
        
@@ -324,7 +358,7 @@ export default function AdminPostsCategories(){
             <button className="btn btn-light border rounded-0" onClick={()=>setShowCategoryEditingModal(false)}>
                 Cancel
             </button>
-            <button className="btn btn-success rounded-0">
+            <button className="btn btn-success rounded-0" onClick={editCategory}>
                 Update
             </button>
         </div>
@@ -350,7 +384,8 @@ export default function AdminPostsCategories(){
             <div>
                 <label>Description</label>
                 <textarea rows={5} className="w-100 h-100 modal-input"
-
+                    onChange={onCategoryDescriptionChange}
+                    value={activeCategory.sectionDescription}
                 />
             </div>
         
@@ -359,7 +394,10 @@ export default function AdminPostsCategories(){
                 <button className="btn btn-light border rounded-0" onClick={()=>setShowNewCategoryModal(false)}>
                     Cancel
                 </button>
-                <button className="btn btn-success rounded-0" onClick={addNewCategory}>
+                <button 
+                    // className={activeCategory.sectionName && activeCategory.sectionName.length>0 ?"btn btn-light rounded-0":"btn btn-success rounded-0"} 
+                    className="btn btn-success rounded-0"
+                    onClick={addNewCategory}>
                     Create
                 </button>
             </div>
