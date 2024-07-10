@@ -1,4 +1,4 @@
-import React,{useEffect,useRef,useState} from "react";
+import React,{useCallback, useEffect,useRef,useState} from "react";
 import api from "../config/api";
 import { decodeString } from "../reusables/global";
 import { faSearch,faTimes,faFolder,faEllipsisH, faEllipsisV,faPen, faTrash } from "@fortawesome/free-solid-svg-icons"; 
@@ -16,21 +16,22 @@ export default function AdminPostsCategories(){
     const [activeCategory, setActiveCategory] = useState(null);
     const [showDeletionModal,setShowDeletionModal] = useState(false);
     const [showCategoryEditingModal, setShowCategoryEditingModal] = useState(false);
+    const [showNewCategoryModal, setShowNewCategoryModal] = useState(false);
 
-    useEffect(()=>{
 
-        function fetchCategories(){
-            api.get('/adminPostsCategories')
-                .then((response)=>{
-                    setFetchedCategories(response.data.categories);
-                    console.log("type of fetchedCategories", typeof response.data.categories,":",response.data.categories);
-                    setDisplayedCategories(response.data.categories);
-                 })
-                .catch((e)=>{})
-        }
-        
-        fetchCategories();
+    const  fetchCategories= useCallback(()=>{
+        api.get('/adminPostsCategories')
+            .then((response)=>{
+                setFetchedCategories(response.data.categories);
+                console.log("type of fetchedCategories", typeof response.data.categories,":",response.data.categories);
+                setDisplayedCategories(response.data.categories);
+             })
+            .catch((e)=>{})
     },[])
+
+    useEffect(()=>{             
+        fetchCategories();
+    },[fetchCategories])
 
     function handleSearch(e){
         const text = e.target.value.toLowerCase();
@@ -46,7 +47,7 @@ export default function AdminPostsCategories(){
                         return category;
                     }
 
-
+                    return null;
                  }
         )
 
@@ -78,6 +79,46 @@ export default function AdminPostsCategories(){
         })
     }
 
+
+    function addNewCategory(){
+        if(activeCategory.sectionName!==null)
+        {api.post('/addSection',
+            {
+                withCredentials:true,
+                sectionName: activeCategory.sectionName,
+                description: activeCategory.description
+            })
+            .then(()=>{
+                fetchCategories();
+                setShowNewCategoryModal(false);
+            })
+            .catch((e)=>{
+                console.log("Error creating new category",e);
+            })
+        }
+    }
+
+    function onCategoryNameChange(e){
+        const newName = e.target.value;
+        const category = activeCategory;
+        category.sectionName = newName;
+        setActiveCategory(category);
+    }
+
+    function deleteCategory(){
+        api.post('/deleteCategory',
+            {
+                withCredentials:true,
+                categoryId: activeCategory.sectionId,
+            })
+            .then(()=>{
+                fetchCategories();
+                setShowDeletionModal(false);
+            })
+            .catch((e)=>{
+                console.log("Error deleting category",e);
+            }) 
+    }
     
 
     return <div className="container d-flex justify-content-center ">
@@ -124,7 +165,12 @@ export default function AdminPostsCategories(){
                     
                 </div>
 
-                <button className=" col-3 btn rounded-0 btn-new-category m-0 ">
+                <button className=" col-3 btn rounded-0 btn-new-category m-0 "
+                    onClick={()=>{
+                        setActiveCategory({})
+                        setShowNewCategoryModal(true)
+
+                    }}>
                     <span>Add new Category</span>
                 </button>
                 
@@ -171,7 +217,7 @@ export default function AdminPostsCategories(){
                                                 className="btn" 
                                                 
                                                 onClick={(e)=>handleMemuClick(e,category)}>
-                                                 {menuVisible && activeCategory.sectionId == category.sectionId ?
+                                                 {menuVisible && activeCategory.sectionId === category.sectionId ?
                                                     <FontAwesomeIcon 
                                                         icon={ faEllipsisV} 
                                                         className="ic-orange"/>
@@ -244,7 +290,7 @@ export default function AdminPostsCategories(){
                     <button className="btn btn-secondary" onClick={()=>setShowDeletionModal(false)}>
                         Cancel
                     </button>
-                    <button className="btn btn-danger">
+                    <button className="btn btn-danger" onClick={deleteCategory}>
                         Delete
                     </button>
             </div>
@@ -254,36 +300,71 @@ export default function AdminPostsCategories(){
     </Modal>
 
 
-    <Modal show={showCategoryEditingModal} centered >
+    <Modal show={showCategoryEditingModal} centered  className="" dialogClassName="category-editing-modal modal-dialogue modal-lg">
 
     {activeCategory!==null &&
-    <Modal.Body className="d-flex flex-column gap-2">
+    <Modal.Body className="d-flex flex-column gap-3" >
+        <span>Edit Category</span>
         <div>
-            <label>Name</label>
             <input type="text" 
-                className="w-100"
+                className="w-100 modal-input"
                 value={activeCategory.sectionName}
                 />
         </div>
         
         <div>
             <label>Description</label>
-            <input type="text" className="w-100 h-100"
+            <textarea rows={5} className="w-100 h-100 modal-input"
 
             />
         </div>
        
 
         <div className="d-flex justify-content-between mt-3">
-            <button className="btn btn-secondary" onClick={()=>setShowCategoryEditingModal(false)}>
+            <button className="btn btn-light border rounded-0" onClick={()=>setShowCategoryEditingModal(false)}>
                 Cancel
             </button>
-            <button className="btn btn-success">
+            <button className="btn btn-success rounded-0">
                 Update
             </button>
         </div>
     </Modal.Body>
     }
+
+    </Modal>
+
+
+    <Modal show={showNewCategoryModal} centered  className="" dialogClassName="category-editing-modal modal-dialogue modal-lg">
+
+        {activeCategory!==null &&
+        <Modal.Body className="d-flex flex-column gap-3" >
+            <span>New Category</span>
+            <div>
+                <input type="text" 
+                    className="w-100 modal-input"
+                    onChange={onCategoryNameChange}
+                    value={activeCategory.sectionName}
+                    />
+            </div>
+            
+            <div>
+                <label>Description</label>
+                <textarea rows={5} className="w-100 h-100 modal-input"
+
+                />
+            </div>
+        
+
+            <div className="d-flex justify-content-between mt-3">
+                <button className="btn btn-light border rounded-0" onClick={()=>setShowNewCategoryModal(false)}>
+                    Cancel
+                </button>
+                <button className="btn btn-success rounded-0" onClick={addNewCategory}>
+                    Create
+                </button>
+            </div>
+        </Modal.Body>
+        }
 
     </Modal>
 </div>
