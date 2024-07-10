@@ -12,7 +12,7 @@ export default function fetchImage(imgUrl){
         //         console.log('Error fetching image from s3',err);
         //         reject(err);
         //     })
-        const baseUrlPattern = /^(https:\/\/res\.cloudinary\.com\/[^\/]+\/image\/upload\/)(.*)$/;
+        const baseUrlPattern = /^(https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/)(.*)$/;
         const match = imgUrl.match(baseUrlPattern);
 
         if(!match){

@@ -411,6 +411,23 @@ table{
 }
 
 
+.category-editing-modal{
+    font-size: 15px;
+    width: 900px;
+    .modal-input{
+        border:none;
+        outline: 1px solid lightgrey;
+
+
+        &:focus{
+            outline: 1px solid grey;
+
+        }
+    }
+    
+}
+
+
 @media screen and (min-width:768px){
     .latest-article-preview{
        position:absolute;

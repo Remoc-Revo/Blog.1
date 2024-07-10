@@ -14,7 +14,7 @@ const pool = createPool();
 const fs = require('fs');
 const {addComment,comments,reply,clap}= require('./comments')
 const {deleteArticle} = require('./deleteArticle')
-const {getSections,addSection} = require('./sections')
+const {getSections,addSection,deleteCategory} = require('./sections')
 const {getAdminHomeData}= require('./getAdminHomeData');
 const {getAdminAllPosts} = require('./getAdminAllPosts');
 const {getAdminPostsCategories} = require('./getAdminPostsCategories');
@@ -157,5 +157,7 @@ router.get('/adminHomeData', getAdminHomeData);
 router.get('/adminAllPosts',getAdminAllPosts);
 
 router.get('/adminPostsCategories',getAdminPostsCategories);
+
+router.post('/deleteCategory',deleteCategory);
 
 module.exports = router;
