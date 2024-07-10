@@ -10,7 +10,7 @@ exports.getAdminPostsCategories = async (req,res) =>{
 
    try{
         const categories = await queryDb(`
-                    SELECT s.sectionId, s.sectionName, COUNT(a.articleId) articleCount
+                    SELECT s.sectionId, s.sectionName,s.sectionDescription, COUNT(a.articleId) articleCount
                     FROM SECTION as s
                     LEFT JOIN ARTICLE as a ON a.articleSectionId = s.sectionId
                     GROUP BY s.sectionId
