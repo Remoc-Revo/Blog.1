@@ -18,7 +18,20 @@ export default function AdminAllPosts({updateAdminPanelSection}){
     const [searchedText, setSearchedText] = useState('');
 
     const updateDisplayedPosts = useCallback(()=>{
-        const posts = (postsType ==="?adminPanel=posts/drafts")?drafts:published;
+        console.log("posttype", postsType)
+        let posts;
+        if(postsType.includes("?adminPanel=posts&category")){
+            const urlParams = new URLSearchParams(postsType);
+            let categoryId = urlParams.get('category');
+            categoryId = parseInt(categoryId);
+
+            posts = published.filter(
+                article => article.articleSectionId === categoryId
+            )
+        }
+        else{
+            posts = (postsType ==="?adminPanel=posts/drafts")?drafts:published;
+        }
         setDisplayedPosts(posts);
     },[postsType,drafts,published])
 
@@ -46,7 +59,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
 
     useEffect(()=>{
         const handleOnPopState = (event)=>{
-            console.log("new location: ",window.location.search);
+            console.log("new location n: ",window.location.search);
             setPostsType(window.location.search);
             updateDisplayedPosts();
         }
@@ -179,7 +192,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
                     (displayedPosts!==null && displayedPosts.length!==0)
                     &&<table className="">
                         {displayedPosts.map((article,index)=>{
-                            return <tr className="">
+                            return <tr className="" >
                                     <td>
                                         <AdminPostPreview 
                                             articleSection={decodeString(article.sectionName)}

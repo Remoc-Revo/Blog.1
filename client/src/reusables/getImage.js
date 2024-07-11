@@ -20,7 +20,7 @@ export default function fetchImage(imgUrl){
         }
         const baseUrl = match[1];
         const imagePath = match[2];
-        const transformation = 'w_400,h_300,q_40/';
+        const transformation = 'w_400,h_300,q_10/';
         const transformedUrl = `${baseUrl}${transformation}${imagePath}`;
 
         resolve(transformedUrl);
