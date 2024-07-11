@@ -17,6 +17,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
     const [searchedText, setSearchedText] = useState('');
 
+    console.log("postsType:",postsType)
     const updateDisplayedPosts = useCallback(()=>{
         console.log("posttype", postsType)
         let posts;
@@ -58,18 +59,19 @@ export default function AdminAllPosts({updateAdminPanelSection}){
 
 
     useEffect(()=>{
-        const handleOnPopState = (event)=>{
+        const handleOnPopState = ()=>{
             console.log("new location n: ",window.location.search);
             setPostsType(window.location.search);
             updateDisplayedPosts();
         }
+        
 
         window.addEventListener('popstate',handleOnPopState);
 
         return ()=>{
             window.removeEventListener('popstate',handleOnPopState);
         }
-    },[updateDisplayedPosts])
+    })
 
     function onPostsButtonClick(e,path){
         e.preventDefault();

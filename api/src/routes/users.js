@@ -201,3 +201,15 @@ exports.user=(req,res)=>{
 
          })
 }
+
+exports.getUsers = (req,res)=>{
+
+   pool.query(`SELECT * FROM USER ORDER BY userLevel DESC`,
+         (err,result)=>{
+            if(result){
+               console.log("users: ",result);
+               return res.status(200).json({users:result});
+            }
+         }
+   )
+}

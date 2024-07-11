@@ -282,6 +282,10 @@ p{
     color:orange;
 }
 
+.ic-white{
+    color:white
+}
+
 
 // ADMIN PANEL
 #blog-title{
@@ -425,6 +429,16 @@ table{
         }
     }
     
+}
+
+
+//ADMIN-STATS
+.stat-number{
+    font-size: 50px;
+}
+
+.ic-stat{
+    color:grey;
 }
 
 
