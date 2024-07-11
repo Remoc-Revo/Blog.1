@@ -6,6 +6,8 @@ import AdminSidePanel from "../components/adminSidePanel";
 import AdminHome from "./adminHome";
 import AdminAllPosts from "./adminAllPosts";
 import AdminPostsCategories from "./adminPostsCategories";
+import AdminStats from "./adminStats";
+import AdminUsersDisplay from "./adminUsersDisplay";
 
 export default function AdminPanel(){
     const navigate = useNavigate();
@@ -52,16 +54,16 @@ export default function AdminPanel(){
                 >
                     {(adminPanelSection === "")&&<AdminHome />}
                     
-                    {(adminPanelSection === "?adminPanel=stats")&&<>stats</>}
+                    {(adminPanelSection === "?adminPanel=stats")&&<AdminStats/>}
                     
                     {(adminPanelSection==="?adminPanel=posts"|| adminPanelSection==="?adminPanel=posts/drafts" || adminPanelSection.includes("?adminPanel=posts&category="))
                     &&<AdminAllPosts updateAdminPanelSection={updateAdminPanelSection}/>}
                     
                     {(adminPanelSection === "?adminPanel=posts/categories")&&<AdminPostsCategories updateAdminPanelSection={updateAdminPanelSection}/>}
                     
-                    {(adminPanelSection === "?adminPanel=comments")&&<>comments</>}
+                    {(adminPanelSection === "?adminPanel=comments")&&<>comments on development..</>}
                     
-                    {(adminPanelSection === "?adminPanel=users")&&<>users</>}
+                    {(adminPanelSection === "?adminPanel=users")&&<AdminUsersDisplay/>}
                 </div>
         </div>
     </div>
