@@ -24,7 +24,7 @@ import { updateHistory } from "../reusables/global";
             setAdminPanel(window.location.search);
             updateAdminPanelSection(window.location.search);
         })
-    },[showPostsLinks,adminPanel])
+    },[showPostsLinks,adminPanel,updateAdminPanelSection])
 
     function onLinkClick(e,path){
         e.preventDefault();
@@ -87,6 +87,7 @@ import { updateHistory } from "../reusables/global";
                     className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
                     id={adminPanel==="?adminPanel=posts"
                             || adminPanel === "?adminPanel=posts/drafts"
+                            || adminPanel.includes("?adminPanel=posts&category=")
                             ?"active"
                             :"" }
                     onClick={(e)=>{onLinkClick(e,"?adminPanel=posts")} }

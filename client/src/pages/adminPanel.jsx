@@ -54,10 +54,10 @@ export default function AdminPanel(){
                     
                     {(adminPanelSection === "?adminPanel=stats")&&<>stats</>}
                     
-                    {(adminPanelSection==="?adminPanel=posts"|| adminPanelSection==="?adminPanel=posts/drafts")
+                    {(adminPanelSection==="?adminPanel=posts"|| adminPanelSection==="?adminPanel=posts/drafts" || adminPanelSection.includes("?adminPanel=posts&category="))
                     &&<AdminAllPosts updateAdminPanelSection={updateAdminPanelSection}/>}
                     
-                    {(adminPanelSection === "?adminPanel=posts/categories")&&<AdminPostsCategories/>}
+                    {(adminPanelSection === "?adminPanel=posts/categories")&&<AdminPostsCategories updateAdminPanelSection={updateAdminPanelSection}/>}
                     
                     {(adminPanelSection === "?adminPanel=comments")&&<>comments</>}
                     

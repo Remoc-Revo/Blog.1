@@ -1,11 +1,12 @@
 import React,{useCallback, useEffect,useRef,useState} from "react";
 import api from "../config/api";
-import { decodeString } from "../reusables/global";
-import { faSearch,faTimes,faFolder,faEllipsisH, faEllipsisV,faPen, faTrash } from "@fortawesome/free-solid-svg-icons"; 
+import { decodeString,updateHistory } from "../reusables/global";
+import { faSearch,faTimes,faFolder,faEllipsisH, faEllipsisV,faPen, faTrash,faEye } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Modal} from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 
-export default function AdminPostsCategories(){
+export default function AdminPostsCategories({updateAdminPanelSection}){
     const [fetchedCategories,setFetchedCategories] = useState([]);
     const [displayedCategories, setDisplayedCategories] = useState(null);
     const [isSearchInputActive, setIsSearchInputActive] = useState(false);
@@ -17,6 +18,7 @@ export default function AdminPostsCategories(){
     const [showDeletionModal,setShowDeletionModal] = useState(false);
     const [showCategoryEditingModal, setShowCategoryEditingModal] = useState(false);
     const [showNewCategoryModal, setShowNewCategoryModal] = useState(false);
+    const navigate =useNavigate();
 
 
     const  fetchCategories= useCallback(()=>{
@@ -151,6 +153,12 @@ export default function AdminPostsCategories(){
                 console.log("Error deleting category",e);
             }) 
     }
+
+    function viewCategoryPosts(categoryId){
+        navigate(`?adminPanel=posts&category=${categoryId}`);
+        // updateHistory(`?adminPanel=posts&category=${categoryId}`);
+        updateAdminPanelSection(`?adminPanel=posts&category=${categoryId}`);
+    }
     
 
     return <div className="container d-flex justify-content-center ">
@@ -228,6 +236,7 @@ export default function AdminPostsCategories(){
                 &&<table className="w-100 " id="admin-posts-categories">
                     {displayedCategories.map((category,index)=>{
                         return <tr className="" 
+                                    style={{zIndex:"0"}}
                                     onClick={()=>{
                                         setActiveCategory(category);
                                         setShowCategoryEditingModal(true)
@@ -260,40 +269,51 @@ export default function AdminPostsCategories(){
                                             </button>
                                         </div>
                                     </div>
-                                
+
+                                                                   
                             </tr>
                                             
                     })
                     }
                 </table>   
             }
-
             {
-                menuVisible&&(
-                    <div 
-                    ref={menuRef}
-                    id="category-menu"
-                    style={{
-                        position:"absolute",
-                        top:`${menuPosition.top}px`,
-                        left:`${menuPosition.left}px`,
-                    }}
-                    className="d-flex flex-column align-items-start border bg-white">
+            menuVisible&&(
+                <div 
+                ref={menuRef}
+                id="category-menu"
+                style={{
+                    position:"absolute",
+                    top:`${menuPosition.top}px`,
+                    left:`${menuPosition.left}px`,
+                    zIndex:"1000"
+                }}
+                className="d-flex flex-column align-items-start border bg-light">
 
-                        <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center"
-                            onClick={()=>setShowCategoryEditingModal(true)}>
-                            <FontAwesomeIcon icon={faPen} className="ic ic-grey "/>
-                            Edit
-                        </button>
+                    <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center"
+                        onClick={()=>setShowCategoryEditingModal(true)}>
+                        <FontAwesomeIcon icon={faPen} className="ic ic-grey "/>
+                        Edit
+                    </button>
 
-                        <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center "
-                            onClick={()=>{setShowDeletionModal(true)}}>
-                            <FontAwesomeIcon icon={faTrash} className="ic ic-grey "/>
-                            Delete
-                        </button>
-                    </div>
-                )
-            }
+                    <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center "
+                        onClick={()=>{setShowDeletionModal(true)}}>
+                        <FontAwesomeIcon icon={faTrash} className="ic ic-grey "/>
+                        Delete
+                    </button>
+
+                    {
+                    (activeCategory.articleCount > 0)&&
+                    <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center "
+                        onClick={()=>viewCategoryPosts(activeCategory.sectionId)}>
+                        <FontAwesomeIcon icon={faEye} className="ic ic-grey "/>
+                        View Posts
+                    </button>
+                    }
+                </div>
+            )
+        }
+           
 
             {                
             (displayedCategories!==null && displayedCategories.length===0 && isSearchInputActive)
