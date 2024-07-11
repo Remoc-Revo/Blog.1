@@ -190,7 +190,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
                 }
                 {
                     (displayedPosts!==null && displayedPosts.length!==0)
-                    &&<table className="">
+                    &&<table className="w-100">
                         {displayedPosts.map((article,index)=>{
                             return <tr className="" >
                                     <td>
