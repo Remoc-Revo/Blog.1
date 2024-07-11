@@ -213,7 +213,7 @@ export function AdminPostPreview({articleSection,headline,time,briefDescription,
     },[imgUrl])
 
     return(
-        <div className="col-md-12   p-2">
+        <div className="col-md-12  p-2">
             <a style={{textDecoration:"none",color:"black"}} 
                 className="d-flex  align-items-center justify-content-between" 
                 onClick={handleClick}>
