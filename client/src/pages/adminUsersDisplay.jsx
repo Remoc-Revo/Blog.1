@@ -31,7 +31,7 @@ export default function AdminUsersDisplay(){
                         user=><tr className="" >
                             <div className=" d-flex gap-4 ms-4 me-4 align-items-center" style={{height:"90px"}}>
                                 <div className="rounded-circle "
-                                    style={{width:"70px",height:"70px",backgroundColor:"grey"}}
+                                    style={{width:"70px",height:"70px",backgroundColor:"lightgrey"}}
                                     >
                                     <FontAwesomeIcon className="ic-white pt-2 " icon={faUser}  
                                         style={{width:"100%",height:"100%"}}/>

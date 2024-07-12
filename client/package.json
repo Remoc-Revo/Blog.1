@@ -26,6 +26,8 @@
     "react-scripts": "^5.0.1",
     "reactstrap": "^9.1.6",
     "styled-components": "^5.3.9",
+    "uuid": "^10.0.0",
+    "v4": "^0.0.1",
     "web-vitals": "^2.1.4",
     "webpack": "4.46.0"
   },

@@ -8,6 +8,27 @@ import parser from "html-react-parser";
 // import { useQuery } from "react-query";
 import {ReactQueryDevtools} from 'react-query/devtools';
 import api from "../config/api";
+import {v4 as uuidv4} from 'uuid'
+
+const getVisitorId = ()=>{
+    let visitorId = localStorage.getItem("visitorId");
+    if(!visitorId){
+        visitorId = uuidv4();
+        localStorage.setItem("visitorId",visitorId);
+    }
+
+    return visitorId;
+};
+
+const logVisitor = async(path) =>{
+    const visitorId = getVisitorId();
+    try{
+        api.post('/visitor',{path,visitorId});
+    }
+    catch(e){
+        console.log("Error logging visitor");
+    }
+};
 
 export default  function ReadersHome(){
     const [articles,setArticles]=useState([]);
@@ -52,6 +73,10 @@ export default  function ReadersHome(){
         //    })
         }
    },[cat]);
+
+   useEffect(()=>{
+    logVisitor(cat);
+   },[cat])
 
 
 //    if(isLoading){
