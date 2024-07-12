@@ -19,6 +19,7 @@ const {getAdminHomeData}= require('./getAdminHomeData');
 const {getAdminAllPosts} = require('./getAdminAllPosts');
 const {getAdminPostsCategories} = require('./getAdminPostsCategories');
 const { visitor } = require('./visitorLogger');
+const {getStats} = require('./blogStats');
 
 require('dotenv').config();
 
@@ -167,5 +168,7 @@ router.post('/editCategory',editCategory);
 router.get('/users',getUsers);
 
 router.post('/visitor',visitor);
+
+router.get('/stats',getStats);
 
 module.exports = router;
