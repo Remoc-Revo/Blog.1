@@ -1,10 +1,24 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { faPeopleGroup,faEye,faStar,faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import api from "../config/api";
 
 export default function AdminStats(){
+    const [statsLast7Days,setStatsLast7Days] = useState({});
+    const [statsToday,setStatsToday] = useState({});
     let today = Date.now();
     today = new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(today);
+
+    useEffect(()=>{
+        api.get('/stats')
+           .then((response)=>{
+                setStatsToday(response.data.statsToday);
+                setStatsLast7Days(response.data.statsLast7Days);
+           })
+           .catch((err)=>{
+                console.log("Error fetching stats",err);
+           })
+    },[])
 
     return <div className=" container col-md-9">
 
@@ -17,7 +31,7 @@ export default function AdminStats(){
                     <FontAwesomeIcon icon={faEye} className="mb-3 ic-stat"/>
                     <span className="stat-type">Views</span >
                     <div className="d-flex gap-1">
-                        <span className="stat-number">0</span>
+                        <span className="stat-number">{statsLast7Days.viewsLast7Days}</span>
                     </div>
                 </div>
 
@@ -26,7 +40,7 @@ export default function AdminStats(){
 
                     <span className="stat-type">Visitors</span >
                     <div className="d-flex gap-1">
-                        <span className="stat-number">0</span>
+                        <span className="stat-number">{statsLast7Days.visitorsLast7Days}</span>
                     </div>
                 </div>
                 
@@ -59,7 +73,7 @@ export default function AdminStats(){
                     <FontAwesomeIcon icon={faEye} className="mb-3 ic-stat"/>
                     <span className="stat-type">Views</span >
                     <div className="d-flex gap-1">
-                        <span className="stat-number">0</span>
+                        <span className="stat-number">{statsToday.viewsToday}</span>
                     </div>
                 </div>
 
@@ -68,7 +82,7 @@ export default function AdminStats(){
 
                     <span className="stat-type">Visitors</span >
                     <div className="d-flex gap-1">
-                        <span className="stat-number">0</span>
+                        <span className="stat-number">{statsToday.visitorsToday}</span>
                     </div>
                 </div>
                 
