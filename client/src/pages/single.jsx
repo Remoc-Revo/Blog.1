@@ -10,7 +10,7 @@ import s3GetImage from "../reusables/getImage";
 import { useUserContext } from "../userContext";
 import Delete from "../img/delete.png";
 import Edit from "../img/edit.png";
-
+import { logVisitor } from "../reusables/global";
 
 // import Comments from "../components/comments";
 
@@ -49,6 +49,11 @@ export default function Single(){
 
          
     },[articleId,article.multimediaUrl])
+
+
+    useEffect(()=>{
+        logVisitor(`/single/${articleId}`);
+       },[])
 
 
     function decodeString(str){
