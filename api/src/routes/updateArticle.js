@@ -46,17 +46,17 @@ exports.updateArticle=(req,res)=>{
                     throw(err) 
                 }
 
-                pool.query(`UPDATE MULTIMEDIA SET multimediaUrl = ?  WHERE articleId = ?`,[imgUrl,articleId],
-                    (err,result)=>{
-                        if(err){
-                            console.log(err)
-                        }             
-
-
-                        if(result){
-                            return res.status(200).json({})
-                        }
-                    })
+                if(imgUrl!=null){
+                    pool.query(`UPDATE MULTIMEDIA SET multimediaUrl = ?  WHERE articleId = ?`,[imgUrl,articleId],
+                        (err,result)=>{
+                            if(err){
+                                console.log(err)
+                            }         
+                            
+                        })
+                }
+                return res.status(200).json({})
+                
              })
             
         }catch(articleUpdateError){

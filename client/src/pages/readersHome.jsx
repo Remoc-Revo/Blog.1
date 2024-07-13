@@ -1,12 +1,11 @@
 import React,{useState,useEffect,useRef,useCallback,useMemo} from "react";
 import MainNav from "../navs/mainNav";
 import { useLocation,useNavigate} from "react-router-dom";
-import {PreviewBig,PreviewMid,PreviewSmall, GridItemBig,GridItemSmall} from "../components/article_preview";
+import {GridItemSmall} from "../components/article_preview";
 import moment from "moment"
 import Footer from "../components/footer";
 import parser from "html-react-parser";
 // import { useQuery } from "react-query";
-import {ReactQueryDevtools} from 'react-query/devtools';
 import api from "../config/api";
 import { logVisitor } from "../reusables/global";
 
@@ -170,9 +169,7 @@ export default  function ReadersHome(){
                     <div className="row ">
                             
                             {articles.map((article,index)=>{
-                                if(index>0 && index < 12
-
-                                ){
+                                if(index>0 && index < 12){
                                     return <GridItemSmall 
                                                 articleSection={decodeString(article.sectionName)}
                                                 headline={decodeString(article.articleHeadline)} 
@@ -182,6 +179,9 @@ export default  function ReadersHome(){
                                                 articleId={article.articleId}
                                                 handleClick = {()=>{navigate(`/sngl/${article.articleId}`)}}
                                             /> 
+                                }
+                                else{
+                                    return null;
                                 }
                             })
                                 

@@ -4,8 +4,9 @@ import { AdminPostPreview } from "../components/article_preview";
 import { decodeString,updateHistory } from "../reusables/global";
 import moment from "moment";
 import { useNavigate,useLocation } from "react-router-dom";
-import { faSearch,faTimes } from "@fortawesome/free-solid-svg-icons"; 
+import { faSearch,faTimes,faTrash,faEllipsisV,faPen } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Modal} from 'react-bootstrap';
 
 
 export default function AdminAllPosts({updateAdminPanelSection}){
@@ -16,7 +17,11 @@ export default function AdminAllPosts({updateAdminPanelSection}){
     const [postsType, setPostsType] = useState(useLocation().search);
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
     const [searchedText, setSearchedText] = useState('');
-
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [menuPosition, setMenuPosition] = useState({top:'0px',left:'0px'});
+    const [showDeletionModal,setShowDeletionModal] = useState(false);
+    const [activeArticle, setActiveArticle] = useState(null);
+    
     console.log("postsType:",postsType)
     const updateDisplayedPosts = useCallback(()=>{
         console.log("posttype", postsType)
@@ -37,18 +42,20 @@ export default function AdminAllPosts({updateAdminPanelSection}){
     },[postsType,drafts,published])
 
 
-    useEffect(()=>{
-         function fetchAllPosts(){
-            api.get("/adminAllPosts",{withCredentials:true})
-               .then((response)=>{
-                    setDrafts(response.data['drafts']);
-                    setPublished(response.data['published']);
+    function fetchAllPosts(){
+        api.get("/adminAllPosts",{withCredentials:true})
+           .then((response)=>{
+                setDrafts(response.data['drafts']);
+                setPublished(response.data['published']);
 
-               })
-               .catch((e)=>{
-                console.log("Error fetching admin data", e);
-               })
-        }
+           })
+           .catch((e)=>{
+            console.log("Error fetching admin data", e);
+           })
+    }
+
+    useEffect(()=>{
+         
         fetchAllPosts();       
     },[])
 
@@ -72,6 +79,11 @@ export default function AdminAllPosts({updateAdminPanelSection}){
             window.removeEventListener('popstate',handleOnPopState);
         }
     })
+
+    window.addEventListener('click',()=>{
+        if(menuVisible) setMenuVisible(false);
+    }
+    );
 
     function onPostsButtonClick(e,path){
         e.preventDefault();
@@ -112,6 +124,46 @@ export default function AdminAllPosts({updateAdminPanelSection}){
         )
 
         setDisplayedPosts(fitleredPosts);
+    }
+
+    function toggleMenuVisible(){    
+        setMenuVisible(!menuVisible);
+    }
+
+    function handleMemuClick(e,article){
+        e.preventDefault();
+        e.stopPropagation();
+
+        !menuVisible? setActiveArticle(article): setActiveArticle(null);
+        toggleMenuVisible();
+
+        const buttonRect = e.target.getBoundingClientRect();
+        setMenuPosition({
+            top: buttonRect.bottom + window.scrollY -40,
+            left: buttonRect.left + window.scrollX -309//-  menuRef.current.offsetWidth
+        })
+    }
+
+
+    function deleteArticle(){
+        api.delete(`/article/${activeArticle.articleId}`,
+            {withCredentials:true,
+            imgUrl: activeArticle.multimediaUrl
+        })
+        .then((response)=>{
+                if(response.status === 200){
+                    fetchAllPosts();
+                }
+        })
+        .catch((err)=>{
+                if(err.response && err.response.status === 401){
+                    navigate('/login');
+                }
+        })
+
+        setShowDeletionModal(false);
+        setMenuVisible(false);
+
     }
 
     return <div className="container  d-flex justify-content-center ">
@@ -206,11 +258,50 @@ export default function AdminAllPosts({updateAdminPanelSection}){
                                             handleClick = {()=>{navigate(`/articlePosting/${article.articleId}`)}}
                                         />   
                                     </td>
+                                    <td>
+                                        <button 
+                                            className="btn" 
+                                            
+                                            onClick={(e)=>handleMemuClick(e,article)}>
+                                                <FontAwesomeIcon 
+                                                    icon={ faEllipsisV} 
+                                                    className="ic-grey"/>                                               
+                                            
+                                        </button>
+                                    </td>
                                 </tr>
                                                 
                         })
                         }
                     </table>   
+                }
+                {
+                menuVisible&&(
+                    <div 
+                    id="category-menu"
+                    style={{
+                        position:"absolute",
+                        top:`${menuPosition.top}px`,
+                        left:`${menuPosition.left}px`,
+                        zIndex:"1000"
+                    }}
+                    className="d-flex flex-column align-items-start border bg-light">
+
+                        <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center"
+                            onClick={()=>{navigate(`/articlePosting/${activeArticle.articleId}`)}}>
+                            <FontAwesomeIcon icon={faPen} className="ic ic-grey "/>
+                            Edit
+                        </button>
+
+                        <button className="btn rounded-0 w-100 d-flex gap-4 align-items-center "
+                            onClick={()=>{setShowDeletionModal(true)}}>
+                            <FontAwesomeIcon icon={faTrash} className="ic ic-grey "/>
+                            Delete
+                        </button>
+
+                       
+                    </div>
+                    )
                 }
 
                 {                
@@ -230,6 +321,21 @@ export default function AdminAllPosts({updateAdminPanelSection}){
         </div>
 
     
+        <Modal show={showDeletionModal} centered >
 
+            <Modal.Body>
+                <span>Are your sure you want to permanently delete '{activeArticle!==null && decodeString(activeArticle.articleHeadline)}' ?</span>
+
+                <div className="d-flex justify-content-between mt-2">
+                    <button className="btn btn-secondary" onClick={()=>setShowDeletionModal(false)}>
+                        Cancel
+                    </button>
+                    <button className="btn btn-danger" onClick={deleteArticle}>
+                        Delete
+                    </button>
+            </div>
+            </Modal.Body>
+
+        </Modal>
     </div>
 }

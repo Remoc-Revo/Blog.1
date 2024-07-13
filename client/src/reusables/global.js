@@ -10,7 +10,7 @@ export function decodeString(str){
 }
 
 export function updateHistory(path){
-    if(path==""){
+    if(path===""){
         window.history.pushState({},'',"/")
     }
     else{
