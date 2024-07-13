@@ -265,6 +265,13 @@ p{
     font-weight:400;
 }
 
+#single-article-body{
+    img{
+        max-height: 400px;
+        width: 100%;
+    }
+}
+
 
 /*profile*/
 #userName_Icon{

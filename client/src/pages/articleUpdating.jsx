@@ -5,7 +5,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useUserContext } from "../userContext";
 import api from "../config/api";
-import { height } from "@fortawesome/free-solid-svg-icons/fa0";
+import { height, width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 
 export default function ArticlesUpdating(){
@@ -43,7 +43,8 @@ export default function ArticlesUpdating(){
                 const fetchedArticleBody = response.data.article[0].articleBody;
                 const parsedArticleBody = JSON.parse(fetchedArticleBody);
                 const articleBodyContentState = convertFromRaw(parsedArticleBody);
-                setEditorState(EditorState.createWithContent(articleBodyContentState));
+                const bodyWithResizedImages = resizeImages(articleBodyContentState);
+                setEditorState(EditorState.createWithContent(bodyWithResizedImages));
 
                 setArticleToUpdateLoaded(true);
             })
@@ -132,7 +133,7 @@ export default function ArticlesUpdating(){
         }
     }
 
-    const replaceImageInContent = (contentState, oldSrc, newSrc) => {
+    const replaceImageInContent = (contentState, oldSrc, newSrc,newHeight) => {
         let newContentState = contentState;
         const blockMap = newContentState.getBlockMap();
     
@@ -150,7 +151,7 @@ export default function ArticlesUpdating(){
                     const entity = newContentState.getEntity(entityKey);
                     const { src } = entity.getData();
                     if (src === oldSrc) {
-                        newContentState = newContentState.replaceEntityData(entityKey, { src: newSrc });
+                        newContentState = newContentState.replaceEntityData(entityKey, { src: newSrc, height:newHeight });
                     }
                 }
             );
@@ -182,6 +183,18 @@ export default function ArticlesUpdating(){
         });
         return images;
     };
+
+    function resizeImages(contentState){
+        const images = extractImagesFromContent(contentState);
+        let updatedContentState = contentState;
+
+        for(var imageSrc of images){        
+            // Replace image in content with the resized image
+            updatedContentState = replaceImageInContent(updatedContentState, imageSrc, imageSrc,'400px');             
+        }
+
+        return updatedContentState;
+    }
 
     async function addArticle(articleBody){
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
@@ -392,18 +405,11 @@ export default function ArticlesUpdating(){
                                             mandatory:false
                                         },
                                         defaultSize:{
-                                            height:'300px',
-                                            width:'400px'
+                                            height:'400px',
                                         }
                                     }
                                 }}
-                                customStyleMap={{
-                                    IMAGE: {
-                                        display: 'block',
-                                        maxWidth: '400px',
-                                        height: '300px'
-                                    }
-                                }}
+                               
                             />
                         </div>
                     </div>

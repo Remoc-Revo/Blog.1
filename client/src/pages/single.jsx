@@ -164,7 +164,7 @@ export default function Single(){
                                     
                                 </div>
 
-                                <div className="w-100" style={{height:"430px",overflow:"hidden"}}>
+                                {/* <div className="w-100" style={{height:"430px",overflow:"hidden"}}>
                                     {
                                     
                                         (fetchedImgUrl!=='null')
@@ -173,9 +173,9 @@ export default function Single(){
                                             style={{display:"block",width:"100%",height:"100%"}}/>
                                             :null
                                     }
-                                </div>
+                                </div> */}
  
-                                <div className="container-lg p-0">              
+                                <div className="container-lg p-0" id="single-article-body">              
                                     <div 
                                         dangerouslySetInnerHTML={{__html:articleBody}}
                                         className="mt-4" >                                      
