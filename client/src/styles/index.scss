@@ -198,10 +198,10 @@ p{
 
 
 
-/* articleUpdating */
+/* ARTICLE UPDATING */
 .editor-container{
-    overflow:scroll;
-    height:558px;
+    // overflow:scroll;
+    height:100%;
     /* border:1px solid lightgray; */
     
 }
@@ -213,6 +213,14 @@ p{
     margin:none;
     padding:none;
     /* overflow:scroll; */
+
+}
+#title-input{
+    font-size:34px;
+    font-weight: 300;
+    &::placeholder{
+        font-size: 34px;
+    }
 
 }
 

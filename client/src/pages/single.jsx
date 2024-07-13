@@ -11,11 +11,13 @@ import { useUserContext } from "../userContext";
 import Delete from "../img/delete.png";
 import Edit from "../img/edit.png";
 import { logVisitor } from "../reusables/global";
+import draftToHtml from 'draftjs-to-html';
 
 // import Comments from "../components/comments";
 
 export default function Single(){
     var [article,setArticle]=useState([]);
+    const [articleBody, setArticleBody] = useState('');
     const location=useLocation();
     const navigate = useNavigate();
     const articleId=location.pathname.split('/')[2];
@@ -41,6 +43,14 @@ export default function Single(){
              .then((response)=>{
                 console.log("response of single  req::",response)
                 setArticle(response.data.article[0]) ;
+                
+                const fetchedArticleBody = response.data.article[0].articleBody;
+                const parsedArticleBody = JSON.parse(fetchedArticleBody);
+                
+                const htmlArticleBody = draftToHtml(parsedArticleBody);
+
+                setArticleBody(htmlArticleBody);
+
                 fetchImage(article.multimediaUrl);
             })
             .catch((err)=>{
@@ -166,7 +176,10 @@ export default function Single(){
                                 </div>
  
                                 <div className="container-lg p-0">              
-                                    <p className="mt-4">{decodeString(article.articleBody)}</p>
+                                    <div 
+                                        dangerouslySetInnerHTML={{__html:articleBody}}
+                                        className="mt-4" >                                      
+                                    </div>
                                 </div>
 
                             </div>

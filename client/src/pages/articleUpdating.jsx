@@ -1,15 +1,17 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect, useCallback} from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import MainNav from "../navs/mainNav";
-import Footer from "../components/footer";
+import { EditorState, convertToRaw,convertFromRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useUserContext } from "../userContext";
 import api from "../config/api";
+import { height } from "@fortawesome/free-solid-svg-icons/fa0";
+
 
 export default function ArticlesUpdating(){
     const navigate=useNavigate();
 
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
     var [articleSectionId,setArticleSectionId]=useState();
     var [articleHeadline,setArticleHeadline]=useState('');
     var [articleBody,setArticleBody]=useState('');
@@ -23,6 +25,7 @@ export default function ArticlesUpdating(){
     const [articleSections, setArticleSections]= useState([]);
     const [isAddingNewCategory,setIsAddingNewCategory] = useState(false);
     const [newCategory, setNewCategory] = useState("");
+    const [articlePhotos, setArticlePhotos] = useState([]);
 
     function fetchArticleToUpdate(){
         api.get(`/single/${articleIdToUpdate}`)
@@ -33,6 +36,12 @@ export default function ArticlesUpdating(){
                 setArticleHeadline(decodeURIComponent(articleToUpdate.articleHeadline))
                 setArticleBody(decodeURIComponent(articleToUpdate.articleBody))
                 setArticlePhoto(articleToUpdate.multimediaUrl)
+
+                const fetchedArticleBody = response.data.article[0].articleBody;
+                const parsedArticleBody = JSON.parse(fetchedArticleBody);
+                const articleBodyContentState = convertFromRaw(parsedArticleBody);
+                setEditorState(EditorState.createWithContent(articleBodyContentState));
+
                 setArticleToUpdateLoaded(true);
             })
             .catch((err)=>{
@@ -46,7 +55,22 @@ export default function ArticlesUpdating(){
 
     }
 
-    async function fetchSections(){
+    const onEditorStateChange = (editorState)=>{
+        setEditorState(editorState);
+    }
+
+    const uploadImageToEditor = (file)=>{
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                resolve({ data: { link: reader.result } });
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+
+     const fetchSections = useCallback(async()=>{
         await api.get('/sections')
             .then((response)=>{
               setArticleSections(response.data.sections);
@@ -57,6 +81,7 @@ export default function ArticlesUpdating(){
               console.log("error fetching sections", err)
             });        
           }
+     ,[articleSections])
 
     useEffect(()=>{
         if(!loading && user != null){
@@ -69,16 +94,16 @@ export default function ArticlesUpdating(){
         }
 
         
-    },[loading,navigate,user,articleToUpdate, articleToUpdateLoaded])
+    },[loading,navigate,user,articleToUpdate, articleToUpdateLoaded,fetchSections])
    
 
-    async function upload(){
-        if(articlePhoto===null){
+    async function uploadImageToCloud(imageSrc){
+        if(imageSrc===null){
             return null;
         }
         var formData=new FormData();
 
-        formData.append('file',articlePhoto);
+        formData.append('file',imageSrc);
         formData.append('upload_preset',process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
         console.log("the file",formData)
 
@@ -105,99 +130,183 @@ export default function ArticlesUpdating(){
         }
     }
 
-    async function addArticle(){
+    const replaceImageInContent = (contentState, oldSrc, newSrc) => {
+        let newContentState = contentState;
+        const blockMap = newContentState.getBlockMap();
+    
+        blockMap.forEach((block) => {
+            block.findEntityRanges(
+                (character) => {
+                    const entityKey = character.getEntity();
+                    return (
+                        entityKey !== null &&
+                        newContentState.getEntity(entityKey).getType() === 'IMAGE'
+                    );
+                },
+                (start, end) => {
+                    const entityKey = block.getEntityAt(start);
+                    const entity = newContentState.getEntity(entityKey);
+                    const { src } = entity.getData();
+                    if (src === oldSrc) {
+                        newContentState = newContentState.replaceEntityData(entityKey, { src: newSrc });
+                    }
+                }
+            );
+        });
+    
+        return newContentState;
+    };
+
+    const extractImagesFromContent = (contentState) => {
+        const contentBlocks = contentState.getBlocksAsArray();
+        let images = [];
+        contentBlocks.forEach((block) => {
+            block.findEntityRanges(
+                (character) => {
+                    const entityKey = character.getEntity();
+                    return (
+                        entityKey !== null &&
+                        contentState.getEntity(entityKey).getType() === 'IMAGE'
+                    );
+                },
+                (start, end) => {
+                    const entityKey = block.getEntityAt(start);
+                    const entity = contentState.getEntity(entityKey);
+                    const { src } = entity.getData();
+                    console.log("gotten src:", src,"the entity type:", entity.getType(), "the entity data:", entity.getData().url)
+                    images.push(src);
+                }
+            );
+        });
+        return images;
+    };
+
+    async function addArticle(articleBody){
         setAwaitingResponse(true);
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
         console.log(articleBody,"\n",articleHeadline,"\n",articleSectionId,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
         
-        let imgUrl;
-        imgUrl = await upload();
+        let imgUrl = null;
+        imgUrl = await uploadImageToCloud();
         console.log("imgUrl",imgUrl)
 
 
-
-        if(imgUrl !== undefined){
-            await api.post('/addArticle',
-                    {
-                        headers: { 'content-type': 'multipart/form-data' },
-                        articleSectionId: articleSectionId,
-                        articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
-                        articleBody:encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
-                        withCredentials:true,
-                        img:imgUrl,
-                        isDraft: isDraft
-                    },
-                    )
-             .then((response)=>{
-                if(response && response.status===200){
-                    setAwaitingResponse(false);
-                    navigate('/');
-                }
-             })
-             .catch((err)=>{
-                console.log(err)
-                if(err.response && err.response.status===401){
-                    setAwaitingResponse(false);
-                    navigate('/login');
-                }
-             })
-        }    
+        if(articlePhotos.length>0) imgUrl=  articlePhotos[0];
+        
+        await api.post('/addArticle',
+                {
+                    headers: { 'content-type': 'multipart/form-data' },
+                    articleSectionId: articleSectionId,
+                    articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
+                    articleBody:articleBody,//encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
+                    withCredentials:true,
+                    img:imgUrl,
+                    isDraft: isDraft
+                },
+                )
+            .then((response)=>{
+            if(response && response.status===200){
+                setAwaitingResponse(false);
+                navigate('/');
+            }
+            })
+            .catch((err)=>{
+            console.log(err)
+            if(err.response && err.response.status===401){
+                setAwaitingResponse(false);
+                navigate('/login');
+            }
+            })
+           
     }
 
-    async function updateArticle(){
+    async function updateArticle(articleBody){
         setAwaitingResponse(true);
         let imgUrl= null;
         let prevImg;
 
-        //if a new image has been uploaded
-        if(articlePhoto !== articleToUpdate.multimediaUrl){
-            
-            imgUrl = await upload();
-            prevImg = articleToUpdate.multimediaUrl
+       
 
-        }
-        //the image is unchanged
-        else{
-            imgUrl = articleToUpdate.multimediaUrl;
-        }
+        // //if a new image has been uploaded
+        // if(articlePhoto !== articleToUpdate.multimediaUrl){
+            
+        //     imgUrl = await uploadImageToCloud();
+        //     prevImg = articleToUpdate.multimediaUrl
+
+        // }
+        // //the image is unchanged
+        // else{
+        //     imgUrl = articleToUpdate.multimediaUrl;
+        // }
+        console.log("editor state",editorState)
+        //for test
+       if(articlePhotos.length>0) imgUrl=  articlePhotos[0];
+
+        await api.post('/updateArticle',
+                {
+                    articleId: articleToUpdate.articleId,
+                    articleSectionId:articleSectionId,
+                    articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
+                    articleBody: articleBody,//encodeURIComponent().replace(/'/g,"&apos;"),
+                    withCredentials:true,
+                    img:imgUrl,
+                    prevImg : prevImg,
+                    isDraft:isDraft
+                },
+                )
+            .then((response)=>{
+            if(response && response.status===200){
+                setAwaitingResponse(false);
+                navigate('/');
+            }
+            })
+            .catch((err)=>{
+            console.log(err)
+            if(err.response && err.response.status===401){
+                setAwaitingResponse(false);
+                navigate('/login');
+            }
+            })
         
-        if(imgUrl !== undefined){
-            await api.post('/updateArticle',
-                    {
-                        articleId: articleToUpdate.articleId,
-                        articleSectionId:articleSectionId,
-                        articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
-                        articleBody:encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
-                        withCredentials:true,
-                        img:imgUrl,
-                        prevImg : prevImg,
-                        isDraft:isDraft
-                    },
-                    )
-             .then((response)=>{
-                if(response && response.status===200){
-                    setAwaitingResponse(false);
-                    navigate('/');
-                }
-             })
-             .catch((err)=>{
-                console.log(err)
-                if(err.response && err.response.status===401){
-                    setAwaitingResponse(false);
-                    navigate('/login');
-                }
-             })
-        }
     }
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault();
 
+        // Extract images from editor content
+        const contentState = editorState.getCurrentContent();
+        const images = extractImagesFromContent(contentState);
+
+
+
+        // Upload each image and replace in content with URL
+        const uploadedUrls = await Promise.all(
+            images.map(async (imageSrc) => {
+                // Perform your image upload logic here (e.g., Cloudinary)
+                const imageUrl = await uploadImageToCloud(imageSrc); // Implement your upload function
+
+                // Replace image in content with the uploaded URL
+                const newContentState = replaceImageInContent(contentState, imageSrc, imageUrl);
+                setEditorState(EditorState.createWithContent(newContentState));
+
+                return imageUrl;
+            })
+        );
+
+        console.log("Uploaded urls",uploadedUrls)
+
+        setArticlePhotos(uploadedUrls);
+
+        const rawContentState = convertToRaw(editorState.getCurrentContent())
+        const serializedContent = JSON.stringify(rawContentState);
+
+        console.log("Article body: ",serializedContent);
+
         if(articleToUpdate == null){
-             addArticle();
+             addArticle(serializedContent);
         }
         else{
-            updateArticle();
+            updateArticle(serializedContent);
         }
     }
     
@@ -216,17 +325,24 @@ export default function ArticlesUpdating(){
 
     return(
         <div className="m-2 " id ="article-update">
-            <MainNav/>
+            <div className="d-flex justify-content-between">
+                <div>
+
+                </div>
+            </div>
             
-            <form  onSubmit={handleSubmit} enctype="multipart/form-data" className="mb-5 container" id = "article-form">
+            <div style={{height:"100px"}}></div>
+
+            <form  onSubmit={handleSubmit} enctype="multipart/form-data" className="mb-5 ms-4 me-4" id = "article-form">
 
                 <div className=" d-lg-flex justify-content-between">
                    
 
                     <div className="col-lg-9 me-lg-1">
                         <div className="d-flex mb-3 ">
-                            <input type="text"  name="articleHeadline" className="w-100 form-control"
-                                placeholder="Title"  minlength="2" maxlength="200"required value={articleHeadline}
+                            <input type="text"  name="articleHeadline" className="w-100 border-0" 
+                                id = "title-input"
+                                placeholder="Add Title..."  minlength="2"  required value={articleHeadline}
                                 onChange={(e)=>setArticleHeadline(e.target.value)}
                             />
                         </div>
@@ -234,11 +350,35 @@ export default function ArticlesUpdating(){
                                 
 
                         <div className="editor-container mb-4">
-                            <ReactQuill value={articleBody}
+                            {/* <ReactQuill value={articleBody}
                                     onChange={setArticleBody}
                                     required
                                     className="editor"
                                     // theme="snow"
+                            /> */}
+
+                            <Editor
+                                editorState={editorState}
+                                onEditorStateChange={onEditorStateChange}
+                                toolbarClassName="toolbar-class"
+                                wrapperClassName="wrapper-class"
+                                editorClassName="editor-class"
+                                placeholder="Type your content here or add images..."
+                                toolbar={{
+                                    image:{
+                                        uploadCallback:uploadImageToEditor,
+                                        alignmentEnabled: true,
+                                        previewImage :true,
+                                        alt:{
+                                            present:true,
+                                            mandatory:false
+                                        },
+                                        defaultSize:{
+                                            height:'400px',
+                                            width:'auto'
+                                        }
+                                    }
+                                }}
                             />
                         </div>
                     </div>
@@ -334,15 +474,9 @@ export default function ArticlesUpdating(){
                         </div>
                         
                     </div>
-                </div>
-                
-                
-                
-               
-                
+                </div>                      
                 
             </form>
-            <Footer/>
         </div>
     )
 }
