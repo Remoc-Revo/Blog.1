@@ -32,9 +32,12 @@ export default function ArticlesUpdating(){
              .then((response)=>{
                 console.log("fetched articleToBeUpdated::",response)
                 setArticleToUpdate(response.data.article[0]) ;
+
                 setArticleSectionId(articleToUpdate.articleSectionId);
                 setArticleHeadline(decodeURIComponent(articleToUpdate.articleHeadline))
-                setArticleBody(decodeURIComponent(articleToUpdate.articleBody))
+                setArticleBody(response.data.article[0].articleBody)
+
+
                 setArticlePhoto(articleToUpdate.multimediaUrl)
 
                 const fetchedArticleBody = response.data.article[0].articleBody;
@@ -74,14 +77,13 @@ export default function ArticlesUpdating(){
         await api.get('/sections')
             .then((response)=>{
               setArticleSections(response.data.sections);
-              console.log("section : ", articleSections)              
 
             })
             .catch((err)=>{
               console.log("error fetching sections", err)
             });        
           }
-     ,[articleSections])
+     ,[])
 
     useEffect(()=>{
         if(!loading && user != null){
@@ -182,7 +184,6 @@ export default function ArticlesUpdating(){
     };
 
     async function addArticle(articleBody){
-        setAwaitingResponse(true);
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
         console.log(articleBody,"\n",articleHeadline,"\n",articleSectionId,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
         
@@ -221,7 +222,6 @@ export default function ArticlesUpdating(){
     }
 
     async function updateArticle(articleBody){
-        setAwaitingResponse(true);
         let imgUrl= null;
         let prevImg;
 
@@ -272,24 +272,42 @@ export default function ArticlesUpdating(){
 
     async function handleSubmit(e){
         e.preventDefault();
+        setAwaitingResponse(true);
 
         // Extract images from editor content
         const contentState = editorState.getCurrentContent();
         const images = extractImagesFromContent(contentState);
 
 
+        //When Editing an already saved article
+        let previousImages= [];
+        if(articleIdToUpdate!=null){
+            console.log(typeof articleToUpdate," article itself",articleToUpdate.articleBody)
+            const uneditedArticleBody = articleToUpdate.articleBody;
+            const parsedUneditedArticleBody = JSON.parse(uneditedArticleBody);
+            const articleBodyContentState = convertFromRaw(parsedUneditedArticleBody);
+            previousImages = extractImagesFromContent(articleBodyContentState);
+        }
+        
 
         // Upload each image and replace in content with URL
         const uploadedUrls = await Promise.all(
             images.map(async (imageSrc) => {
-                // Perform your image upload logic here (e.g., Cloudinary)
-                const imageUrl = await uploadImageToCloud(imageSrc); // Implement your upload function
+                if(previousImages.includes(imageSrc)){
+                    console.log("image saved already")
+                    return null;
+                }
+
+                //upload image  
+                const imageUrl = await uploadImageToCloud(imageSrc);
 
                 // Replace image in content with the uploaded URL
                 const newContentState = replaceImageInContent(contentState, imageSrc, imageUrl);
                 setEditorState(EditorState.createWithContent(newContentState));
 
                 return imageUrl;
+               
+                   
             })
         );
 
@@ -374,9 +392,16 @@ export default function ArticlesUpdating(){
                                             mandatory:false
                                         },
                                         defaultSize:{
-                                            height:'400px',
-                                            width:'auto'
+                                            height:'300px',
+                                            width:'400px'
                                         }
+                                    }
+                                }}
+                                customStyleMap={{
+                                    IMAGE: {
+                                        display: 'block',
+                                        maxWidth: '400px',
+                                        height: '300px'
                                     }
                                 }}
                             />
