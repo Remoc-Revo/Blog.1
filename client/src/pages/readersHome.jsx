@@ -8,6 +8,7 @@ import parser from "html-react-parser";
 // import { useQuery } from "react-query";
 import api from "../config/api";
 import { logVisitor } from "../reusables/global";
+import getFirstImage from "../reusables/getImage";
 
 
 export default  function ReadersHome(){
@@ -132,7 +133,7 @@ export default  function ReadersHome(){
 
                           
                             <div className="rounded"  style={{width:"100%", height:"450px",overflow:"hidden"}}  > 
-                                <img src={articles[0].multimediaUrl} alt=""   
+                                <img src={getFirstImage(articles[0].articleBody)} alt=""   
                                     className=" object-fit-cover"
                                     style={{display:"block",width:"100%",height:"100%"}} 
                                     >                            
@@ -168,14 +169,15 @@ export default  function ReadersHome(){
 
                     <div className="row ">
                             
-                            {articles.map((article,index)=>{
+                            {
+                             articles.map((article,index)=>{
                                 if(index>0 && index < 12){
                                     return <GridItemSmall 
                                                 articleSection={decodeString(article.sectionName)}
                                                 headline={decodeString(article.articleHeadline)} 
                                                 time={moment(article.articlePostingDate).fromNow()} 
                                                 briefDescription={decodeString(article.articleBody)} 
-                                                imgUrl={article.multimediaUrl}
+                                                imgUrl={getFirstImage(article.articleBody)}
                                                 articleId={article.articleId}
                                                 handleClick = {()=>{navigate(`/sngl/${article.articleId}`)}}
                                             /> 
@@ -185,6 +187,7 @@ export default  function ReadersHome(){
                                 }
                             })
                                 
+                            
                             }
                      </div>  
 
