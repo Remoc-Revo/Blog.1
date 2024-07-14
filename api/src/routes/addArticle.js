@@ -37,7 +37,7 @@ exports.addArticle=(req,res)=>{
                         if(result){
                         }
                     })
-                    return res.status(200).json({})
+                return res.status(200).json({articleId})
 
              }) 
     }
