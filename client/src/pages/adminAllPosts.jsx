@@ -7,6 +7,7 @@ import { useNavigate,useLocation } from "react-router-dom";
 import { faSearch,faTimes,faTrash,faEllipsisV,faPen } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Modal} from 'react-bootstrap';
+import getFirstImage from "../reusables/getImage";
 
 
 export default function AdminAllPosts({updateAdminPanelSection}){
@@ -253,7 +254,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
                                             headline={decodeString(article.articleHeadline)} 
                                             time={moment(article.articlePostingDate).fromNow()} 
                                             briefDescription={decodeString(article.articleBody)} 
-                                            imgUrl={article.multimediaUrl}
+                                            imgUrl={getFirstImage(article.articleBody)}
                                             articleId={article.articleId}
                                             handleClick = {()=>{navigate(`/articlePosting/${article.articleId}`)}}
                                         />   

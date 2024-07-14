@@ -27,7 +27,7 @@ export default function ArticlesUpdating(){
     const [newCategory, setNewCategory] = useState("");
     const [articlePhotos, setArticlePhotos] = useState([]);
 
-    function fetchArticleToUpdate(){
+    function  fetchArticleToUpdate() {
         api.get(`/single/${articleIdToUpdate}`)
              .then((response)=>{
                 console.log("fetched articleToBeUpdated::",response)
@@ -53,11 +53,14 @@ export default function ArticlesUpdating(){
             });
     }
 
-    if(articleIdToUpdate !== 'null' && ! articleToUpdateLoaded){
-    console.log("articleToUpdate not nulll")
-        fetchArticleToUpdate();
+   useEffect(()=>{
+        if(articleIdToUpdate !== 'null' && ! articleToUpdateLoaded){
+            console.log("articleToUpdate not nulll")
+                fetchArticleToUpdate();
 
-    }
+            }
+        }
+    )
 
     const onEditorStateChange = (editorState)=>{
         setEditorState(editorState);
@@ -151,7 +154,13 @@ export default function ArticlesUpdating(){
                     const entity = newContentState.getEntity(entityKey);
                     const { src } = entity.getData();
                     if (src === oldSrc) {
-                        newContentState = newContentState.replaceEntityData(entityKey, { src: newSrc, height:newHeight });
+                        newContentState = newContentState
+                                            .replaceEntityData(entityKey, 
+                                                { src: newSrc,
+                                                  height:newHeight,
+                                                  width:'600px',
+                                                  alignment:'left'
+                                                });
                     }
                 }
             );
@@ -221,7 +230,7 @@ export default function ArticlesUpdating(){
             .then((response)=>{
             if(response && response.status===200){
                 setAwaitingResponse(false);
-                navigate('/');
+                // navigate('/');
             }
             })
             .catch((err)=>{
@@ -270,7 +279,7 @@ export default function ArticlesUpdating(){
             .then((response)=>{
             if(response && response.status===200){
                 setAwaitingResponse(false);
-                navigate('/');
+                // navigate('/');
             }
             })
             .catch((err)=>{
@@ -294,7 +303,7 @@ export default function ArticlesUpdating(){
 
         //When Editing an already saved article
         let previousImages= [];
-        if(articleIdToUpdate!=null){
+        if(articleIdToUpdate!== 'null'){
             console.log(typeof articleToUpdate," article itself",articleToUpdate.articleBody)
             const uneditedArticleBody = articleToUpdate.articleBody;
             const parsedUneditedArticleBody = JSON.parse(uneditedArticleBody);
@@ -364,7 +373,7 @@ export default function ArticlesUpdating(){
             
             <div style={{height:"100px"}}></div>
 
-            <form  onSubmit={handleSubmit} enctype="multipart/form-data" className="mb-5 ms-4 me-4" id = "article-form">
+            <form  onSubmit={handleSubmit} enctype="multipart/form-data" className="mb-5 col-lg-10 container" id = "article-form">
 
                 <div className=" d-lg-flex justify-content-between">
                    
@@ -380,7 +389,7 @@ export default function ArticlesUpdating(){
 
                                 
 
-                        <div className="editor-container mb-4">
+                        <div className="editor-container mb-4 ">
                             {/* <ReactQuill value={articleBody}
                                     onChange={setArticleBody}
                                     required
@@ -405,7 +414,8 @@ export default function ArticlesUpdating(){
                                             mandatory:false
                                         },
                                         defaultSize:{
-                                            height:'400px',
+                                            height:'350px',
+                                            width:'400px'
                                         }
                                     }
                                 }}
@@ -423,13 +433,7 @@ export default function ArticlesUpdating(){
                             <span className="d-block pb-2">
                                 <b>Visibility: </b> Public
                             </span>
-                            <div className="col pb-2">
-                                <label for="articleImg" className="text-decoration-underline">Upload image</label>
-                                <input type="file" accept="image/*" id="articleImg" 
-                                    name="file" data-buttonText="Upload image" 
-                                    style={{ display: "none", }}
-                                    onChange={(e)=>setArticlePhoto(e.target.files[0])}/>
-                            </div>
+                           
                            
                             <div className="d-flex justify-content-between mt-1" >
                                <div className="" id="save-draft"> 
