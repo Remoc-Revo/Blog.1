@@ -3,6 +3,7 @@ import React,{useState,useEffect} from "react";
 import api from "../config/api";
 import { GridItemSmall } from "../components/article_preview";
 import { decodeString } from "../reusables/global";
+import getFirstImage from "../reusables/getImage";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
@@ -42,7 +43,7 @@ export default function AdminHome(){
                                 headline={decodeString(article.articleHeadline)} 
                                 time={moment(article.articlePostingDate).fromNow()} 
                                 briefDescription={decodeString(article.articleBody)} 
-                                imgUrl={article.multimediaUrl}
+                                imgUrl={getFirstImage(article.articleBody)}
                                 articleId={article.articleId}
                                 handleClick = {()=>{navigate(`/articlePosting/${article.articleId}`)}}
                             />                     
@@ -65,7 +66,7 @@ export default function AdminHome(){
                                 headline={decodeString(article.articleHeadline)} 
                                 time={moment(article.articlePostingDate).fromNow()} 
                                 briefDescription={decodeString(article.articleBody)} 
-                                imgUrl={article.multimediaUrl}
+                                imgUrl={getFirstImage(article.articleBody)}
                                 articleId={article.articleId}
                                 handleClick = {()=>{navigate(`/articlePosting/${article.articleId}`)}}
                             />                     
