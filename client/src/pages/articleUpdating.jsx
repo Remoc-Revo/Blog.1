@@ -19,7 +19,7 @@ export default function ArticlesUpdating(){
     var [articleToUpdateLoaded, setArticleToUpdateLoaded] = useState(false);
     const {loading,user} = useUserContext();
     let {articleIdToUpdate} = useParams();
-    const [articleToUpdate,setArticleToUpdate] = useState();
+    const [articleToUpdate,setArticleToUpdate] = useState(null);
     const [awaitingResponse, setAwaitingResponse] = useState(false);
     const [isDraft, setIsdraft] = useState();
     const [articleSections, setArticleSections]= useState([]);
@@ -229,8 +229,9 @@ export default function ArticlesUpdating(){
                 )
             .then((response)=>{
             if(response && response.status===200){
+                const articleId = response.data.articleId;
                 setAwaitingResponse(false);
-                // navigate('/');
+                navigate(`/articlePosting/${articleId}`);
             }
             })
             .catch((err)=>{
@@ -279,7 +280,7 @@ export default function ArticlesUpdating(){
             .then((response)=>{
             if(response && response.status===200){
                 setAwaitingResponse(false);
-                // navigate('/');
+                fetchArticleToUpdate();
             }
             })
             .catch((err)=>{
@@ -428,10 +429,21 @@ export default function ArticlesUpdating(){
                         <div className=" border p-3 mb-2">
                             <h5 className="">Publish</h5>
                             <span className="d-block pb-2">
-                                <b>Status: </b> Draft
+                                <b>Status: </b> 
+                                {
+                                    articleToUpdate !== null && !articleToUpdate.articleIsDraft
+                                    ? <span>Published</span>
+                                    : <span>Draft</span>
+                                }
+                                
                             </span>
                             <span className="d-block pb-2">
-                                <b>Visibility: </b> Public
+                                <b>Visibility: </b> 
+                                {
+                                    articleToUpdate !== null && !articleToUpdate.articleIsDraft
+                                    ? <span>Public</span>
+                                    : <span>Private</span>
+                                }
                             </span>
                            
                            
@@ -456,9 +468,9 @@ export default function ArticlesUpdating(){
                                         id = "publish-btn"
                                         type="submit" 
                                         onClick={(e)=>{setIsdraft(false)}}
-                                    >{(articleIdToUpdate === 'null') 
-                                        ? "Publish"
-                                        : "Update"}</button>
+                                    >
+                                        Publish
+                                        </button>
                                 } 
                                 </div>
                             </div>
