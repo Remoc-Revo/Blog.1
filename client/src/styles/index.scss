@@ -198,31 +198,7 @@ p{
 
 
 
-/* ARTICLE UPDATING */
-.editor-container{
-    // overflow:scroll;
-    height:100%;
-    /* border:1px solid lightgray; */
-    
-}
 
-.editor{
-    height:100%;
-    border:none;
-    background-color: white;
-    margin:none;
-    padding:none;
-    /* overflow:scroll; */
-
-}
-#title-input{
-    font-size:34px;
-    font-weight: 300;
-    &::placeholder{
-        font-size: 34px;
-    }
-
-}
 
 @keyframes slideIn{
     from{
@@ -556,8 +532,40 @@ footer {
   }
 }
 
-//articleUpdate
+//ARTICLE UPDATING PAGE
+
+
+
+
+#title-input{
+    font-size:34px;
+    font-weight: 300;
+    &::placeholder{
+        font-size: 34px;
+    }
+
+}
+
+#writing-nav{
+    background-color:black;
+    height:40px;
+    width: 100%;
+    position: fixed;
+    top:0;
+    z-index: 100;
+}
+
 #article-update {
+    padding-top:140px;
+       
+    .toolbar{
+        position: fixed;
+        z-index: 100;
+        top:40px;
+    }
+        
+    
+
     font-size: 23;
     font-weight:300;
 
@@ -565,13 +573,20 @@ footer {
         font-size: 1;
     }
 
-    #publish-menu{
-        // height: 40%;
+    #writing-side-panel{
+        position: fixed;
+        right: 0;
+        top: 42px;
+        margin-right: 10px;
+        
+        height: 100%;
     }
 
+    
+
     #category{
-        height:400px;
-       
+        height:74%;
+
            
         #available-categories{
             height:250px;
