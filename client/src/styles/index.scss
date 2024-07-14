@@ -267,8 +267,15 @@ p{
 
 #single-article-body{
     img{
-        height: auto;
-        width: 100%;
+        max-height: 400px !important;
+        width: 100% !important;
+        object-fit: cover;
+
+        &::before{
+            height: 400px;
+            width: 100% ;
+
+        }
         
     }
 }
