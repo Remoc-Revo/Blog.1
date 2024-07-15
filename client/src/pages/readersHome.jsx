@@ -11,9 +11,9 @@ import { logVisitor } from "../reusables/global";
 import getFirstImage from "../reusables/getImage";
 
 
-export default  function ReadersHome(){
+export default  function ReadersHome({updateAdminPanelSection}){
     const [articles,setArticles]=useState([]);
-    var cat=/*(useLocation().search==="")?"/latest":*/useLocation().search;
+    var cat=useLocation().search;
     const lastArticleRef = useRef(null);
     // const title=(cat==="")?"Latest":cat.split("=")[1].replaceAll('_',' ');
     const [initialFetch, setInitialFetch] = useState(true);
@@ -58,6 +58,23 @@ export default  function ReadersHome(){
    useEffect(()=>{
     logVisitor(cat);
    },[cat])
+
+   //tracking routes when admin is using readers' view
+   useEffect(()=>{
+    function handlePopstate(){
+        console.log('new reader location:',window.location.search, typeof updateAdminPanelSection)
+        if(typeof updateAdminPanelSection !== undefined){
+            updateAdminPanelSection(window.location.search);
+
+        }
+
+    }
+    window.addEventListener('popstate',handlePopstate)
+
+    return ()=>{
+        window.removeEventListener('popstate',handlePopstate)
+    }
+   },[])
 
 
 //    if(isLoading){

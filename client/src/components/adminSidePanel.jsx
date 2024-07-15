@@ -34,19 +34,20 @@ import { updateHistory } from "../reusables/global";
     }
 
 
-    return <div className="text-white ">
+    return <div className="text-white " id="admin-side-panel">
 
         <div className=" bg-dark  pt-3 slide-in position-fixed"
             style={{width:"240px",height:"100%",top:"40px"}}
         >
-            <div className="d-flex ps-2"
+            <button className="btn d-flex ps-2 align-items-center"
+                onClick={(e)=>onLinkClick(e,'?view=reader')}
                 >
                 <img src={Logo} alt="" style={{maxWidth:"35%"}} />
                 <div className="d-flex flex-column  gap-0 justify-content-center">
-                    <h6 className="d-flex  m-0" id="blog-title">Lorem Healthline</h6>
-                    <span className=" fw-lighter" id="blog-domain">loremhealthline.com</span>
+                    <h6 className="text-white d-flex  m-0 " id="blog-title">Lorem Healthline</h6>
+                    <span className="text-white fw-lighter" id="blog-domain">loremhealthline.com</span>
                 </div>
-            </div>
+            </button>
            
             <div className="mt-4 d-flex flex-column gap-0 admin-side-panel-links">
                 <a href="/" 

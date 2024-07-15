@@ -13,7 +13,7 @@ import Edit from "../img/edit.png";
 import { logVisitor } from "../reusables/global";
 import draftToHtml from 'draftjs-to-html';
 
-// import Comments from "../components/comments";
+import Comments from "../components/comments";
 
 export default function Single(){
     var [article,setArticle]=useState([]);
@@ -195,7 +195,7 @@ export default function Single(){
 
             }
            
-            {/* <Comments articleId={article.articleId}/> */}
+            <Comments articleId={article.articleId}/>
             
            
             

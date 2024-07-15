@@ -8,6 +8,7 @@ import AdminAllPosts from "./adminAllPosts";
 import AdminPostsCategories from "./adminPostsCategories";
 import AdminStats from "./adminStats";
 import AdminUsersDisplay from "./adminUsersDisplay";
+import ReadersHome from "./readersHome"; 
 
 export default function AdminPanel(){
     const navigate = useNavigate();
@@ -35,7 +36,7 @@ export default function AdminPanel(){
         
        
      
-    },[loading,navigate,user])
+    })
 
     const updateAdminPanelSection=(adminPanelSection)=>{
         setAdminPanelSection(adminPanelSection);
@@ -46,25 +47,35 @@ export default function AdminPanel(){
 
     
     return <div>
-        <AdminNav/>
-        <div className="d-flex position-relative w-100" style={{height:"100vh"}}>
-            <AdminSidePanel updateAdminPanelSection={updateAdminPanelSection}/>
-                <div className="position-absolute col-md-8 col-lg-10 d-flex justify-content-center" id="adminPanelMainContent"
-                    style={{left:"240px",top:"60px"}}
-                >
-                    {(adminPanelSection === "")&&<AdminHome />}
-                    
-                    {(adminPanelSection === "?adminPanel=stats")&&<AdminStats/>}
-                    
-                    {(adminPanelSection==="?adminPanel=posts"|| adminPanelSection==="?adminPanel=posts/drafts" || adminPanelSection.includes("?adminPanel=posts&category="))
-                    &&<AdminAllPosts updateAdminPanelSection={updateAdminPanelSection}/>}
-                    
-                    {(adminPanelSection === "?adminPanel=posts/categories")&&<AdminPostsCategories updateAdminPanelSection={updateAdminPanelSection}/>}
-                    
-                    {(adminPanelSection === "?adminPanel=comments")&&<>comments on development..</>}
-                    
-                    {(adminPanelSection === "?adminPanel=users")&&<AdminUsersDisplay/>}
+
+
+        {(adminPanelSection.includes("?adminPanel") || adminPanelSection=="")
+            ?<div>
+                <AdminNav/>
+                <div className="d-flex position-relative w-100" style={{height:"100vh"}}>
+                    <AdminSidePanel updateAdminPanelSection={updateAdminPanelSection}/>
+                        <div className="position-absolute col-md-8 col-lg-10 d-flex justify-content-center" id="adminPanelMainContent"
+                            style={{left:"240px",top:"60px"}}
+                        >
+                            
+                            
+                            {(adminPanelSection === "")&&<AdminHome />}
+                            
+                            {(adminPanelSection === "?adminPanel=stats")&&<AdminStats/>}
+                            
+                            {(adminPanelSection==="?adminPanel=posts"|| adminPanelSection==="?adminPanel=posts/drafts" || adminPanelSection.includes("?adminPanel=posts&category="))
+                            &&<AdminAllPosts updateAdminPanelSection={updateAdminPanelSection}/>}
+                            
+                            {(adminPanelSection === "?adminPanel=posts/categories")&&<AdminPostsCategories updateAdminPanelSection={updateAdminPanelSection}/>}
+                            
+                            {(adminPanelSection === "?adminPanel=comments")&&<>comments on development..</>}
+                            
+                            {(adminPanelSection === "?adminPanel=users")&&<AdminUsersDisplay/>}
+                        </div>
                 </div>
-        </div>
+            </div>
+            :<ReadersHome updateAdminPanelSection={updateAdminPanelSection}/>
+        }
+        
     </div>
 }

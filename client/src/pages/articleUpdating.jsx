@@ -256,7 +256,7 @@ export default function ArticlesUpdating(){
             if(response && response.status===200){
                 const articleId = response.data.articleId;
                 setAwaitingResponse(false);
-                navigate(`/articlePosting/${articleId}`);
+                navigate(`/articlePosting/${articleId}`,{replace:true});
             }
             })
             .catch((err)=>{
@@ -448,7 +448,7 @@ export default function ArticlesUpdating(){
                             <div className="d-flex ">
                                 <input type="text"  name="articleHeadline" className="w-100 border-0" 
                                     id = "title-input"
-                                    placeholder="Add Title..."  minlength="2"  required value={articleHeadline}
+                                    placeholder="Add title..."  minlength="2"  required value={articleHeadline}
                                     onChange={(e)=>setArticleHeadline(e.target.value)}
                                 />
                             </div>

@@ -287,6 +287,13 @@ p{
 
 
 // ADMIN PANEL
+#admin-side-panel{
+    button:focus{
+        outline: none;
+        box-shadow: none;
+        border:none;
+    }
+}
 #blog-title{
     font-size: 13px;
 }
