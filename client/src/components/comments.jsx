@@ -2,6 +2,7 @@ import React,{useState,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
 import api from "../config/api";
+import { useUserContext } from "../userContext";
 
 const Comments=React.memo(({articleId})=>{
     const navigate=useNavigate();
@@ -10,22 +11,25 @@ const Comments=React.memo(({articleId})=>{
     let [newReply,set_newReply]=useState('');
     let [activeButtonKey,set_activeButtonKey]=useState(-1);
     let [claps,set_claps]=useState();
-    let [userId, set_userId]=useState();
-    let [userName, set_userName] = useState();
+    let [userId, setUserId]=useState();
+    let [userName, setUserName] = useState();
+    const {loading,user} = useUserContext();
 
-    // useEffect(()=>{
-    //     api.get(`/comments/${articleId}}`,{withCredentials:true})
-    //         .then((response)=>{
-    //         set_claps(response.data.claps)
-    //         set_comments(response.data.comments);
-    //         })
 
-    //     api.get('/user')
-    //          .then((response)=>{
-    //             set_userId(response.data.userId);
-    //             set_userName(response.data.userName);
-    //          })
-    // },[articleId])
+    useEffect(()=>{
+        api.get(`/comments/${articleId}`,{withCredentials:true})
+            .then((response)=>{
+            set_claps(response.data.claps)
+            set_comments(response.data.comments);
+            })
+
+        
+        if(!loading && user != null){
+            console.log("user context!!!!",user);
+            setUserId(user.userId);
+            setUserName(user.userName);
+        }
+    },[articleId,loading,user])
     
     const handleReplyButtonClick=(e,key)=>{
         e.stopPropagation();
