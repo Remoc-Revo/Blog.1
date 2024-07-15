@@ -7,7 +7,7 @@ import { useUserContext } from "../userContext";
 import api from "../config/api";
 import { height, width } from "@fortawesome/free-solid-svg-icons/fa0";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser,faPenFancy, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faUser,faBarsStaggered, faBell, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function ArticlesUpdating(){
     const navigate=useNavigate();
@@ -27,6 +27,8 @@ export default function ArticlesUpdating(){
     const [isAddingNewCategory,setIsAddingNewCategory] = useState(false);
     const [newCategory, setNewCategory] = useState("");
     const [articlePhotos, setArticlePhotos] = useState([]);
+    const [isSidePanelVisible, setIsSidePanelVisible] = useState(true);
+    const [windowWidth,setWindowWidth]=useState(window.innerWidth)
 
     function  fetchArticleToUpdate() {
         api.get(`/single/${articleIdToUpdate}`)
@@ -60,8 +62,30 @@ export default function ArticlesUpdating(){
                 fetchArticleToUpdate();
 
             }
+            
         }
     )
+
+    useEffect(()=>{
+        function handleWindowResize(){
+            const newWidth = window.innerWidth
+
+            if(newWidth < 1200){
+                setIsSidePanelVisible(false);
+            }
+            else{
+                setIsSidePanelVisible(true);
+            }
+            setWindowWidth(newWidth)
+        }
+
+        window.addEventListener('resize',handleWindowResize)
+
+        return ()=>{
+            window.removeEventListener('resize',handleWindowResize)
+        }
+
+    })
 
     const onEditorStateChange = (editorState)=>{
         setEditorState(editorState);
@@ -367,10 +391,16 @@ export default function ArticlesUpdating(){
 
     return(
         <div className="" >
-            <div className="bg-black m-0  p-1 ps-3 pe-4  top-0 w-100 position-fixed" 
+            <div className="bg-black m-0  p-1 ps-1 pe-1 ps-md-3 pe-md-4  top-0 w-100 position-fixed" 
                 id="writing-nav"
                >
-                <div className='d-flex justify-content-end align-items-center gap-2 gap-md-3 '>
+                <div className="d-flex justify-content-between">
+                    <button onClick={()=>{navigate('/')}} className="btn d-flex gap-2 align-items-center ms-xl-3">
+                        <FontAwesomeIcon icon={faChevronLeft} className="admin-nav-icon"/>
+                        <span className="text-white">My home</span>
+                    </button>
+
+                    <div className='d-flex justify-content-end align-items-center gap-2 gap-md-3 '>
                     <a className="btn  d-flex align-items-center gap-1" 
                         onClick={()=>{}}
                     >
@@ -392,20 +422,29 @@ export default function ArticlesUpdating(){
                     <button className="btn d-flex">
                         <FontAwesomeIcon icon={faBell} className="admin-nav-icon"/>
                     </button>
+
+                    <button className="btn d-flex" 
+                        onClick={()=>{setIsSidePanelVisible(!isSidePanelVisible)}}
+                        >
+                        <FontAwesomeIcon icon={faBarsStaggered} className="admin-nav-icon"/>
+                    </button>
                 </div>
-                
+                </div>             
             </div>
+            <div id="writing-nav-spacer"></div>
             
             <div id ="article-update">
                 <form  onSubmit={handleSubmit} 
                     enctype="multipart/form-data" 
-                    className="mb-5  d-lg-flex justify-content-end" 
+                    className="mb-5 " 
                     id = "article-form">
 
-                    <div className="col-lg-10 me-5 d-lg-flex justify-content-between">
+                    <div className={`col-xl-9  d-lg-flex justify-content-start`}>
                     
+                        {/* spacer in xl screens */}
+                        <div className="col-xl-2"></div>
 
-                        <div className="col-lg-9 me-lg-1">
+                        <div className="col-10 m-xl-0 ms-4 me-4">
                             <div className="d-flex ">
                                 <input type="text"  name="articleHeadline" className="w-100 border-0" 
                                     id = "title-input"
@@ -416,58 +455,60 @@ export default function ArticlesUpdating(){
 
                                     
 
-                            <div className="mb-4 " id="editor-container">
                                 
-                                <Editor
-                                    editorState={editorState}
-                                    onEditorStateChange={onEditorStateChange}
-                                    toolbarClassName="toolbar col-lg-8"
-                                    wrapperClassName="wrapper-class"
-                                    editorClassName="editor-class"
-                                    placeholder="Type your content here or add images..."
-                                    toolbar={{
-                                        image:{
-                                            uploadCallback:uploadImageToEditor,
-                                            alignmentEnabled: true,
-                                            previewImage :true,
-                                            alt:{
-                                                present:true,
-                                                mandatory:false
-                                            },
-                                            defaultSize:{
-                                                height:'350px',
-                                                width:'400px'
-                                            }
+                            <Editor
+                                editorState={editorState}
+                                onEditorStateChange={onEditorStateChange}
+                                toolbarClassName="toolbar col-xl-8 me-xl-5 me-3"
+                                wrapperClassName="wrapper-class "
+                                editorClassName="editor "
+                                placeholder="Type your content here or add images..."
+                                toolbar={{
+                                    image:{
+                                        uploadCallback:uploadImageToEditor,
+                                        alignmentEnabled: true,
+                                        previewImage :true,
+                                        alt:{
+                                            present:true,
+                                            mandatory:false
+                                        },
+                                        defaultSize:{
+                                            height:'350px',
+                                            width:'400px'
                                         }
-                                    }}
-                                
-                                />
-                            </div>
+                                    }
+                                }}
+                            
+                            />
                         </div>
 
-                        <div className="menu " id="writing-side-panel">
-                            <div className=" border p-3 mb-2">
-                                <h5 className="">Publish</h5>
-                                <span className="d-block pb-2">
-                                    <b>Status: </b> 
-                                    {
-                                        articleToUpdate !== null && !articleToUpdate.articleIsDraft
-                                        ? <span>Published</span>
-                                        : <span>Draft</span>
-                                    }
-                                    
-                                </span>
-                                <span className="d-block pb-2">
-                                    <b>Visibility: </b> 
-                                    {
-                                        articleToUpdate !== null && !articleToUpdate.articleIsDraft
-                                        ? <span>Public</span>
-                                        : <span>Private</span>
-                                    }
-                                </span>
-                            
-                            
-                                <div className="d-flex justify-content-between mt-1" >
+
+                    </div>  
+
+                    <div className={`menu ${isSidePanelVisible?"":" d-none"}`}
+                            id="writing-side-panel" >
+                        <div className=" border p-3 mb-2">
+                            <h5 className="">Post</h5>
+                            <span className="d-block pb-2">
+                                <b>Status: </b> 
+                                {
+                                    articleToUpdate !== null && !articleToUpdate.articleIsDraft
+                                    ? <span>Published</span>
+                                    : <span>Draft</span>
+                                }
+                                
+                            </span>
+                            <span className="d-block pb-2">
+                                <b>Visibility: </b> 
+                                {
+                                    articleToUpdate !== null && !articleToUpdate.articleIsDraft
+                                    ? <span>Public</span>
+                                    : <span>Private</span>
+                                }
+                            </span>
+                        
+                        
+                            <div className="d-flex gap-2  align-items-center justify-content-between mt-1" >
                                 <div className="" id="save-draft"> 
                                         <button className="btn border" type="submit"
                                             onClick={(e)=>{
@@ -478,70 +519,69 @@ export default function ArticlesUpdating(){
                                         </button>
                                     </div>
 
-                                    <div className="">
-                                    {(awaitingResponse)
-                                        ?<div className="spinner-border text-info">
-                                            <span className="sr-only">Loading...</span>
-                                        </div>
-                                        
-                                        :<button className="btn btn-light col" 
-                                            id = "publish-btn"
-                                            type="submit" 
-                                            onClick={(e)=>{setIsdraft(false)}}
-                                        >
-                                            Publish
-                                            </button>
-                                    } 
+                                <div className="">
+                                {(awaitingResponse)
+                                    ?<div className="spinner-border text-info">
+                                        <span className="sr-only">Loading...</span>
                                     </div>
+                                    
+                                    :<button className="btn btn-light col" 
+                                        id = "publish-btn"
+                                        type="submit" 
+                                        onClick={(e)=>{setIsdraft(false)}}
+                                    >
+                                        Publish
+                                        </button>
+                                } 
                                 </div>
                             </div>
-                            <div className="border p-3 d-flex flex-column" id="category">
-                                <h5>Category</h5>
-                                <div className="mb-3" id="available-categories">
-                                    {articleSections.map((section,index)=>{
-                                        return <div className="section pb-2">
-                                            <input
-                                            type="radio"
-                                            required
-                                            checked={section.sectionId === parseInt(articleSectionId,10)}
-                                            name="section"
-                                            value= {section.sectionId}                               
-                                            id={section.sectionId}
-                                            onChange={(e)=>{setArticleSectionId(e.target.value); }} />
-                                            <label htmlFor={section.sectionId}>{section.sectionName}</label>
-                                        </div>
-                                    })
-                                }
-                                
-                                </div>
-                                <div id="add-category">
-                                    <button className="btn btn-link p-0 mb-3" id="new-category-btn" type="button" onClick={()=>{setIsAddingNewCategory(true)}}>
-                                        Add New Category
-                                    </button>
-
-                                    {(isAddingNewCategory)
-                                        ?<div className="d-flex flex-column gap-3">
-                                            <input type="text"  name="newCategory" className="w-100 form-control"
-                                                placeholder="New Category name"  minlength="" maxlength="200" value={newCategory}
-                                                onChange={(e)=>setNewCategory(e.target.value)}
-                                            />
-
-                                            <button className={newCategory===""?"btn btn-light": "btn-ready"}
-                                                type="button"
-                                                id="add-category-btn"
-                                                onClick={addNewSection}
-                                                >
-                                                Add new category
-                                            </button>
-                                        </div>
-
-                                        :null
-                                    }
-                                </div>
-                            </div>
-                            
                         </div>
-                    </div>                      
+                        <div className="border p-3 d-flex flex-column" id="category">
+                            <h5>Category</h5>
+                            <div className="mb-3" id="available-categories">
+                                {articleSections.map((section,index)=>{
+                                    return <div className="section pb-2">
+                                        <input
+                                        type="radio"
+                                        required
+                                        checked={section.sectionId === parseInt(articleSectionId,10)}
+                                        name="section"
+                                        value= {section.sectionId}                               
+                                        id={section.sectionId}
+                                        onChange={(e)=>{setArticleSectionId(e.target.value); }} />
+                                        <label htmlFor={section.sectionId}>{section.sectionName}</label>
+                                    </div>
+                                })
+                            }
+                            
+                            </div>
+                            <div id="add-category">
+                                <button className="btn btn-link p-0 mb-3" id="new-category-btn" type="button" onClick={()=>{setIsAddingNewCategory(true)}}>
+                                    Add New Category
+                                </button>
+
+                                {(isAddingNewCategory)
+                                    ?<div className="d-flex flex-column gap-3">
+                                        <input type="text"  name="newCategory" className="w-100 form-control"
+                                            placeholder="New Category name"  minlength="" maxlength="200" value={newCategory}
+                                            onChange={(e)=>setNewCategory(e.target.value)}
+                                        />
+
+                                        <button className={newCategory===""?"btn btn-light": "btn-ready"}
+                                            type="button"
+                                            id="add-category-btn"
+                                            onClick={addNewSection}
+                                            >
+                                            Add new category
+                                        </button>
+                                    </div>
+
+                                    :null
+                                }
+                            </div>
+                        </div>
+                        
+                    </div>                    
                     
                 </form>
 
