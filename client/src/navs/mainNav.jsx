@@ -142,14 +142,14 @@ export default function MainNav(){
               }
               
             
-              {(userLevel===1)
+              {/* {(userLevel===1)
                 ?<div className="d-flex me-2" id = "write-button-container">
                   <button onClick={()=>{navigate(`/articlePosting/${null}`)}} className="btn btn-transparent  col-xs col-md " title="Write">
                     <h6>Write</h6>
                   </button>
                                     
                  </div>
-                :<span/>}
+                :<span/>} */}
             </div>
           
           <Navbar.Toggle as={customToggle} aria-controls="basic-navbar-nav" className="order-xl-1 me-2 ms-2"/>

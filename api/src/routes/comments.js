@@ -4,25 +4,32 @@ const pool = createPool();
 
 exports.addComment=(req,res)=>{
     const newComment=req.body.comment;
-    const articleId=req.body.articleId;
+    let articleId=req.body.articleId;
+    articleId = parseInt(articleId)
 
 
-    pool.query("INSERT INTO COMMENT VALUES(null,now(),?,?,?,null)",
+    try{
+        pool.query("INSERT INTO COMMENT VALUES(null,now(),?,?,?,null)",
             [articleId,req.session.userId,newComment],
             (err,result)=>{
                 if(err){
-                    throw(err)
+                    console.log(err)
                 }
                 return res.status(200).json({})
             })
+    }catch(err){
+        console.log("Error adding comment", err);
+    }
 }
 
 exports.comments=(req,res)=>{
-    const articleId=req.params.articleId;
-    console.log("the idddd",articleId);
+    let articleId=req.params.articleId;
+    // articleId = parseInt(articleId)
+    console.log("the iiiiiiiiiiddddd",articleId);
     
 
-    if(articleId!==undefined){
+    try{
+        if(articleId!==undefined){
         
         pool.query(`SELECT c.*, u.userName AS comment_userName
                     FROM COMMENT c
@@ -30,9 +37,10 @@ exports.comments=(req,res)=>{
                     WHERE articleId=?`,[articleId],
             (err,result)=>{
                 if(err){
-                    throw(err);
+                    console.log(err);
+                    return;
                 }
-                console.log("euuult3",result)
+                console.log("comments result",result)
 
                 
                 function buildCommentTree(comments,parentId = null){
@@ -40,6 +48,8 @@ exports.comments=(req,res)=>{
 
                     for(const comment of comments){
                         if(comment.parentCommentId === parentId){
+                            console.log("inside if one of them...,",comment)
+
                             const replies=buildCommentTree(comments,comment.commentId);
                             if(replies.length > 0){
                                 comment.replies = replies;
@@ -50,21 +60,28 @@ exports.comments=(req,res)=>{
                     return result;
                 }
 
-                  const commentTree= buildCommentTree(result)
+                let commentTree = buildCommentTree(result)
 
-                console.log("comment tree::",commentTree[0])
+                console.log("comment tree::",commentTree)
 
-                //feth claps-data of that article
-                pool.query(`SELECT commentId,value FROM CLAP WHERE articleId=?`,articleId,
+                //fetch likes of the article
+                try{
+                    pool.query("SELECT commentId,value FROM `LIKE` WHERE articleId=?",articleId,
                     (err,result)=>{
-                        if(err) throw(err);
+                        if(err) console.log(err);
 
                         console.log("clapps::",result)
                         return res.status(200).json({claps:result,comments:commentTree})
                     })
+                }catch(err){
+                    console.log("Error fetching likes", err);
+                }
                 
                 
             })
+    }
+    }catch(err){
+        console.log("Error fetching comments", err);
     }
     
 }
@@ -95,13 +112,13 @@ exports.clap=(req,res)=>{
 
     console.log("claping or slaping::: clapp",commentId);
     
-    pool.query(`SELECT * FROM CLAP WHERE commentId=${commentId} AND userId=${req.session.userId}`,
+    pool.query(`SELECT * FROM LIKE WHERE commentId=${commentId} AND userId=${req.session.userId}`,
         (err,result)=>{
             if(err) throw(err);
 
             //the user has not reacted to the comment
             if(result.length==0){
-                pool.query(`INSERT INTO CLAP VALUES(?,?,?,1)`,[articleId,commentId,req.session.userId],
+                pool.query(`INSERT INTO LIKE VALUES(?,?,?,1)`,[articleId,commentId,req.session.userId],
                     (err,result)=>{
                         if(err) throw(err);
 
@@ -110,7 +127,7 @@ exports.clap=(req,res)=>{
             }
             // the user had previously reacted differently to the comment
             else if(result[0].value != clap_value){
-                pool.query(`UPDATE CLAP SET value=${clap_value} WHERE commentId=${commentId}`,
+                pool.query(`UPDATE LIKE SET value=${clap_value} WHERE commentId=${commentId}`,
                     (err,result)=>{
                         if(err) throw(err);
 
