@@ -12,7 +12,7 @@ const uuid = require('uuid');
 const path = require('path');
 const pool = createPool();
 const fs = require('fs');
-const {addComment,comments,reply,clap}= require('./comments')
+const {addComment,comments,reply,like}= require('./comments')
 const {deleteArticle} = require('./deleteArticle')
 const {getSections,addSection,deleteCategory,editCategory} = require('./sections')
 const {getAdminHomeData}= require('./getAdminHomeData');
@@ -149,7 +149,7 @@ router.get('/comments/:articleId',comments)
 
 router.post('/reply',ifNotLoggedin,reply)
 
-router.post('/clap',ifNotLoggedin, clap);
+router.post('/like',ifNotLoggedin, like);
 
 router.get('/sections', getSections)
 

@@ -182,6 +182,9 @@ export default function Single(){
                                     </div>
                                 </div>
 
+                                <Comments articleId={article.articleId}/>
+
+
                             </div>
                             
                             
@@ -189,13 +192,14 @@ export default function Single(){
                         </div>
 
                     </div>
+
+
                    
                 </div>
                 :""
 
             }
            
-            <Comments articleId={article.articleId}/>
             
            
             
