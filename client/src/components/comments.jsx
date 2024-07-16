@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect, useCallback} from "react";
 import { useNavigate } from "react-router-dom";
 import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
 import api from "../config/api";
@@ -19,20 +19,23 @@ const Comments=React.memo(({articleId})=>{
     const {loading,user} = useUserContext();
 
 
-    useEffect(()=>{
+    const fetchComments = useCallback(()=>{
         api.get(`/comments/${articleId}`,{withCredentials:true})
             .then((response)=>{
             set_claps(response.data.claps)
             set_comments(response.data.comments);
-            })
+            }) 
+    },[] )      
 
+    useEffect(()=>{
+        fetchComments();
         
         if(!loading && user != null){
             console.log("user context!!!!",user);
             setUserId(user.userId);
             setUserName(user.userName);
         }
-    },[articleId,loading,user])
+    },[fetchComments,articleId,loading,user])
     
     const handleReplyButtonClick=(e,key)=>{
         e.stopPropagation();
@@ -53,7 +56,9 @@ const Comments=React.memo(({articleId})=>{
     }
 
 
-    function addComment(){
+    function addComment(e){
+        e.preventDefault();
+        
         api.post('/addComment',
              {
                 withCredentials:true,
@@ -61,8 +66,9 @@ const Comments=React.memo(({articleId})=>{
                 articleId:articleId
             })
              .then((response)=>{
-                if(response.status===200){
-                    // window.location.reload()
+                if(response.status===201){
+                    set_newComment('');
+                    fetchComments();
                 }
              })
              .catch((err)=>{
@@ -74,7 +80,8 @@ const Comments=React.memo(({articleId})=>{
     }
 
     function sendReply(parentId){
-    
+        if(newReply === '') return;
+        
         api.post('/reply',
             {
                 articleId:articleId,
@@ -82,8 +89,8 @@ const Comments=React.memo(({articleId})=>{
                 reply: newReply
             })
             .then((response)=>{
-                if(response.status===200){
-                    window.location.reload()
+                if(response.status===201){
+                    fetchComments();
                 }
             })
 
@@ -224,7 +231,7 @@ function Comment({
                 <div className="">
                     <div className="d-flex">
                        <div className="">
-                            <button className="btn " onClick={(userId === undefined) ? ()=>loginAlert() : ()=>like(articleId,key)} title="Like">
+                            <button className="btn border-0 no-focus-outline" onClick={(userId === undefined) ? ()=>loginAlert() : ()=>like(articleId,key)} title="Like">
                                 {likeSum(key,1)>0
                                     ?<FontAwesomeIcon icon={faStar} className="ic-response ic-teal"/>
                                     :<FontAwesomeIcon icon={farStar} className="ic-response ic-grey"/>
@@ -250,7 +257,7 @@ function Comment({
                                 <span className="ms-2 fw-bolder ">{userName}</span>
 
                                 <div className="mt-2">
-                                    <textarea rows={2} className="col-12 " key={['reply',key].join('_')} value={newReply} onChange={(e)=>set_newReply(e.target.value)}   onClick={handleInputClick} />
+                                    <textarea rows={2} className="col-12 p-2 " key={['reply',key].join('_')} value={newReply} onChange={(e)=>set_newReply(e.target.value)}   onClick={handleInputClick} />
                                     <button className="btn" onClick={()=>sendReply(comment.commentId)}>send</button>                                  
                                 </div>
                             </div>
@@ -268,6 +275,7 @@ function Comment({
                                             sendReply={sendReply}
                                             handleReplyButtonClick={handleReplyButtonClick}
                                             handleInputClick={handleInputClick}
+                                            updateLikes = {updateLikes}
                                             activeButtonKey={activeButtonKey}
                                             claps={claps}
                                             userId={userId}

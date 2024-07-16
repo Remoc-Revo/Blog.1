@@ -291,6 +291,13 @@ p{
     color: teal;
 }
 
+.no-focus-outline:focus{    
+    outline: none;
+    box-shadow: none;
+    border: none;
+    
+}
+
 
 // ADMIN PANEL
 #admin-side-panel{
