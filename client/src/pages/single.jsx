@@ -5,7 +5,7 @@ import { useLocation, useNavigate} from "react-router-dom";
 import moment from "moment";
 import parse from "html-react-parser"
 import Footer from "../components/footer";
-import More from "../components/more";
+import Related from "../components/more";
 import GetImage from "../reusables/getImage";
 import { useUserContext } from "../userContext";
 import Delete from "../img/delete.png";
@@ -249,6 +249,8 @@ export default function Single(){
                                     }
                                 </div>
 
+                                <Related cat={article.sectionName} current={article.articleId} />
+
 
                                 <Comments articleId={article.articleId}/>
 
@@ -256,7 +258,7 @@ export default function Single(){
                             </div>
                             
                             
-                            {/* <More cat={article.sectionName} current={article.articleId} /> */}
+                            
                         </div>
 
                     </div>

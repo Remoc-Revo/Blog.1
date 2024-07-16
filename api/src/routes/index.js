@@ -6,7 +6,7 @@ const { addArticle } = require('./addArticle');
 const {updateArticle} = require('./updateArticle');
 const {register,login,updateUser,user,getUsers}=require('./users')
 const multer=require('multer')
-const {article,single}=require('./getArticles')
+const {article,single,related}=require('./getArticles')
 const createPool=require('../config/dbConnection')
 const uuid = require('uuid');
 const path = require('path');
@@ -170,5 +170,7 @@ router.get('/users',getUsers);
 router.post('/visitor',visitor);
 
 router.get('/stats',getStats);
+
+router.get('/related',related);
 
 module.exports = router;
