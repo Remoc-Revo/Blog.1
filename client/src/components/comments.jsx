@@ -48,6 +48,10 @@ const Comments=React.memo(({articleId})=>{
         e.stopPropagation();
     }
 
+    const updateLikes = (updatedLikes)=>{
+        set_claps(updatedLikes);
+    }
+
 
     function addComment(){
         api.post('/addComment',
@@ -113,6 +117,7 @@ const Comments=React.memo(({articleId})=>{
                                             sendReply={sendReply}
                                             handleReplyButtonClick={handleReplyButtonClick}
                                             handleInputClick={handleInputClick}
+                                            updateLikes = {updateLikes}
                                             activeButtonKey={activeButtonKey}
                                             claps={claps}
                                             userId={userId}
@@ -155,6 +160,7 @@ function Comment({
         set_newReply,
         handleReplyButtonClick,
         handleInputClick,
+        updateLikes,
         activeButtonKey,
         claps,
         userId,
@@ -192,6 +198,17 @@ function Comment({
         return dateTimeStr;
 
       }
+
+      function like(articleId,commentId){
+        api.post('/like',{commentId:commentId, articleId : articleId})
+             .then((response)=>{
+                updateLikes(response.data.updatedLikes);
+             })
+             .catch((err)=>{
+                console.log(err);
+             })
+    }
+    
 
     return(
         <div className={`pt-2 d-flex gap-3 ${(comment.parentCommentId === null) ? 'border-bottom':''}`}>
@@ -268,15 +285,6 @@ function Comment({
     )
 }
 
-function like(articleId,commentId){
-    api.post('/like',{commentId:commentId, articleId : articleId})
-         .then(()=>{
-            window.location.reload();
-         })
-         .catch((err)=>{
-            console.log(err);
-         })
-}
 
 
 

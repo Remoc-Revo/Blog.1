@@ -6,13 +6,15 @@ import moment from "moment";
 import parse from "html-react-parser"
 import Footer from "../components/footer";
 import More from "../components/more";
-import s3GetImage from "../reusables/getImage";
+import GetImage from "../reusables/getImage";
 import { useUserContext } from "../userContext";
 import Delete from "../img/delete.png";
 import Edit from "../img/edit.png";
 import { logVisitor } from "../reusables/global";
 import draftToHtml from 'draftjs-to-html';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import Comments from "../components/comments";
 
 export default function Single(){
@@ -24,11 +26,12 @@ export default function Single(){
     const [fetchedImgUrl,setFetchedImgUrl] = useState('');
     const {user} = useUserContext();
     const [deleting, setDeleting] = useState(false);
+    const [likes,setLikes] = useState(null);
 
 
     async function fetchImage(imgUrl){
         try{
-           const url = await s3GetImage(imgUrl);
+           const url =  GetImage(imgUrl);
            setFetchedImgUrl(url)
            console.log("urlllll",url)
 
@@ -50,6 +53,7 @@ export default function Single(){
                 const htmlArticleBody = draftToHtml(parsedArticleBody);
 
                 setArticleBody(htmlArticleBody);
+                setLikes(response.data.likes)
 
                 fetchImage(article.multimediaUrl);
             })
@@ -112,10 +116,31 @@ export default function Single(){
 
         }
         
-    }    
+    }  
+    
+    
+    function like(){
+        api.post('/like',{articleId : articleId,commentId: null})
+             .then((response)=>{
+                setLikes(response.data.updatedLikes)
+             })
+             .catch((err)=>{
+                console.log(err);
+             })
+    }
+
+    const hasLiked = ()=>{
+        for(let like of likes){
+            if(user !== null && user.userId == like.userId){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     return(
-        <div className="full-page ">
+        <div className="">
             <MainNav/>
             
             
@@ -181,6 +206,44 @@ export default function Single(){
                                         className="mt-4" >                                      
                                     </div>
                                 </div>
+
+                                <div className="col-3 col-md-2 col-lg-1 mt-5">
+                                    <hr/>
+
+                                </div>
+
+                                <div className="col-md-6 d-flex justify-content-between align-items-center">
+                                    {
+                                        (likes!==null && hasLiked())
+                                        ?<button className="btn border rounded-0 d-flex gap-3 align-items-center"
+                                            onClick={like}
+                                            >
+                                            <FontAwesomeIcon icon={faStar} className="ic-teal"/>
+                                            <span>Liked</span>
+                                        </button>
+                                        :<button className="btn border rounded-0 d-flex gap-3 align-items-center"
+                                            onClick={like}
+                                            >
+                                            <FontAwesomeIcon icon={farStar}/>
+                                            <span>Like</span>
+                                        </button>
+                                    }
+                                    
+
+                                    {
+                                        (likes!==null)&&
+                                        <div style={{fontSize:"14px"}}>
+                                            {
+                                                likes.length>0
+                                                ? <span> Liked by {likes.length} 
+                                                    {likes.length > 1 ? " People " : " Person "}
+                                                 </span>
+                                                : <span>Be the first to like</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+
 
                                 <Comments articleId={article.articleId}/>
 
