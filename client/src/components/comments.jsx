@@ -13,7 +13,7 @@ const Comments=React.memo(({articleId})=>{
     let [comments,set_comments]=useState();
     let [newReply,set_newReply]=useState('');
     let [activeButtonKey,set_activeButtonKey]=useState(-1);
-    let [claps,set_claps]=useState();
+    let [likes,set_likes]=useState();
     let [userId, setUserId]=useState();
     let [userName, setUserName] = useState();
     const {loading,user} = useUserContext();
@@ -22,7 +22,7 @@ const Comments=React.memo(({articleId})=>{
     const fetchComments = useCallback(()=>{
         api.get(`/comments/${articleId}`,{withCredentials:true})
             .then((response)=>{
-            set_claps(response.data.claps)
+            set_likes(response.data.likes)
             set_comments(response.data.comments);
             }) 
     },[] )      
@@ -52,7 +52,7 @@ const Comments=React.memo(({articleId})=>{
     }
 
     const updateLikes = (updatedLikes)=>{
-        set_claps(updatedLikes);
+        set_likes(updatedLikes);
     }
 
 
@@ -81,7 +81,7 @@ const Comments=React.memo(({articleId})=>{
 
     function sendReply(parentId){
         if(newReply === '') return;
-        
+
         api.post('/reply',
             {
                 articleId:articleId,
@@ -93,6 +93,7 @@ const Comments=React.memo(({articleId})=>{
                     fetchComments();
                 }
             })
+            
 
     }
 
@@ -126,7 +127,7 @@ const Comments=React.memo(({articleId})=>{
                                             handleInputClick={handleInputClick}
                                             updateLikes = {updateLikes}
                                             activeButtonKey={activeButtonKey}
-                                            claps={claps}
+                                            likes={likes}
                                             userId={userId}
                                             userName={userName}
 
@@ -169,7 +170,7 @@ function Comment({
         handleInputClick,
         updateLikes,
         activeButtonKey,
-        claps,
+        likes,
         userId,
         userName
     }){
@@ -178,10 +179,28 @@ function Comment({
 
     function likeSum(commentId,value){
         let sum=0;
-        for(var clap of claps){
-            if(clap.commentId===commentId && clap.value===value) sum++;
+        for(var like of likes){
+            if(like.commentId===commentId && like.value===value) sum++;
         }
         return (sum>0) ? sum : '';
+    }
+
+    const hasLiked = (commentId)=>{
+        for(let like of likes){
+            console.log("commentId:",commentId,"like id",like.commentId," like user id",like.userId)
+            if(like.commentId === commentId  && like.value === 1 && userId === like.userId){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const hasReplied = ()=>{       
+            if(comment.userId === userId){
+                return true;
+            }
+        
+        return false;
     }
 
     function loginAlert(){
@@ -232,7 +251,7 @@ function Comment({
                     <div className="d-flex">
                        <div className="">
                             <button className="btn border-0 no-focus-outline" onClick={(userId === undefined) ? ()=>loginAlert() : ()=>like(articleId,key)} title="Like">
-                                {likeSum(key,1)>0
+                                {hasLiked(comment.commentId)
                                     ?<FontAwesomeIcon icon={faStar} className="ic-response ic-teal"/>
                                     :<FontAwesomeIcon icon={farStar} className="ic-response ic-grey"/>
                                 }
@@ -241,7 +260,7 @@ function Comment({
                         </div>
                         
                         <button className="btn" onClick={(userId === undefined) ? ()=>loginAlert() : (e)=>handleReplyButtonClick(e,key)} title="Reply">
-                            {comment.replies && comment.replies.length>0
+                            {hasReplied()
                                 ?<FontAwesomeIcon icon={faReply} className="ic-response ic-teal" />
                                 :<FontAwesomeIcon icon={faReply} className="ic-grey ic-response" />
                             }
@@ -277,7 +296,7 @@ function Comment({
                                             handleInputClick={handleInputClick}
                                             updateLikes = {updateLikes}
                                             activeButtonKey={activeButtonKey}
-                                            claps={claps}
+                                            likes={likes}
                                             userId={userId}
                                             userName={userName}
                                     />

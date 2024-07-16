@@ -67,12 +67,12 @@ exports.comments=(req,res)=>{
 
                 //fetch likes of the article
                 try{
-                    pool.query("SELECT commentId,value FROM `LIKE` WHERE articleId=?",articleId,
+                    pool.query("SELECT commentId,value,userId FROM `LIKE` WHERE articleId=?",articleId,
                     (err,result)=>{
                         if(err) console.log(err);
 
-                        console.log("clapps::",result)
-                        return res.status(200).json({claps:result,comments:commentTree})
+                        console.log("likes::",result)
+                        return res.status(200).json({likes:result,comments:commentTree})
                     })
                 }catch(err){
                     console.log("Error fetching likes", err);
@@ -192,7 +192,7 @@ exports.like=(req,res)=>{
 
 async function fetchCommentLikes(articleId){
     const likes = await queryDb(
-        "SELECT commentId,value FROM `LIKE` WHERE articleId=?",
+        "SELECT commentId,value,userId FROM `LIKE` WHERE articleId=?",
         [articleId]
     )
     return likes;
