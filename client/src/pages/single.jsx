@@ -120,13 +120,18 @@ export default function Single(){
     
     
     function like(){
-        api.post('/like',{articleId : articleId,commentId: null})
-             .then((response)=>{
-                setLikes(response.data.updatedLikes)
-             })
-             .catch((err)=>{
-                console.log(err);
-             })
+        if(user !==null  && user.userId)
+        {    api.post('/like',{articleId : articleId,commentId: null})
+                .then((response)=>{
+                    setLikes(response.data.updatedLikes)
+                })
+                .catch((err)=>{
+                    console.log(err);
+                })
+        }
+        else{
+            window.alert(`You need to login first to respond to this post`);
+        }
     }
 
     const hasLiked = ()=>{
@@ -212,10 +217,10 @@ export default function Single(){
 
                                 </div>
 
-                                <div className="col-md-6 d-flex justify-content-between align-items-center">
+                                <div className="col-md-6 col-lg-4 d-flex justify-content-between align-items-center">
                                     {
                                         (likes!==null && hasLiked())
-                                        ?<button className="btn border rounded-0 d-flex gap-3 align-items-center"
+                                        ?<button className="btn border no-focus-outline rounded-0 d-flex gap-3 align-items-center"
                                             onClick={like}
                                             >
                                             <FontAwesomeIcon icon={faStar} className="ic-teal"/>

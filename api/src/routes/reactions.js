@@ -16,7 +16,7 @@ exports.addComment=(req,res)=>{
                 if(err){
                     console.log(err)
                 }
-                return res.status(200).json({})
+                return res.status(201).json({})
             })
     }catch(err){
         console.log("Error adding comment", err);
@@ -109,7 +109,7 @@ exports.reply=(req,res)=>{
 exports.like=(req,res)=>{    
     const commentId=req.body.commentId
     const articleId=req.body.articleId;
-
+    const userId = req.session.userId;
 
     //reacting to comment
     if(commentId != null)
@@ -134,7 +134,8 @@ exports.like=(req,res)=>{
                 // the user had previously liked the comment
                 else {
                     const newValue = result[0].value == 1 ? 0 : 1;
-                    pool.query('UPDATE `LIKE` SET value=?, date=now() WHERE commentId=?',[newValue,commentId],
+                    pool.query('UPDATE `LIKE` SET value=?, date=now() WHERE commentId=? AND userId=?',
+                        [newValue,commentId, userId],
                         async(err,result)=>{
                             if(err) throw(err);
 
@@ -151,13 +152,13 @@ exports.like=(req,res)=>{
         console.log("like article")
 
         //reacting to an article
-        pool.query('SELECT * FROM `LIKE` WHERE articleId=? AND userId=?',[articleId,req.session.userId],
+        pool.query('SELECT * FROM `LIKE` WHERE articleId=? AND userId=? AND commentId is NULL',[articleId,userId],
             (err,result)=>{
                 if(err) throw(err);
 
                 //the user has not reacted to the article
                 if(result.length==0){
-                    pool.query('INSERT INTO `LIKE` VALUES(?,null,?,1,now())',[articleId,req.session.userId],
+                    pool.query('INSERT INTO `LIKE` VALUES(?,null,?,1,now())',[articleId,userId],
                         async(err,result)=>{
                             if(err) console.log(err);
 
@@ -170,13 +171,13 @@ exports.like=(req,res)=>{
                 // the user had previously  liked the article
                 else {
                     const newValue = result[0].value == 1 ? 0 : 1;
-                    pool.query('UPDATE `LIKE` SET value=?, date=now() WHERE articleId=? AND commentId is NULL',[newValue,articleId],
-                       async (err,result)=>{
+                    pool.query('UPDATE `LIKE` SET value=?, date=now() WHERE articleId=? AND commentId is NULL AND userId=?',
+                        [newValue,articleId, userId],
+                        async (err,result)=>{
                             if(err) console.log(err);
 
                             if(result.affectedRows==1){ 
                                 const updatedLikes = await fetchArticleLikes(articleId);
-                                console.log("updated likes", updatedLikes)
                                 return res.status(201).json({updatedLikes});
                             }
                         })
