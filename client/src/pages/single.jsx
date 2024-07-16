@@ -115,13 +115,13 @@ export default function Single(){
     }    
 
     return(
-        <div className="full-page">
+        <div className="full-page ">
             <MainNav/>
             
             
             {(article.length!==0)
-                ?<div className=" mt-2 ">
-                    <div className="">
+                ?<div className=" mt-2 d-flex flex-column align-items-center">
+                    <div className="col-md-10">
                         
                         <div className="d-lg-flex container-lg mt-2 justify-content-center gap-3">
                             <div className="col-lg-8 p-0">

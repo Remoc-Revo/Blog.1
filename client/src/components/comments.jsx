@@ -96,21 +96,13 @@ const Comments=React.memo(({articleId})=>{
             <hr/>
 
             {typeof comments!=='undefined' && 
-            <div className="col-12 text-start">
-                <h5>{comments.length} Comments</h5>
+            <div className="col-12  text-start">
+                <h4>{comments.length} Comments</h4>
             </div>}
-
-            <h4>Leave a comment</h4>
-            <form onSubmit={addComment}>
-                <textarea className="col-12" rows={5} placeholder="Write a comment" onInput={checkLogin}
-                     value={newComment} onChange={(e)=>set_newComment(e.target.value)} required/>
-                <input type="submit" value="Add Comment" className="btn"/>
-                
-            </form>
 
             
             {(comments!==undefined)
-                ?<div key="comments">
+                ?<div className="mt-4" key="comments">
                     {
                         comments.map(comment=>{
                             return <Comment articleId={articleId}
@@ -134,6 +126,22 @@ const Comments=React.memo(({articleId})=>{
 
                 :<></>
             }
+
+            <label className="mt-4 mb-1">Leave a comment</label>
+            <form onSubmit={addComment} className="border">
+                <textarea className="col-12 p-3 mb-0" rows={5} 
+                    placeholder="Write a comment..." onInput={checkLogin}
+                    value={newComment} onChange={(e)=>set_newComment(e.target.value)} required
+                    style={{border:"none",borderBottom:"1px solid lightgrey"}}
+                    />
+                
+                <div className="d-flex justify-content-end m-0 p-0">
+                    <input type="submit" value="Comment" className="btn rounded-0 m-2" 
+                        style={{border:"1px solid lightgrey"}}
+                    />
+                </div>
+                
+            </form>
             
         </div>
     )
@@ -186,14 +194,16 @@ function Comment({
       }
 
     return(
-        <div className={`pt-3 d-flex gap-3 ${(comment.parentCommentId === null) ? 'border-bottom':''}`}>
+        <div className={`pt-2 d-flex gap-3 ${(comment.parentCommentId === null) ? 'border-bottom':''}`}>
             <div>
-                <button className="btn  pt-1 pb-1 rounded-circle" style={{backgroundColor:`rgb(10,190,${linearCongruentialGenerator(comment.userId)})`}}>{comment.comment_userName[0]}</button>
+                <button className="btn  pt-1 pb-1 rounded-circle" style={{backgroundColor:`rgb(10,230,${linearCongruentialGenerator(comment.userId)})`}}>{comment.comment_userName[0]}</button>
             </div>
             <div className=" d-flex flex-column gap-1">
-                <b>{comment.comment_userName}</b>
-                <span className="fw-light">{formatDateTime(comment.dateAdded)}</span>
-                <p className="mt-3">{comment.comment}</p>
+                <span style={{fontWeight:"500"}}>{comment.comment_userName.toUpperCase()}</span>
+
+                <span className="" style={{color:"grey",fontSize:"13px"}}>{formatDateTime(comment.dateAdded)}</span>
+
+                <p className="mt-3" style={{fontWeight:"300"}}>{comment.comment}</p>
                 <div className="">
                     <div className="d-flex">
                        <div className="">
@@ -219,7 +229,7 @@ function Comment({
                     {
                         (activeButtonKey===key) && (userName !== undefined) && (
                             <div className="mt-3 ">
-                                <button className="btn pt-1 pb-1  rounded-circle" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(userId)})`}}>{userName[0]}</button>
+                                <button className="btn pt-1 pb-1  rounded-circle" style={{backgroundColor:`rgb(10,230,${linearCongruentialGenerator(userId)})`}}>{userName[0]}</button>
                                 <span className="ms-2 fw-bolder ">{userName}</span>
 
                                 <div className="mt-2">
