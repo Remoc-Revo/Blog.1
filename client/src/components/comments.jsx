@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
 import api from "../config/api";
 import { useUserContext } from "../userContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar, faReply } from "@fortawesome/free-solid-svg-icons";
+import  { faStar as farStar} from "@fortawesome/free-regular-svg-icons";
 
 const Comments=React.memo(({articleId})=>{
     const navigate=useNavigate();
@@ -86,12 +89,20 @@ const Comments=React.memo(({articleId})=>{
         return (userId === undefined) && window.alert('Login to add comment');
     }
 
+
+
     return(
-        <div className="container" onClick={handleOutsideClick}>
+        <div className="" onClick={handleOutsideClick}>
             <hr/>
-            <h4>Comments</h4>
+
+            {typeof comments!=='undefined' && 
+            <div className="col-12 text-start">
+                <h5>{comments.length} Comments</h5>
+            </div>}
+
+            <h4>Leave a comment</h4>
             <form onSubmit={addComment}>
-                <textarea className="col-10" placeholder="What do you think about this?" onInput={checkLogin}
+                <textarea className="col-12" rows={5} placeholder="Write a comment" onInput={checkLogin}
                      value={newComment} onChange={(e)=>set_newComment(e.target.value)} required/>
                 <input type="submit" value="Add Comment" className="btn"/>
                 
@@ -114,6 +125,7 @@ const Comments=React.memo(({articleId})=>{
                                             claps={claps}
                                             userId={userId}
                                             userName={userName}
+
                                     />
                         })
                     }
@@ -143,7 +155,7 @@ function Comment({
     const key=comment.commentId;
     console.log("idddd:d:",key,"comment's parent",comment)
 
-    function clapSum(commentId,value){
+    function likeSum(commentId,value){
         let sum=0;
         for(var clap of claps){
             if(clap.commentId===commentId && clap.value===value) sum++;
@@ -155,39 +167,65 @@ function Comment({
         return window.alert(`You need to login first to respond to this post`);
     }
 
+    function formatDateTime(date){
+        date = new Date(date);
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        const ampm = hours > 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; //convert hour '0' to 12
+        minutes = minutes <  10 ? '0' + minutes : minutes;
+
+        const timeStr = hours + ':' + minutes + ' ' + ampm;
+        const dateStr =   new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(date);
+        const dateTimeStr = dateStr + ' at ' + timeStr;
+
+
+        return dateTimeStr;
+
+      }
+
     return(
-        <div className={`pt-3 d-flex ${(comment.parentCommentId === null) ? 'border-bottom':''}`}>
+        <div className={`pt-3 d-flex gap-3 ${(comment.parentCommentId === null) ? 'border-bottom':''}`}>
             <div>
-                <button className="btn  rounded-circle" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(comment.userId)})`}}>{comment.comment_userName[0]}</button>
+                <button className="btn  pt-1 pb-1 rounded-circle" style={{backgroundColor:`rgb(10,190,${linearCongruentialGenerator(comment.userId)})`}}>{comment.comment_userName[0]}</button>
             </div>
-            <div className="container">
-                <p><b>{comment.comment_userName}</b></p>
-                <p>{comment.comment}</p>
+            <div className=" d-flex flex-column gap-1">
+                <b>{comment.comment_userName}</b>
+                <span className="fw-light">{formatDateTime(comment.dateAdded)}</span>
+                <p className="mt-3">{comment.comment}</p>
                 <div className="">
                     <div className="d-flex">
                        <div className="">
-                            <button className="btn " onClick={(userId === undefined) ? ()=>loginAlert() : ()=>clap(articleId,key,1)} title="Clap">
-                                <img src={require('../icons/clap.png')} className="icon" alt="clap"/>
-                                <span className="icon-label">{clapSum(key,1)}</span>
-                            </button>
-                            <button className="btn" onClick={(userId === undefined) ? ()=>loginAlert() : ()=>clap(articleId,key,0)} title="Slap">
-                                <img src={require('../icons/slap.png')} className="icon" alt="slap"/>
-                                <span className="icon-label">{clapSum(key,0)}</span>
+                            <button className="btn " onClick={(userId === undefined) ? ()=>loginAlert() : ()=>like(articleId,key)} title="Like">
+                                {likeSum(key,1)>0
+                                    ?<FontAwesomeIcon icon={faStar} className="ic-response ic-teal"/>
+                                    :<FontAwesomeIcon icon={farStar} className="ic-response ic-grey"/>
+                                }
+                                <span className="icon-label">{likeSum(key,1)}</span>
                             </button>
                         </div>
                         
                         <button className="btn" onClick={(userId === undefined) ? ()=>loginAlert() : (e)=>handleReplyButtonClick(e,key)} title="Reply">
-                            <img src={require('../icons/reply.png')} className="icon" alt="reply"/>
+                            {comment.replies && comment.replies.length>0
+                                ?<FontAwesomeIcon icon={faReply} className="ic-response ic-teal" />
+                                :<FontAwesomeIcon icon={faReply} className="ic-grey ic-response" />
+                            }
+                            
                             <span className="icon-label">{comment.replies && comment.replies.length}</span>
                         </button> 
                     </div>
                     
                     {
                         (activeButtonKey===key) && (userName !== undefined) && (
-                            <div className="mt-3">
-                                <button className="btn  rounded-circle" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(userId)})`}}>{userName[0]}</button>
-                                <input type="text" className="col-10 ms-3" key={['reply',key].join('_')} value={newReply} onChange={(e)=>set_newReply(e.target.value)}   onClick={handleInputClick} />
-                                <button className="btn" onClick={()=>sendReply(comment.commentId)}>send</button>                                  
+                            <div className="mt-3 ">
+                                <button className="btn pt-1 pb-1  rounded-circle" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(userId)})`}}>{userName[0]}</button>
+                                <span className="ms-2 fw-bolder ">{userName}</span>
+
+                                <div className="mt-2">
+                                    <textarea rows={2} className="col-12 " key={['reply',key].join('_')} value={newReply} onChange={(e)=>set_newReply(e.target.value)}   onClick={handleInputClick} />
+                                    <button className="btn" onClick={()=>sendReply(comment.commentId)}>send</button>                                  
+                                </div>
                             </div>
                         )
                     }
@@ -220,8 +258,8 @@ function Comment({
     )
 }
 
-function clap(articleId,commentId,value){
-    api.post('/clap',{commentId:commentId, value: value, articleId : articleId})
+function like(articleId,commentId){
+    api.post('/like',{commentId:commentId, articleId : articleId})
          .then(()=>{
             window.location.reload();
          })

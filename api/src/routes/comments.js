@@ -105,20 +105,19 @@ exports.reply=(req,res)=>{
             })
 }
 
-exports.clap=(req,res)=>{    
+exports.like=(req,res)=>{    
     const commentId=req.body.commentId
-    const clap_value=req.body.value;
     const articleId=req.body.articleId;
 
-    console.log("claping or slaping::: clapp",commentId);
+    console.log("like::: ",commentId);
     
-    pool.query(`SELECT * FROM LIKE WHERE commentId=${commentId} AND userId=${req.session.userId}`,
+    pool.query('SELECT * FROM `LIKE` WHERE commentId=? AND userId=?',[commentId,req.session.userId],
         (err,result)=>{
             if(err) throw(err);
 
             //the user has not reacted to the comment
             if(result.length==0){
-                pool.query(`INSERT INTO LIKE VALUES(?,?,?,1)`,[articleId,commentId,req.session.userId],
+                pool.query('INSERT INTO `LIKE` VALUES(?,?,?,1)',[articleId,commentId,req.session.userId],
                     (err,result)=>{
                         if(err) throw(err);
 
@@ -126,18 +125,16 @@ exports.clap=(req,res)=>{
                     })
             }
             // the user had previously reacted differently to the comment
-            else if(result[0].value != clap_value){
-                pool.query(`UPDATE LIKE SET value=${clap_value} WHERE commentId=${commentId}`,
+            else {
+                const newValue = result[0].value == 1 ? 0 : 1;
+                pool.query('UPDATE `LIKE` SET value=? WHERE commentId=?',[newValue,commentId],
                     (err,result)=>{
                         if(err) throw(err);
 
                         if(result.affectedRows==1) return res.status(201).json({});
                     })
             }
-            //the user is making the same reaction she made previously
-            else{
-                return res.status(200).json({});
-            }
+           
 
         })
     
