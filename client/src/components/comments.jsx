@@ -175,7 +175,6 @@ function Comment({
         userName
     }){
     const key=comment.commentId;
-    console.log("idddd:d:",key,"comment's parent",comment)
 
     function likeSum(commentId,value){
         let sum=0;
@@ -187,7 +186,6 @@ function Comment({
 
     const hasLiked = (commentId)=>{
         for(let like of likes){
-            console.log("commentId:",commentId,"like id",like.commentId," like user id",like.userId)
             if(like.commentId === commentId  && like.value === 1 && userId === like.userId){
                 return true;
             }
@@ -195,12 +193,11 @@ function Comment({
         return false;
     }
 
-    const hasReplied = ()=>{       
-            if(comment.userId === userId){
-                return true;
-            }
-        
-        return false;
+    const hasReplied = ()=>{ 
+        return comment.replies && comment.replies.some((reply)=>{
+            return userId === reply.userId
+              
+        });        
     }
 
     function loginAlert(){
