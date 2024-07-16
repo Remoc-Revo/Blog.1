@@ -1,5 +1,7 @@
 const createPool=require('../config/dbConnection')
 const pool = createPool();
+const {queryDb} = require('../global');
+
 
 exports.article=(req,res)=>{
     let {lastArticleId} = req.query;
@@ -39,17 +41,20 @@ exports.article=(req,res)=>{
 
 }
 
-exports.single=(req,res)=>{
+exports.single= async (req,res)=>{
+    const articleId = req.params.id;
+
     
-    pool.query(`SELECT * FROM ARTICLE 
+    const article = await queryDb(`SELECT * FROM ARTICLE 
                 JOIN SECTION ON ARTICLE.articleSectionId = SECTION.sectionId
                 JOIN MULTIMEDIA ON ARTICLE.articleId=MULTIMEDIA.articleId
-                 WHERE ARTICLE.articleId=${req.params.id} `,
-        (err,result)=>{
-            if(err){
-                throw(err)
-            }
-            console.log("resullllt",result)
-            return res.status(200).json({article:result})
-        }) 
+                 WHERE ARTICLE.articleId=${articleId} `) 
+
+    const likes = await queryDb(
+        'SELECT * FROM `LIKE` WHERE articleId = ? AND commentId is NULL AND VALUE = 1',
+        [articleId]
+    )
+                 
+    console.log("resullllt",article,"likes", likes)
+    return res.status(200).json({article:article,likes:likes})
 }
