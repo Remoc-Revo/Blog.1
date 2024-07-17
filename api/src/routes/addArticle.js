@@ -19,8 +19,8 @@ exports.addArticle=(req,res)=>{
         const isDraft = body.isDraft;
 
         console.log("imgUrl::,",imgUrl)
-        pool.query(`INSERT INTO ARTICLE VALUES(null,?,?,?,now(),null,?)`,
-            [headline,articleBody,sectionId,isDraft],
+        pool.query(`INSERT INTO ARTICLE VALUES(null,?,?,?,now(),null,?,?)`,
+            [headline,articleBody,sectionId,isDraft,req.session.userId],
              (err,result)=>{
                 if(err){
                     throw(err) 

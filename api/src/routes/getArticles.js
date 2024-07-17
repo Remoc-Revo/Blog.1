@@ -45,10 +45,13 @@ exports.single= async (req,res)=>{
     const articleId = req.params.id;
 
     
-    const article = await queryDb(`SELECT * FROM ARTICLE 
-                JOIN SECTION ON ARTICLE.articleSectionId = SECTION.sectionId
-                JOIN MULTIMEDIA ON ARTICLE.articleId=MULTIMEDIA.articleId
-                 WHERE ARTICLE.articleId=${articleId} `) 
+    const article = await queryDb(
+                    `SELECT a.*, u.userName as publisherName, u.userDescription, p.photoUrl as publisherPhotoUrl                        
+                    FROM ARTICLE a
+                    JOIN SECTION ON a.articleSectionId = SECTION.sectionId
+                    JOIN USER u ON a.articlePublisherId = u.userId
+                    LEFT JOIN USERPHOTO p ON a.articlePublisherId = p.userId
+                    WHERE a.articleId=${articleId} `) 
 
     const likes = await queryDb(
         'SELECT * FROM `LIKE` WHERE articleId = ? AND commentId is NULL AND VALUE = 1',

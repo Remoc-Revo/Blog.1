@@ -13,7 +13,7 @@ import Edit from "../img/edit.png";
 import { logVisitor } from "../reusables/global";
 import draftToHtml from 'draftjs-to-html';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import Comments from "../components/comments";
 
@@ -163,12 +163,21 @@ export default function Single(){
                                 <div className="pt-3 pb-2 mb-2  d-flex justify-content-between align-items-center">
                                     
                                     <div className=" d-flex gap-3 align-items-center">
-                                        <img src={require("../img/author_placeholder.jpeg") }
-                                            className="rounded-circle"
-                                            style={{width:"40px",height:"40px"}}
-                                            alt=""
-                                        />
-                                        <p style={{color:"teal",fontWeight:"bold"}}>Dr. Lorem</p>
+                                        {
+                                            article.publisherPhotoUrl !== null
+                                            ?<div style={{width:"50px",height:"50px"}}>                                                                                           
+                                                <img src={article.publisherPhotoUrl}
+                                                    className="rounded-circle w-100 h-100 object-fit-cover"
+                                                    alt=""
+                                                />
+                                            </div>
+
+                                            :<div className="rounded-circle">
+
+                                            </div>
+                                        }
+                                       
+                                        <p style={{color:"teal",fontWeight:"bold"}}>{article.publisherName}</p>
                                         <p className="fw-lighter">                                           
                                             {(article.articleUpdatingDate !== null)
                                                 ? "Updated  "+moment(article.articleUpdatingDate).fromNow() 

@@ -252,7 +252,7 @@ export default function Profile(){
 
                                     <p style={{color:"red"}}>{error}</p>
                                     <div className="d-flex col-12 justify-content-between mb-2">
-                                        <button  className="btn border col-md-5 col-9" onClick={handleUpdateUser}>
+                                        <button  className="btn border col-md-5 col-9 no-focus-outline" onClick={handleUpdateUser}>
                                             {
                                                 updatingProfile
                                                 ?<div className="spinner-border text-info">
@@ -263,7 +263,7 @@ export default function Profile(){
                                             
                                         </button>
 
-                                        <button className="btn border" onClick={logout}>
+                                        <button className="btn border no-focus-outline" onClick={logout}>
                                             <FontAwesomeIcon icon={faRightFromBracket} className="me-1"/>
                                             <span className="fw-light">Logout</span>
                                         </button>
