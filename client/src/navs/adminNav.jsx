@@ -21,7 +21,7 @@ export default function AdminNav(){
             <button className="btn btn-light  rounded-circle d-flex align-items-center justify-content-center" 
                 noCaret 
                 style={{width:"25px",height:"24px"}}
-                
+                onClick={()=>{navigate("/profile")}}
                 >
                 {
                 // (profileImg!==undefined)

@@ -222,6 +222,10 @@ p{
     .headline{
         font-size:30px;
     }
+
+    #user-info{
+        margin-top:150px;
+    }
     
 }
 
@@ -258,9 +262,16 @@ p{
 
 
 /*profile*/
-#userName_Icon{
-    width:100px;
-    height:80px;
+.profile-label{
+    font-weight: 600;
+    font-size: 15px;
+}
+
+#user-profile{
+    input, textarea{
+        font-size: 15px;
+        font-weight: 400;
+    }
 }
 
 /*  */
@@ -275,6 +286,10 @@ p{
 
 .ic-grey{
     color:grey;
+}
+
+.ic-light-grey{
+    color: lightgrey;
 }
 
 .ic-orange{
@@ -296,6 +311,15 @@ p{
     box-shadow: none;
     border: none;
     
+}
+
+.border-light-grey{
+    border: 1px solid lightgrey;
+
+    &:focus{
+        border: 1px solid grey;
+        outline:none;
+    }
 }
 
 
