@@ -22,32 +22,36 @@ export default function Related({cat,current}){
    },[cat])
 
    return(
-      <div className=" mt-5 "
-            style={{borderTop:"1px solid lightgrey"}}
-         >
-         <div className="row container pt-2 ">
-            <h5>Related</h5>
-         </div>
+      <>
+         {more.length>0
+           &&<div className=" mt-5 "
+               style={{borderTop:"1px solid lightgrey"}}
+               >
+               <div className="row container pt-2 ">
+                  <h5>Related</h5>
+               </div>
 
-         <div className="d-md-flex " >
-           {
-            more.map((article,index)=>{
-               if(index <= 5 && article.articleId !== current){
-                     return <RelatedPreview headline={article.articleHeadline}  
-                        imgUrl={getFirstImage(article.articleBody)} 
-                        articleId={article.articleId}
-                        datePosted = {article.articlePostingDate}
-                        />                
-                                               
-               }
-               else{
-                  return <></>
-               }
-            })
-            } 
+               <div className="d-md-flex " >
+               {
+                  more.map((article,index)=>{
+                     if(index <= 5 && article.articleId !== current){
+                           return <RelatedPreview headline={article.articleHeadline}  
+                              imgUrl={getFirstImage(article.articleBody)} 
+                              articleId={article.articleId}
+                              datePosted = {article.articlePostingDate}
+                              />                
+                                                   
+                     }
+                     else{
+                        return <></>
+                     }
+                  })
+                  } 
+               </div>
+            
          </div>
-         
-      </div>
+         }
+      </>
    )
     
 

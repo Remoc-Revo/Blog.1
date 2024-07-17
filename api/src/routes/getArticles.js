@@ -46,7 +46,11 @@ exports.single= async (req,res)=>{
 
     
     const article = await queryDb(
-                    `SELECT a.*, u.userName as publisherName, u.userDescription, p.photoUrl as publisherPhotoUrl                        
+                    `SELECT a.*, 
+                        u.userName as publisherName,
+                        u.userDescription as publisherDescription,
+                        p.photoUrl as publisherPhotoUrl,
+                        SECTION.sectionName
                     FROM ARTICLE a
                     JOIN SECTION ON a.articleSectionId = SECTION.sectionId
                     JOIN USER u ON a.articlePublisherId = u.userId
