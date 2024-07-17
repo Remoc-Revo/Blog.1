@@ -105,9 +105,10 @@ export default function MainNav(){
               {(typeof userName!=='undefined')
                   ?<NavItem>
 
-                      
-                      <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown} className=" me-2">
-                        <Dropdown.Toggle className="btn btn-light btn-user rounded-circle dropdown-toggle" noCaret style={{backgroundColor:``}}>
+                        <button className="btn btn-light btn-user rounded-circle dropdown-toggle" 
+                          noCaret style={{backgroundColor:``}}
+                          onClick={()=>navigate('/profile')}
+                          >
                           {
                           // (profileImg!==undefined)
                           //     ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
@@ -115,28 +116,7 @@ export default function MainNav(){
                           <FontAwesomeIcon icon={faUser} />
 
                           }
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu className=" position-absolute translate-middle-x" id="user-dropdown-menu">
-                          <div className="container">
-                            <Dropdown.Item>                              
-                              <Button className="btn btn-lg rounded-circle">
-                                {decodeURIComponent(parse(userName[0]))}
-                              </Button>        
-                            </Dropdown.Item>
-                            
-                            {/* <Dropdown.Item className=" " href="/profile"> 
-                              <div className="d-flex justify-content-between mb-0 pb-0">
-                                <p className="me-4">{decodeURIComponent(parse(userName))}</p>
-                                <p>&gt;</p>
-                              </div>
-                            </Dropdown.Item> */}
-
-                            <Dropdown.Item><Button className="btn btn-light" onClick={logout}>Logout</Button></Dropdown.Item>
-                          </div>
-                          
-                        </Dropdown.Menu>
-                      </Dropdown>
+                        </button>
                     </NavItem>
                   : <Nav.Link href="/login" className="nav-link">login</Nav.Link>
               }

@@ -159,25 +159,60 @@ exports.updateUser=(req,res)=>{
       const userFirstName = body.userFirstName;
       const userLastName = body.userLastName;
       const userDescription = body.userDescription;
+      const newProfilePhoto = body.newProfilePhoto;
 
-      console.log("neww",newUserName);
-         pool.query(`UPDATE USER 
-                        SET userName=?,
-                        userFirstName=?,
-                        userLastName=?,
-                        userDescription=?
-                           WHERE userId=?`,
-            [newUserName,userFirstName,userLastName,userDescription,req.session.userId],
-            (err,result)=>{
-               if(err){
-                  console.log(err)
-               }
-               req.session.userName=newUserName;            
-               return res.status(200).json({})
-            })
+      if(newProfilePhoto != null){
+         updateProfilePhoto(req.session.userId,newProfilePhoto);
       }
+
+      console.log("neww photo",newProfilePhoto);
+      pool.query(`UPDATE USER 
+                     SET userName=?,
+                     userFirstName=?,
+                     userLastName=?,
+                     userDescription=?
+                        WHERE userId=?`,
+         [newUserName,userFirstName,userLastName,userDescription,req.session.userId],
+         (err,result)=>{
+            if(err){
+               console.log(err)
+            }
+            req.session.userName=newUserName;            
+            return res.status(201).json({})
+         })
+   }
            
    
+}
+
+function updateProfilePhoto(userId,newProfilePhoto){
+   pool.query(`SELECT * FROM USERPHOTO WHERE userId = ?`,[userId],
+      (err,result)=>{
+         if(err) console.log("err querying user photo",err)
+
+         //user has never set profile photo
+         if(result && result.length == 0){
+            pool.query(`INSERT INTO USERPHOTO VALUES(null,?,?)`,
+               [userId,newProfilePhoto],
+               (err,result)=>{
+                  if(err) console.log("Error saving profile photo",err)
+                  
+                  if(result) return;
+               }
+            );
+         }
+         else if(result && result.length >0 ){
+            pool.query(`UPDATE USERPHOTO SET photoUrl=? WHERE userId=?`,
+               [newProfilePhoto,userId],
+               (err,result)=>{
+                  if(err) console.log("Error updating profile photo",err)
+                  
+                  if(result) return;
+               }
+            );
+         }
+      }
+   )
 }
 
 
@@ -195,7 +230,11 @@ exports.updateUser=(req,res)=>{
 
 
 exports.user=(req,res)=>{
-   pool.query(`SELECT * FROM USER WHERE userId=${req.session.userId}`,
+   pool.query(`SELECT u.*, p.photoUrl
+               FROM USER u
+               LEFT JOIN USERPHOTO p
+               ON u.userId = p.userId
+               WHERE u.userId=${req.session.userId}`,
          (err,result)=>{
             if(err){
                throw(err);
@@ -209,7 +248,8 @@ exports.user=(req,res)=>{
                               userName:userInfo.userName,
                               userFirstName:userInfo.userFirstName,
                               userLastName: userInfo.userLastName,
-                              userDescription: userInfo.userDescription
+                              userDescription: userInfo.userDescription,
+                              userProfilePhoto: userInfo.photoUrl
                            })
 
          })

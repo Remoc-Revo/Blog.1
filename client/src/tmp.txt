@@ -62,3 +62,36 @@ its image is the biggest
     </div> 
     :<span></span>
 } */}
+
+
+ <Dropdown isOpen={dropdownOpen} toggle={toggle_dropdown} className=" me-2">
+                        <Dropdown.Toggle className="btn btn-light btn-user rounded-circle dropdown-toggle" noCaret style={{backgroundColor:``}}>
+                          {
+                          // (profileImg!==undefined)
+                          //     ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
+                          //     :userName[0]
+                          <FontAwesomeIcon icon={faUser} />
+
+                          }
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className=" position-absolute translate-middle-x" id="user-dropdown-menu">
+                          <div className="container">
+                            <Dropdown.Item>                              
+                              <Button className="btn btn-lg rounded-circle">
+                                {decodeURIComponent(parse(userName[0]))}
+                              </Button>        
+                            </Dropdown.Item>
+                            
+                            {/* <Dropdown.Item className=" " href="/profile"> 
+                              <div className="d-flex justify-content-between mb-0 pb-0">
+                                <p className="me-4">{decodeURIComponent(parse(userName))}</p>
+                                <p>&gt;</p>
+                              </div>
+                            </Dropdown.Item> */}
+
+                            <Dropdown.Item><Button className="btn btn-light" onClick={logout}>Logout</Button></Dropdown.Item>
+                          </div>
+                          
+                        </Dropdown.Menu>
+                      </Dropdown>
