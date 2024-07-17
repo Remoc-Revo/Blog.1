@@ -116,15 +116,13 @@ router.post('/updateArticle',ifNotLoggedin,updateArticle)
 router.get('/single/:id',single)
 
 router.post('/updateUser',ifNotLoggedin,
-        [body('phone','Phone number must have at least 10 digits')
-             .notEmpty()
-             .isLength({min:10})
+        [body('userName')
              .trim(),
-         body('userName')
+         body('userFirstName')
              .trim(),
-         body('email','invalid email')
-             .isEmail()
+         body('userLastName','maximum last name\'s length is 50')
              .trim()
+             .isLength({max:50})
         ],
         updateUser)
 

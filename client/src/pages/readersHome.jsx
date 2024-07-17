@@ -136,19 +136,20 @@ export default  function ReadersHome({updateAdminPanelSection}){
     },[lastArticleRef,fetchArticles,fullyLoaded,options])
     
     return(
-        <div className="full-page">
-            <MainNav/>
-                {/* <ReactQueryDevtools/> */}
+        <div className="">
+            
+            <div className="container">
+                <MainNav/>
                 <div className="container  mb-4  mt-4">
                     <div className=" single-content">
 
                     
-                   {
-                   (articles.length>0)
-                   ?<div className="position-relative">
+                    {
+                    (articles.length>0)
+                    ?<div className="position-relative">
                         <a href={`/sngl/${articles[0].articleId}`} style={{textDecoration:"none",color:"black"}} className="">
 
-                          
+                            
                             <div className="rounded"  style={{width:"100%", height:"450px",overflow:"hidden"}}  > 
                                 <img src={getFirstImage(articles[0].articleBody)} alt=""   
                                     className=" object-fit-cover"
@@ -159,7 +160,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
 
                             
                             
-                           
+                            
                             <div  className="latest-article-preview container-md bg-white ms-md-5 pb-3 rounded" 
                                 style={{width:"420px"}}
                                 >
@@ -174,9 +175,9 @@ export default  function ReadersHome({updateAdminPanelSection}){
                             </div>
                         </a>
                     </div>
-                     :<></>}
+                        :<></>}
 
-                     {/* Spacer */}
+                        {/* Spacer */}
                     <div style={{height:"80px"}}></div>
 
                     <h4>Latest Posts</h4>
@@ -187,7 +188,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
                     <div className="row ">
                             
                             {
-                             articles.map((article,index)=>{
+                                articles.map((article,index)=>{
                                 if(index>0 && index < 12){
                                     return <GridItemSmall 
                                                 articleSection={decodeString(article.sectionName)}
@@ -206,7 +207,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
                                 
                             
                             }
-                     </div>  
+                        </div>  
 
 
 
@@ -217,6 +218,8 @@ export default  function ReadersHome({updateAdminPanelSection}){
                 {/* <div className="side-page" style={{width:"38%"}}></div> */}
             </div>
 
+            </div>
+            
             
             <Footer/>
         </div>

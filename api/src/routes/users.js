@@ -154,35 +154,45 @@ exports.updateUser=(req,res)=>{
       })
    }
    else{
-      const new_userName=req.body.userName;
-      const new_email=req.body.email;
+      const {body} = req;
+      const newUserName=body.userName;
+      const userFirstName = body.userFirstName;
+      const userLastName = body.userLastName;
+      const userDescription = body.userDescription;
 
-      console.log("neww",new_userName);
-      
-      pool.query(`SELECT * from USER WHERE userEmail=?`,new_email,
+      console.log("neww",newUserName);
+         pool.query(`UPDATE USER 
+                        SET userName=?,
+                        userFirstName=?,
+                        userLastName=?,
+                        userDescription=?
+                           WHERE userId=?`,
+            [newUserName,userFirstName,userLastName,userDescription,req.session.userId],
             (err,result)=>{
                if(err){
-                  throw(err);
+                  console.log(err)
                }
-               //email used by another user
-               if(result.length>0 && result[0].userId != req.session.userId){
-                  return res.status(400).json({error:"email already in use"});
-               }
-               else{
-                  pool.query(`UPDATE USER SET userName=? ,userEmail=?  WHERE userId=?`,
-                     [new_userName, new_email, req.session.userId],
-                     (err,result)=>{
-                        if(err){
-                           throw(err)
-                        }
-                        req.session.userName=new_userName;            
-                        return res.status(200).json({})
-                     })
-               }
+               req.session.userName=newUserName;            
+               return res.status(200).json({})
             })
-   }
+      }
+           
    
 }
+
+
+// pool.query(`SELECT * from USER WHERE userEmail=?`,new_email,
+//    (err,result)=>{
+//       if(err){
+//          throw(err);
+//       }
+//       //email used by another user
+//       if(result.length>0 && result[0].userId != req.session.userId){
+//          return res.status(400).json({error:"email already in use"});
+//       }
+//       else{}
+// })
+
 
 exports.user=(req,res)=>{
    pool.query(`SELECT * FROM USER WHERE userId=${req.session.userId}`,
@@ -190,13 +200,16 @@ exports.user=(req,res)=>{
             if(err){
                throw(err);
             }
-            console.log("theee name and level",req.session.userName,req.session.userLevel)
+            console.log("theee name and level, ",req.session.userName,req.session.userLevel)
 
+            const userInfo = result[0];
             return res.json({
-                              userId:result[0].userId,
-                              userLevel:result[0].userLevel, 
-                              userName:result[0].userName,
-                              email:result[0].userEmail
+                              userId:userInfo.userId,
+                              userLevel:userInfo.userLevel, 
+                              userName:userInfo.userName,
+                              userFirstName:userInfo.userFirstName,
+                              userLastName: userInfo.userLastName,
+                              userDescription: userInfo.userDescription
                            })
 
          })

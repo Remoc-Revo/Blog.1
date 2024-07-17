@@ -1,22 +1,27 @@
-import React,{useState,useEffect} from "react";
-import axios from "axios";
+import React,{useState,useEffect, useCallback} from "react";
+import api from "../config/api";
 import MainNav from "../navs/mainNav";
 // import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser,faCloudArrowUp, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 export default function Profile(){
     var [userName,set_userName]=useState();
     var [userId,set_userId]=useState();
     var [email,set_email]=useState();
     var [error,set_error]=useState();
+    const [userFirstName, setUserFirstName] = useState(null);
+    const [userLastName, setUserLastName] = useState(null);
+    const [userDescription, setUserDescription] = useState(null);
     // const [userIconModal_show,set_userIconModal_show]=useState(false);
     // const [profileImg,set_profileImg]=useState();
 
     const navigate=useNavigate();
 
-    useEffect(()=>{
-        axios.get("http://localhost:9000/user")
+    const fetchUserInfo = useCallback(
+        ()=>{
+        api.get("/user")
              .then((response)=>{
                 // if(response.data.userName===undefined){
                 // }
@@ -24,16 +29,24 @@ export default function Profile(){
                 set_userName(fetched_userName);
                 const fetched_email=decodeURIComponent(response.data.email).replace(/&apos;/g,"'");
                 set_email(fetched_email);
-                // const fetched_phone=decodeURIComponent(response.data.phone).replace(/&apos;/g,"'");
+                setUserFirstName(response.data.userFirstName);
+                setUserLastName(response.data.userLastName);
+                setUserDescription(response.data.userDescription);
                 set_userId(response.data.userId)
+
              })
              .catch((err)=>{
                 if(err.response.status===401){
                     navigate('/login')
                 }
              })
+    }
+    ,[navigate])
+
+    useEffect(()=>{
+        fetchUserInfo();
              
-    },[navigate])
+    },[fetchUserInfo])
 
     // const config={
     //     headers:{
@@ -42,20 +55,22 @@ export default function Profile(){
     // }
 
     function updateUser(){
-        axios.post("http://localhost:9000/updateUser",
+        api.post("/updateUser",
                 {
                     headers:{
                         'Content-Type' : 'application/json'
                     },
                     withCredentials:true,
-                    userName:userName,
-                    email:email,
+                    userName: userName,
+                    userFirstName: userFirstName,
+                    userLastName: userLastName,
+                    userDescription: userDescription
                 }
                 
                 )
              .then((response)=>{
                 if(response.status===200){
-                    window.location.reload();
+                    fetchUserInfo();
                 }
              })
              .catch((err)=>{
@@ -86,46 +101,116 @@ export default function Profile(){
 
 
     return(
-        <div className="position-relative full-page">
-            <MainNav/>
-            <div className="container pt-4 mb-5 col-sm-5 col-md-4 col-lg-3">
-                {(typeof userName !=="undefined" && typeof email!=="undefined" )
-                    ?<div className="">
-                        <div className="container pt-3  col-8 col-sm-3 ">
-                            <button className="btn  btn-lg rounded-circle" id="userName_Icon" style={{backgroundColor:`rgb(100,150,${linearCongruentialGenerator(userId)})`}}>{userName[0]}</button>
-                            {/* <button className="btn" onClick={()=>{document.querySelector("#profileImg").click()}}>Edit</button>
-                            <input type="file" id="profileImg" className="" onChange={(e)=>set_profileImg(e.target.files[0])}/>
-                            <button onClick={upload}>save</button> */}
-                        
+        <div className="position-relative bg-light"
+            style={{width:"100vw",height:"100vh"}}
+            id="user-profile"
+            >
+            <form>
+                <div className="container-lg d-flex   justify-content-center">
+                    <div className="col-lg-8 col-md-9  bg-white mt-md-5 p-4" id="user-info">
+                        <div className="mt-3 pb-3 mb-3">
+                            <h6> My Profile</h6>
+                            <span className="fw-lighter"> Set your name,bio, and other public-facing information.</span>
+                            <hr/>
                         </div>
-                        <div className=" pt-3">
-                            <form onSubmit={updateUser}>
-                                <div className="mt-3">
-                                    <label className="d-block">Display name</label>
-                                    <input type="text" value={userName}  onChange={(e)=>set_userName(e.target.value)} required/>
+                        
+
+                        {(typeof userName !=="undefined" && typeof email!=="undefined" )
+                            ?<div className="mt-2 border ">
+                                <label className="p-2 pb-1">Profile</label>
+                                <hr/>
+                                <div className="d-md-flex col-md-12  p-3 pe-5 ps-4">
+
+                                    <div className=" col-md-4 d-flex flex-column align-items-center ">
+                                        <div className="position-relative"
+                                            style={{width:"120px",height:"120px"}}
+                                            >
+                                            <div className="rounded-circle overflow-hidden"
+                                                style={{width:"100%",height:"100%",backgroundColor:"darkgrey"}}
+                                                >
+                                                <FontAwesomeIcon className=" pt-2 ic-grey" icon={faUser}  
+                                                    style={{width:"100%",height:"100%"}}/>
+
+                                            </div>
+                                            {/* <button className="btn" onClick={()=>{document.querySelector("#profileImg").click()}}>Edit</button>
+                                            <input type="file" id="profileImg" className="" onChange={(e)=>set_profileImg(e.target.files[0])}/>
+                                            <button onClick={upload}>save</button> */}
+
+                                            <div className="d-flex flex-column align-items-center justify-content-center text-center" 
+                                                style={{position:"absolute",top:"0",width:"100%",height:"100%"}}
+                                                >
+                                                <FontAwesomeIcon icon={faCloudArrowUp} className="ic-white"/>
+                                                <span className="text-white">Click to change photo</span>
+                                            </div>
+                                        </div>
+
+                                        <i className="fw-lighter text-center me-1">Your profile photo is public</i>
+                                    </div>
+                                    <div className="col-md-8 d-flex flex-column align-items-start gap-3">
+                                        <div className="col-12">
+                                            <label className="profile-label">First name</label>
+                                            <input type="text"maxLength={50} name="userFirstName"
+                                                className="col-12 border-light-grey p-2"
+                                                value={userFirstName}
+                                                onChange={(e)=>{setUserFirstName(e.target.value)}}
+                                                />
+                                        </div>
+                                        
+                                        <div className="col-12">
+                                            <label className="profile-label">Last name</label>
+                                            <input type="text" maxLength={50} name="userLastName"
+                                                className="col-12 border-light-grey p-2"
+                                                value={userLastName}
+                                                onChange={(e)=>{setUserLastName(e.target.value)}}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
+                                <div className="col-12 mt-3 pe-5 ps-4 d-flex flex-column gap-3">
+                                    <div className="">
+                                        <label className="d-block profile-label">Display name</label>
+                                        <input type="text" className="col-12 border-light-grey p-2" 
+                                            maxLength={50} name="userName"
+                                            value={userName}  onChange={(e)=>set_userName(e.target.value)} 
+                                            required/>
+                                    </div>
 
-                                <div className="mt-3">
-                                    <label className="d-block">Email</label>
-                                    <input type="email" value={email}  onChange={(e)=>set_email(e.target.value)} required/>
+                    
+                                    <div>
+                                        <label className="profile-label">About me</label>
+                                        <textarea rows={3} maxLength={1000} 
+                                            className="p-2 col-12 border-light-grey"
+                                            value={userDescription}
+                                            onChange={(e)=>{setUserDescription(e.target.value)}}
+                                            />
+                                    </div>
+
+                                    <p style={{color:"red"}}>{error}</p>
+                                    <div className="d-flex col-12 justify-content-between mb-2">
+                                        <button  className="btn border" onClick={updateUser}>
+                                            <span className="fw-light">Update profile details</span>
+                                        </button>
+
+                                        <button className="btn border">
+                                            <FontAwesomeIcon icon={faRightFromBracket} className="me-1"/>
+                                            <span className="fw-light">Logout</span>
+                                        </button>
+                                    </div> 
+                                    
+                                
                                 </div>
-
-                               
-
-                                <p style={{color:"red"}}>{error}</p>
-                                <div className="d-flex mt-3 col-9 justify-content-sm-end">
-                                    <input type="submit" className="btn " value="Update"/>
-                                </div> 
-                            </form>
+                                
+                            </div>
                             
-                        
-                        </div>
+                            :<span></span>
+                        }
                         
                     </div>
-                    
-                    :<span></span>
-                }
-            </div>
+                </div>
+            </form>
+           
+
+           
         </div>
     )
 }
