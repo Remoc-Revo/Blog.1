@@ -18,7 +18,6 @@ export function UserProvider({children}){
 
             api.get('/user',{withCredentials:true})
             .then((response)=>{
-            console.log("wriii",response.data.userLevel)
                 setUser(response.data);
                 setLoading(false);
             })

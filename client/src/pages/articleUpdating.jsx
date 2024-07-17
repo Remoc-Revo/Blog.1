@@ -407,7 +407,7 @@ export default function ArticlesUpdating(){
                         {/* <FontAwesomeIcon icon={faPenFancy} className="admin-nav-icon"/> */}
                     </a>
                     <button className="btn btn-light  rounded-circle d-flex align-items-center justify-content-center" 
-                        noCaret 
+                        noCaret onClick={()=>{navigate('/profile')}}
                         style={{width:"25px",height:"24px"}}
                         
                         >

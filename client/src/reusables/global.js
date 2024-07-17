@@ -38,3 +38,38 @@ export async function logVisitor(path){
         console.log("Error logging visitor");
     }
 };
+
+
+
+export async function uploadImageToCloud(imageSrc){
+    if(imageSrc===null){
+        return null;
+    }
+    var formData=new FormData();
+
+    formData.append('file',imageSrc);
+    formData.append('upload_preset',process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+    console.log("the file",formData)
+
+    try{
+        const res=await fetch(
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD__NAME}/image/upload/`,
+                    {
+                        method:"post",
+                        body:formData
+                    }
+            )
+        if(res.ok){
+            let data;
+            data  = await res.json()
+            if(data!== undefined){
+               
+                console.log("\n secure_url",data.secure_url)
+                return data.secure_url
+            }
+        }   
+       
+    }catch(err){
+        console.log("file upload err",err);
+    }
+}
