@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import Comments from "../components/comments";
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 export default function Single(){
     var [article,setArticle]=useState([]);
@@ -256,6 +257,24 @@ export default function Single(){
                                             }
                                         </div>
                                     }
+                                </div>
+
+                                <div className="col-12 border mt-5 p-5 d-flex gap-3">
+                                    <div className="col-9">
+                                        <h5>Published by {article.publisherName}</h5>
+                                        <p className="fw-lighter">
+                                            {article.publisherDescription}
+                                        </p>
+                                    </div>
+                                    <div className="rounded-circle overflow-hidden" style={{width:"110px",height:"110px"}}>
+                                        {
+                                            article.publisherPhotoUrl !== null
+                                            ?<img src={article.publisherPhotoUrl}
+                                                className="w-100 h-100 object-fit-cover"
+                                             />
+                                            :<FontAwesomeIcon icon={faUser} className="pt-2 h-100 w-100 ic-grey"/>
+                                        }
+                                    </div>
                                 </div>
 
                                 <Related cat={article.sectionName} current={article.articleId} />
