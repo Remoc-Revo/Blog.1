@@ -138,9 +138,9 @@ export default  function ReadersHome({updateAdminPanelSection}){
     return(
         <div className="">
             
-            <div className="container">
+            <div className="">
                 <MainNav/>
-                <div className="container  mb-4  mt-4">
+                <div className="container-md  mb-4  mt-4">
                     <div className=" single-content">
 
                     
