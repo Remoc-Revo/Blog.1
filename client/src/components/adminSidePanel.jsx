@@ -7,7 +7,7 @@ import { faChartSimple,faComment, faUser,faCalendar} from "@fortawesome/free-sol
 import { useLocation } from "react-router-dom";
 import { updateHistory } from "../reusables/global";
 
- const AdminSidePanel=({updateAdminPanelSection})=>{
+ const AdminSidePanel=({updateAdminPanelSection,toggleSideNav})=>{
     const [adminPanel, setAdminPanel] = useState(useLocation().search);
     const [showPostsLinks, setShowPostsLinks] = useState(false);
 
@@ -26,21 +26,26 @@ import { updateHistory } from "../reusables/global";
         })
     },[showPostsLinks,adminPanel,updateAdminPanelSection])
 
-    function onLinkClick(e,path){
+    function onLinkClick(e,path, closeSideNav){
         e.preventDefault();
+        e.stopPropagation();
         updateHistory(path);
         updateAdminPanelSection(path);
         setAdminPanel(path)
+
+        if(closeSideNav && window.innerWidth < 992){
+            toggleSideNav();
+        }
     }
 
 
     return <div className="text-white " id="admin-side-panel">
 
         <div className=" bg-dark  pt-3 slide-in position-fixed"
-            style={{width:"240px",height:"100%",top:"40px"}}
+            style={{width:"240px",height:"100%",top:"40px",zIndex:"100"}}
         >
             <button className="btn d-flex ps-2 align-items-center"
-                onClick={(e)=>onLinkClick(e,'?view=reader')}
+                onClick={(e)=>onLinkClick(e,'?view=reader',true)}
                 >
                 <img src={Logo} alt="" style={{maxWidth:"35%"}} />
                 <div className="d-flex flex-column  gap-0 justify-content-center">
@@ -53,7 +58,7 @@ import { updateHistory } from "../reusables/global";
                 <a href="/" 
                    className="d-flex gap-2 ps-3 pt-1 pb-1"
                    id={adminPanel===""?"active":""}
-                   onClick={(e)=>{onLinkClick(e,"")} }
+                   onClick={(e)=>{onLinkClick(e,"",true)} }
                    >
                     <FontAwesomeIcon icon={faHouseChimney} className=""/>
                     <span className=" m-0">My Home</span>
@@ -61,7 +66,7 @@ import { updateHistory } from "../reusables/global";
                 <a  href="/?adminPanel=stats"
                     className="d-flex gap-2 ps-3 pt-1 pb-1 align-items-center"
                     id={adminPanel==="?adminPanel=stats"?"active":""}
-                    onClick={(e)=>{onLinkClick(e,"?adminPanel=stats")} }
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=stats",true)} }
 
                      >
                     <FontAwesomeIcon icon={faChartSimple}/>
@@ -73,7 +78,7 @@ import { updateHistory } from "../reusables/global";
                    id={adminPanel.includes("?adminPanel=posts")
                         ?"sub-active"
                         :""}
-                    onClick={(e)=>{onLinkClick(e,"?adminPanel=posts")} }
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=posts",false)} }
 
                    >
                     <FontAwesomeIcon icon={faCalendar}/>
@@ -91,7 +96,7 @@ import { updateHistory } from "../reusables/global";
                             || adminPanel.includes("?adminPanel=posts&category=")
                             ?"active"
                             :"" }
-                    onClick={(e)=>{onLinkClick(e,"?adminPanel=posts")} }
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=posts",true)} }
 
                     >
                         <span className=" m-0">All Posts</span>
@@ -108,7 +113,7 @@ import { updateHistory } from "../reusables/global";
                     <a href="/?adminPanel=posts/categories" 
                     className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
                     id={adminPanel==="?adminPanel=posts/categories"?"active":""}
-                    onClick={(e)=>{onLinkClick(e,"?adminPanel=posts/categories")} }
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=posts/categories",true)} }
 
                     >
                         <span className=" m-0">Categories</span>
@@ -118,7 +123,7 @@ import { updateHistory } from "../reusables/global";
                 <a href="/?adminPanel=comments" 
                    className="d-flex gap-2 ps-3 pt-1 pb-1"
                    id={adminPanel==="?adminPanel=comments"?"active":""}
-                   onClick={(e)=>{onLinkClick(e,"?adminPanel=comments")} }
+                   onClick={(e)=>{onLinkClick(e,"?adminPanel=comments",true)} }
 
                    >
                     <FontAwesomeIcon icon={faComment} className=""/>
@@ -128,7 +133,7 @@ import { updateHistory } from "../reusables/global";
                 <a href="/?adminPanel=users" 
                    className="d-flex gap-2 ps-3 pt-1 pb-1"
                    id={adminPanel==="?adminPanel=users"?"active":""}
-                   onClick={(e)=>{onLinkClick(e,"?adminPanel=users")} }
+                   onClick={(e)=>{onLinkClick(e,"?adminPanel=users",true)} }
 
                    >
                     <FontAwesomeIcon icon={faUser} className=""/>

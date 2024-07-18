@@ -243,7 +243,7 @@ export default function Profile(){
                     
                                     <div>
                                         <label className="profile-label">About me</label>
-                                        <textarea rows={3} maxLength={1000} 
+                                        <textarea rows={6} maxLength={1000} 
                                             className="p-2 col-12 border-light-grey"
                                             value={userDescription}
                                             onChange={(e)=>{setUserDescription(e.target.value)}}

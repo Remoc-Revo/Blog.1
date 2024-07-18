@@ -79,13 +79,15 @@ export default function ArticlesUpdating(){
             setWindowWidth(newWidth)
         }
 
+        handleWindowResize()
+
         window.addEventListener('resize',handleWindowResize)
 
         return ()=>{
             window.removeEventListener('resize',handleWindowResize)
         }
 
-    })
+    },[])
 
     const onEditorStateChange = (editorState)=>{
         setEditorState(editorState);
@@ -445,7 +447,7 @@ export default function ArticlesUpdating(){
                         <div className="col-xl-2"></div>
 
                         <div className="col-10 m-xl-0 ms-4 me-4">
-                            <div className="d-flex ">
+                            <div className="d-flex mt-3 mt-sm-0">
                                 <input type="text"  name="articleHeadline" className="w-100 border-0" 
                                     id = "title-input"
                                     placeholder="Add title..."  minlength="2"  required value={articleHeadline}
