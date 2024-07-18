@@ -49,7 +49,7 @@ export default function AdminStats(){
 
                     <span className="stat-type">Likes</span >
                     <div className="d-flex gap-1">
-                        <span className="stat-number">0</span>
+                        <span className="stat-number">{statsLast7Days.likesLast7Days}</span>
                     </div>
                 </div>
 
@@ -59,7 +59,7 @@ export default function AdminStats(){
 
                     <span className="stat-type">Comments</span >
                     <div className="d-flex gap-1">
-                        <span className="stat-number">0</span>
+                        <span className="stat-number">{statsLast7Days.commentsLast7Days}</span>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@ export default function AdminStats(){
 
                     <span className="stat-type">Likes</span >
                     <div className="d-flex gap-1">
-                        <span className="stat-number">0</span>
+                        <span className="stat-number">{statsToday.likesToday}</span>
                     </div>
                 </div>
 
@@ -101,7 +101,7 @@ export default function AdminStats(){
 
                     <span className="stat-type">Comments</span >
                     <div className="d-flex gap-1">
-                        <span className="stat-number">0</span>
+                        <span className="stat-number">{statsToday.commentsToday}</span>
                     </div>
                 </div>
             </div>
