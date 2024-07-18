@@ -198,6 +198,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
                                                 imgUrl={getFirstImage(article.articleBody)}
                                                 articleId={article.articleId}
                                                 handleClick = {()=>{navigate(`/sngl/${article.articleId}`)}}
+                                                isFixed = {false}
                                             /> 
                                 }
                                 else{
