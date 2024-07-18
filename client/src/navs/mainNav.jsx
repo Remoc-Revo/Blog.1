@@ -94,18 +94,18 @@ export default function MainNav(){
 
     return(
       
-      <div className="container ">
-        <Navbar className=" d-flex justify-content-between"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
+      <div className={`${(windowWidth>=1200)?'container':''}`}>
+        <Navbar className="d-flex justify-content-between gap-xl-5 ps-xl-0 pe-xl-0 ps-md-5 pe-md-5 ps-3 pe-3"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
           <Navbar.Brand  href="#home" id="nav-brand" className=" me-auto ">
             <img src={require("../logos/logo.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
           </Navbar.Brand>
           
       
-            <div id="user-nav" className="d-flex  gap-1  order-xl-2 ">
+            <div id="user-nav" className=" d-flex  gap-1  order-xl-2 pe-2 ps-2 ">
               {(typeof userName!=='undefined')
                   ?<NavItem>
 
-                        <button className="btn btn-light btn-user rounded-circle dropdown-toggle" 
+                        <button className="btn btn-light btn-user rounded-circle dropdown-toggle m-1" 
                           noCaret style={{backgroundColor:``}}
                           onClick={()=>navigate('/profile')}
                           >
@@ -118,7 +118,7 @@ export default function MainNav(){
                           }
                         </button>
                     </NavItem>
-                  : <Nav.Link href="/login" className="nav-link">login</Nav.Link>
+                  : <Nav.Link href="/login" className="nav-link m-2">login</Nav.Link>
               }
               
             
@@ -134,7 +134,7 @@ export default function MainNav(){
           
           <Navbar.Toggle as={customToggle} aria-controls="basic-navbar-nav" className="order-xl-1 me-2 ms-2"/>
           <Navbar.Collapse id="basic-navbar-nav" className="">
-            <Nav className="container-xl gap-1" id="page-links" style={{}}>
+            <Nav className="container-xl gap-1 ps-md-5 ps-2" id="page-links" style={{}}>
               {
                 (sections.length !== 0)
                   ?sections.map((section,index)=>{

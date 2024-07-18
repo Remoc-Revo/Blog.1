@@ -217,7 +217,6 @@ p{
 @media screen and (min-width:992px){
     #page-links{
         margin-right:30px; 
-        margin-left: 150px;   
     }
     .headline{
         font-size:30px;
@@ -226,6 +225,9 @@ p{
     #user-info{
         margin-top:150px;
     }
+
+    
+
     
 }
 
@@ -745,7 +747,7 @@ footer {
         padding-bottom: 100px;
         padding-right: 0px;
         width:60%;
-        height: 900px;;
+        height: 1000px;
         background-color:teal;
         transition: .5s ease;
         justify-content: start;
@@ -756,9 +758,6 @@ footer {
         }
       }
 
-      #basic-navbar-nav{
-        padding-left: 20px;
-      }
     
   }
 
