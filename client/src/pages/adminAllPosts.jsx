@@ -15,7 +15,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
     const [published, setPublished] = useState([]);
     const [displayedPosts, setDisplayedPosts] = useState(null);
     const navigate = useNavigate();
-    const [postsType, setPostsType] = useState(useLocation().search);
+    const [postsType, setPostsType] = useState(window.location.search);
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
     const [searchedText, setSearchedText] = useState('');
     const [menuVisible, setMenuVisible] = useState(false);

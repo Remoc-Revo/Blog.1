@@ -4,14 +4,17 @@ import { faHouseChimney } from "@fortawesome/free-solid-svg-icons";
 import Logo from "../logos/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartSimple,faComment, faUser,faCalendar} from "@fortawesome/free-solid-svg-icons";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { updateHistory } from "../reusables/global";
 
  const AdminSidePanel=({updateAdminPanelSection,toggleSideNav})=>{
-    const [adminPanel, setAdminPanel] = useState(useLocation().search);
+    const [adminPanel, setAdminPanel] = useState(window.location.search);
+    console.log("initial adminPanel",adminPanel)
     const [showPostsLinks, setShowPostsLinks] = useState(false);
 
     useEffect(()=>{
+        // setAdminPanel(location.search);
+
         if(adminPanel.includes("posts")){
             setShowPostsLinks(true);
         }
@@ -19,23 +22,36 @@ import { updateHistory } from "../reusables/global";
             setShowPostsLinks(false);
         }
 
-        window.addEventListener('popstate',(event)=>{
+    },[adminPanel])
+
+    useEffect(()=>{
+
+        function onPopState(){
             console.log("new location: ",window.location.search);
             setAdminPanel(window.location.search);
             updateAdminPanelSection(window.location.search);
-        })
-    },[showPostsLinks,adminPanel,updateAdminPanelSection])
+        }
+        window.addEventListener('popstate',onPopState)
 
-    function onLinkClick(e,path, closeSideNav){
+        // return ()=>{
+        //     window.removeEventListener('popstate',onPopState)
+        // }
+    },[updateAdminPanelSection])
+
+    function onLinkClick(e,path,closeSideNav){
         e.preventDefault();
         e.stopPropagation();
         updateHistory(path);
         updateAdminPanelSection(path);
+
+        console.log("before setting ",adminPanel)
         setAdminPanel(path)
 
         if(closeSideNav && window.innerWidth < 992){
             toggleSideNav();
         }
+        console.log("should be same after setting: ",adminPanel, "the path: ",path)
+
     }
 
 

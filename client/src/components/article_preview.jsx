@@ -142,14 +142,21 @@ export function GridItemBig({articleSection,headline,time,briefDescription,imgUr
 }
 
 
-export function GridItemSmall({articleSection,headline,time,briefDescription,imgUrl,articleId,handleClick}){
+export function GridItemSmall({articleSection,
+                                headline,time,
+                                briefDescription,
+                                imgUrl,
+                                articleId,
+                                handleClick,
+                                isFixed
+                            }){
 
     const [fetchedImgUrl,setFetchedImgUrl] = useState('');
 
     
 
     return(
-        <div className="col-lg-3 mb-4 articlePreview">
+        <div className={`${isFixed?'col-sm-6  col-lg-3':'col-lg-3'} mb-4 articlePreview`}>
             
             <a href='' style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
             {
@@ -178,6 +185,7 @@ export function GridItemSmall({articleSection,headline,time,briefDescription,img
         )
 
 }
+
 
 
 export function AdminPostPreview({articleSection,headline,time,briefDescription,imgUrl,articleId,handleClick}){

@@ -46,6 +46,7 @@ export default function AdminHome(){
                                 imgUrl={getFirstImage(article.articleBody)}
                                 articleId={article.articleId}
                                 handleClick = {()=>{navigate(`/articlePosting/${article.articleId}`)}}
+                                isFixed = {true}
                             />                     
                 })
                     
@@ -53,13 +54,15 @@ export default function AdminHome(){
             </div>  
         </div>
 
+        <hr/>
+
         <div className="container mb-5">
             <h2>Latest Posts</h2>
             <div className="row ">                            
                 {
                 
                 (latestPosts.length===0)
-                ?<div className="d-flex justify-content-center"><h5 className="fw-lighter">No article published yet</h5></div>
+                ?<div className="d-lg-flex justify-content-center overflow-scroll"><h5 className="fw-lighter">No article published yet</h5></div>
                 :latestPosts.map((article,index)=>{
                      return <GridItemSmall 
                                 articleSection={decodeString(article.sectionName)}
@@ -69,12 +72,15 @@ export default function AdminHome(){
                                 imgUrl={getFirstImage(article.articleBody)}
                                 articleId={article.articleId}
                                 handleClick = {()=>{navigate(`/articlePosting/${article.articleId}`)}}
+                                isFixed = {true}
                             />                     
                 })
                     
                 }
             </div>
         </div>
+
+        <hr/>
 
         <div className="container mb-5">
             <h2>Latest Comments</h2>
