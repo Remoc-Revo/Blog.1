@@ -173,8 +173,8 @@ export default function Single(){
                                                 />
                                             </div>
 
-                                            :<div className="rounded-circle">
-
+                                            :<div className="rounded-circle overflow-hidden" style={{width:"50px",height:"50px"}}>
+                                                <FontAwesomeIcon icon={faUser} className="rounded-circle w-100 h-100 pt-2"/>
                                             </div>
                                         }
                                        

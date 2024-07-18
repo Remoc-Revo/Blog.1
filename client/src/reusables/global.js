@@ -73,3 +73,22 @@ export async function uploadImageToCloud(imageSrc){
         console.log("file upload err",err);
     }
 }
+
+
+export function formatDateTime(date){
+    date = new Date(date);
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    const ampm = hours > 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; //convert hour '0' to 12
+    minutes = minutes <  10 ? '0' + minutes : minutes;
+
+    const timeStr = hours + ':' + minutes + ' ' + ampm;
+    const dateStr =   new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(date);
+    const dateTimeStr = dateStr + ' at ' + timeStr;
+
+
+    return dateTimeStr;
+
+  }

@@ -9,6 +9,7 @@ import AdminPostsCategories from "./adminPostsCategories";
 import AdminStats from "./adminStats";
 import AdminUsersDisplay from "./adminUsersDisplay";
 import ReadersHome from "./readersHome"; 
+import AdminComments from "./adminComments";
 
 export default function AdminPanel(){
     const navigate = useNavigate();
@@ -108,7 +109,7 @@ export default function AdminPanel(){
                         
                         {(adminPanelSection === "?adminPanel=posts/categories")&&<AdminPostsCategories updateAdminPanelSection={updateAdminPanelSection}/>}
                         
-                        {(adminPanelSection === "?adminPanel=comments")&&<>comments on development..</>}
+                        {(adminPanelSection === "?adminPanel=comments")&&<AdminComments/>}
                         
                         {(adminPanelSection === "?adminPanel=users")&&<AdminUsersDisplay/>}
                     </div>
