@@ -156,7 +156,7 @@ export function GridItemSmall({articleSection,
     
 
     return(
-        <div className={`${isFixed?'col-sm-6  col-lg-3':'col-lg-3'} mb-5 articlePreview`}>
+        <div className={`${isFixed?'col-sm-6  col-lg-3':'col-lg-3'} mb-5 articlePreview fade-in-up`}>
             
             <a href='' style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
             {

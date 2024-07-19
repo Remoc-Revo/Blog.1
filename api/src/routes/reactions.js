@@ -32,9 +32,12 @@ exports.comments=(req,res)=>{
     try{
         if(articleId!==undefined){
         
-        pool.query(`SELECT c.*, u.userName AS comment_userName
+        pool.query(`SELECT c.*,     
+                        u.userName AS comment_userName,
+                        p.photoUrl as commenterProfilePhoto
                     FROM COMMENT c
                     LEFT JOIN USER u ON c.userId = u.userId
+                    LEFT JOIN USERPHOTO p ON p.userId = c.userId
                     WHERE articleId=?`,[articleId],
             (err,result)=>{
                 if(err){

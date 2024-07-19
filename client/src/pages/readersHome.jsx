@@ -142,7 +142,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
                     
                     {
                     (articles.length>0)
-                    ?<div className="position-relative">
+                    ?<div className="position-relative fade-in-up">
                         <a href={`/sngl/${articles[0].articleId}`} style={{textDecoration:"none",color:"black"}} className="">
 
                             

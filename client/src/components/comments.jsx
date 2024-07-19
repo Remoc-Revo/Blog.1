@@ -4,7 +4,7 @@ import linearCongruentialGenerator from "../reusables/linearCongruentialGenerato
 import api from "../config/api";
 import { useUserContext } from "../userContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faReply } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faReply,faUser } from "@fortawesome/free-solid-svg-icons";
 import  { faStar as farStar} from "@fortawesome/free-regular-svg-icons";
 
 const Comments=React.memo(({articleId})=>{
@@ -236,8 +236,23 @@ function Comment({
     return(
         <div className={`pt-2 d-flex gap-3 ${(comment.parentCommentId === null) ? 'border-bottom':''}`}>
             <div>
-                <button className="btn  pt-1 pb-1 rounded-circle" style={{backgroundColor:`rgb(10,230,${linearCongruentialGenerator(comment.userId)})`}}>{comment.comment_userName[0]}</button>
+                {
+                    (comment.commenterProfilePhoto !== null)
+                    ?<div style={{width:"50px",height:"50px"}}>                                                                                           
+                        <img src={comment.commenterProfilePhoto}
+                            className="rounded-circle w-100 h-100 object-fit-cover"
+                            alt=""
+                        />
+                    </div>
+
+                    :<div className="rounded-circle overflow-hidden" 
+                        style={{width:"50px",height:"50px", backgroundColor:"lightgrey"}}>
+                        <FontAwesomeIcon icon={faUser} className="ic-white rounded-circle w-100 h-100 pt-2"/>
+                    </div>
+                }
+
             </div>
+            
             <div className=" d-flex flex-column gap-1">
                 <span style={{fontWeight:"500"}}>{comment.comment_userName.toUpperCase()}</span>
 
