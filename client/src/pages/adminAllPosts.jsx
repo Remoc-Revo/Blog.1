@@ -4,7 +4,7 @@ import { AdminPostPreview } from "../components/article_preview";
 import { decodeString,updateHistory } from "../reusables/global";
 import moment from "moment";
 import { useNavigate,useLocation } from "react-router-dom";
-import { faSearch,faTimes,faTrash,faEllipsisV,faPen } from "@fortawesome/free-solid-svg-icons"; 
+import { faSearch,faTimes,faTrash,faEllipsisV, faEllipsisH, faPen } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Modal} from 'react-bootstrap';
 import getFirstImage from "../reusables/getImage";
@@ -141,7 +141,9 @@ export default function AdminAllPosts({updateAdminPanelSection}){
         const buttonRect = e.target.getBoundingClientRect();
         setMenuPosition({
             top: buttonRect.bottom + window.scrollY -40,
-            left: buttonRect.left + window.scrollX -94//-  menuRef.current.offsetWidth
+            left: window.innerWidth >= 992  
+                    ? buttonRect.left + window.scrollX - 305
+                    : buttonRect.left + window.scrollX - 89//-  menuRef.current.offsetWidth
         })
     }
 
@@ -264,9 +266,15 @@ export default function AdminAllPosts({updateAdminPanelSection}){
                                             className="btn" 
                                             
                                             onClick={(e)=>handleMemuClick(e,article)}>
-                                                <FontAwesomeIcon 
-                                                    icon={ faEllipsisV} 
-                                                    className="ic-grey"/>                                               
+                                                {menuVisible && activeArticle.articleId === article.articleId
+                                                    ?<FontAwesomeIcon 
+                                                        icon={ faEllipsisV} 
+                                                        className="ic-orange"/>
+                                                    :<FontAwesomeIcon 
+                                                        icon={faEllipsisH} 
+                                                        className="ic-grey"/>
+                                                }
+                                                                                        
                                             
                                         </button>
                                     </td>
