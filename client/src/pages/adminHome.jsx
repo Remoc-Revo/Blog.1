@@ -103,8 +103,8 @@ export default function AdminHome(){
                                         />
                                     </div>
 
-                                    :<div className="rounded-circle overflow-hidden" style={{width:"50px",height:"50px"}}>
-                                        <FontAwesomeIcon icon={faUser} className="rounded-circle w-100 h-100 pt-2"/>
+                                    :<div className="rounded-circle overflow-hidden" style={{width:"50px",height:"50px",backgroundColor:"grey"}}>
+                                        <FontAwesomeIcon icon={faUser} className="ic-light-grey rounded-circle w-100 h-100 pt-2"/>
                                     </div>
                                 }
                             </div>
@@ -115,7 +115,7 @@ export default function AdminHome(){
                 
                                 <p className="mt-3" style={{fontWeight:"300"}}>{comment.comment}</p>
 
-                                <div className=" d-flex align-items-start">
+                                <div className=" d-flex gap-2  align-items-start">
                                     <h6 className="fw-lighter">On: </h6>
                                     <h6 className="" >{decodeString(comment.articleHeadline)}</h6>
                                 </div>

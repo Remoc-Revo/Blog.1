@@ -397,7 +397,7 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
             <span>New Category</span>
             <div>
                 <input type="text" 
-                    className="w-100 modal-input"
+                    className="w-100 modal-input p-2"
                     onChange={onCategoryNameChange}
                     value={activeCategory.sectionName}
                     />
@@ -405,7 +405,7 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
             
             <div>
                 <label>Description</label>
-                <textarea rows={5} className="w-100 h-100 modal-input"
+                <textarea rows={5} className="w-100 h-100 modal-input p-2"
                     onChange={onCategoryDescriptionChange}
                     value={activeCategory.sectionDescription}
                 />

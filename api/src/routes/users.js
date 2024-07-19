@@ -257,8 +257,13 @@ exports.user=(req,res)=>{
 
 exports.getUsers = (req,res)=>{
 
-   pool.query(`SELECT * FROM USER ORDER BY userLevel DESC`,
+   pool.query(`SELECT u.*,
+                     p.photoUrl 
+               FROM USER u
+               LEFT JOIN USERPHOTO p ON u.userId = p.userId
+               ORDER BY userLevel DESC`,
          (err,result)=>{
+            if(err) console.log("error fetching users",err)
             if(result){
                console.log("users: ",result);
                return res.status(200).json({users:result});
