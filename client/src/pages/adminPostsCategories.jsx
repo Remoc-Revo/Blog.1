@@ -77,7 +77,9 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
         const buttonRect = e.target.getBoundingClientRect();
         setMenuPosition({
             top: buttonRect.bottom + window.scrollY -40,
-            left: buttonRect.left + window.scrollX -309//-  menuRef.current.offsetWidth
+            left: window.innerWidth >= 992  
+                    ? buttonRect.left + window.scrollX - 305
+                    : buttonRect.left + window.scrollX - 89//-  menuRef.current.offsetWidth
         })
     }
 
