@@ -7,7 +7,6 @@ import Footer from "../components/footer";
 import parser from "html-react-parser";
 // import { useQuery } from "react-query";
 import api from "../config/api";
-import { logVisitor } from "../reusables/global";
 import getFirstImage from "../reusables/getImage";
 
 
@@ -55,10 +54,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
         }
    },[cat]);
 
-   useEffect(()=>{
-    logVisitor(cat);
-   },[cat])
-
+  
    //tracking routes when admin is using readers' view
    useEffect(()=>{
     function handlePopstate(){
@@ -140,8 +136,8 @@ export default  function ReadersHome({updateAdminPanelSection}){
             
             <div className="">
                 <MainNav/>
-                <div className="container-md  mb-4  mt-4">
-                    <div className=" single-content">
+                <div className="container-md d-lg-flex justify-content-center mb-4  mt-4">
+                    <div className="col-lg-9 single-content">
 
                     
                     {
