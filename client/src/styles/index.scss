@@ -207,10 +207,28 @@ p{
     to{
         transform: translateX(0);
     }
+    
 }
 
 .slide-in{
     animation: slideIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.fade-in-up{
+    animation-name: fadeInUp;
+    animation-duration:  1.5s;
+    animation-fill-mode: both;
 }
 
 
