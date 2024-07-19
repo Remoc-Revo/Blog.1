@@ -11,7 +11,7 @@ import { updateHistory } from "../reusables/global";
     const [adminPanel, setAdminPanel] = useState(window.location.search);
     console.log("initial adminPanel",adminPanel)
     const [showPostsLinks, setShowPostsLinks] = useState(false);
-
+    const [showUsersLinks, setShowUsersLinks] = useState(false);
     useEffect(()=>{
         // setAdminPanel(location.search);
 
@@ -21,6 +21,13 @@ import { updateHistory } from "../reusables/global";
         else{
             setShowPostsLinks(false);
         }
+
+        if(adminPanel.includes("users") || adminPanel.includes("subscribers")){
+            setShowUsersLinks(true);
+        }else{
+            setShowUsersLinks(false);
+        }
+    
 
     },[adminPanel])
 
@@ -147,14 +154,42 @@ import { updateHistory } from "../reusables/global";
                 </a>
 
                 <a href="/?adminPanel=users" 
-                   className="d-flex gap-2 ps-3 pt-1 pb-1"
-                   id={adminPanel==="?adminPanel=users"?"active":""}
-                   onClick={(e)=>{onLinkClick(e,"?adminPanel=users",true)} }
+                    className="d-flex gap-2 ps-3 pt-1 pb-1"
+                    //    id={adminPanel==="?adminPanel=users"?"active":""}
+                    id={showUsersLinks
+                        ?"sub-active"
+                        :""}
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=users",false)} }
 
-                   >
-                    <FontAwesomeIcon icon={faUser} className=""/>
-                    <span className=" m-0">Users</span>
+                    >
+                        <FontAwesomeIcon icon={faUser} className=""/>
+                        <span className=" m-0">Users</span>
                 </a>
+
+                <div id="users-links" className="pt-2 pb-2 mb-2"
+                    style={{display:showUsersLinks?"block":"none"}}
+                    >
+
+                    <a href="/?adminPanel=users" 
+                    className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
+                    id={adminPanel==="?adminPanel=users"?"active":""}
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=users",true)} }
+
+                    >
+                        <span className=" m-0">All Users</span>
+                    </a>
+
+                    <a href="/?adminPanel=subscribers" 
+                    className="d-flex gap-2 ps-3 pt-1 pb-1 child-link"
+                    id={adminPanel==="?adminPanel=subscribers"?"active":""}
+                    onClick={(e)=>{onLinkClick(e,"?adminPanel=subscribers",true)} }
+
+                    >
+                        <span className=" m-0">Subscribers</span>
+                    </a>
+                </div>
+
+                
             </div>
         </div>
     </div>

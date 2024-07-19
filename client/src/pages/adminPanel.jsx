@@ -10,6 +10,7 @@ import AdminStats from "./adminStats";
 import AdminUsersDisplay from "./adminUsersDisplay";
 import ReadersHome from "./readersHome"; 
 import AdminComments from "./adminComments";
+import AdminSubscribersDisplay from "./adminSubscribersDisplay";
 
 export default function AdminPanel(){
     const navigate = useNavigate();
@@ -112,6 +113,9 @@ export default function AdminPanel(){
                         {(adminPanelSection === "?adminPanel=comments")&&<AdminComments/>}
                         
                         {(adminPanelSection === "?adminPanel=users")&&<AdminUsersDisplay/>}
+
+                        {(adminPanelSection === "?adminPanel=subscribers")&&<AdminSubscribersDisplay/>}
+
                     </div>
                 </div>
             </div>
