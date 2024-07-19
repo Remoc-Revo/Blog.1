@@ -5,7 +5,7 @@ import { faUser,faSearch,faTimes } from "@fortawesome/free-solid-svg-icons";
 import api from "../config/api";
 import moment from "moment";
 
-export default function AdminUsersDisplay(){
+export default function AdminSubscribersDisplay(){
     const [allUsers, setAllUsers] = useState([]);
     const [displayedUsers, setDisplayedUsers] = useState([])
     const [searchedText, setSearchedText] = useState('');
@@ -48,8 +48,8 @@ export default function AdminUsersDisplay(){
 
 
     return <div className="container col-lg-7 col-md-9">
-
-        <h3 className="mb-5">All Users {allUsers.length !== 0 && `(${allUsers.length})`}</h3>
+        <h1>Subscribers on development!!!</h1>
+        <h3 className="mb-5">Subscribers {allUsers.length !== 0 && `(${allUsers.length})`}</h3>
         <div className="d-flex  mb-4 " id="users-search">
             <div className="col-12 position-relative d-flex justify-content-between border" >                
                 <button className="btn rounded-0">

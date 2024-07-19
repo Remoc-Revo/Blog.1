@@ -21,7 +21,7 @@ const {getAdminPostsCategories} = require('./getAdminPostsCategories');
 const { visitor } = require('./visitorLogger');
 const {getStats} = require('./blogStats');
 const {getAdminComments} = require('./getAdminComments');
-
+const {subscribe} = require('./subscription');
 
 require('dotenv').config();
 
@@ -175,5 +175,6 @@ router.get('/stats',getStats);
 
 router.get('/related',related);
 
+router.post('/subscribe',subscribe);
 
 module.exports = router;
