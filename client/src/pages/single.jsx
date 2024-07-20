@@ -151,16 +151,13 @@ export default function Single(){
             
             
             {(article.length!==0)
-                ?<div className=" mt-2 d-flex flex-column align-items-center">
+                ?<div className=" d-flex flex-column align-items-center">
                     <div className="col-md-10">
                         
-                        <div className="d-lg-flex container-lg mt-2 justify-content-center gap-3">
+                        <div className="d-lg-flex container-lg justify-content-center gap-3">
                             <div className="col-lg-8 p-0">
-
-                                <div className="">
                             
-                                    <h2 className="text-center headline">{decodeString(article.articleHeadline)}</h2>
-                                </div>
+                                <h2 className="text-center headline">{decodeString(article.articleHeadline)}</h2>
                                 <div className="pt-3 pb-2 mb-2  d-flex justify-content-between align-items-center">
                                     
                                     <div className=" d-flex gap-3 align-items-center">

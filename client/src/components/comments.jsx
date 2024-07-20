@@ -109,7 +109,7 @@ const Comments=React.memo(({articleId})=>{
 
             {typeof comments!=='undefined' && 
             <div className="col-12  text-start">
-                <h4>{comments.length} Comments</h4>
+                <h4>{`${comments.length} ${(comments.length == 1) ? "Comment" : "Comments"}`}</h4>
             </div>}
 
             

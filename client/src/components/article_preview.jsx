@@ -161,7 +161,7 @@ export function GridItemSmall({articleSection,
             <a href='' style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
             {
                    (imgUrl!==null)
-                   ?<div className="overflow-hidden"  style={{display:"block", height:"180px"}}                 > 
+                   ?<div className="overflow-hidden"  style={{display:"block", height:"210px"}}                 > 
                     <img src={imgUrl} alt=""   
                             className="w-100 h-100  rounded object-fit-cover">                            
                         </img>
