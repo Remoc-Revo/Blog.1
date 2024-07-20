@@ -5,30 +5,30 @@ import { Editor } from 'react-draft-wysiwyg';
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useUserContext } from "../userContext";
 import api from "../config/api";
-import { height, width } from "@fortawesome/free-solid-svg-icons/fa0";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser,faBarsStaggered, faBell, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { Modal } from "react-bootstrap";
 
 export default function ArticlesUpdating(){
     const navigate=useNavigate();
 
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    var [articleSectionId,setArticleSectionId]=useState();
+    var [articleSectionId,setArticleSectionId]=useState(27); // default id for uncategoried sections, ensure it's changed
     var [articleHeadline,setArticleHeadline]=useState('');
-    var [articleBody,setArticleBody]=useState('');
-    var [articlePhoto,setArticlePhoto]=useState(null);
     var [articleToUpdateLoaded, setArticleToUpdateLoaded] = useState(false);
     const {loading,user} = useUserContext();
     let {articleIdToUpdate} = useParams();
     const [articleToUpdate,setArticleToUpdate] = useState(null);
     const [awaitingResponse, setAwaitingResponse] = useState(false);
-    const [isDraft, setIsdraft] = useState();
+    const [isDraft, setIsdraft] = useState(true);
     const [articleSections, setArticleSections]= useState([]);
     const [isAddingNewCategory,setIsAddingNewCategory] = useState(false);
     const [newCategory, setNewCategory] = useState("");
     const [articlePhotos, setArticlePhotos] = useState([]);
     const [isSidePanelVisible, setIsSidePanelVisible] = useState(true);
     const [windowWidth,setWindowWidth]=useState(window.innerWidth)
+    const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
+    const [isAutoSaving, setIsAutoSaving] = useState(true);
 
     function  fetchArticleToUpdate() {
         api.get(`/single/${articleIdToUpdate}`)
@@ -38,10 +38,6 @@ export default function ArticlesUpdating(){
 
                 setArticleSectionId(articleToUpdate.articleSectionId);
                 setArticleHeadline(decodeURIComponent(articleToUpdate.articleHeadline))
-                setArticleBody(response.data.article[0].articleBody)
-
-
-                setArticlePhoto(articleToUpdate.multimediaUrl)
 
                 const fetchedArticleBody = response.data.article[0].articleBody;
                 const parsedArticleBody = JSON.parse(fetchedArticleBody);
@@ -67,6 +63,33 @@ export default function ArticlesUpdating(){
     )
 
     useEffect(()=>{
+        const autoSaveToServer = ()=>{
+            if(!isEditorStateEmpty(editorState) 
+                && articleHeadline !== '' 
+                && user !== 'unauthorized')
+            { 
+                console.log("Saviing draft again..", new Date().getSeconds())
+                handleSubmit();
+
+                const rawContentState = convertToRaw(editorState.getCurrentContent())
+                const serializedContent = JSON.stringify(rawContentState);
+                setArticleToUpdate({
+                    ...articleToUpdate,
+                    articleBody: serializedContent,
+                    articleHeadline: articleHeadline,
+                    articleSectionId: articleSectionId
+                });
+
+                console.log("The article to update some time in future:", articleToUpdate)
+            }
+        }
+
+        const intervalId = setInterval(autoSaveToServer, 10000);
+
+        return  ()=> clearInterval(intervalId);
+    })
+
+    useEffect(()=>{
         function handleWindowResize(){
             const newWidth = window.innerWidth
 
@@ -88,6 +111,18 @@ export default function ArticlesUpdating(){
         }
 
     },[])
+
+    const isEditorStateEmpty = (editorState)=>{
+        const contentState = editorState.getCurrentContent();
+        const rawContent = convertToRaw(contentState);
+        const blocks  = rawContent.blocks;
+
+        return blocks.every(block =>{
+            const isEmptyText = !block.text.trim();
+            const hasNoEntities = block.entityRanges.length === 0;
+            return isEmptyText && hasNoEntities;
+        });
+    }
 
     const onEditorStateChange = (editorState)=>{
         setEditorState(editorState);
@@ -265,7 +300,7 @@ export default function ArticlesUpdating(){
             console.log(err)
             if(err.response && err.response.status===401){
                 setAwaitingResponse(false);
-                navigate('/login');
+                setShowSessionEndedModal(true);
             }
             })
            
@@ -314,15 +349,15 @@ export default function ArticlesUpdating(){
             console.log(err)
             if(err.response && err.response.status===401){
                 setAwaitingResponse(false);
-                navigate('/login');
+                setShowSessionEndedModal(true);
             }
             })
         
     }
 
     async function handleSubmit(e){
-        e.preventDefault();
-        setAwaitingResponse(true);
+        if(e) e.preventDefault();
+
 
         // Extract images from editor content
         const contentState = editorState.getCurrentContent();
@@ -331,7 +366,7 @@ export default function ArticlesUpdating(){
 
         //When Editing an already saved article
         let previousImages= [];
-        if(articleIdToUpdate!== 'null'){
+        if(articleIdToUpdate !== 'null'){
             console.log(typeof articleToUpdate," article itself",articleToUpdate.articleBody)
             const uneditedArticleBody = articleToUpdate.articleBody;
             const parsedUneditedArticleBody = JSON.parse(uneditedArticleBody);
@@ -512,17 +547,24 @@ export default function ArticlesUpdating(){
                         
                             <div className="d-flex gap-2  align-items-center justify-content-between mt-1" >
                                 <div className="" id="save-draft"> 
-                                        <button className="btn border" type="submit"
+                                    {(awaitingResponse && isDraft )
+                                        ?<div className="spinner-border text-info">
+                                            <span className="sr-only">Loading...</span>
+                                        </div>
+                                        
+                                        :<button className="btn border" type="submit"
                                             onClick={(e)=>{
                                                 setIsdraft(true);
+                                                setAwaitingResponse(true);
                                                 // document.getElementById("article-form").submit()
                                                 }} >
                                             <span>Save as a draft</span>
                                         </button>
-                                    </div>
+                                    }
+                                </div>
 
                                 <div className="">
-                                {(awaitingResponse)
+                                {(awaitingResponse && !isDraft )
                                     ?<div className="spinner-border text-info">
                                         <span className="sr-only">Loading...</span>
                                     </div>
@@ -530,7 +572,10 @@ export default function ArticlesUpdating(){
                                     :<button className="btn btn-light col" 
                                         id = "publish-btn"
                                         type="submit" 
-                                        onClick={(e)=>{setIsdraft(false)}}
+                                        onClick={(e)=>{
+                                            setIsdraft(false);
+                                            setAwaitingResponse(true);
+                                        }}
                                     >
                                         Publish
                                         </button>
@@ -588,6 +633,21 @@ export default function ArticlesUpdating(){
                 </form>
 
             </div>
+
+            <Modal show={showSessionEndedModal} centered>
+                <Modal.Body>
+                    <h6> Your Session has expired!</h6>
+                    <div className="d-flex justify-content-between">
+                        <button className="btn btn-light" onClick={()=>{setShowSessionEndedModal(false)}}>
+                            Close
+                        </button>
+
+                        <button className="btn btn-success" onClick={()=>{navigate('/login')}}>
+                            Login
+                        </button>
+                    </div>
+                </Modal.Body>
+            </Modal>
             
         </div>
     )

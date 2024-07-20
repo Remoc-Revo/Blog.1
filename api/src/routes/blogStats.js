@@ -52,7 +52,6 @@ exports.getStats = async(req,res)=>{
         )
         likesLast7Days = likesLast7Days[0].count;
 
-
         console.log("page views",viewsToday,"7days",viewsLast7Days, "visitors",visitorsToday, "last7days",visitorsLast7Days);
 
 

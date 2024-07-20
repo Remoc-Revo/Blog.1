@@ -138,7 +138,8 @@ export default function MainNav(){
               {
                 (sections.length !== 0)
                   ?sections.map((section,index)=>{
-                   
+                    if(section === "uncategorized") return null
+                    
                     return <Nav.Link 
                               href={`/?cat=${section}`}
                               id={(decodeString(cat)===`?cat=${section}`)?"active":""} 

@@ -99,6 +99,8 @@ const Footer = () => {
           <div className="col-md-4 d-flex flex-column gap-2 mt-4 align-items-md-end">
             {
               sections.map((section)=>{
+                if(section === "uncategorized") return null
+                
                 return <Nav.Link 
                   href={`/?cat=${section}`}
                   className="nav-link">

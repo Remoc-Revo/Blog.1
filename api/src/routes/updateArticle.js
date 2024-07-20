@@ -43,7 +43,7 @@ exports.updateArticle=(req,res)=>{
                     `,[headline,articleBody,sectionId,isDraft, articleId],
              (err,result)=>{
                 if(err){
-                    throw(err) 
+                    console.log(err) 
                 }
 
                 if(imgUrl!=null){
@@ -61,7 +61,7 @@ exports.updateArticle=(req,res)=>{
             
         }catch(articleUpdateError){
             console.log("Article update error: ",articleUpdateError);
-            
+            return;
         }
     }
     
@@ -79,7 +79,6 @@ function deletePrevImg(prevImg){
                 console.log("cloudinary deletion result :", result);
             }
         })
-
     }
     catch(err){
         console.log("Error deleting image",err);
