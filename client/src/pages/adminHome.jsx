@@ -56,7 +56,7 @@ export default function AdminHome(){
             </div>  
         </div>
 
-        <hr/>
+        <hr className="d-lg-none"/>
 
         <div className="container mb-5">
             <h2>Latest Posts</h2>
@@ -82,7 +82,7 @@ export default function AdminHome(){
             </div>
         </div>
 
-        <hr/>
+        <hr className="d-lg-none"/>
 
         <div className="container mb-5">
             <h2>Latest Comments</h2>
