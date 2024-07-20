@@ -766,6 +766,9 @@ footer {
     #nav-brand{
         z-index:10;
 
+        #blog-logo{
+            max-width:150px;
+            }
     }
 
       #basic-navbar-nav{     
@@ -782,10 +785,8 @@ footer {
         transition: .5s ease;
         justify-content: start;
         z-index:1;
-        #blog-logo{
-          width:10px;
-          
-        }
+
+        
       }
 
     
