@@ -1,9 +1,22 @@
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser,faPenFancy, faBell,faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../userContext";
 
 export default function AdminNav({toggleSideNav}){
     const navigate = useNavigate();
+    const {loading,user} = useUserContext();
+    const [userProfilePhoto,setUserProfilePhoto]=useState(null);
+
+    useEffect(()=>{
+        if(!loading && user != null){
+            console.log("user context!!!!",user);
+            setUserProfilePhoto(user.userProfilePhoto);
+          }
+    
+    })
+
     function onClickWriteButton(e){
         e.preventDefault();
         e.stopPropagation();
@@ -24,22 +37,21 @@ export default function AdminNav({toggleSideNav}){
             >
                 <FontAwesomeIcon icon={faPenFancy} className="admin-nav-icon"/>
             </a>
-            <button className="btn btn-light  rounded-circle d-flex align-items-center justify-content-center" 
-                noCaret 
-                style={{width:"25px",height:"24px"}}
-                onClick={(e)=>{
-                    e.stopPropagation();
-                    navigate("/profile")
-                    }}
-                >
-                {
-                // (profileImg!==undefined)
-                //     ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
-                //     :userName[0]
-                <FontAwesomeIcon icon={faUser} />
 
-                }
-            </button>
+            <div style={{backgroundColor:'lightgrey', width:"24px",height:"24px"}}
+                      className="d-flex justify-content-center align-items-center rounded-circle overflow-hidden"
+                      onClick={(e)=>{e.stopPropagation(); navigate('/profile')}}
+                      >
+
+                      
+                        {
+                        (userProfilePhoto!==null)
+                            ?<img src={userProfilePhoto} className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
+                            :<FontAwesomeIcon icon={faUser} className="ic-white w-100 h-100 pt-2"/>
+
+                        }
+             </div>
+            
             <button className="btn d-flex"
                 onClick={(e)=>{e.stopPropagation();}}
                 >

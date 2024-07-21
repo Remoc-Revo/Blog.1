@@ -12,7 +12,7 @@ export default function MainNav(){
   var [userLevel,set_userLevel]=useState();
   var [userName,set_userName]=useState();
   var [dropdownOpen,set_dropdownOpen]=useState(false);
-  // var [profileImg,set_profileImg]=useState();
+  const [userProfilePhoto,setUserProfilePhoto]=useState(null);
   const {loading,user,contextLogout} = useUserContext();
   const [sections, setSections] = useState([]);
   const navigate = useNavigate();
@@ -52,6 +52,7 @@ export default function MainNav(){
         console.log("user context!!!!",user);
         set_userLevel(user.userLevel);
         set_userName(user.userName);
+        setUserProfilePhoto(user.userProfilePhoto);
       }
 
         window.addEventListener('resize',()=>{set_windowWidth(window.innerWidth)})
@@ -105,18 +106,21 @@ export default function MainNav(){
               {(typeof userName!=='undefined')
                   ?<NavItem>
 
-                        <button className="btn btn-light btn-user rounded-circle dropdown-toggle m-1" 
-                          noCaret style={{backgroundColor:``}}
-                          onClick={()=>navigate('/profile')}
-                          >
-                          {
-                          // (profileImg!==undefined)
-                          //     ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
-                          //     :userName[0]
-                          <FontAwesomeIcon icon={faUser} />
+                      
+                    <div style={{backgroundColor:'lightgrey', width:"50px",height:"50px"}}
+                      className="d-flex justify-content-center align-items-center rounded-circle overflow-hidden"
+                      onClick={()=>navigate('/profile')}
+                      >
 
-                          }
-                        </button>
+                      
+                        {
+                        (userProfilePhoto!==null)
+                            ?<img src={userProfilePhoto} className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
+                            :<FontAwesomeIcon icon={faUser} className="ic-white w-100 h-100 pt-2"/>
+
+                        }
+                    </div>
+                         
                     </NavItem>
                   : <Nav.Link href="/login" className="nav-link m-2">login</Nav.Link>
               }
