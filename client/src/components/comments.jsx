@@ -16,6 +16,7 @@ const Comments=React.memo(({articleId})=>{
     let [likes,set_likes]=useState();
     let [userId, setUserId]=useState();
     let [userName, setUserName] = useState();
+    let [userProfilePhoto, setUserProfilePhoto] = useState(null);
     const {loading,user} = useUserContext();
 
 
@@ -34,6 +35,7 @@ const Comments=React.memo(({articleId})=>{
             console.log("user context!!!!",user);
             setUserId(user.userId);
             setUserName(user.userName);
+            setUserProfilePhoto(user.userProfilePhoto);
         }
     },[fetchComments,articleId,loading,user])
     
@@ -130,7 +132,7 @@ const Comments=React.memo(({articleId})=>{
                                             likes={likes}
                                             userId={userId}
                                             userName={userName}
-
+                                            userProfilePhoto = {userProfilePhoto}
                                     />
                         })
                     }
@@ -172,7 +174,8 @@ function Comment({
         activeButtonKey,
         likes,
         userId,
-        userName
+        userName,
+        userProfilePhoto
     }){
     const key=comment.commentId;
 
@@ -284,12 +287,28 @@ function Comment({
                     {
                         (activeButtonKey===key) && (userName !== undefined) && (
                             <div className="mt-3 ">
-                                <button className="btn pt-1 pb-1  rounded-circle" style={{backgroundColor:`rgb(10,230,${linearCongruentialGenerator(userId)})`}}>{userName[0]}</button>
+                                 <div>
+                                    {
+                                        (userProfilePhoto !== null)
+                                        ?<div style={{width:"50px",height:"50px"}}>                                                                                           
+                                            <img src={userProfilePhoto}
+                                                className="rounded-circle w-100 h-100 object-fit-cover"
+                                                alt=""
+                                            />
+                                        </div>
+
+                                        :<div className="rounded-circle overflow-hidden" 
+                                            style={{width:"50px",height:"50px", backgroundColor:"lightgrey"}}>
+                                            <FontAwesomeIcon icon={faUser} className="ic-white rounded-circle w-100 h-100 pt-2"/>
+                                        </div>
+                                    }
+
+                                </div>
                                 <span className="ms-2 fw-bolder ">{userName}</span>
 
-                                <div className="mt-2">
+                                <div className="mt-2 col-12 mb-1">
                                     <textarea rows={2} className="col-12 p-2 " key={['reply',key].join('_')} value={newReply} onChange={(e)=>set_newReply(e.target.value)}   onClick={handleInputClick} />
-                                    <button className="btn" onClick={()=>sendReply(comment.commentId)}>send</button>                                  
+                                    <button className="btn btn-light" onClick={()=>sendReply(comment.commentId)}>send</button>                                  
                                 </div>
                             </div>
                         )
@@ -311,6 +330,7 @@ function Comment({
                                             likes={likes}
                                             userId={userId}
                                             userName={userName}
+                                            userProfilePhoto={userProfilePhoto}
                                     />
 
                         })
