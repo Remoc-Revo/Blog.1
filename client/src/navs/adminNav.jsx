@@ -3,11 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser,faPenFancy, faBell,faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../userContext";
+import api from "../config/api";
+import { decodeString } from "../reusables/global";
+import { formatDateTime } from "../reusables/global";
 
 export default function AdminNav({toggleSideNav}){
     const navigate = useNavigate();
     const {loading,user} = useUserContext();
     const [userProfilePhoto,setUserProfilePhoto]=useState(null);
+    const [notifications, setNotifications] = useState([]);
+    const [isFetchingNotifications, setIsFetchingNotifications] = useState(false);
+    const [isDisplayingNotifications, setIsDisplayingNotifications] = useState(false);
 
     useEffect(()=>{
         if(!loading && user != null){
@@ -17,11 +23,33 @@ export default function AdminNav({toggleSideNav}){
     
     })
 
+    useEffect(()=>{
+        function fetchNotifications(){
+            setIsFetchingNotifications(true);
+            api.get('/getAdminNotifications')
+            .then((response)=>{
+                    setNotifications(response.data.notifications);
+                    setIsFetchingNotifications(false);
+            })
+            .catch((err)=>{
+                
+            })
+        }
+
+        fetchNotifications();
+    },[])
+
     function onClickWriteButton(e){
         e.preventDefault();
         e.stopPropagation();
         navigate('/articlePosting/null');
     }
+
+    function handleNotificationClick(){
+        setIsDisplayingNotifications(!isDisplayingNotifications);
+    }
+
+    
 
 
     return <div className="bg-black d-flex justify-content-between m-0  p-1 ps-3 pe-4  top-0 w-100 position-fixed" 
@@ -53,10 +81,41 @@ export default function AdminNav({toggleSideNav}){
              </div>
             
             <button className="btn d-flex"
-                onClick={(e)=>{e.stopPropagation();}}
+                onMouseOver={()=>setIsDisplayingNotifications(true)}
+                onClick={(e)=>{
+                    e.stopPropagation();
+                    handleNotificationClick();
+                }}
                 >
                 <FontAwesomeIcon icon={faBell} className="admin-nav-icon"/>
             </button>
+        </div>
+
+        <div className={`bg-light ${!isDisplayingNotifications ? 'd-none':''} d-flex justify-content-center  rounded p-3 overflow-scroll`}
+            style={{position:"absolute", top:"55px", right:"40px",zIndex:"2000", width:"350px", height:"70vh"}}>
+            
+            {
+                isFetchingNotifications
+                ?<div className="d-flex w-100 h-100 align-items-center">
+                    <div className="spinner-border text-info ">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+                :<div className="mt-2">
+                    <h5>Notifications</h5>
+                    {
+                        notifications.map((notification)=>{
+                            return <div className="mb-3 mt-3">
+                                        <p className="fw-lighter">{decodeString(notification.notificationMessage)}</p>
+                                        <span style={{fontWeight:"100", fontSize:"13px", color:"grey"}}> {formatDateTime(notification.createdAt)}</span>
+                                        <hr/>
+                                    </div>
+                        })
+                    }
+                </div>
+            }
+            
+
         </div>
         
     </div>

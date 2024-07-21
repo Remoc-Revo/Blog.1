@@ -1,20 +1,16 @@
-const {queryDb} = require('../global')
-
-
-
+const createPool=require('../config/dbConnection')
+const pool = createPool();
 
 exports.getAdminNotifications = async(req,res)=>{
+   pool.query(`
+         SELECT * FROM NOTIFICATION 
+         WHERE DATE(createdAt) >= CURDATE() - INTERVAL 7 DAY
+      `,(err,result)=>{
+         if(err) console.log("Error fetching notifications ", err);
 
-   const comments = await queryDb(`SELECT c.comment,
-                       c.dateAdded,
-                       u.userName,
-                       p.photoUrl as commenterProfilePhoto,
-                       a.articleHeadline
-                FROM COMMENT c
-                JOIN USER u ON u.userId = c.userId
-                JOIN ARTICLE a on a.articleId = c.articleId
-                LEFT JOIN USERPHOTO p ON p.userId = c.userId
-                WHERE c.parentCommentId is NULL 
-                ORDER BY c.dateAdded DESC
-                `)
+         if(result){
+            return res.status(200).json({notifications: result});
+         }
+      })
+   
 }
