@@ -96,7 +96,7 @@ export default function AdminPanel(){
                     }
                     
 
-                    <div className="position-absolute col-12 col-lg-9 d-flex justify-content-center" id="adminPanelMainContent"
+                    <div className="position-absolute col-12 col-lg-9 col-xl-10 d-flex justify-content-center" id="adminPanelMainContent"
                         style={{top:"60px"}}
                     >
                         

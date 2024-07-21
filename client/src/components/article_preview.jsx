@@ -197,7 +197,7 @@ export function AdminPostPreview({articleSection,headline,time,briefDescription,
                 onClick={handleClick}>
                 
                 <div  className=" col-md-9">
-                    <h5 className="articleHeadline">{headline}</h5>
+                    <h6 className="articleHeadline">{headline}</h6>
                     <div className="row ">
                         <div className="col-auto">
                             <h6 className="text-secondary m-0">{articleSection}</h6>
