@@ -27,3 +27,27 @@ exports.subscribe = (req,res)=>{
     }
 
 }
+
+
+exports.getSubscribers = (req,res)=>{
+
+    pool.query(`SELECT s.*,
+                       u.userName,
+                       u.userId,
+                       u.userLevel,
+                       p.photoUrl as subscriberPhoto
+                       FROM SUBSCRIBER s
+                       LEFT JOIN USER u on u.userEmail = s.subscriberEmail
+                       LEFT JOIN USERPHOTO p on u.userId = p.userId
+                       `,
+        (err,result)=>{
+            if(err) console.log(err);
+
+            if(result){
+                console.log("subscribers: ",result);
+
+                return res.status(200).json({subscribers:result});s
+            }
+        }       
+        )
+}

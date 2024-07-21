@@ -62,32 +62,32 @@ export default function ArticlesUpdating(){
         }
     )
 
-    useEffect(()=>{
-        const autoSaveToServer = ()=>{
-            if(!isEditorStateEmpty(editorState) 
-                && articleHeadline !== '' 
-                && user !== 'unauthorized')
-            { 
-                console.log("Saviing draft again..", new Date().getSeconds())
-                handleSubmit();
+    // useEffect(()=>{
+    //     const autoSaveToServer = ()=>{
+    //         if(!isEditorStateEmpty(editorState) 
+    //             && articleHeadline !== '' 
+    //             && user !== 'unauthorized')
+    //         { 
+    //             console.log("Saviing draft again..", new Date().getSeconds())
+    //             handleSubmit();
 
-                const rawContentState = convertToRaw(editorState.getCurrentContent())
-                const serializedContent = JSON.stringify(rawContentState);
-                setArticleToUpdate({
-                    ...articleToUpdate,
-                    articleBody: serializedContent,
-                    articleHeadline: articleHeadline,
-                    articleSectionId: articleSectionId
-                });
+    //             const rawContentState = convertToRaw(editorState.getCurrentContent())
+    //             const serializedContent = JSON.stringify(rawContentState);
+    //             setArticleToUpdate({
+    //                 ...articleToUpdate,
+    //                 articleBody: serializedContent,
+    //                 articleHeadline: articleHeadline,
+    //                 articleSectionId: articleSectionId
+    //             });
 
-                console.log("The article to update some time in future:", articleToUpdate)
-            }
-        }
+    //             console.log("The article to update some time in future:", articleToUpdate)
+    //         }
+    //     }
 
-        const intervalId = setInterval(autoSaveToServer, 10000);
+    //     const intervalId = setInterval(autoSaveToServer, 10000);
 
-        return  ()=> clearInterval(intervalId);
-    })
+    //     return  ()=> clearInterval(intervalId);
+    // })
 
     useEffect(()=>{
         function handleWindowResize(){
@@ -342,7 +342,6 @@ export default function ArticlesUpdating(){
             .then((response)=>{
             if(response && response.status===200){
                 setAwaitingResponse(false);
-                fetchArticleToUpdate();
             }
             })
             .catch((err)=>{

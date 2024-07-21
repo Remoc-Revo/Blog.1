@@ -6,17 +6,17 @@ import api from "../config/api";
 import moment from "moment";
 
 export default function AdminSubscribersDisplay(){
-    const [allUsers, setAllUsers] = useState([]);
-    const [displayedUsers, setDisplayedUsers] = useState([])
+    const [allSubscribers, setAllSubscribers] = useState([]);
+    const [displayedSubscribers, setDisplayedSubscribers] = useState([])
     const [searchedText, setSearchedText] = useState('');
     const [isSearchInputActive, setIsSearchInputActive] = useState(false);
 
     useEffect(()=>{
-        api.get('/users',)
+        api.get('/getSubscribers',)
             .then((response)=>{
-                console.log("fetched users",response.data.users);
-                setAllUsers(response.data.users)
-                setDisplayedUsers(response.data.users)
+                console.log("fetched subscribers",response.data.subscribers);
+                setAllSubscribers(response.data.subscribers)
+                setDisplayedSubscribers(response.data.subscribers)
             })
             .catch((e)=>{
                 console.log("Error fetching users: ",e);
@@ -28,28 +28,26 @@ export default function AdminSubscribersDisplay(){
         const text = e.target.value.toLowerCase();
         setSearchedText(text);     
 
-        const filteredUsers = allUsers.filter(
-            user => 
+        const filteredSubscribers = allSubscribers.filter(
+            subscriber => 
                 {
-                    const userName = user.userName.toLowerCase();
-                    const userEmail = user.userEmail.toLowerCase();
+                    const subscriberEmail = subscriber.subscriberEmail.toLowerCase();
                     
-                    if(userName.includes(text) || userEmail.includes(text)){            
-                        return user;
+                    if(subscriberEmail.includes(text)){            
+                        return subscriber;
                     }
 
                     return null;
                  }
         )
 
-        setDisplayedUsers(filteredUsers);
+        setDisplayedSubscribers(filteredSubscribers);
     }
 
 
 
     return <div className="container col-lg-7 col-md-9">
-        <h1>Subscribers on development!!!</h1>
-        <h3 className="mb-5">Subscribers {allUsers.length !== 0 && `(${allUsers.length})`}</h3>
+        <h3 className="mb-5">Subscribers {allSubscribers.length !== 0 && `(${allSubscribers.length})`}</h3>
         <div className="d-flex  mb-4 " id="users-search">
             <div className="col-12 position-relative d-flex justify-content-between border" >                
                 <button className="btn rounded-0">
@@ -65,7 +63,7 @@ export default function AdminSubscribersDisplay(){
                     <input 
                         type="text"
                         className="position-absolute w-100  ps-5 pe-5 start-0 top-0 h-100 border-0"
-                        placeholder=" Search user name or email..."
+                        placeholder=" Search subscriber email..."
                         onClick={()=>{setIsSearchInputActive(true)}}
                         onChange={handleSearch}
                         value={searchedText}
@@ -77,7 +75,7 @@ export default function AdminSubscribersDisplay(){
                         onClick={()=>{
                             setIsSearchInputActive(false);
                             setSearchedText('')
-                            setDisplayedUsers(allUsers);
+                            setDisplayedSubscribers(allSubscribers);
                         }}
                         style={{zIndex:"1"}}>
                         <FontAwesomeIcon icon={faTimes} className="ic-grey"/>
@@ -92,13 +90,13 @@ export default function AdminSubscribersDisplay(){
             <div>
             <table className="w-100 " >
                 {
-                    displayedUsers.map(
-                        user=><tr className="" >
+                    displayedSubscribers.map(
+                        subscriber=><tr className="" >
                             <div className=" d-flex gap-4 ms-4 me-4 pt-2 align-items-start" style={{height:"100px"}}>
                             {
-                                    (user.photoUrl !== null)
+                                    (subscriber.subscriberPhoto !== null)
                                     ?<div style={{width:"70px",height:"70px"}}>                                                                                           
-                                        <img src={user.photoUrl}
+                                        <img src={subscriber.subscriberPhoto}
                                             className="rounded-circle w-100 h-100 object-fit-cover"
                                             alt=""
                                         />
@@ -110,17 +108,20 @@ export default function AdminSubscribersDisplay(){
                                     </div>
                                 }
                                 <div>
-                                    <span className="" style={{fontWeight:"500"}}>{user.userName}</span>
-                                    <span className="d-block" style={{fontWeight:"300"}}>{user.userEmail}</span>
+                                    {   subscriber.userName &&
+                                        <span className="" style={{fontWeight:"500"}}>{subscriber.userName}</span>
+                                    }
+
+                                    <span className="d-block" style={{fontWeight:"300"}}>{subscriber.subscriberEmail}</span>
 
                                     {
-                                        user.userLevel === 0 &&
+                                        subscriber.userLevel !== 1 &&
                                         (<div className="mt-1">
-                                            <span style={{color:"teal"}}>Registered</span>
-                                            <span className="fw-light"> {moment(user.userRegistrationDate).fromNow()}</span>
+                                            <span style={{color:"teal"}}>Subscribed</span>
+                                            <span className="fw-light"> {moment(subscriber.subscriptionDate).fromNow()}</span>
                                         </div>)                                        
                                     }
-                                    {     user.userLevel === 1 &&
+                                    {     subscriber.userLevel === 1 &&
                                         (<div>
                                             <span style={{color:"orange"}}>Admin</span>
                                         </div>)
