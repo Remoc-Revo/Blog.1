@@ -28,7 +28,8 @@ export default function Single(){
     const {user} = useUserContext();
     const [deleting, setDeleting] = useState(false);
     const [likes,setLikes] = useState(null);
-
+    const queryParams = new URLSearchParams(location.search);
+    const scrollToId =  queryParams.get('scrollTo');
 
     async function fetchImage(imgUrl){
         try{
@@ -70,6 +71,19 @@ export default function Single(){
         logVisitor(`/single/${articleId}`);
        },[])
 
+    useEffect(()=>{
+        const timer = setTimeout(()=>{
+            if(scrollToId){
+                const element = document.getElementById(scrollToId);
+                if(element){
+                    element.scrollIntoView({behavior:'smooth'});
+                }
+            }
+        }, 1000)
+
+        return () => clearTimeout(timer)
+        
+    },[scrollToId])
 
     function decodeString(str){
         const htmlString= decodeURIComponent(str)

@@ -335,6 +335,16 @@ p{
     
 }
 
+.no-scrollbar{
+    &::-webkit-scrollbar{
+        display:none;
+    }
+
+    //hide scrollbar for IE, Edge and Firefox
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
 .border-light-grey{
     border: 1px solid lightgrey;
 

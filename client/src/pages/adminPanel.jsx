@@ -85,7 +85,7 @@ export default function AdminPanel(){
 
         {(adminPanelSection.includes("?adminPanel") || adminPanelSection=="")
             ?<div>
-                <AdminNav toggleSideNav = {toggleSideNav}/>
+                <AdminNav toggleSideNav = {toggleSideNav} updateAdminPanelSection={updateAdminPanelSection}/>
                 <div className="d-flex position-relative w-100" style={{height:"100vh"}}>
                     {
                         isSidePanelVisible &&

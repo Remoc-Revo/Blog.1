@@ -39,6 +39,7 @@ exports.getSubscribers = (req,res)=>{
                        FROM SUBSCRIBER s
                        LEFT JOIN USER u on u.userEmail = s.subscriberEmail
                        LEFT JOIN USERPHOTO p on u.userId = p.userId
+                       ORDER BY s.subscriptionDate DESC
                        `,
         (err,result)=>{
             if(err) console.log(err);
