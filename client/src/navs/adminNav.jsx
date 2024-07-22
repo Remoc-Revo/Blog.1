@@ -7,7 +7,7 @@ import api from "../config/api";
 import { decodeString } from "../reusables/global";
 import { formatDateTime } from "../reusables/global";
 
-export default function AdminNav({toggleSideNav}){
+export default function AdminNav({toggleSideNav,updateAdminPanelSection}){
     const navigate = useNavigate();
     const {loading,user} = useUserContext();
     const [userProfilePhoto,setUserProfilePhoto]=useState(null);
@@ -45,11 +45,25 @@ export default function AdminNav({toggleSideNav}){
         navigate('/articlePosting/null');
     }
 
-    function handleNotificationClick(){
+    function handleNotificationBtnClick(){
         setIsDisplayingNotifications(!isDisplayingNotifications);
     }
 
-    
+    function handleNotificationClick(notification){
+        console.log("notification type: ",notification.notificationType)
+        if(notification.notificationType === 'subscription'){
+            updateAdminPanelSection("?adminPanel=subscribers");
+            navigate("/?adminPanel=subscribers");
+            setIsDisplayingNotifications(false);
+        }
+        else if(notification.notificationType === 'comment'){
+            const articleId = notification.articleId;
+            const commentId = notification.relatedId;
+            navigate(`/sngl/${articleId}?scrollTo=comment${commentId}`);
+            setIsDisplayingNotifications(false);
+        }
+        
+    }
 
 
     return <div className="bg-black d-flex justify-content-between m-0  p-1 ps-3 pe-4  top-0 w-100 position-fixed" 
@@ -83,30 +97,29 @@ export default function AdminNav({toggleSideNav}){
                 onMouseOver={()=>setIsDisplayingNotifications(true)}
                 onClick={(e)=>{
                     e.stopPropagation();
-                    handleNotificationClick();
+                    handleNotificationBtnClick();
                 }}
                 >
                 <FontAwesomeIcon icon={faBell} className="admin-nav-icon"/>
             </button>
         </div>
 
-        <div className={`bg-light ${!isDisplayingNotifications ? 'd-none':''} d-flex justify-content-center  rounded p-3 `}
+        <div className={`bg-light ${!isDisplayingNotifications ? 'd-none':''} d-flex  flex-column align-items-center  rounded p-3 `}
             style={{position:"absolute", top:"55px", right:"40px",zIndex:"2000"}}
             onMouseLeave={()=>setIsDisplayingNotifications(false)}>
-            
+             <h5>{`Notifications (${notifications.length})`}</h5>
             {
                 isFetchingNotifications
-                ?<div className="d-flex w-100 h-100 align-items-center">
+                ?<div className="d-flex align-items-center justify-content-center" style={{width:"350px", height:"70vh"}}>
                     <div className="spinner-border text-info ">
                         <span className="sr-only">Loading...</span>
                     </div>
                 </div>
-                :<div className="mt-2 " >
-                    <h5>Notifications</h5>
-                    <div className="overflow-scroll" style={{width:"350px", height:"70vh"}}>
+                :<div className="mt-2 " >                   
+                    <div className="overflow-scroll no-scrollbar" style={{width:"350px", height:"70vh"}}>
                         {
                             notifications.map((notification)=>{
-                                return <div className="mb-3 mt-3">
+                                return <div className="mb-3 mt-3" onClick={()=>{handleNotificationClick(notification)}}>
                                             <p className="fw-lighter">{decodeString(notification.notificationMessage)}</p>
                                             <span style={{fontWeight:"100", fontSize:"13px", color:"grey"}}> {formatDateTime(notification.createdAt)}</span>
                                             <hr/>

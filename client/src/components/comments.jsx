@@ -237,7 +237,9 @@ function Comment({
     
 
     return(
-        <div className={`pt-2 d-flex gap-3 ${(comment.parentCommentId === null) ? 'border-bottom':''}`}>
+        <div className={`pt-2 d-flex gap-3 ${(comment.parentCommentId === null) ? 'border-bottom':''}`}
+            id={`comment${comment.commentId}`}
+            >
             <div>
                 {
                     (comment.commenterProfilePhoto !== null)
