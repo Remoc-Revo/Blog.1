@@ -59,7 +59,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
    useEffect(()=>{
     function handlePopstate(){
         console.log('new reader location:',window.location.search, typeof updateAdminPanelSection)
-        if(typeof updateAdminPanelSection !== undefined){
+        if(typeof updateAdminPanelSection !== 'undefined'){
             updateAdminPanelSection(window.location.search);
 
         }
@@ -132,7 +132,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
     },[lastArticleRef,fetchArticles,fullyLoaded,options])
     
     return(
-        <div className="">
+        <div id="readers-home">
             
             <div className="">
                 <MainNav/>
@@ -146,9 +146,11 @@ export default  function ReadersHome({updateAdminPanelSection}){
                         <a href={`/sngl/${articles[0].articleId}`} style={{textDecoration:"none",color:"black"}} className="">
 
                             
-                            <div className="rounded"  style={{width:"100%", height:"450px",overflow:"hidden"}}  > 
+                            <div className="rounded"  
+                                id="latest-article-image-container"
+                                 > 
                                 <img src={getFirstImage(articles[0].articleBody)} alt=""   
-                                    className=" object-fit-cover"
+                                    className=" object-fit-cover" 
                                     style={{display:"block",width:"100%",height:"100%"}} 
                                     >                            
                                 </img>
