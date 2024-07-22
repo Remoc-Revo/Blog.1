@@ -96,7 +96,7 @@ export default function MainNav(){
     return(
       
       <div className={`${(windowWidth>=1200)?'container':''} `}>
-        <Navbar className="d-flex justify-content-between gap-xl-5 ps-xl-0 pe-xl-0 ps-md-5 pe-md-5 ps-3 pe-3 "   id='main-nav' expand={(windowWidth>=1200)?true:false}>
+        <Navbar className="d-flex justify-content-between gap-xl-5 "   id='main-nav' expand={(windowWidth>=1200)?true:false}>
           <Navbar.Brand  href="#home" id="nav-brand" className=" me-auto ">
             <img src={require("../logos/logo.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
           </Navbar.Brand>
@@ -138,7 +138,7 @@ export default function MainNav(){
           
           <Navbar.Toggle as={customToggle} aria-controls="basic-navbar-nav" className="order-xl-1 me-2 ms-2"/>
           <Navbar.Collapse id="basic-navbar-nav" className="">
-            <Nav className="container-xl gap-1 ps-md-5 ps-2" id="page-links" style={{}}>
+            <Nav className="container-xl gap-1 ps-md-5 ps-4" id="page-links" style={{}}>
               {
                 (sections.length !== 0)
                   ?sections.map((section,index)=>{
