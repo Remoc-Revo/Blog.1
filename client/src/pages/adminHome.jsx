@@ -14,6 +14,7 @@ export default function AdminHome(){
     const [latestPosts, setLatestPosts] = useState([]);
     const [latestDrafts,setLatestDrafts] = useState([]);
     const [latestComments, setLatestComments] = useState([]);
+    const [draftRecoveredFromLocalStorage, setDraftRecoveredFromLocalStorage] = useState(null);
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -32,7 +33,80 @@ export default function AdminHome(){
         fetchAdminHomeData();
     },[])
 
+    //retrieve unsaved draft from local storage
+    useEffect(()=>{
+        let storedDraft = localStorage.getItem('draft');
+        if(storedDraft !== null){
+            console.log("the recovered draft",storedDraft)
+            storedDraft = JSON.parse(storedDraft);
+
+            let storedArticleBody  = JSON.parse(storedDraft.articleBody);
+
+            console.log("the recovered object",storedArticleBody)
+
+            const blocks = storedArticleBody.blocks;
+            let firstBlockWithText = null;
+
+            for(let block of blocks){
+                if(block.text && block.text.trim().length > 0){
+                    firstBlockWithText = block.text;
+                    break;
+                }
+            }
+            setDraftRecoveredFromLocalStorage({
+                ...storedDraft,
+                excerpt: firstBlockWithText
+            });
+
+            console.log("found text: ", firstBlockWithText)
+        }
+    },[])
+
+    const discardRecoveredDraft = ()=>{
+        localStorage.removeItem('draft');
+        setDraftRecoveredFromLocalStorage(null);
+    }
+
     return <div className="container col-lg-10 ">
+        {
+            draftRecoveredFromLocalStorage !== null
+            &&<div className="container-md  mb-5 mt-3" >
+                <h2>Recovered draft</h2>
+                <div className="col-12 d-flex flex-column justify-content-between border rounded p-3 " 
+                    >
+                    {
+                        draftRecoveredFromLocalStorage.articleHeadline !== null
+                        && 
+                        <h6>{draftRecoveredFromLocalStorage.articleHeadline}</h6>
+                        
+                    }
+                    
+                    <div className="overflow-hidden mb-2" style={{height:"120px"}}>
+                        {
+                            draftRecoveredFromLocalStorage.excerpt !== null
+                            && 
+                            <p>{draftRecoveredFromLocalStorage.excerpt}</p>
+                            
+                        }
+                    </div>
+
+                    <div className="d-flex justify-content-between">
+                        <button className="btn btn-danger"
+                            onClick={discardRecoveredDraft}
+                            >
+                            Discard
+                        </button>
+                        <button className="btn btn-light"
+                            onClick={()=>navigate('/articlePosting/null?recover=true')}
+                            >
+                            Recover
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        }
+        
         <div className="container-md  mb-5">
             <h2>Latest Drafts</h2>
             <div className="row ">                            
