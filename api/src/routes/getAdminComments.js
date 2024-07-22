@@ -7,6 +7,8 @@ exports.getAdminComments = async (req,res) =>{
         const comments = await queryDb(`
                 SELECT c.comment,
                        c.dateAdded,
+                       c.commentId,
+                       c.articleId,
                        u.userName,
                        p.photoUrl as commenterProfilePhoto,
                        a.articleHeadline
