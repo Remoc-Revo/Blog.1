@@ -92,7 +92,8 @@ export default function AdminHome(){
                 :<div>
                     {
                         latestComments.map((comment)=>{
-                            return <div className={`pt-2 d-flex gap-3 border-bottom`}>
+                            return <div className={`pt-2 d-flex gap-3 border-bottom`}
+                                 onClick={()=>navigate(`/sngl/${comment.articleId}?scrollTo=comment${comment.commentId}`)}>
                             <div>
                                 {
                                     (comment.commenterProfilePhoto !== null)

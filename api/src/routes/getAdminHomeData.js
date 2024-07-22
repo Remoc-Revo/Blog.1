@@ -28,6 +28,8 @@ exports.getAdminHomeData = async (req,res) =>{
 
         const latestComments = await queryDb(`
                 SELECT c.comment,
+                       c.commentId,
+                       c.articleId,
                        c.dateAdded,
                        u.userName,
                        p.photoUrl as commenterProfilePhoto,
