@@ -21,7 +21,7 @@ export default function AdminNav({toggleSideNav}){
             setUserProfilePhoto(user.userProfilePhoto);
           }
     
-    })
+    },[])
 
     useEffect(()=>{
         function fetchNotifications(){
@@ -70,7 +70,6 @@ export default function AdminNav({toggleSideNav}){
                       className="d-flex justify-content-center align-items-center rounded-circle overflow-hidden"
                       onClick={(e)=>{e.stopPropagation(); navigate('/profile')}}
                       >
-
                       
                         {
                         (userProfilePhoto!==null)
@@ -91,8 +90,9 @@ export default function AdminNav({toggleSideNav}){
             </button>
         </div>
 
-        <div className={`bg-light ${!isDisplayingNotifications ? 'd-none':''} d-flex justify-content-center  rounded p-3 overflow-scroll`}
-            style={{position:"absolute", top:"55px", right:"40px",zIndex:"2000", width:"350px", height:"70vh"}}>
+        <div className={`bg-light ${!isDisplayingNotifications ? 'd-none':''} d-flex justify-content-center  rounded p-3 `}
+            style={{position:"absolute", top:"55px", right:"40px",zIndex:"2000"}}
+            onMouseLeave={()=>setIsDisplayingNotifications(false)}>
             
             {
                 isFetchingNotifications
@@ -101,17 +101,19 @@ export default function AdminNav({toggleSideNav}){
                         <span className="sr-only">Loading...</span>
                     </div>
                 </div>
-                :<div className="mt-2">
+                :<div className="mt-2 " >
                     <h5>Notifications</h5>
-                    {
-                        notifications.map((notification)=>{
-                            return <div className="mb-3 mt-3">
-                                        <p className="fw-lighter">{decodeString(notification.notificationMessage)}</p>
-                                        <span style={{fontWeight:"100", fontSize:"13px", color:"grey"}}> {formatDateTime(notification.createdAt)}</span>
-                                        <hr/>
-                                    </div>
-                        })
-                    }
+                    <div className="overflow-scroll" style={{width:"350px", height:"70vh"}}>
+                        {
+                            notifications.map((notification)=>{
+                                return <div className="mb-3 mt-3">
+                                            <p className="fw-lighter">{decodeString(notification.notificationMessage)}</p>
+                                            <span style={{fontWeight:"100", fontSize:"13px", color:"grey"}}> {formatDateTime(notification.createdAt)}</span>
+                                            <hr/>
+                                        </div>
+                            })
+                        }
+                    </div>
                 </div>
             }
             
