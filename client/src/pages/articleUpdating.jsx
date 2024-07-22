@@ -1,5 +1,5 @@
 import React,{useState,useEffect, useCallback} from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { EditorState, convertToRaw,convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -31,7 +31,9 @@ export default function ArticlesUpdating(){
     const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
     const [isAutoSaving, setIsAutoSaving] = useState(true);
     const [userProfilePhoto, setUserProfilePhoto] = useState(null);
-
+    const queryParams = new URLSearchParams(useLocation().search);
+    const isRecoverDraft = queryParams.get('recover');
+    
     function  fetchArticleToUpdate() {
         api.get(`/single/${articleIdToUpdate}`)
              .then((response)=>{
@@ -64,6 +66,8 @@ export default function ArticlesUpdating(){
         }
     )
 
+
+
     // useEffect(()=>{
     //     const autoSaveToServer = ()=>{
     //         if(!isEditorStateEmpty(editorState) 
@@ -90,6 +94,40 @@ export default function ArticlesUpdating(){
 
     //     return  ()=> clearInterval(intervalId);
     // })
+
+
+
+    // auto saving to local storage
+    useEffect(()=>{
+        const autoSaveToLocalStorage = ()=>{
+            console.log("Saving to local storage",new Date().getSeconds(), articleHeadline)
+            const rawContentState = convertToRaw(editorState.getCurrentContent())
+            const serializedContent = JSON.stringify(rawContentState);  
+            let draft  =  {
+                articleHeadline: articleHeadline,
+                articleBody: serializedContent
+            };
+            draft = JSON.stringify(draft);
+            localStorage.setItem('draft',draft );
+        }
+
+        const intervalId = setInterval(autoSaveToLocalStorage, 100);
+
+        return ()=> clearInterval(intervalId);
+    },[articleHeadline,editorState])
+
+    //recover draft from storage
+    useEffect(()=>{
+        if(isRecoverDraft && isRecoverDraft == 'true'){
+            let storedDraft = localStorage.getItem('draft');
+            storedDraft = JSON.parse(storedDraft);
+            let storedArticleBody  = JSON.parse(storedDraft.articleBody);
+            const articleBodyContentState = convertFromRaw(storedArticleBody);
+            const bodyWithResizedImages = resizeImages(articleBodyContentState);
+            setEditorState(EditorState.createWithContent(bodyWithResizedImages));
+            setArticleHeadline(storedDraft.articleHeadline);
+        }
+    },[])
 
     useEffect(()=>{
         function handleWindowResize(){
@@ -300,6 +338,7 @@ export default function ArticlesUpdating(){
                 const articleId = response.data.articleId;
                 setAwaitingResponse(false);
                 navigate(`/articlePosting/${articleId}`,{replace:true});
+                localStorage.removeItem('draft');
             }
             })
             .catch((err)=>{
@@ -334,11 +373,11 @@ export default function ArticlesUpdating(){
                 },
                 )
             .then((response)=>{
-            if(response && response.status===200){
-                setAwaitingResponse(false);
-
-                if(!isAutoSaving)fetchArticleToUpdate();
-            }
+                if(response && response.status===200){
+                    setAwaitingResponse(false);
+                    localStorage.removeItem('draft');
+                    if(!isAutoSaving)fetchArticleToUpdate();
+                }
             })
             .catch((err)=>{
             console.log(err)
