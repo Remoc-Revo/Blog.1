@@ -32,7 +32,7 @@ export default function getFirstImage(stringifiedContentState){
 }
 
 
-function transformImage(imgUrl){
+export function transformImage(imgUrl){
     const baseUrlPattern = /^(https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/)(.*)$/;
     const match = imgUrl.match(baseUrlPattern);
 

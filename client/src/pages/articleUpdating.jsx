@@ -8,6 +8,7 @@ import api from "../config/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser,faBarsStaggered, faBell, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { Modal } from "react-bootstrap";
+import { transformImage } from "../reusables/getImage";
 
 export default function ArticlesUpdating(){
     const navigate=useNavigate();
@@ -20,7 +21,7 @@ export default function ArticlesUpdating(){
     let {articleIdToUpdate} = useParams();
     const [articleToUpdate,setArticleToUpdate] = useState(null);
     const [awaitingResponse, setAwaitingResponse] = useState(false);
-    const [isDraft, setIsdraft] = useState(true);
+    const [isDraft, setIsdraft] = useState();
     const [articleSections, setArticleSections]= useState([]);
     const [isAddingNewCategory,setIsAddingNewCategory] = useState(false);
     const [newCategory, setNewCategory] = useState("");
@@ -29,6 +30,7 @@ export default function ArticlesUpdating(){
     const [windowWidth,setWindowWidth]=useState(window.innerWidth)
     const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
     const [isAutoSaving, setIsAutoSaving] = useState(true);
+    const [userProfilePhoto, setUserProfilePhoto] = useState(null);
 
     function  fetchArticleToUpdate() {
         api.get(`/single/${articleIdToUpdate}`)
@@ -69,7 +71,7 @@ export default function ArticlesUpdating(){
     //             && user !== 'unauthorized')
     //         { 
     //             console.log("Saviing draft again..", new Date().getSeconds())
-    //             handleSubmit();
+    //             handleSubmit(null, true);
 
     //             const rawContentState = convertToRaw(editorState.getCurrentContent())
     //             const serializedContent = JSON.stringify(rawContentState);
@@ -157,15 +159,19 @@ export default function ArticlesUpdating(){
                 console.log("user current state: ",user);
                 navigate('/login')
             }
+            
+            setUserProfilePhoto(user.userProfilePhoto);
             fetchSections();
 
         }
 
         
     },[loading,navigate,user,articleToUpdate, articleToUpdateLoaded,fetchSections])
-   
+    
 
     async function uploadImageToCloud(imageSrc){
+        console.log("uplading to cloud called");
+
         if(imageSrc===null){
             return null;
         }
@@ -267,7 +273,7 @@ export default function ArticlesUpdating(){
         return updatedContentState;
     }
 
-    async function addArticle(articleBody){
+    async function addArticle(articleBody,submitAsDraft){
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
         console.log(articleBody,"\n",articleHeadline,"\n",articleSectionId,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
         
@@ -286,7 +292,7 @@ export default function ArticlesUpdating(){
                     articleBody:articleBody,//encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
                     withCredentials:true,
                     img:imgUrl,
-                    isDraft: isDraft
+                    isDraft: submitAsDraft
                 },
                 )
             .then((response)=>{
@@ -306,23 +312,11 @@ export default function ArticlesUpdating(){
            
     }
 
-    async function updateArticle(articleBody){
+    async function updateArticle(articleBody,submitAsDraft){
         let imgUrl= null;
         let prevImg;
 
-       
-
-        // //if a new image has been uploaded
-        // if(articlePhoto !== articleToUpdate.multimediaUrl){
-            
-        //     imgUrl = await uploadImageToCloud();
-        //     prevImg = articleToUpdate.multimediaUrl
-
-        // }
-        // //the image is unchanged
-        // else{
-        //     imgUrl = articleToUpdate.multimediaUrl;
-        // }
+    
         console.log("editor state",editorState)
         //for test
        if(articlePhotos.length>0) imgUrl=  articlePhotos[0];
@@ -336,12 +330,14 @@ export default function ArticlesUpdating(){
                     withCredentials:true,
                     img:imgUrl,
                     prevImg : prevImg,
-                    isDraft:isDraft
+                    isDraft:submitAsDraft
                 },
                 )
             .then((response)=>{
             if(response && response.status===200){
                 setAwaitingResponse(false);
+
+                if(!isAutoSaving)fetchArticleToUpdate();
             }
             })
             .catch((err)=>{
@@ -354,9 +350,16 @@ export default function ArticlesUpdating(){
         
     }
 
-    async function handleSubmit(e){
-        if(e) e.preventDefault();
+    /*
+        function handleSubmit : extract images, call image upload, call update or add article
 
+        params: e - submit Event
+                submitAsDraft              
+
+    */
+    async function handleSubmit(e, submitAsDraft){
+        if(e) e.preventDefault();
+        
 
         // Extract images from editor content
         const contentState = editorState.getCurrentContent();
@@ -385,8 +388,10 @@ export default function ArticlesUpdating(){
                 //upload image  
                 const imageUrl = await uploadImageToCloud(imageSrc);
 
+                const tranformedImageUrl = transformImage(imageUrl);
+
                 // Replace image in content with the uploaded URL
-                const newContentState = replaceImageInContent(contentState, imageSrc, imageUrl);
+                const newContentState = replaceImageInContent(contentState, imageSrc, tranformedImageUrl);
                 setEditorState(EditorState.createWithContent(newContentState));
 
                 return imageUrl;
@@ -405,13 +410,14 @@ export default function ArticlesUpdating(){
         console.log("Article body: ",serializedContent);
 
         if(articleToUpdate == null){
-             addArticle(serializedContent);
+             addArticle(serializedContent,submitAsDraft);
         }
         else{
-            updateArticle(serializedContent);
+            updateArticle(serializedContent,submitAsDraft);
         }
     }
     
+   
     async function addNewSection(){
         if(newCategory!==""){
             await api.post('/addSection',{sectionName: newCategory})
@@ -442,23 +448,19 @@ export default function ArticlesUpdating(){
                     >
                         {/* <FontAwesomeIcon icon={faPenFancy} className="admin-nav-icon"/> */}
                     </a>
-                    <button className="btn btn-light  rounded-circle d-flex align-items-center justify-content-center" 
-                        noCaret onClick={()=>{navigate('/profile')}}
-                        style={{width:"25px",height:"24px"}}
-                        
-                        >
+                    <div style={{backgroundColor:'lightgrey', width:"24px",height:"24px"}}
+                      className="d-flex justify-content-center align-items-center rounded-circle overflow-hidden"
+                      onClick={(e)=>{e.stopPropagation(); navigate('/profile')}}
+                      >
+                      
                         {
-                        // (profileImg!==undefined)
-                        //     ?<img src={require(`../../public/uploads/${profileImg}`)} style={{width:"40px"}}/>
-                        //     :userName[0]
-                        <FontAwesomeIcon icon={faUser} />
+                        (userProfilePhoto!==null)
+                            ?<img src={userProfilePhoto} className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
+                            :<FontAwesomeIcon icon={faUser} className="ic-white w-100 h-100 pt-2"/>
 
                         }
-                    </button>
-                    <button className="btn d-flex">
-                        <FontAwesomeIcon icon={faBell} className="admin-nav-icon"/>
-                    </button>
-
+                    </div>
+                    
                     <button className="btn d-flex" 
                         onClick={()=>{setIsSidePanelVisible(!isSidePanelVisible)}}
                         >
@@ -471,7 +473,7 @@ export default function ArticlesUpdating(){
             
             <div id ="article-update">
                 <form  onSubmit={handleSubmit} 
-                    enctype="multipart/form-data" 
+                    encType="multipart/form-data" 
                     className="mb-5 " 
                     id = "article-form">
 
@@ -484,7 +486,7 @@ export default function ArticlesUpdating(){
                             <div className="d-flex mt-3 mt-sm-0">
                                 <input type="text"  name="articleHeadline" className="w-100 border-0" 
                                     id = "title-input"
-                                    placeholder="Add title..."  minlength="2"  required value={articleHeadline}
+                                    placeholder="Add title..."  minLength="2"  required value={articleHeadline}
                                     onChange={(e)=>setArticleHeadline(e.target.value)}
                                 />
                             </div>
@@ -545,40 +547,45 @@ export default function ArticlesUpdating(){
                         
                         
                             <div className="d-flex gap-2  align-items-center justify-content-between mt-1" >
-                                <div className="" id="save-draft"> 
-                                    {(awaitingResponse && isDraft )
-                                        ?<div className="spinner-border text-info">
-                                            <span className="sr-only">Loading...</span>
-                                        </div>
-                                        
-                                        :<button className="btn border" type="submit"
-                                            onClick={(e)=>{
-                                                setIsdraft(true);
-                                                setAwaitingResponse(true);
-                                                // document.getElementById("article-form").submit()
-                                                }} >
-                                            <span>Save as a draft</span>
-                                        </button>
-                                    }
-                                </div>
-
-                                <div className="">
-                                {(awaitingResponse && !isDraft )
+                                {(awaitingResponse && isDraft )
                                     ?<div className="spinner-border text-info">
                                         <span className="sr-only">Loading...</span>
                                     </div>
                                     
-                                    :<button className="btn btn-light col" 
+                                    :<div className="col-8" id="save-draft"> 
+                                        <button className="btn border" type="submit"
+                                            onClick={(e)=>{
+                                                setIsdraft(true);
+                                                setAwaitingResponse(true);
+                                                setIsAutoSaving(false);
+                                                handleSubmit(e, true);
+                                                }} >
+                                            <span>Save as a draft</span>
+                                        </button>
+                                    
+                                    </div>
+                                }
+
+                                <div className="">
+                                {(awaitingResponse && !isDraft )
+                                    ?<div className="spinner-border text-info col-12">
+                                        <span className="sr-only">Loading...</span>
+                                    </div>
+                                    
+                                    :<button className="btn btn-light col-12" 
                                         id = "publish-btn"
                                         type="submit" 
                                         onClick={(e)=>{
                                             setIsdraft(false);
                                             setAwaitingResponse(true);
+                                            setIsAutoSaving(false);
+                                            handleSubmit(e, false);
                                         }}
-                                    >
+                                    >                                       
                                         Publish
-                                        </button>
-                                } 
+                                    </button>
+                                }
+                                
                                 </div>
                             </div>
                         </div>
