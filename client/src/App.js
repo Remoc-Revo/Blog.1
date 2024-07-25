@@ -16,6 +16,7 @@ import ArticlesUpdating from './pages/articleUpdating';
 import Register from './pages/register';
 import Single from './pages/single';
 import Profile from './pages/profile';
+import ResetPassword from './pages/resetPassword';
 import { UserProvider } from './userContext';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <Route path='/register' element={<Register/>}/>
             <Route path='/sngl/:id' element={<Single/>}/>
             <Route path='/profile' element={<Profile/>}/>
+            <Route path='/resetPassword' element={<ResetPassword/>}/>
           </Routes>
         </UserProvider>
         

@@ -4,7 +4,7 @@ var {body}=require('express-validator');
 const jwt=require('jsonwebtoken');
 const { addArticle } = require('./addArticle');
 const {updateArticle} = require('./updateArticle');
-const {register,login,updateUser,user,getUsers}=require('./users')
+const {register,login,updateUser,user,getUsers,requestPasswordReset}=require('./users')
 const multer=require('multer')
 const {article,single,related}=require('./getArticles')
 const createPool=require('../config/dbConnection')
@@ -181,5 +181,7 @@ router.post('/subscribe',subscribe);
 router.get('/getSubscribers',getSubscribers);
 
 router.get('/getAdminNotifications',getAdminNotifications);
+
+router.post('/requestPasswordReset',requestPasswordReset);
 
 module.exports = router;
