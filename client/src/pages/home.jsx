@@ -5,7 +5,6 @@ import AdminPanel from "./adminPanel";
 
 export default  function Home(){
     var [userLevel,set_userLevel]=useState(null);
-    var [userName,set_userName]=useState();   
     const {loading,user} = useUserContext();
 
 
@@ -15,7 +14,6 @@ export default  function Home(){
         if(!loading && user != null){
             console.log("user context!!!!",user);
             set_userLevel(user.userLevel);
-            set_userName(user.userName);
           } 
         else{
             set_userLevel(0);

@@ -1,17 +1,17 @@
 import React,{useState} from "react";
-import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../userContext";
+// import { useNavigate } from "react-router-dom";
+// import { useUserContext } from "../userContext";
 import api from "../config/api";
 
 
 export default function ResetPassword(){
-    const navigate=useNavigate();
+    // const navigate=useNavigate();
     const [email,set_email]=useState();
     const [oldPassword,setOldPassword]=useState();
     const [newPassword,setNewPassword]=useState();
     const [errorMessage,set_errorMessage]=useState();
     const [allowPasswordReset, setAllowPasswordReset] = useState(false);
-    const {user,contextLogin} = useUserContext();
+    // const {user,contextLogin} = useUserContext();
 
     function requestPasswordReset(e){
         e.preventDefault();
@@ -24,7 +24,7 @@ export default function ResetPassword(){
             })
             .then((response)=>{
                 if(response && response.status===200){
-                   
+                   setAllowPasswordReset(true)
                 }
             })
             .catch((err)=>{

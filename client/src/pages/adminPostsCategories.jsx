@@ -1,6 +1,6 @@
 import React,{useCallback, useEffect,useRef,useState} from "react";
 import api from "../config/api";
-import { decodeString,updateHistory } from "../reusables/global";
+import { decodeString} from "../reusables/global";
 import { faSearch,faTimes,faFolder,faEllipsisH, faEllipsisV,faPen, faTrash,faEye } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Modal} from 'react-bootstrap';

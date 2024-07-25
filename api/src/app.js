@@ -119,7 +119,7 @@ app.get('/oi', async(req,res)=>{
 
 // module.exports=app;
 
-const port = process.env.PORT || 9000
+const port = process.env.PORT
 
 app.listen(port,'0.0.0.0',()=>{console.log("again and again...")})
 

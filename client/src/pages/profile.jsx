@@ -1,7 +1,5 @@
 import React,{useState,useEffect, useCallback} from "react";
 import api from "../config/api";
-import MainNav from "../navs/mainNav";
-// import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser,faCloudArrowUp, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +8,7 @@ import { uploadImageToCloud } from "../reusables/global";
 
 export default function Profile(){
     var [userName,set_userName]=useState();
-    var [userId,set_userId]=useState();
+    // var [userId,set_userId]=useState();
     var [email,set_email]=useState();
     var [error,set_error]=useState();
     const [profilePhotoChanged, setProfilePhotoChanged] = useState(false);
@@ -37,7 +35,7 @@ export default function Profile(){
                 setUserFirstName(response.data.userFirstName);
                 setUserLastName(response.data.userLastName);
                 setUserDescription(response.data.userDescription);
-                set_userId(response.data.userId)
+                // set_userId(response.data.userId)
                 setProfilePhoto(response.data.userProfilePhoto);
              })
              .catch((err)=>{

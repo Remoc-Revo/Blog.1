@@ -6,7 +6,6 @@ import moment from "moment";
 import parse from "html-react-parser"
 import Footer from "../components/footer";
 import Related from "../components/more";
-import GetImage from "../reusables/getImage";
 import { useUserContext } from "../userContext";
 import Delete from "../img/delete.png";
 import Edit from "../img/edit.png";
@@ -16,7 +15,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import Comments from "../components/comments";
-import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 export default function Single(){
     var [article,setArticle]=useState([]);
@@ -24,23 +22,13 @@ export default function Single(){
     const location=useLocation();
     const navigate = useNavigate();
     const articleId=location.pathname.split('/')[2];
-    const [fetchedImgUrl,setFetchedImgUrl] = useState('');
     const {user} = useUserContext();
     const [deleting, setDeleting] = useState(false);
     const [likes,setLikes] = useState(null);
     const queryParams = new URLSearchParams(location.search);
     const scrollToId =  queryParams.get('scrollTo');
 
-    async function fetchImage(imgUrl){
-        try{
-           const url =  GetImage(imgUrl);
-           setFetchedImgUrl(url)
-           console.log("urlllll",url)
-
-        }catch(err){
-           console.log('error fetching image',err);
-        }
-  }
+   
 
 
     useEffect(()=>{
@@ -57,7 +45,6 @@ export default function Single(){
                 setArticleBody(htmlArticleBody);
                 setLikes(response.data.likes)
 
-                fetchImage(article.multimediaUrl);
             })
             .catch((err)=>{
                 console.log("get single article error",err)
@@ -69,7 +56,7 @@ export default function Single(){
 
     useEffect(()=>{
         logVisitor(`/single/${articleId}`);
-       },[])
+       },[articleId])
 
     useEffect(()=>{
         const timer = setTimeout(()=>{
@@ -151,7 +138,7 @@ export default function Single(){
 
     const hasLiked = ()=>{
         for(let like of likes){
-            if(user !== null && user.userId == like.userId){
+            if(user !== null && user.userId === like.userId){
                 return true;
             }
         }
@@ -281,7 +268,7 @@ export default function Single(){
                                         <div className=" rounded-circle overflow-hidden" style={{width:"120px",height:"120px"}}>
                                             {
                                                 article.publisherPhotoUrl !== null
-                                                ?<img src={article.publisherPhotoUrl}
+                                                ?<img src={article.publisherPhotoUrl} alt=""
                                                     className="w-100 h-100 object-fit-cover"
                                                 />
                                                 :<FontAwesomeIcon icon={faUser} className="pt-2 h-100 w-100 ic-grey"/>

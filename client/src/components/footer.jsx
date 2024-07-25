@@ -104,7 +104,7 @@ const Footer = () => {
                 return <Nav.Link 
                   href={`/?cat=${section}`}
                   className="nav-link">
-                    {section.toUpperCase()}
+                    {decodeString(section).toUpperCase()}
                 </Nav.Link>
 
               })

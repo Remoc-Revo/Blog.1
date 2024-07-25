@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from "react";
-import { Button,Nav, Navbar, NavItem, Dropdown } from "react-bootstrap";
+import { Nav, Navbar, NavItem} from "react-bootstrap";
 import { useLocation, useNavigate} from "react-router-dom";
-import parse from "html-react-parser"
 import { useUserContext } from "../userContext";
 import api from "../config/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,19 +8,13 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import parser from "html-react-parser";
 
 export default function MainNav(){
-  var [userLevel,set_userLevel]=useState();
   var [userName,set_userName]=useState();
-  var [dropdownOpen,set_dropdownOpen]=useState(false);
   const [userProfilePhoto,setUserProfilePhoto]=useState(null);
-  const {loading,user,contextLogout} = useUserContext();
+  const {loading,user} = useUserContext();
   const [sections, setSections] = useState([]);
   const navigate = useNavigate();
   var cat=useLocation().search;
    
-  const toggle_dropdown=()=>set_dropdownOpen(!dropdownOpen)
-
-
-
   var [windowWidth,set_windowWidth]=useState(window.innerWidth)
 
   function decodeString(str){
@@ -50,22 +43,12 @@ export default function MainNav(){
 
       if(!loading && user != null){
         console.log("user context!!!!",user);
-        set_userLevel(user.userLevel);
         set_userName(user.userName);
         setUserProfilePhoto(user.userProfilePhoto);
       }
 
         window.addEventListener('resize',()=>{set_windowWidth(window.innerWidth)})
         },[loading,user])
-
-    function logout(){
-      api.post('/logout')
-           .then(()=>{
-              set_userName();
-              set_userLevel();
-              contextLogout();
-            })
-    }
 
     const customToggle = ({onClick})=>{
       return <button
@@ -115,7 +98,7 @@ export default function MainNav(){
                       
                         {
                         (userProfilePhoto!==null)
-                            ?<img src={userProfilePhoto} className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
+                            ?<img src={userProfilePhoto} alt="" className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
                             :<FontAwesomeIcon icon={faUser} className="ic-white w-100 h-100 pt-2"/>
 
                         }

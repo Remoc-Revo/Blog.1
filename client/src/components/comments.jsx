@@ -1,6 +1,5 @@
 import React,{useState,useEffect, useCallback} from "react";
 import { useNavigate } from "react-router-dom";
-import linearCongruentialGenerator from "../reusables/linearCongruentialGenerator";
 import api from "../config/api";
 import { useUserContext } from "../userContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,7 +25,7 @@ const Comments=React.memo(({articleId})=>{
             set_likes(response.data.likes)
             set_comments(response.data.comments);
             }) 
-    },[] )      
+    },[articleId] )      
 
     useEffect(()=>{
         fetchComments();
@@ -111,7 +110,7 @@ const Comments=React.memo(({articleId})=>{
 
             {typeof comments!=='undefined' && 
             <div className="col-12  text-start">
-                <h4>{`${comments.length} ${(comments.length == 1) ? "Comment" : "Comments"}`}</h4>
+                <h4>{`${comments.length} ${(comments.length === 1) ? "Comment" : "Comments"}`}</h4>
             </div>}
 
             
