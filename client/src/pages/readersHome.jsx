@@ -70,7 +70,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
     return ()=>{
         window.removeEventListener('popstate',handlePopstate)
     }
-   },[])
+   },[updateAdminPanelSection])
 
 
 //    if(isLoading){

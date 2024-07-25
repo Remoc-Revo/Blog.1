@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function AdminHome(){
-    const [adminHomeData,setAdminHomeData] = useState();
     const [latestPosts, setLatestPosts] = useState([]);
     const [latestDrafts,setLatestDrafts] = useState([]);
     const [latestComments, setLatestComments] = useState([]);

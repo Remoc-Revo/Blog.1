@@ -151,14 +151,13 @@ export function GridItemSmall({articleSection,
                                 isFixed
                             }){
 
-    const [fetchedImgUrl,setFetchedImgUrl] = useState('');
 
     
 
     return(
         <div className={`${isFixed?'col-sm-6  col-lg-3':'col-lg-3'} mb-5 articlePreview fade-in-up`}>
             
-            <a href='' style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
+            <div style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
             {
                    (imgUrl!==null)
                    ?<div className="overflow-hidden"  style={{display:"block", height:"210px"}}                 > 
@@ -179,7 +178,7 @@ export function GridItemSmall({articleSection,
                     <h5 className="articleHeadline">{headline}</h5>
                     {/* <p className="briefDescription">{briefDescription}</p> */}
                 </div>
-            </a>
+            </div>
         </div>
             
         )
@@ -192,7 +191,7 @@ export function AdminPostPreview({articleSection,headline,time,briefDescription,
 
     return(
         <div className="col-md-12  p-2">
-            <a style={{textDecoration:"none",color:"black"}} 
+            <div style={{textDecoration:"none",color:"black"}} 
                 className="d-flex  align-items-center justify-content-between" 
                 onClick={handleClick}>
                 
@@ -220,7 +219,7 @@ export function AdminPostPreview({articleSection,headline,time,briefDescription,
                         
                     </div>    
                 }
-            </a>
+            </div>
         </div>
             
         )

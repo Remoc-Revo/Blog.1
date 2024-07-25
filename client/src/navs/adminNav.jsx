@@ -17,11 +17,10 @@ export default function AdminNav({toggleSideNav,updateAdminPanelSection}){
 
     useEffect(()=>{
         if(!loading && user != null){
-            console.log("user context!!!!",user);
             setUserProfilePhoto(user.userProfilePhoto);
           }
     
-    },[])
+    },[loading,user])
 
     useEffect(()=>{
         function fetchNotifications(){
@@ -74,11 +73,11 @@ export default function AdminNav({toggleSideNav,updateAdminPanelSection}){
             </button>
         </div>
         <div className='d-flex justify-content-end align-items-center gap-2 gap-md-3 '>
-            <a className="btn  d-flex align-items-center gap-1" 
+            <button className="btn no-focus-outline d-flex align-items-center gap-1" 
                 onClick={onClickWriteButton}
             >
                 <FontAwesomeIcon icon={faPenFancy} className="admin-nav-icon"/>
-            </a>
+            </button>
 
             <div style={{backgroundColor:'lightgrey', width:"24px",height:"24px"}}
                       className="d-flex justify-content-center align-items-center rounded-circle overflow-hidden"
@@ -87,7 +86,7 @@ export default function AdminNav({toggleSideNav,updateAdminPanelSection}){
                       
                         {
                         (userProfilePhoto!==null)
-                            ?<img src={userProfilePhoto} className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
+                            ?<img src={userProfilePhoto} alt="" className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
                             :<FontAwesomeIcon icon={faUser} className="ic-white w-100 h-100 pt-2"/>
 
                         }

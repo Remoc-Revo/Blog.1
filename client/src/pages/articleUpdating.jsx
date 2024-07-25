@@ -6,7 +6,7 @@ import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useUserContext } from "../userContext";
 import api from "../config/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser,faBarsStaggered, faBell, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faUser,faBarsStaggered, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { Modal } from "react-bootstrap";
 import { transformImage } from "../reusables/getImage";
 
@@ -27,12 +27,23 @@ export default function ArticlesUpdating(){
     const [newCategory, setNewCategory] = useState("");
     const [articlePhotos, setArticlePhotos] = useState([]);
     const [isSidePanelVisible, setIsSidePanelVisible] = useState(true);
-    const [windowWidth,setWindowWidth]=useState(window.innerWidth)
     const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
     const [isAutoSaving, setIsAutoSaving] = useState(true);
     const [userProfilePhoto, setUserProfilePhoto] = useState(null);
     const queryParams = new URLSearchParams(useLocation().search);
     const isRecoverDraft = queryParams.get('recover');
+
+    const resizeImages = useCallback((contentState)=>{
+        const images = extractImagesFromContent(contentState);
+        let updatedContentState = contentState;
+
+        for(var imageSrc of images){        
+            // Replace image in content with the resized image
+            updatedContentState = replaceImageInContent(updatedContentState, imageSrc, imageSrc,'400px');             
+        }
+
+        return updatedContentState;
+    },[])
     
     function  fetchArticleToUpdate() {
         api.get(`/single/${articleIdToUpdate}`)
@@ -118,7 +129,7 @@ export default function ArticlesUpdating(){
 
     //recover draft from storage
     useEffect(()=>{
-        if(isRecoverDraft && isRecoverDraft == 'true'){
+        if(isRecoverDraft && isRecoverDraft === 'true'){
             let storedDraft = localStorage.getItem('draft');
             storedDraft = JSON.parse(storedDraft);
             let storedArticleBody  = JSON.parse(storedDraft.articleBody);
@@ -127,7 +138,7 @@ export default function ArticlesUpdating(){
             setEditorState(EditorState.createWithContent(bodyWithResizedImages));
             setArticleHeadline(storedDraft.articleHeadline);
         }
-    },[])
+    },[isRecoverDraft,resizeImages])
 
     useEffect(()=>{
         function handleWindowResize(){
@@ -139,7 +150,6 @@ export default function ArticlesUpdating(){
             else{
                 setIsSidePanelVisible(true);
             }
-            setWindowWidth(newWidth)
         }
 
         handleWindowResize()
@@ -152,17 +162,17 @@ export default function ArticlesUpdating(){
 
     },[])
 
-    const isEditorStateEmpty = (editorState)=>{
-        const contentState = editorState.getCurrentContent();
-        const rawContent = convertToRaw(contentState);
-        const blocks  = rawContent.blocks;
+    // const isEditorStateEmpty = (editorState)=>{
+    //     const contentState = editorState.getCurrentContent();
+    //     const rawContent = convertToRaw(contentState);
+    //     const blocks  = rawContent.blocks;
 
-        return blocks.every(block =>{
-            const isEmptyText = !block.text.trim();
-            const hasNoEntities = block.entityRanges.length === 0;
-            return isEmptyText && hasNoEntities;
-        });
-    }
+    //     return blocks.every(block =>{
+    //         const isEmptyText = !block.text.trim();
+    //         const hasNoEntities = block.entityRanges.length === 0;
+    //         return isEmptyText && hasNoEntities;
+    //     });
+    // }
 
     const onEditorStateChange = (editorState)=>{
         setEditorState(editorState);
@@ -299,17 +309,7 @@ export default function ArticlesUpdating(){
         return images;
     };
 
-    function resizeImages(contentState){
-        const images = extractImagesFromContent(contentState);
-        let updatedContentState = contentState;
-
-        for(var imageSrc of images){        
-            // Replace image in content with the resized image
-            updatedContentState = replaceImageInContent(updatedContentState, imageSrc, imageSrc,'400px');             
-        }
-
-        return updatedContentState;
-    }
+    
 
     async function addArticle(articleBody,submitAsDraft){
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
@@ -482,11 +482,7 @@ export default function ArticlesUpdating(){
                     </button>
 
                     <div className='d-flex justify-content-end align-items-center gap-2 gap-md-3 '>
-                    <a className="btn  d-flex align-items-center gap-1" 
-                        onClick={()=>{}}
-                    >
-                        {/* <FontAwesomeIcon icon={faPenFancy} className="admin-nav-icon"/> */}
-                    </a>
+                    
                     <div style={{backgroundColor:'lightgrey', width:"24px",height:"24px"}}
                       className="d-flex justify-content-center align-items-center rounded-circle overflow-hidden"
                       onClick={(e)=>{e.stopPropagation(); navigate('/profile')}}
@@ -494,7 +490,7 @@ export default function ArticlesUpdating(){
                       
                         {
                         (userProfilePhoto!==null)
-                            ?<img src={userProfilePhoto} className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
+                            ?<img src={userProfilePhoto} alt="" className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
                             :<FontAwesomeIcon icon={faUser} className="ic-white w-100 h-100 pt-2"/>
 
                         }

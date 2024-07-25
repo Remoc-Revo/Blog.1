@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react"
 import { useUserContext } from "../userContext";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import AdminNav from "../navs/adminNav";
 import AdminSidePanel from "../components/adminSidePanel";
 import AdminHome from "./adminHome";
@@ -14,9 +14,8 @@ import AdminSubscribersDisplay from "./adminSubscribersDisplay";
 
 export default function AdminPanel(){
     const navigate = useNavigate();
-    var [userLevel,set_userLevel]=useState(0);
-    var [userName,set_userName]=useState();
-    const {loading,user,contextLogout} = useUserContext();
+    // var [userLevel,set_userLevel]=useState(0);
+    const {loading,user} = useUserContext();
     const [adminPanelSection,setAdminPanelSection] = useState(window.location.search);
     const [isSidePanelVisible, setIsSidePanelVisible] = useState(true);
 
@@ -24,11 +23,10 @@ export default function AdminPanel(){
         function validateUser(){
             if(!loading && user != null){
                 console.log("user context!!!!",user);
-                set_userLevel(user.userLevel);
-                set_userName(user.userName);
+                // set_userLevel(user.userLevel);
               }
               
-              if(user === 'unauthorized'){
+              if(user === 'unauthorized' || user.userLevel !== 1){
                 console.log("user current state: ",user);
                 navigate('/login')
             }
@@ -83,7 +81,7 @@ export default function AdminPanel(){
     return <div>
 
 
-        {(adminPanelSection.includes("?adminPanel") || adminPanelSection=="")
+        {(adminPanelSection.includes("?adminPanel") || adminPanelSection==="")
             ?<div>
                 <AdminNav toggleSideNav = {toggleSideNav} updateAdminPanelSection={updateAdminPanelSection}/>
                 <div className="d-flex position-relative w-100" style={{height:"100vh"}}>

@@ -3,7 +3,7 @@ import api from "../config/api";
 import { AdminPostPreview } from "../components/article_preview";
 import { decodeString,updateHistory } from "../reusables/global";
 import moment from "moment";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { faSearch,faTimes,faTrash,faEllipsisV, faEllipsisH, faPen } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Modal} from 'react-bootstrap';
@@ -120,7 +120,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
                         return article;
                     }
 
-
+                    return null;
                  }
         )
 
