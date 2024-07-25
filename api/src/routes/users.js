@@ -3,6 +3,8 @@ const createPool=require('../config/dbConnection')
 const pool = createPool();
 const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
+const crypto = require('crypto')
+const nodemailer = require('nodemailer')
 
 exports.register=(req,res)=>{
    const errors=validationResult(req);
@@ -38,7 +40,9 @@ exports.register=(req,res)=>{
 
                
                //register the user
-               pool.query(`INSERT INTO USER VALUES(null,'${userName}','${email}',0,now(),'${hashedPassword}')`,
+               pool.query(`INSERT INTO USER(userId,userName,userEmail,userLevel,userRegistrationDate,userPassword) 
+                     VALUES(null,?,?,0,now(),?)`,
+                  [userName ,email, hashedPassword],
                   (err,result)=>{
                   if(err){
                      throw(err)
@@ -47,7 +51,9 @@ exports.register=(req,res)=>{
                      console.log("registered");
 
                      //fetch the id of the user in the database
-                     pool.query(`SELECT userId from USER WHERE userEmail='${email}'`,(err,result)=>{
+                     pool.query(`SELECT userId from USER WHERE userEmail=?`,
+                        [email],
+                        (err,result)=>{
                         if(err){
                            throw(err);
                         }
@@ -95,7 +101,7 @@ exports.login=(req,res)=>{
    const email=body.email;
    const password=body.password;
 
-   pool.query(`SELECT * from USER WHERE userEmail='${email}'`,async(err,result)=>{
+   pool.query(`SELECT * from USER WHERE userEmail=?`,[email],async(err,result)=>{
       if(err){
          throw(err)
       }
@@ -270,4 +276,47 @@ exports.getUsers = (req,res)=>{
             }
          }
    )
+}
+
+
+exports.requestPasswordReset = async(req,res)=>{
+   const email = req.body.email;
+   console.log("resssss")
+   try {
+      const token = crypto.randomBytes(32).toString('hex');
+      const expiration = Date.now() + 3600000; // 1 hour expiration
+  
+      // Store token and expiration in the database
+      pool.query(
+        'UPDATE USER SET resetPasswordToken = ?, resetPasswordExpires = ? WHERE userEmail = ?',
+        [token, expiration, email]
+      );
+  
+      // Send email with the reset token
+      const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+  
+      const mailOptions = {
+        to: email,
+        from: process.env.EMAIL_USER,
+        subject: 'Password Reset',
+        text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+               Please click on the following link, or paste this into your browser to complete the process:\n\n
+               http://${req.headers.host}/reset/${token}\n\n
+               If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+      };
+  
+      await transporter.sendMail(mailOptions);
+  
+      res.status(200).send('Password reset link sent.');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error sending password reset link.');
+    }
+
 }

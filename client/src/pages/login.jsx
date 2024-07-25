@@ -36,9 +36,9 @@ export default function Login(){
             });
     }
     return(
-        <div className="login-page ">
+        <div className="auth-page ">
 
-            <div id="login-form" className="d-flex flex-column">
+            <div id="auth-form" className="d-flex flex-column">
                 <div className="d-flex justify-content-center">
                     <img class="" src={require("../logos/logo.png")} style={{width:"48%"}} alt=""/>
                     
@@ -49,14 +49,21 @@ export default function Login(){
                                 value={email} onChange={(e)=>{set_email(e.target.value)}}
                         />
 
-
+                        
                         <input className="col-md-12" type="password" name="password" placeholder="password" required
                             value={password} onChange={(e)=>{set_password(e.target.value)}}
                         />
                     
                     <p style={{color:"red"}}>{errorMessage}</p>
                     <input className="col-md-12 btn-submit" id="" type="submit" value="login"/>
-                    <span>Don't have an account?<a href="/register">Sign up</a></span>
+
+                    <div className="d-flex justify-content-between" style={{fontSize:"13px"}}>
+                            <a href="/register" className="text-decoration-none">Sign up</a>
+                            <a href="/resetPassword" className="text-decoration-none" >
+                                Forgot  password
+                            </a>
+                    </div>
+                    
                 </form>
             </div>
         </div>
