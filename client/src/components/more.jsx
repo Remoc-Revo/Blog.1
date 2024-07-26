@@ -28,7 +28,7 @@ export default function Related({cat,current}){
                style={{borderTop:"1px solid lightgrey"}}
                >
                <div className="row container pt-2 ">
-                  <h5>Related</h5>
+                  <h6>Related</h6>
                </div>
 
                <div className="d-md-flex " >
@@ -75,8 +75,8 @@ function RelatedPreview({headline,imgUrl,articleId,datePosted}){
             </div>
 
              <div>
-               <h6 className="fw-lighter" style={{fontSize:"16px",color:"grey"}}>{dateStr}</h6>
-               <h6 className="fw-lighter" style={{fontSize:"16px",color:"black"}}>
+               <h6 className="fw-lighter" style={{fontSize:"14px",color:"grey"}}>{dateStr}</h6>
+               <h6 className="fw-lighter" style={{fontSize:"14px",color:"black"}}>
                   {decodeURIComponent(headline).replace(/&apos;/g,"'")}
                </h6>
             </div>  

@@ -26,7 +26,7 @@ export default function AdminStats(){
 
         <div className="mb-5 mt-5">
             <h2 className="fw-lighter">7-day highlights</h2>
-            <div className="d-flex flex-sm-column flex-md-row gap-4 justify-content-between">
+            <div className="d-md-flex flex-sm-column flex-md-row gap-4 justify-content-between">
                 <div className="border w-100 d-flex flex-column gap-2 align-items-start p-4">
                     <FontAwesomeIcon icon={faEye} className="mb-3 ic-stat"/>
                     <span className="stat-type">Views</span >

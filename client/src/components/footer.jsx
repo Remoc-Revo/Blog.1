@@ -69,7 +69,7 @@ const Footer = () => {
     <footer className="pb-5 d-md-flex justify-content-center ">
       <div className="col-lg-7 d-md-flex">
          <div className="col-md-8 d-md-flex flex-column align-items-start">
-            <img src={Logo} alt="" />
+            <img src={Logo} alt="" className="blog-logo"/>
             <div className="">
               <p className="fw-lighter">Receive the latest health tips and medical news directly in your inbox</p>
             </div>

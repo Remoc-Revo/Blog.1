@@ -170,8 +170,8 @@ export function GridItemSmall({articleSection,
                 }
                 <div  className="mt-2">
                     <div className="row">
-                        <div className="col-auto bg-light m-2 rounded">
-                            <h6 className="text-secondary">{articleSection}</h6>
+                        <div className="col-auto bg-light m-1 rounded">
+                            <h6 className="text-secondary pt-2">{articleSection}</h6>
                             </div>
                     </div>
                     <i className="duration">{time}</i>
@@ -195,7 +195,7 @@ export function AdminPostPreview({articleSection,headline,time,briefDescription,
                 className="d-flex  align-items-center justify-content-between" 
                 onClick={handleClick}>
                 
-                <div  className=" col-md-9">
+                <div  className="col-9">
                     <h6 className="articleHeadline">{headline}</h6>
                     <div className="row ">
                         <div className="col-auto">

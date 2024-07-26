@@ -19,8 +19,9 @@ export default function AdminNav({toggleSideNav,updateAdminPanelSection}){
         if(!loading && user != null){
             setUserProfilePhoto(user.userProfilePhoto);
           }
+          console.log("the user profile photot", userProfilePhoto)
     
-    },[loading,user])
+    },[loading,user,userProfilePhoto])
 
     useEffect(()=>{
         function fetchNotifications(){
@@ -85,7 +86,7 @@ export default function AdminNav({toggleSideNav,updateAdminPanelSection}){
                       >
                       
                         {
-                        (userProfilePhoto!==null)
+                        (userProfilePhoto !== null)
                             ?<img src={userProfilePhoto} alt="" className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
                             :<FontAwesomeIcon icon={faUser} className="ic-white w-100 h-100 pt-2"/>
 
@@ -104,18 +105,18 @@ export default function AdminNav({toggleSideNav,updateAdminPanelSection}){
         </div>
 
         <div className={`bg-light ${!isDisplayingNotifications ? 'd-none':''} d-flex  flex-column align-items-center  rounded p-3 `}
-            style={{position:"absolute", top:"55px", right:"40px",zIndex:"2000"}}
+            style={{position:"absolute", top:"55px", right:"10px",zIndex:"2000"}}
             onMouseLeave={()=>setIsDisplayingNotifications(false)}>
              <h5>{`Notifications (${notifications.length})`}</h5>
             {
                 isFetchingNotifications
-                ?<div className="d-flex align-items-center justify-content-center" style={{width:"350px", height:"70vh"}}>
+                ?<div className="d-flex align-items-center justify-content-center" style={{width:"300px", height:"70vh"}}>
                     <div className="spinner-border text-info ">
                         <span className="sr-only">Loading...</span>
                     </div>
                 </div>
                 :<div className="mt-2 " >                   
-                    <div className="overflow-scroll no-scrollbar" style={{width:"350px", height:"70vh"}}>
+                    <div className="overflow-scroll no-scrollbar" style={{width:"300px", height:"70vh"}}>
                         {
                             notifications.map((notification)=>{
                                 return <div className="mb-3 mt-3" onClick={()=>{handleNotificationClick(notification)}}>

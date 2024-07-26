@@ -49,13 +49,15 @@ export default function AdminHome(){
             for(let block of blocks){
                 if(block.text && block.text.trim().length > 0){
                     firstBlockWithText = block.text;
+
+                    setDraftRecoveredFromLocalStorage({
+                        ...storedDraft,
+                        excerpt: firstBlockWithText
+                    });
                     break;
                 }
             }
-            setDraftRecoveredFromLocalStorage({
-                ...storedDraft,
-                excerpt: firstBlockWithText
-            });
+            
 
             console.log("found text: ", firstBlockWithText)
         }
