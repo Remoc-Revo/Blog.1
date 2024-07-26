@@ -2,26 +2,28 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser,faPenFancy, faBell,faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../userContext";
 import api from "../config/api";
 import { decodeString } from "../reusables/global";
 import { formatDateTime } from "../reusables/global";
 
 export default function AdminNav({toggleSideNav,updateAdminPanelSection}){
     const navigate = useNavigate();
-    const {loading,user} = useUserContext();
     const [userProfilePhoto,setUserProfilePhoto]=useState(null);
     const [notifications, setNotifications] = useState([]);
     const [isFetchingNotifications, setIsFetchingNotifications] = useState(false);
     const [isDisplayingNotifications, setIsDisplayingNotifications] = useState(false);
 
     useEffect(()=>{
-        if(!loading && user != null){
-            setUserProfilePhoto(user.userProfilePhoto);
-          }
+        api.get('/user',{withCredentials:true})
+        .then((response)=>{
+            setUserProfilePhoto(response.data.userProfilePhoto);
+            
+        })
+        
           console.log("the user profile photot", userProfilePhoto)
     
-    },[loading,user,userProfilePhoto])
+    },[userProfilePhoto]
+)
 
     useEffect(()=>{
         function fetchNotifications(){

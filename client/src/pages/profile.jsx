@@ -40,7 +40,7 @@ export default function Profile(){
              })
              .catch((err)=>{
                 if(err.response.status===401){
-                    navigate('/login')
+                    navigate(-1);
                 }
              })
     }
@@ -110,8 +110,8 @@ export default function Profile(){
     function logout(){
         api.post('/logout')
              .then(()=>{
+                navigate(-1);
                 contextLogout();
-                navigate('/',{replace:true});
               })
       }
 
@@ -249,7 +249,7 @@ export default function Profile(){
                                     </div>
 
                                     <p style={{color:"red"}}>{error}</p>
-                                    <div className="d-flex col-12 justify-content-between mb-2">
+                                    <div className="d-flex gap-2 col-12 justify-content-between mb-2">
                                         <button  className="btn border col-md-5 col-9 no-focus-outline" onClick={handleUpdateUser}>
                                             {
                                                 updatingProfile
