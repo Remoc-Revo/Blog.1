@@ -316,7 +316,7 @@ exports.requestPasswordReset = async(req,res)=>{
          if (error) {
            return console.log("error sending email to: ", email,error);
          }
-         console.log('Message sent, id : %s', info.messageId, "to :",email);
+         console.log('Message sent, id : %s', info.messageId, "to :",email,"the info:", info);
        });
   
       res.status(200).send('Password reset link sent.');
