@@ -10,11 +10,13 @@ export default function Login(){
     var [password,set_password]=useState();
     var [errorMessage,set_errorMessage]=useState();
     const {user,contextLogin} = useUserContext();
+    const [isValidating, setIsValidating] = useState(false);
 
     function login(e){
         e.preventDefault();
         set_errorMessage();
-        
+        setIsValidating(true);
+
         api.post('/login',
             {
                 withCredentials:true,
@@ -25,11 +27,22 @@ export default function Login(){
                 if(response && response.status===200){
                     contextLogin(response.data);
                     console.log("user after login ",user);
-                    navigate("/");
+                    setIsValidating(false);
+
+                    if( window.history?.length
+                        && window.history.length > 2
+                        && response.data.userLevel === 0){
+                            console.log("why can't w go forward")
+                         navigate(-1,{replace:true});
+                    }
+                    else{
+                        navigate("/",{replace:true});
+                    }
                 }
             })
             .catch((err)=>{
                 // document.write(err)
+                setIsValidating(false);
                 if(err.response && err.response.status===401){
                     set_errorMessage("Invalid email or password")
                 }
@@ -55,7 +68,15 @@ export default function Login(){
                         />
                     
                     <p style={{color:"red"}}>{errorMessage}</p>
-                    <input className="col-md-12 btn-submit" id="" type="submit" value="login"/>
+                    <button className="col-md-12 btn-submit" id="" type="submit">
+                        {
+                            isValidating
+                            ?<div className="spinner-border text-white">
+                                <span className="sr-only">Validating...</span>
+                            </div>
+                            :<span>Login</span>
+                        }
+                    </button>
 
                     <div className="d-flex justify-content-between" style={{fontSize:"13px"}}>
                             <a href="/register" className="text-decoration-none">Sign up</a>

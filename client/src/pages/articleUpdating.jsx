@@ -203,9 +203,9 @@ export default function ArticlesUpdating(){
 
     useEffect(()=>{
         if(!loading && user != null){
-            if(user === 'unauthorized'){
+            if(user.userLevel !== 1){
                 console.log("user current state: ",user);
-                navigate('/login')
+                navigate(-1,{replace:true})
             }
             
             setUserProfilePhoto(user.userProfilePhoto);

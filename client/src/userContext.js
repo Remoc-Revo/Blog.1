@@ -13,7 +13,7 @@ export function UserProvider({children}){
     const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
-        if(user == null ){
+        if(user === null ){
             setLoading(true);
 
             api.get('/user',{withCredentials:true})
@@ -27,7 +27,7 @@ export function UserProvider({children}){
                 setLoading(false);
             })
         }
-   },[user])
+   },[user,loading])
 
    function contextLogin(user){
     setUser(user)
