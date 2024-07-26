@@ -283,7 +283,7 @@ exports.requestPasswordReset = async(req,res)=>{
    const email = req.body.email;
    try {
       const token = crypto.randomBytes(32).toString('hex');
-      const expiration = Date.now() + 3600000; // 1 hour expiration
+      const expiration = new Date(Date.now() + 3600000); // 1 hour expiration
   
       // Store token and expiration in the database
       pool.query(
