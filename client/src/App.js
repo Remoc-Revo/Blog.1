@@ -22,7 +22,7 @@ import { UserProvider } from './userContext';
 function App() {
   return (
     
-    <div id="app">
+    <div id="app" className="">
       <Router>
         <UserProvider>
           <Routes>

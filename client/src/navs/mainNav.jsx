@@ -65,7 +65,7 @@ export default function MainNav(){
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
             viewBox="0 0 20 20"
-            fill="white"
+            fill="black"
           >
             <path
             fillRule="evenodd"
@@ -81,7 +81,7 @@ export default function MainNav(){
       <div className={`${(windowWidth>=1200)?'container':''} `}>
         <Navbar className="d-flex justify-content-between gap-xl-5 "   id='main-nav' expand={(windowWidth>=1200)?true:false}>
           <Navbar.Brand  href="#home" id="nav-brand" className=" me-auto ">
-            <img src={require("../logos/logo.png")} alt="" id="blog-logo" className="img-fluid logo p-0"></img> 
+            <img src={require("../logos/logo.png")} alt="" className="blog-logo  logo p-0"></img> 
           </Navbar.Brand>
           
       

@@ -159,8 +159,9 @@ export default  function ReadersHome({updateAdminPanelSection}){
                             
                             
                             
-                            <div  className="latest-article-preview container-md bg-white ms-md-5 pb-3 rounded" 
-                                style={{width:"420px"}}
+                            <div  className=" container-md bg-white ms-md-5 pb-3 rounded col-10 col-md-6 " 
+                                id="latest-article-preview"
+                                style={{}}
                                 >
                                 <div className="row">
                                     <div className="col-auto bg-primary m-2 rounded">
@@ -178,7 +179,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
                         {/* Spacer */}
                     <div style={{height:"80px"}}></div>
 
-                    <h4>Latest Posts</h4>
+                    <h4 >Latest Posts</h4>
                     {/* Spacer */}
                     <div style={{height:"15px"}}></div>
 

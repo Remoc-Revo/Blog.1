@@ -110,7 +110,7 @@ const Comments=React.memo(({articleId})=>{
 
             {typeof comments!=='undefined' && 
             <div className="col-12  text-start">
-                <h4>{`${comments.length} ${(comments.length === 1) ? "Comment" : "Comments"}`}</h4>
+                <h5>{`${comments.length} ${(comments.length === 1) ? "Comment" : "Comments"}`}</h5>
             </div>}
 
             
@@ -242,7 +242,7 @@ function Comment({
             <div>
                 {
                     (comment.commenterProfilePhoto !== null)
-                    ?<div style={{width:"50px",height:"50px"}}>                                                                                           
+                    ?<div style={{width:"40px",height:"40px"}}>                                                                                           
                         <img src={comment.commenterProfilePhoto}
                             className="rounded-circle w-100 h-100 object-fit-cover"
                             alt=""
@@ -250,7 +250,7 @@ function Comment({
                     </div>
 
                     :<div className="rounded-circle overflow-hidden" 
-                        style={{width:"50px",height:"50px", backgroundColor:"lightgrey"}}>
+                        style={{width:"40px",height:"40px", backgroundColor:"lightgrey"}}>
                         <FontAwesomeIcon icon={faUser} className="ic-white rounded-circle w-100 h-100 pt-2"/>
                     </div>
                 }
@@ -258,11 +258,11 @@ function Comment({
             </div>
             
             <div className=" d-flex flex-column gap-1">
-                <span style={{fontWeight:"500"}}>{comment.comment_userName.toUpperCase()}</span>
+                <span style={{fontWeight:"400",fontSize:"12px"}}>{comment.comment_userName.toUpperCase()}</span>
 
-                <span className="" style={{color:"grey",fontSize:"13px"}}>{formatDateTime(comment.dateAdded)}</span>
+                <span className="" style={{color:"grey",fontSize:"11px"}}>{formatDateTime(comment.dateAdded)}</span>
 
-                <p className="mt-3" style={{fontWeight:"300"}}>{comment.comment}</p>
+                <p className="mt-3" style={{fontWeight:"300",fontSize:"12px"}}>{comment.comment}</p>
                 <div className="">
                     <div className="d-flex">
                        <div className="">

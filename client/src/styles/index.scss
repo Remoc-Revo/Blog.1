@@ -16,7 +16,7 @@ i.duration{
     font-weight: lighter;
 }
 
-.latest-article-preview{
+#latest-article-preview{
     position:absolute;
     bottom:-25px;
     left: 20px;
@@ -179,7 +179,7 @@ p{
    
 }
 
-#blog-logo{
+.blog-logo{
     max-width:  180px;
     margin:0px;
     padding:0px;
@@ -248,7 +248,7 @@ p{
 
 /* single */
 .headline{
-    font-weight:400;
+    font-size: calc(1em + 1vw)
 }
 
 #single-article-body{
@@ -523,7 +523,7 @@ table{
     width: 50px;
     padding: 0.5rem;
     border-radius: 50%;
-    background-color: teal;
+    background-color: transparent;
   }
 
 .btn-user{
@@ -739,9 +739,7 @@ footer {
     #page-links{
         margin-right:30px; 
     }
-    .headline{
-        font-size:30px;
-    }
+    
 
     #user-info{
         margin-top:150px;
@@ -752,25 +750,9 @@ footer {
     }
 
     
+    
 }
 
-@media screen and (max-width:995px){
-    #readers-home{
-        h5{
-            font-size: 16px;
-        }
-        #latest-article-image-container{
-            height: 260px;
-        }
-    }
-    #main-nav h1{
-        font-size: 25px;
-    }
-
-    .preview-mid-container{
-        /* height: 400px; */
-    }
-}
 
 @media only screen and (max-width:1200px){
 
@@ -782,7 +764,7 @@ footer {
     #nav-brand{
         z-index:10;
 
-        #blog-logo{
+        .blog-logo{
             max-width:150px;
             }
     }
@@ -792,13 +774,13 @@ footer {
         flex-direction: column;
         left:0px;
         top:0;
-        padding-top: 100px;
+        padding-top: 70px;
         padding-bottom: 100px;
         padding-right: 0px;
-        width:50%;
+        width:60%;
         height: 1000px;
-        background-color:teal;
-        transition: .5s ease;
+        background-color: $lightGreen;
+        transition: .0001s ease-in;
         justify-content: start;
         z-index:1;
 
@@ -807,6 +789,53 @@ footer {
 
     
   }
+
+  @media screen and (max-width:995px){
+    #main-nav{
+        padding-right: 2%;
+        padding-left: 5%;
+
+    }
+
+    .blog-logo{
+        max-width:90px !important;
+    }
+
+    #readers-home{
+        h5{
+            font-size: 16px;
+        }
+        #latest-article-image-container{
+            height: 260px;
+        }
+
+        // #latest-article-preview{
+        //     width:420px;
+        // }
+    }
+    #main-nav h1{
+        font-size: 25px;
+    }
+
+    .preview-mid-container{
+        /* height: 400px; */
+    }
+
+    #single-article-body{
+        img{
+            max-height: 250px !important;
+            width: 100% !important;
+            object-fit: cover;
+    
+            &::before{
+                height: 250px;
+                width: 100% ;
+    
+            }
+            
+        }
+    }
+}
 
   @media only screen and (min-width: 1200px){
     #menu-button{

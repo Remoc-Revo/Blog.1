@@ -3,3 +3,7 @@
 Blog.1.sql
 
 dist
+
+node_modules
+
+package-lock.json

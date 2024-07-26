@@ -152,16 +152,16 @@ export default function Single(){
             
             
             {(article.length!==0)
-                ?<div className=" d-flex flex-column align-items-center">
+                ?<div className="mt-3 d-flex flex-column align-items-center">
                     <div className="col-md-10">
                         
                         <div className="d-lg-flex container-lg justify-content-center gap-3">
                             <div className="col-lg-8 p-0">
                             
                                 <h2 className="text-center headline">{decodeString(article.articleHeadline)}</h2>
-                                <div className="pt-3 pb-2 mb-2  d-flex justify-content-between align-items-center">
+                                <div className="pt-2 pb-2 mb-2  d-flex justify-content-between align-items-center">
                                     
-                                    <div className=" d-flex gap-3 align-items-center">
+                                    <div className=" d-flex gap-3 align-items-end">
                                         {
                                             article.publisherPhotoUrl !== null
                                             ?<div style={{width:"50px",height:"50px"}}>                                                                                           
@@ -216,11 +216,11 @@ export default function Single(){
                                 <div className="container-lg p-0" id="single-article-body">              
                                     <div 
                                         dangerouslySetInnerHTML={{__html:articleBody}}
-                                        className="mt-4" >                                      
+                                        className="mt-2" >                                      
                                     </div>
                                 </div>
 
-                                <div className="col-3 col-md-2 col-lg-1 mt-5">
+                                <div className=" mt-5">
                                     <hr/>
 
                                 </div>
@@ -251,7 +251,7 @@ export default function Single(){
                                                 ? <span> Liked by {likes.length} 
                                                     {likes.length > 1 ? " People " : " Person "}
                                                  </span>
-                                                : <span>Be the first to like</span>
+                                                : <span style={{fontSize:"12px"}}>Be the first to like</span>
                                             }
                                         </div>
                                     }
@@ -259,8 +259,8 @@ export default function Single(){
 
                                 <div className="col-12 border mt-5 p-5 d-sm-flex gap-3">
                                     <div className="col-12 col-sm-9 d-flex flex-column justify-content-center">
-                                        <h5>Published by {article.publisherName}</h5>
-                                        <p className="fw-lighter">
+                                        <h6>Published by {article.publisherName}</h6>
+                                        <p className="fw-lighter" style={{fontSize:"13px"}}>
                                             {article.publisherDescription}
                                         </p>
                                     </div>
