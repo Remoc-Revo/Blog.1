@@ -314,9 +314,9 @@ exports.requestPasswordReset = async(req,res)=>{
   
       transporter.sendMail(mailOptions, (error, info) => {
          if (error) {
-           return console.log(error);
+           return console.log("error sending email to: ", email,error);
          }
-         console.log('Message sent: %s', info.messageId);
+         console.log('Message sent, id : %s', info.messageId, "to :",email);
        });
   
       res.status(200).send('Password reset link sent.');
