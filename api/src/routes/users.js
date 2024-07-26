@@ -298,8 +298,8 @@ exports.requestPasswordReset = async(req,res)=>{
          port: 465,
          secure: true,
         auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
+          user: process.env.PSWD_EMAIL_USER,
+          pass: process.env.PSWD_EMAIL_PASS,
         },
       });
   
