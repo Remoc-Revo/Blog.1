@@ -294,7 +294,9 @@ exports.requestPasswordReset = async(req,res)=>{
   
       // Send email with the reset token
       const transporter = nodemailer.createTransport({
-        service: 'Gmail',
+         host: process.env.MAIL_HOST,
+         port: 465,
+         secure: true,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
