@@ -281,7 +281,6 @@ exports.getUsers = (req,res)=>{
 
 exports.requestPasswordReset = async(req,res)=>{
    const email = req.body.email;
-   console.log("resssss")
    try {
       const token = crypto.randomBytes(32).toString('hex');
       const expiration = Date.now() + 3600000; // 1 hour expiration
@@ -313,7 +312,12 @@ exports.requestPasswordReset = async(req,res)=>{
                If you did not request this, please ignore this email and your password will remain unchanged.\n`,
       };
   
-      await transporter.sendMail(mailOptions);
+      transporter.sendMail(mailOptions, (error, info) => {
+         if (error) {
+           return console.log(error);
+         }
+         console.log('Message sent: %s', info.messageId);
+       });
   
       res.status(200).send('Password reset link sent.');
     } catch (error) {
