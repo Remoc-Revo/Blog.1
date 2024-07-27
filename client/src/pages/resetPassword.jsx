@@ -26,6 +26,7 @@ export default function ResetPassword(){
             .then((response)=>{
                 if(response && response.status===200){
                 }
+                document.write(response.status)
             })
             .catch((err)=>{
                 // document.write(err)
