@@ -302,6 +302,9 @@ exports.requestPasswordReset = async(req,res)=>{
         },
       });
 
+
+      //REM : change back the href's client host after refactoring
+
       const htmlContent = `
          <!DOCTYPE html>
          <html>
