@@ -310,12 +310,12 @@ exports.requestPasswordReset = async(req,res)=>{
                <title>Password Reset Request</title>
             </head>
             <body>
-               <p>Hello [Recipient’s Name],</p>
+               <p>Hello,</p>
                <p>We received a request to reset the password for your account. If you did not make this request, please ignore this email.</p>
                <p>To reset your password, please click the link below or paste it into your browser:</p>
                <p><a href="${process.env.CLIENT_HOST}/reset/${token}">Reset your password</a></p>
                <p>The link will expire in 1 hour. If you have any questions or need further assistance, please contact our support team.</p>
-               <p>Thank you,<br>The [Your Company] Team</p>
+               <p>Thank you.</p>
                <p><small>If you did not request this, please ignore this email and your password will remain unchanged.</small></p>
             </body>
          </html>
