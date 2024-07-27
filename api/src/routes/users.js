@@ -403,7 +403,11 @@ exports.resetPassword = (req,res)=>{
             else{
                const hashedPassword=await bcrypt.hash(password,12);
                
-               pool.query(`UPDATE USER SET userPassword = ? WHERE userEmail = ?`,
+               pool.query(`UPDATE USER 
+                           SET userPassword = ?,
+                              resetPasswordToken = null,
+                              resetPasswordExpires = null 
+                           WHERE userEmail = ?`,
                   [hashedPassword, email],
                   (err,result)=>{
                      if(err) console.log("Error saving new password");

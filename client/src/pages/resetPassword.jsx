@@ -76,9 +76,10 @@ export default function ResetPassword(){
                         withCredentials:true
                     }
                     ).then((response)=>{
-                            setIsValidating(false);
+                            setIsValidating(false);                            
                             if(response && response.status===201){
                                 navigate("/login");
+                                window.alert('Password reset successful!')
                             }
                     })
                 .catch((err)=>{
