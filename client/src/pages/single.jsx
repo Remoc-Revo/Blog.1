@@ -152,135 +152,137 @@ export default function Single(){
             
             
             {(article.length!==0)
-                ?<div className="mt-3 d-flex flex-column align-items-center">
-                    <div className="col-md-10">
+                ?<div className="mt-3 ">
+                    <div className="container p-3 p-sm-0">
                         
-                        <div className="d-lg-flex container-lg justify-content-center gap-3">
-                            <div className="col-lg-8 p-0">
-                            
-                                <h2 className="text-center headline">{decodeString(article.articleHeadline)}</h2>
-                                <div className="pt-2 pb-2 mb-2  d-flex justify-content-between align-items-center">
-                                    
-                                    <div className=" d-flex gap-3 align-items-end">
-                                        {
-                                            article.publisherPhotoUrl !== null
-                                            ?<div style={{width:"50px",height:"50px"}}>                                                                                           
-                                                <img src={article.publisherPhotoUrl}
-                                                    className="rounded-circle w-100 h-100 object-fit-cover"
-                                                    alt=""
-                                                />
-                                            </div>
-
-                                            :<div className="rounded-circle overflow-hidden" style={{width:"50px",height:"50px"}}>
-                                                <FontAwesomeIcon icon={faUser} className="rounded-circle w-100 h-100 pt-2"/>
-                                            </div>
-                                        }
-                                       
-                                        <p style={{color:"teal",fontWeight:"bold"}}>{article.publisherName}</p>
-                                        <p className="fw-lighter">                                           
-                                            {(article.articleUpdatingDate !== null)
-                                                ? "Updated  "+moment(article.articleUpdatingDate).fromNow() 
-                                                :  `Published ${moment(article.articlePostingDate).fromNow()} `
-                                                
-                                            } 
-                                
-                                        </p>
-                                    </div>    
-                                    
-                                    {(user !== null && user.userLevel === 1)
-                                        ? <div className="d-flex gap-2">
-                                            <img src={Edit} alt ="" onClick={navigateToUpdate} className="edit-img"/>
-                                            {(deleting)
-                                                ?<div className="spinner-border text-light">
-                                                    <span className="sr-only">Loading</span>
-                                                </div>
-                                                :<img src={Delete} alt ="" onClick={deleteArticle} className="delete-img"/>
-                                            }
-                                            </div>
-                                        : <></>
-                                    }
-                                    
-                                </div>
-
-                                {/* <div className="w-100" style={{height:"430px",overflow:"hidden"}}>
-                                    {
-                                    
-                                        (fetchedImgUrl!=='null')
-                                            ?<img src={fetchedImgUrl} alt="article img"
-                                            className="rounded object-fit-cover img-fluid"
-                                            style={{display:"block",width:"100%",height:"100%"}}/>
-                                            :null
-                                    }
-                                </div> */}
- 
-                                <div className="container-lg p-0" id="single-article-body">              
-                                    <div 
-                                        dangerouslySetInnerHTML={{__html:articleBody}}
-                                        className="mt-2" >                                      
-                                    </div>
-                                </div>
-
-                                <div className=" mt-5">
-                                    <hr/>
-
-                                </div>
-
-                                <div className="col-md-6 col-lg-4 d-flex justify-content-between align-items-center">
-                                    {
-                                        (likes!==null && hasLiked())
-                                        ?<button className="btn border no-focus-outline rounded-0 d-flex gap-3 align-items-center"
-                                            onClick={like}
-                                            >
-                                            <FontAwesomeIcon icon={faStar} className="ic-teal"/>
-                                            <span>Liked</span>
-                                        </button>
-                                        :<button className="btn border rounded-0 d-flex gap-3 align-items-center"
-                                            onClick={like}
-                                            >
-                                            <FontAwesomeIcon icon={farStar}/>
-                                            <span>Like</span>
-                                        </button>
-                                    }
-                                    
-
-                                    {
-                                        (likes!==null)&&
-                                        <div style={{fontSize:"14px"}}>
-                                            {
-                                                likes.length>0
-                                                ? <span> Liked by {likes.length} 
-                                                    {likes.length > 1 ? " People " : " Person "}
-                                                 </span>
-                                                : <span style={{fontSize:"12px"}}>Be the first to like</span>
-                                            }
-                                        </div>
-                                    }
-                                </div>
-
-                                <div className="col-12 border mt-5 p-5 d-sm-flex gap-3">
-                                    <div className="col-12 col-sm-9 d-flex flex-column justify-content-center">
-                                        <h6>Published by {article.publisherName}</h6>
-                                        <p className="fw-lighter" style={{fontSize:"13px"}}>
-                                            {article.publisherDescription}
-                                        </p>
-                                    </div>
-                                    <div className="col-12 col-sm-3  d-flex justify-content-center">
-                                        <div className=" rounded-circle overflow-hidden" style={{width:"120px",height:"120px"}}>
+                        <div className="d-lg-flex justify-content-center gap-3">
+                            <div className="col-12 col-lg-9  p-0">
+                                <div className="col-xl-9 mt-3">
+                                    <h2 className="text-center headline">{decodeString(article.articleHeadline)}</h2>
+                                    <div className="pt-2 pb-2 mb-2  d-flex justify-content-between align-items-center">
+                                        
+                                        <div className=" d-flex gap-3 align-items-end">
                                             {
                                                 article.publisherPhotoUrl !== null
-                                                ?<img src={article.publisherPhotoUrl} alt=""
-                                                    className="w-100 h-100 object-fit-cover"
-                                                />
-                                                :<FontAwesomeIcon icon={faUser} className="pt-2 h-100 w-100 ic-grey"/>
+                                                ?<div style={{width:"50px",height:"50px"}}>                                                                                           
+                                                    <img src={article.publisherPhotoUrl}
+                                                        className="rounded-circle w-100 h-100 object-fit-cover"
+                                                        alt=""
+                                                    />
+                                                </div>
+
+                                                :<div className="rounded-circle overflow-hidden" style={{width:"50px",height:"50px"}}>
+                                                    <FontAwesomeIcon icon={faUser} className="rounded-circle w-100 h-100 pt-2"/>
+                                                </div>
                                             }
+                                        
+                                            <p style={{color:"teal",fontWeight:"bold"}}>{article.publisherName}</p>
+                                            <p className="fw-lighter">                                           
+                                                {(article.articleUpdatingDate !== null)
+                                                    ? "Updated  "+moment(article.articleUpdatingDate).fromNow() 
+                                                    :  `Published ${moment(article.articlePostingDate).fromNow()} `
+                                                    
+                                                } 
+                                    
+                                            </p>
+                                        </div>    
+                                        
+                                        {(user !== null && user.userLevel === 1)
+                                            ? <div className="d-flex gap-2">
+                                                <img src={Edit} alt ="" onClick={navigateToUpdate} className="edit-img"/>
+                                                {(deleting)
+                                                    ?<div className="spinner-border text-light">
+                                                        <span className="sr-only">Loading</span>
+                                                    </div>
+                                                    :<img src={Delete} alt ="" onClick={deleteArticle} className="delete-img"/>
+                                                }
+                                                </div>
+                                            : <></>
+                                        }
+                                        
+                                    </div>
+
+                                    {/* <div className="w-100" style={{height:"430px",overflow:"hidden"}}>
+                                        {
+                                        
+                                            (fetchedImgUrl!=='null')
+                                                ?<img src={fetchedImgUrl} alt="article img"
+                                                className="rounded object-fit-cover img-fluid"
+                                                style={{display:"block",width:"100%",height:"100%"}}/>
+                                                :null
+                                        }
+                                    </div> */}
+    
+                                    <div className="container-lg p-0" id="single-article-body">              
+                                        <div 
+                                            dangerouslySetInnerHTML={{__html:articleBody}}
+                                            className="mt-2" >                                      
                                         </div>
                                     </div>
+
+                                    <div className=" mt-5">
+                                        <hr/>
+
+                                    </div>
+
+                                    <div className="col-md-6 col-lg-4 d-flex justify-content-between align-items-center">
+                                        {
+                                            (likes!==null && hasLiked())
+                                            ?<button className="btn border no-focus-outline rounded-0 d-flex gap-3 align-items-center"
+                                                onClick={like}
+                                                >
+                                                <FontAwesomeIcon icon={faStar} className="ic-teal"/>
+                                                <span>Liked</span>
+                                            </button>
+                                            :<button className="btn border rounded-0 d-flex gap-3 align-items-center"
+                                                onClick={like}
+                                                >
+                                                <FontAwesomeIcon icon={farStar}/>
+                                                <span>Like</span>
+                                            </button>
+                                        }
+                                        
+
+                                        {
+                                            (likes!==null)&&
+                                            <div style={{fontSize:"14px"}}>
+                                                {
+                                                    likes.length>0
+                                                    ? <span> Liked by {likes.length} 
+                                                        {likes.length > 1 ? " People " : " Person "}
+                                                    </span>
+                                                    : <span style={{fontSize:"12px"}}>Be the first to like</span>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div className="col-12 border mt-5 p-5 d-sm-flex gap-3">
+                                        <div className="col-12 col-sm-9 d-flex flex-column justify-content-center">
+                                            <h6>Published by {article.publisherName}</h6>
+                                            <p className="fw-lighter" style={{fontSize:"13px"}}>
+                                                {article.publisherDescription}
+                                            </p>
+                                        </div>
+                                        <div className="col-12 col-sm-3  d-flex justify-content-center">
+                                            <div className=" rounded-circle overflow-hidden" style={{width:"120px",height:"120px"}}>
+                                                {
+                                                    article.publisherPhotoUrl !== null
+                                                    ?<img src={article.publisherPhotoUrl} alt=""
+                                                        className="w-100 h-100 object-fit-cover"
+                                                    />
+                                                    :<FontAwesomeIcon icon={faUser} className="pt-2 h-100 w-100 ic-grey"/>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <Related cat={article.sectionName} current={article.articleId} />
+
+
+                                    <Comments articleId={article.articleId}/>
                                 </div>
-
-                                <Related cat={article.sectionName} current={article.articleId} />
-
-
-                                <Comments articleId={article.articleId}/>
+                                
 
 
                             </div>
