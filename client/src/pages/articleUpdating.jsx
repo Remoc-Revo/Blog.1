@@ -309,9 +309,24 @@ export default function ArticlesUpdating(){
         return images;
     };
 
+
+    function findFirstBlockWithText(){
+        const rawContentState = convertToRaw(editorState.getCurrentContent())
+
+        const blocks = rawContentState.blocks;
+
+        for(let block of blocks){
+            if(block.text && block.text.trim().length > 0){
+                return block.text;
+            }
+        }
+    }
+
     
 
     async function addArticle(articleBody,submitAsDraft){
+        let articleExcerpt = findFirstBlockWithText();
+
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
         console.log(articleBody,"\n",articleHeadline,"\n",articleSectionId,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
         
@@ -321,6 +336,8 @@ export default function ArticlesUpdating(){
 
 
         if(articlePhotos.length>0) imgUrl=  articlePhotos[0];
+
+        
         
         await api.post('/addArticle',
                 {
@@ -330,7 +347,8 @@ export default function ArticlesUpdating(){
                     articleBody:articleBody,//encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
                     withCredentials:true,
                     img:imgUrl,
-                    isDraft: submitAsDraft
+                    isDraft: submitAsDraft,
+                    articleExcerpt: articleExcerpt
                 },
                 )
             .then((response)=>{
@@ -352,6 +370,7 @@ export default function ArticlesUpdating(){
     }
 
     async function updateArticle(articleBody,submitAsDraft){
+        let articleExcerpt = findFirstBlockWithText();
         let imgUrl= null;
         let prevImg;
 
@@ -369,7 +388,8 @@ export default function ArticlesUpdating(){
                     withCredentials:true,
                     img:imgUrl,
                     prevImg : prevImg,
-                    isDraft:submitAsDraft
+                    isDraft:submitAsDraft,
+                    articleExcerpt: articleExcerpt
                 },
                 )
             .then((response)=>{
