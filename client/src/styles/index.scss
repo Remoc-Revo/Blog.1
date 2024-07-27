@@ -79,9 +79,6 @@ i.duration{
    
 }
 
-// .single-content{
-//     justify-content: center;
-// }
 
 .space-between{
     justify-content:space-between;
@@ -194,7 +191,7 @@ p{
 
 
 #main-nav #active,#main-nav h1{
-    text-decoration: underline;
+    border-bottom: 2px solid black;
 }
 
 #main-nav h1{
@@ -241,7 +238,7 @@ p{
 
 .fade-in-up{
     animation-name: fadeInUp;
-    animation-duration:  1.5s;
+    animation-duration:  0.1s;
     animation-fill-mode: both;
 }
 
@@ -264,6 +261,11 @@ p{
         }
         
     }
+}
+
+
+#readers-home{
+    padding-top: 40px;
 }
 
 
@@ -737,7 +739,6 @@ footer {
 
 @media screen and (min-width:992px){
     #page-links{
-        margin-right:30px; 
     }
     
 
