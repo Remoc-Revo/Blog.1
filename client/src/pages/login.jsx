@@ -80,7 +80,7 @@ export default function Login(){
 
                     <div className="d-flex justify-content-between" style={{fontSize:"13px"}}>
                             <a href="/register" className="text-decoration-none">Sign up</a>
-                            <a href="/resetPassword" className="text-decoration-none" >
+                            <a href="/resetPassword/null" className="text-decoration-none" >
                                 Forgot  password
                             </a>
                     </div>
