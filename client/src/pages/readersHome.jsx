@@ -132,12 +132,11 @@ export default  function ReadersHome({updateAdminPanelSection}){
     },[lastArticleRef,fetchArticles,fullyLoaded,options])
     
     return(
-        <div id="readers-home">
-            
-            <div className="">
-                <MainNav/>
-                <div className="container-md d-lg-flex justify-content-center mb-4  mt-4">
-                    <div className="col-lg-9 single-content">
+        <div className="">
+            <MainNav/>
+            <div className="bg-light" id="readers-home">                
+                <div className="container d-lg-flex justify-content-center p-2 p-sm-0 mb-4  mt-4">
+                    <div className="col-lg-9 ">
 
                     
                     {
