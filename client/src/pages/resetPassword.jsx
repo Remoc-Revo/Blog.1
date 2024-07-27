@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import { useNavigate } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 // import { useUserContext } from "../userContext";
 import api from "../config/api";
 import { useParams } from "react-router-dom";
@@ -13,7 +14,8 @@ export default function ResetPassword(){
     const [errorMessage,setErrorMessage]=useState();
     const {resetToken} = useParams();
     const [isValidating, setIsValidating] = useState(false);
-    
+    const [showSuccessModal, setShowSuccesModal] = useState(false);
+    const [successMessage, setSuccessMessage] = useState();
     // const {user,contextLogin} = useUserContext();
 
 
@@ -30,7 +32,8 @@ export default function ResetPassword(){
             .then((response)=>{
                 setIsValidating(false);
                 if(response && response.status===200){
-                    window.alert(`A password reset link has been sent to your email. Please check your spam folder if you don't see it in your inbox.`);
+                    setSuccessMessage(`A password reset link has been sent to your email. Please check your spam folder if you don't see it in your inbox.`);
+                    setShowSuccesModal(true);
                 }
             })
             .catch((err)=>{
@@ -78,8 +81,8 @@ export default function ResetPassword(){
                     ).then((response)=>{
                             setIsValidating(false);                            
                             if(response && response.status===201){
-                                navigate("/login");
-                                window.alert('Password reset successful!')
+                                setSuccessMessage('Password reset successful!');
+                                setShowSuccesModal(true);
                             }
                     })
                 .catch((err)=>{
@@ -148,6 +151,23 @@ export default function ResetPassword(){
                     
                 </form>
             </div>
+
+            <Modal show={showSuccessModal} centered>
+                    <Modal.Body>
+                        <div className=" d-flex flex-column justify-content-center">
+                            <p>{successMessage}</p>
+                            <div>
+                                <button className=" col-12 btn btn-light" 
+                                    onClick={()=>{
+                                        setShowSuccesModal(false);
+                                        navigate("/login");
+                                    }}>
+                                    Okay
+                                </button>
+                            </div>
+                        </div>
+                    </Modal.Body>
+            </Modal>
         </div>
         
     )
