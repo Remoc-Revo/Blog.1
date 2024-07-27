@@ -2,6 +2,7 @@ const createPool=require('../config/dbConnection')
 const pool = createPool();
 const cloudinary = require('cloudinary');
 const {extractPublicId} = require('cloudinary-build-url');
+const {notifySubscriber, queryDb, delay} = require('../global');
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD__NAME,
@@ -27,6 +28,7 @@ exports.updateArticle=(req,res)=>{
         const imgUrl=body.img;
         const prevImg = body.prevImg;
         const isDraft = body.isDraft ;
+        const articleExcerpt = body.articleExcerpt;
 
         if(prevImg != undefined){
             deletePrevImg(prevImg);
@@ -41,7 +43,7 @@ exports.updateArticle=(req,res)=>{
                         articleIsDraft = ?
                     WHERE articleId = ?
                     `,[headline,articleBody,sectionId,isDraft, articleId],
-             (err,result)=>{
+             async (err,result)=>{
                 if(err){
                     console.log(err) 
                 }
@@ -55,7 +57,35 @@ exports.updateArticle=(req,res)=>{
                             
                         })
                 }
-                return res.status(200).json({})
+
+                if(result.affectedRows == 1){
+
+                    res.status(200).json({})
+
+                    //notify subscribers if article is published
+                    if(!isDraft){
+                        const subscribers = await queryDb(
+                            `SELECT s.* , u.userFirstName as firstName
+                            FROM SUBSCRIBER s
+                                LEFT JOIN USER u ON u.userEmail = s.subscriberEmail
+                            `
+                        )
+
+                        console.log("available subscribers", subscribers);                        
+
+                        for(let subscriber of subscribers){
+                            notifySubscriber(subscriber.subscriberEmail,
+                                            subscriber.firstName,
+                                            articleExcerpt,
+                                            articleId
+                            )
+
+                            //Throttle
+                            delay(350);
+                        }
+                    }
+                }
+               
                 
              })
             
