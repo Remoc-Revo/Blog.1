@@ -367,3 +367,61 @@ exports.requestPasswordReset = async(req,res)=>{
     }
 
 }
+
+
+
+exports.resetPassword = (req,res)=>{
+   const {body} = req;
+   const password = body.password;
+   const resetToken = body.resetToken;
+   const email = body.email;
+
+   pool.query(`SELECT resetPasswordToken,resetPasswordExpires FROM USER WHERE userEmail=?`,[email],async(err,result)=>{
+      if(err){
+         console.log("eror fetching password reset token email",err);
+      }
+      
+      
+      if(result.length > 0 ){
+         const storedToken = result[0].resetPasswordToken;
+         console.log("token found", storedToken)
+
+         //stored token doesn't match token sent
+         if(storedToken != resetToken){
+            return res.status(401).json({errors:"Invalid password reset link"})
+         }else{
+            let tokenExpirationTime = result[0].resetPasswordExpires;
+            tokenExpirationTime = new Date(tokenExpirationTime);
+            const currentTime = new Date();
+            const timeDifference = currentTime - tokenExpirationTime;
+
+
+            //link has
+            if(timeDifference > 3600000){
+               return res.status(401).json({errors:"The password reset link has expired. Request for a new one."})
+            }
+            else{
+               const hashedPassword=await bcrypt.hash(password,12);
+               
+               pool.query(`UPDATE USER SET userPassword = ? WHERE userEmail = ?`,
+                  [hashedPassword, email],
+                  (err,result)=>{
+                     if(err) console.log("Error saving new password");
+
+                     if(result.affectedRows == 1){
+                        console.log("new password set!");
+
+                        return res.status(201).json({});
+                     }
+                  }
+               )
+
+            }
+         }
+         
+         
+      }
+
+   });
+
+}

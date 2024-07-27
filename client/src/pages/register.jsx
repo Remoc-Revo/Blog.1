@@ -8,6 +8,7 @@ export default function Register(){
     var [password,setpassword]=useState('');
     var [passwordConfirm,setpasswordConfirm]=useState('');
     var [errorMessage,setErrorMessage]=useState('');
+    var [isRegistering, setIsRegistering] = useState(false);
 
     const navigate=useNavigate();
 
@@ -35,9 +36,9 @@ export default function Register(){
 
     const Register=(e)=>{
         e.preventDefault();
-         
         if(validationErrors().length===0){
-            
+            setIsRegistering(true);
+
                 api.post("/register",
                     {
                         email:email,
@@ -46,12 +47,13 @@ export default function Register(){
                         withCredentials:true
                     }
                     ).then((response)=>{
-                            
+                            setIsRegistering(false);
                             if(response && response.status===200){
                                 navigate("/login");
                             }
                     })
                 .catch((err)=>{
+                    setIsRegistering(false);
                 // document.write("the error:   ",err);
 
                 if(err.response.status===400){
@@ -104,7 +106,15 @@ export default function Register(){
                     </div>
                 
                     <div className="d-flex flex-column">
-                        <input type="submit" value="Register" className="col-12 btn-submit"/>
+                        <button type="submit" className="col-12 btn-submit">
+                            {isRegistering
+                                ?<div className="spinner-border text-white">
+                                    <span className="sr-only">Validating...</span>
+                                </div>
+                                :<span>Register</span>
+                            }
+
+                        </button>
                        <div className="col-12 d-flex justify-content-center">
                         <p className="mt-3 ">
                                 Have an account?
