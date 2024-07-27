@@ -297,19 +297,35 @@ exports.requestPasswordReset = async(req,res)=>{
          port: 465,
          secure: true,
         auth: {
-          user: process.env.PSWD_EMAIL_USER,
-          pass: process.env.PSWD_EMAIL_PASS,
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
         },
       });
-  
+
+      const htmlContent = `
+         <!DOCTYPE html>
+         <html>
+            <head>
+               <meta charset="UTF-8">
+               <title>Password Reset Request</title>
+            </head>
+            <body>
+               <p>Hello [Recipient’s Name],</p>
+               <p>We received a request to reset the password for your account. If you did not make this request, please ignore this email.</p>
+               <p>To reset your password, please click the link below or paste it into your browser:</p>
+               <p><a href="${process.env.CLIENT_HOST}/reset/${token}">Reset your password</a></p>
+               <p>The link will expire in 1 hour. If you have any questions or need further assistance, please contact our support team.</p>
+               <p>Thank you,<br>The [Your Company] Team</p>
+               <p><small>If you did not request this, please ignore this email and your password will remain unchanged.</small></p>
+            </body>
+         </html>
+      `;
+   
       const mailOptions = {
         to: email,
         from: process.env.PSWD_EMAIL_USER,
         subject: 'Password Reset',
-        text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
-               Please click on the following link, or paste this into your browser to complete the process:\n\n
-               http://${req.headers.host}/reset/${token}\n\n
-               If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+        html: htmlContent
       };
   
       transporter.sendMail(mailOptions, (error, info) => {
