@@ -32,7 +32,7 @@ function App() {
             <Route path='/register' element={<Register/>}/>
             <Route path='/sngl/:id' element={<Single/>}/>
             <Route path='/profile' element={<Profile/>}/>
-            <Route path='/resetPassword' element={<ResetPassword/>}/>
+            <Route path='/resetPassword/:resetToken' element={<ResetPassword/>}/>
           </Routes>
         </UserProvider>
         

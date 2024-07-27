@@ -2,6 +2,7 @@ import React,{useState} from "react";
 // import { useNavigate } from "react-router-dom";
 // import { useUserContext } from "../userContext";
 import api from "../config/api";
+import { useParams } from "react-router-dom";
 
 
 export default function ResetPassword(){
@@ -10,7 +11,7 @@ export default function ResetPassword(){
     const [oldPassword,setOldPassword]=useState();
     const [newPassword,setNewPassword]=useState();
     const [errorMessage,set_errorMessage]=useState();
-    const [allowPasswordReset, setAllowPasswordReset] = useState(false);
+    const {resetToken} = useParams();
     // const {user,contextLogin} = useUserContext();
 
     function requestPasswordReset(e){
@@ -24,7 +25,6 @@ export default function ResetPassword(){
             })
             .then((response)=>{
                 if(response && response.status===200){
-                   setAllowPasswordReset(true)
                 }
             })
             .catch((err)=>{
@@ -49,7 +49,7 @@ export default function ResetPassword(){
                         />
 
                         
-                        <div className={`${!allowPasswordReset ? 'd-none': ''}`}>
+                        <div className={`${resetToken === 'null' ? 'd-none': ''}`}>
                             <input className="col-md-12" type="password" name="password" placeholder="password" required
                                 value={oldPassword} onChange={(e)=>{setOldPassword(e.target.value)}}
                             />
@@ -63,7 +63,7 @@ export default function ResetPassword(){
                     <p style={{color:"red"}}>{errorMessage}</p>
 
                     {
-                        !allowPasswordReset
+                        resetToken === 'null'
                         ?<input className="col-md-12 btn-submit" id="" type="submit" value="Submit" onClick={requestPasswordReset}/>
                         :<input className="col-md-12 btn-submit" id="" type="submit" value="Change Password"/>
                     }
