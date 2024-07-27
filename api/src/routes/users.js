@@ -323,7 +323,7 @@ exports.requestPasswordReset = async(req,res)=>{
    
       const mailOptions = {
         to: email,
-        from: process.env.PSWD_EMAIL_USER,
+        from: process.env.EMAIL_USER,
         subject: 'Password Reset',
         html: htmlContent
       };
