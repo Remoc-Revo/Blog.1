@@ -150,7 +150,7 @@ export default function MainNav(){
                             </NavItem>
                           : <Nav.Link href="/login" className="nav-link m-2">sign in</Nav.Link>
                     } 
-                    <button className="btn btn-dark no-focus-outline rounded-0 d-flex align-items-center justify-content-center"
+                    <button className="btn btn-dark no-focus-outline rounded-0 d-none d-md-flex align-items-center justify-content-center "
                       onClick={()=>setShowSubscriptionModal(true)}
                       style={{height:"28px", width:"90px"}}>
                         Subscribe
