@@ -294,68 +294,73 @@ exports.requestPasswordReset = async(req,res)=>{
 
             return res.status(401).json({errors:"email doesn't exist"})
          }
-      });
+         else{
+
+            const token = crypto.randomBytes(32).toString('hex');
+            const expiration = new Date(Date.now() + 3600000); // 1 hour expiration    
 
 
-
-      const token = crypto.randomBytes(32).toString('hex');
-      const expiration = new Date(Date.now() + 3600000); // 1 hour expiration    
-
-
-      // Store token and expiration in the database
-      pool.query(
-        'UPDATE USER SET resetPasswordToken = ?, resetPasswordExpires = ? WHERE userEmail = ?',
-        [token, expiration, email]
-      );
-  
-      // Send email with the reset token
-      const transporter = nodemailer.createTransport({
-         host: process.env.MAIL_HOST,
-         port: 465,
-         secure: true,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
+            // Store token and expiration in the database
+            pool.query(
+            'UPDATE USER SET resetPasswordToken = ?, resetPasswordExpires = ? WHERE userEmail = ?',
+            [token, expiration, email]
+            );
+      
+            // Send email with the reset token
+            const transporter = nodemailer.createTransport({
+               host: process.env.MAIL_HOST,
+               port: 465,
+               secure: true,
+            auth: {
+               user: process.env.EMAIL_USER,
+               pass: process.env.EMAIL_PASS,
+            },
+            });
 
 
-      //REM : change back the href's client host after refactoring
+            //REM : change back the href's client host after refactoring
 
-      const htmlContent = `
-         <!DOCTYPE html>
-         <html>
-            <head>
-               <meta charset="UTF-8">
-               <title>Password Reset Request</title>
-            </head>
-            <body>
-               <p>Hello,</p>
-               <p>We received a request to reset the password for your account. If you did not make this request, please ignore this email.</p>
-               <p>To reset your password, please click the link below or paste it into your browser:</p>
-               <p><a href="${process.env.CLIENT_HOST_2}/resetPassword/${token}">Reset your password</a></p>
-               <p>The link will expire in 1 hour. If you have any questions or need further assistance, please contact our support team.</p>
-               <p>Thank you.</p>
-               <p><small>If you did not request this, please ignore this email and your password will remain unchanged.</small></p>
-            </body>
-         </html>
-      `;
-   
-      const mailOptions = {
-        to: email,
-        from: process.env.EMAIL_USER,
-        subject: 'Password Reset',
-        html: htmlContent
-      };
-  
-      transporter.sendMail(mailOptions, (error, info) => {
-         if (error) {
-           return console.log("error sending email to: ", email,error);
+            const htmlContent = `
+               <!DOCTYPE html>
+               <html>
+                  <head>
+                     <meta charset="UTF-8">
+                     <title>Password Reset Request</title>
+                  </head>
+                  <body>
+                     <p>Hello,</p>
+                     <p>We received a request to reset the password for your account. If you did not make this request, please ignore this email.</p>
+                     <p>To reset your password, please click the link below or paste it into your browser:</p>
+                     <p><a href="${process.env.CLIENT_HOST_2}/resetPassword/${token}">Reset your password</a></p>
+                     <p>The link will expire in 1 hour. If you have any questions or need further assistance, please contact our support team.</p>
+                     <p>Thank you.</p>
+                     <p><small>If you did not request this, please ignore this email and your password will remain unchanged.</small></p>
+                  </body>
+               </html>
+            `;
+         
+            const mailOptions = {
+            to: email,
+            from: process.env.EMAIL_USER,
+            subject: 'Password Reset',
+            html: htmlContent
+            };
+      
+            transporter.sendMail(mailOptions, (error, info) => {
+               if (error) {
+               return console.log("error sending email to: ", email,error);
+               }
+               console.log('Message sent, id : %s', info.messageId, "to :",email,"the info:", info);
+            });
+      
+            res.status(200).send('Password reset link sent.');
+
          }
-         console.log('Message sent, id : %s', info.messageId, "to :",email,"the info:", info);
-       });
-  
-      res.status(200).send('Password reset link sent.');
+      });
+
+
+
+      
     } catch (error) {
       console.error(error);
       res.status(500).send('Error sending password reset link.');
