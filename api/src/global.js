@@ -123,7 +123,6 @@ exports.notifySubscriber = (email, userFirstName,articleExcerpt, articleId)=>{
         console.log('Message sent, id : %s', info.messageId, "to :",email,"the info:", info);
      });
 
-     res.status(200).send('Password reset link sent.');
 
 }
 
