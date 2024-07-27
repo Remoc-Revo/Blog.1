@@ -1,40 +1,100 @@
 import React,{useState} from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import { useUserContext } from "../userContext";
 import api from "../config/api";
 import { useParams } from "react-router-dom";
 
 
 export default function ResetPassword(){
-    // const navigate=useNavigate();
+    const navigate=useNavigate();
     const [email,set_email]=useState();
-    const [oldPassword,setOldPassword]=useState();
     const [newPassword,setNewPassword]=useState();
-    const [errorMessage,set_errorMessage]=useState();
+    const [passwordConfirm,setPasswordConfirm]=useState();
+    const [errorMessage,setErrorMessage]=useState();
     const {resetToken} = useParams();
+    const [isValidating, setIsValidating] = useState(false);
+    
     // const {user,contextLogin} = useUserContext();
+
 
     function requestPasswordReset(e){
         e.preventDefault();
-        set_errorMessage();
-        
+        setErrorMessage();
+        setIsValidating(true);
+
         api.post('/requestPasswordReset',
             {
                 withCredentials:true,
                 email:email,
             })
             .then((response)=>{
+                setIsValidating(false);
                 if(response && response.status===200){
+                    window.alert(`A password reset link has been sent to your email. Please check your spam folder if you don't see it in your inbox.`);
                 }
-                document.write(response.status)
             })
             .catch((err)=>{
+                setIsValidating(false);
                 // document.write(err)
                 if(err.response && err.response.status===401){
-                    set_errorMessage("Entered email is not registered")
+                    setErrorMessage("Entered email is not registered")
                 }
             });
     }
+
+
+    function validationErrors(){
+        var errorBuffer='';
+
+        if(newPassword.length<4){
+            errorBuffer+= "*Password must have at least 4 characters";
+
+        }
+        if(newPassword!==passwordConfirm){
+            errorBuffer+= "*Passwords don't match ";
+         }
+
+        const emailRegex=/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        if(!emailRegex.test(email)){
+            errorBuffer+= " *Invalid email"
+        }
+       
+        setErrorMessage(errorBuffer);
+        return errorBuffer;
+    }
+
+    const resetPassword=(e)=>{
+        e.preventDefault();
+        if(validationErrors().length===0){
+            setIsValidating(true);
+
+                api.post("/resetPassword",
+                    {
+                        email:email,
+                        password:newPassword,
+                        resetToken:resetToken,
+                        withCredentials:true
+                    }
+                    ).then((response)=>{
+                            setIsValidating(false);
+                            if(response && response.status===201){
+                                navigate("/login");
+                            }
+                    })
+                .catch((err)=>{
+                    setIsValidating(false);
+                // document.write("the error:   ",err);
+
+                    if(err.response.status===401){
+                        // document.write(err)
+                        setErrorMessage(err.response.data.errors);                    
+                    }
+                });
+        }
+       
+    }
+
+
     return(
         <div className="auth-page ">
 
@@ -51,12 +111,12 @@ export default function ResetPassword(){
 
                         
                         <div className={`${resetToken === 'null' ? 'd-none': ''}`}>
-                            <input className="col-md-12" type="password" name="password" placeholder="password" required
-                                value={oldPassword} onChange={(e)=>{setOldPassword(e.target.value)}}
+                            <input className="col-md-12" type="password" name="password" placeholder="new password" required
+                                value={newPassword} onChange={(e)=>{setNewPassword(e.target.value)}}
                             />
 
-                            <input className="col-md-12" type="password" name="password" placeholder="password" required
-                                value={newPassword} onChange={(e)=>{setNewPassword(e.target.value)}}
+                            <input className="col-md-12" type="password" name="password" placeholder="confirm password" required
+                                value={passwordConfirm} onChange={(e)=>{setPasswordConfirm(e.target.value)}}
                             />
                         </div>
                         
@@ -65,8 +125,22 @@ export default function ResetPassword(){
 
                     {
                         resetToken === 'null'
-                        ?<input className="col-md-12 btn-submit" id="" type="submit" value="Submit" onClick={requestPasswordReset}/>
-                        :<input className="col-md-12 btn-submit" id="" type="submit" value="Change Password"/>
+                        ?<button className="col-md-12 btn-submit" id="" type="submit" onClick={requestPasswordReset}>
+                            {isValidating
+                                ?<div className="spinner-border text-white">
+                                    <span className="sr-only">Validating...</span>
+                                </div>
+                                :<span>Submit</span>
+                            }
+                        </button>
+                        :<button className="col-md-12 btn-submit" id="" type="submit" onClick={resetPassword}>
+                             {isValidating
+                                ?<div className="spinner-border text-white">
+                                    <span className="sr-only">Validating...</span>
+                                </div>
+                                :<span>Change Password</span>
+                            }
+                        </button>
                     }
                     
 
