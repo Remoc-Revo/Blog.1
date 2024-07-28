@@ -30,22 +30,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //uncomment before merging to main branch!!!
-// app.use(session({
-//   secret:'secreet',
-//   saveUninitialized:false,
-//   resave:false,
-//   store: sessionStore,
-//   cookie: {
-//     maxAge: 24*60*60*1000,
-//     sameSite:'none',
-//     httpOnly:true,
-//     secure: true,
-//     path: '/'
-//   }
-// }));
-
-
-//for localhost
 app.use(session({
   secret:'secreet',
   saveUninitialized:false,
@@ -53,12 +37,28 @@ app.use(session({
   store: sessionStore,
   cookie: {
     maxAge: 24*60*60*1000,
-    // sameSite:'none',
+    sameSite:'none',
     httpOnly:true,
-    // secure:true,
+    secure: true,
     path: '/'
   }
 }));
+
+
+//for localhost
+// app.use(session({
+//   secret:'secreet',
+//   saveUninitialized:false,
+//   resave:false,
+//   store: sessionStore,
+//   cookie: {
+//     maxAge: 24*60*60*1000,
+//     // sameSite:'none',
+//     httpOnly:true,
+//     // secure:true,
+//     path: '/'
+//   }
+// }));
 
 app.use(cors({
   allowedHeaders:['Content-Type'],
