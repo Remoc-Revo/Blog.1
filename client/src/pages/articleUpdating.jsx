@@ -373,9 +373,6 @@ export default function ArticlesUpdating(){
         imgUrl = await uploadImageToCloud();
         console.log("imgUrl",imgUrl)
 
-
-        if(articlePhotos.length>0) imgUrl=  articlePhotos[0];
-
         
         
         await api.post('/addArticle',
@@ -418,8 +415,6 @@ export default function ArticlesUpdating(){
 
     
         console.log("editor state",editorState)
-        //for test
-       if(articlePhotos.length>0) imgUrl=  articlePhotos[0];
 
         await api.post('/updateArticle',
                 {
