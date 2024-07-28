@@ -380,7 +380,7 @@ export default function ArticlesUpdating(){
         
         await api.post('/addArticle',
                 {
-                    headers: { 'content-type': 'multipart/form-data' },
+                    headers: { 'content-type': 'application/json' },
                     articleSectionId: articleSectionId,
                     articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
                     articleBody:articleBody,//encodeURIComponent(articleBody).replace(/'/g,"&apos;"),
@@ -423,6 +423,7 @@ export default function ArticlesUpdating(){
 
         await api.post('/updateArticle',
                 {
+                    headers: { 'content-type': 'application/json' },
                     articleId: articleToUpdate.articleId,
                     articleSectionId:articleSectionId,
                     articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
