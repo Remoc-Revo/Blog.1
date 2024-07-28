@@ -128,7 +128,7 @@ export default function ArticlesUpdating(){
         const intervalId = setInterval(autoSaveToLocalStorage, 100);
 
         return ()=> clearInterval(intervalId);
-    },[articleHeadline,editorState, articleIdToUpdate])
+    },[articleHeadline,editorState, articleIdToUpdate, articleSectionId])
 
     //recover draft from storage
     useEffect(()=>{
