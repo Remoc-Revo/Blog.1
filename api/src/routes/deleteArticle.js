@@ -13,6 +13,12 @@ exports.deleteArticle = (req,res) =>{
     const articleId = req.params.articleId;
     const imgUrl = req.body.imgUrl;
 
+    pool.query(`DELETE FROM NOTIFICATION WHERE articleId = ?`,[articleId],
+        (err)=>{
+            if(err) console.log("Error deleting article's notification", err);
+        }
+    );
+
     pool.query('DELETE FROM ARTICLE WHERE articleId = ?',[articleId],(err,result)=>{
         if(err){
             console.log(err);
