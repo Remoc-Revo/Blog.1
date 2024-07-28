@@ -333,8 +333,8 @@ export default function ArticlesUpdating(){
 
 
         if(firstImage !== null){
-            htmlContent += `<div id="previewImageContainer">
-                                <img src="${firstImage}" alt="" id="previewPhoto"/>
+            htmlContent += `<div id="previewImageContainer" style="width: 100%; height: 300px;">
+                                <img src="${firstImage}" alt="" style="width:100%; height:100%; object-fit: cover;"/>
                             </div>    
                             `;
         }

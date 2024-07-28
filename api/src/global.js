@@ -25,7 +25,7 @@ exports.notifySubscriber = (email, name,articleExcerpt, articleId, articleHeadli
      });
 
      const htmlContent = `
-       <!DOCTYPE html>
+      <!DOCTYPE html>
         <html>
         <head>
             <style>
@@ -35,121 +35,37 @@ exports.notifySubscriber = (email, name,articleExcerpt, articleId, articleHeadli
                     padding: 0;
                     background-color: #f6f6f6;
                 }
-                .container {
-                    width: 100%;
-                    max-width: 600px;
-                    margin: 0 auto;
-                    background-color: #ffffff;
-                    padding: 10px;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                }
-                .header {
-                    text-align: center;
-                    padding: 10px 0;
-                }
-                .header h1 {
-                    margin: 0;
-                    font-size: 24px;
-                    color: #333333;
-                }
-                .d-flex{
-                    display: flex;                    
-                }
-                .d-block{
-                    display: block;
-                }
-                .content {
-                    margin: 20px 0;
-                }
-                .content h2 {
-                    font-size: 20px;
-                    color: #333333;
-                }
-                .content p {
-                    font-size: 16px;
-                    color: #666666;
-                    line-height: 1.5;
-                }
-                .cta-button {
-                    display: block;
-                    width: 200px;
-                    margin: 20px auto;
-                    padding: 10px 0;
-                    text-align: center;
-                    background-color: #007BFF;
-                    color: #ffffff;
-                    text-decoration: none;
-                    border-radius: 5px;
-                }
-                .cta-button-text{
-                    color: white;
-                }
-                #previewImageContainer{
-                    width: 100%;
-                    height: 300px;
-                }
-                #previewPhoto{
-                    width:100%;
-                    height:100%;
-                    object-fit: contain;
-                }
-                .publisherPhotoContainer{
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 50%;
-                    margin-right: 30px;
-                }
-                .publisherPhoto{
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                    object-fit: contain;                   
-                }
-                #publisher-info{
-                    margin-bottom: 20px;
-                    align-items: center;
-                    ;
-                }
-                .footer {
-                    text-align: center;
-                    font-size: 12px;
-                    color: #999999;
-                    margin-top: 20px;
-                }
-                .black{
-                }
-                color: black
             </style>
         </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    
+        <body style="font-family: 'Open Sans', sans-serif; margin: 0; padding: 0; background-color: #f6f6f6;">
+            <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                <div class="header" style="text-align: center; padding: 10px 0;">
+                    <!-- Add any header content if necessary -->
                 </div>
-                <div class="content">
-                    
+                <div class="content" style="margin: 20px 0;">
                     <h3>
                         ${name != null ? 'Hello ' + name + ',' : ''}
                     </h3>
-                    <h2>${decodeURIComponent(articleHeadline)}</h2>
-                    <div class="d-flex" id="publisher-info">
-                        <div class="publisherPhotoContainer">
-                            <img src="${publisher.photoUrl}"  class="publisherPhoto"/>
+                    <h2 style="font-size: 20px; color: #333333;">${decodeURIComponent(articleHeadline)}</h2>
+                    <div class="d-flex" id="publisher-info" style="display: flex; margin-bottom: 20px; align-items: center;">
+                        <div class="publisherPhotoContainer" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px; overflow: hidden;">
+                            <img src="${publisher.photoUrl}" class="publisherPhoto" style="width: 100%; height: 100%; object-fit: cover;" />
                         </div>
                         <div>
-                            <p><b class="d-block black">${publisher.firstName && publisher.firstName}  ${publisher.lastName && publisher.lastName}</b></p>
-                            <span><i class="black"> ${readTimeInMinutes} min read</i></span>
+                            <b class="d-block black" style="display: block; color: black;">${publisher.firstName && publisher.firstName}  ${publisher.lastName && publisher.lastName}</b>
+                            <span><i class="black" style="color: black;">${readTimeInMinutes} min read</i></span>
                         </div>
                     </div>
+    
                     ${articleExcerpt}
-                    <a href="${process.env.CLIENT_HOST}/sngl/${articleId}" class="cta-button"><span class="cta-button-text">Read the Full Article</span></a>
-                    
-
+                    <a href="${process.env.CLIENT_HOST}/sngl/${articleId}" class="cta-button" style="display: block; width: 200px; margin: 20px auto; padding: 10px 0; text-align: center; background-color: #007BFF; color: #ffffff; text-decoration: none; border-radius: 5px;">
+                        <span class="cta-button-text" style="color: white;">Read the Full Article</span>
+                    </a>
                 </div>
-                <div class="footer">
+                <div class="footer" style="text-align: center; font-size: 12px; color: #999999; margin-top: 20px;">
                     <p>Thank you for reading,</p>
                     <p>Dr. Liz</p>
-                    <p>If you no longer wish to receive these emails, you can <a href="${process.env.CLIENT_HOST}/unsubscribe/${email}">unsubscribe here</a>.</p>
+                    <p>If you no longer wish to receive these emails, you can <a href="${process.env.CLIENT_HOST}/unsubscribe/${email}" style="color: #007BFF;">unsubscribe here</a>.</p>
                 </div>
             </div>
         </body>
