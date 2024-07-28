@@ -46,6 +46,14 @@ exports.addArticle=(req,res)=>{
                             `
                         )
 
+                        const publisher = await queryDb(
+                            `SELECT u.userFirstName as firstName, u.userLastName as lastName, p.photoUrl
+                            FROM USER u
+                            LEFT JOIN USERPHOTO p ON p.userId = u.userId
+                            WHERE u.userId = ${req.session.userId}
+                            `
+                        )
+
                         console.log("available subscribers", subscribers);                        
 
                         for(let subscriber of subscribers){
@@ -55,11 +63,12 @@ exports.addArticle=(req,res)=>{
                                             articleExcerpt,
                                             articleId,
                                             headline,
-                                            readTimeInMinutes
+                                            readTimeInMinutes,
+                                            publisher[0]
                             )
 
                             //Throttle
-                            delay(350);
+                            await delay(3000);
                         }
                     }
                 }

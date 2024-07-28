@@ -18,6 +18,7 @@ import Single from './pages/single';
 import Profile from './pages/profile';
 import ResetPassword from './pages/resetPassword';
 import { UserProvider } from './userContext';
+import EmailTest from './pages/testEmailNotification';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path='/sngl/:id' element={<Single/>}/>
             <Route path='/profile' element={<Profile/>}/>
             <Route path='/resetPassword/:resetToken' element={<ResetPassword/>}/>
+            <Route path='/emailTest' element={<EmailTest/>} />
           </Routes>
         </UserProvider>
         
