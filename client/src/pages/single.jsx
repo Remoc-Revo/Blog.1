@@ -161,7 +161,7 @@ export default function Single(){
                                     <h2 className="text-center headline">{decodeString(article.articleHeadline)}</h2>
                                     <div className="pt-2 pb-2 mb-2  d-flex justify-content-between align-items-center">
                                         
-                                        <div className=" d-flex gap-3 align-items-end">
+                                        <div className=" d-flex gap-3 align-items-center">
                                             {
                                                 article.publisherPhotoUrl !== null
                                                 ?<div style={{width:"50px",height:"50px"}}>                                                                                           
@@ -175,16 +175,18 @@ export default function Single(){
                                                     <FontAwesomeIcon icon={faUser} className="rounded-circle w-100 h-100 pt-2"/>
                                                 </div>
                                             }
+
+                                            <div className="pt-2 d-md-flex gap-5">                                        
+                                                <span style={{color:"teal",fontWeight:"bold"}}>{article.publisherName}</span>
+                                                <p className="fw-lighter">                                           
+                                                    {(article.articleUpdatingDate !== null)
+                                                        ? "Updated  "+moment(article.articleUpdatingDate).fromNow() 
+                                                        :  `Published ${moment(article.articlePostingDate).fromNow()} `
+                                                        
+                                                    } 
                                         
-                                            <p style={{color:"teal",fontWeight:"bold"}}>{article.publisherName}</p>
-                                            <p className="fw-lighter">                                           
-                                                {(article.articleUpdatingDate !== null)
-                                                    ? "Updated  "+moment(article.articleUpdatingDate).fromNow() 
-                                                    :  `Published ${moment(article.articlePostingDate).fromNow()} `
-                                                    
-                                                } 
-                                    
-                                            </p>
+                                                </p>
+                                            </div>
                                         </div>    
                                         
                                         {(user !== null && user.userLevel === 1)
