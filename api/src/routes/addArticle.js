@@ -35,7 +35,7 @@ exports.addArticle=(req,res)=>{
                 
                 if(result.affectedRows == 1){
                     const articleId = result.insertId;
-                    res.status(200).json({})
+                    res.status(200).json({articleId:articleId})
 
                     //notify subscribers if article is published
                     if(!isDraft){
