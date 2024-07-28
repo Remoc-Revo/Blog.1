@@ -3,7 +3,13 @@ import { Nav, Navbar, NavItem} from "react-bootstrap";
 import { useLocation, useNavigate} from "react-router-dom";
 import api from "../config/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser,faBarsStaggered, faSearch, faTimes, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {  faUser,
+          faBarsStaggered,
+          faSearch,
+          faTimes,
+          faChevronRight
+         } from "@fortawesome/free-solid-svg-icons";
+import { faYoutube, faBlogger,faTiktok,faFacebook, faMedium, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import parser from "html-react-parser";
 import { Modal } from "react-bootstrap";
 
@@ -220,7 +226,7 @@ export default function MainNav(){
                     </button>
                 </div>
 
-                <div className="d-flex flex-column gap-4 mt-4 ">
+                <div className="d-flex flex-column gap-4 mt-4 border-bottom pb-4">
                 {
                   (sections.length !== 0) &&
                   sections.map((section,index)=>{
@@ -236,6 +242,32 @@ export default function MainNav(){
                      
                   }
                 </div>
+
+
+                <div className="d-flex justify-content-between mt-5"> 
+                  <a href="https://youtu.be/spv7kgNP1Ho?si=QBqpKVufBbWCSK5K" target="_blank" rel="noreferrer" className="border border-dark bg-dark  rounded p-2">
+                    <FontAwesomeIcon icon={faYoutube} size="1x" color="white"/>
+                  </a>
+                  <a href="https://www.linkedin.com/in/drliz-okemwa" target="_blank" rel="noreferrer" className="border border-dark bg-dark  rounded p-2">
+                    <FontAwesomeIcon icon={faLinkedin} size="1x" color="white"/>
+                  </a>
+                  <a href="https://drlizinspiration.blogspot.com" target="_blank" rel="noreferrer" className="border border-dark bg-dark  rounded p-2">
+                    <FontAwesomeIcon icon={faBlogger} size="1x" color="white"/>
+                  </a> 
+                  <a href="https://medium.com/@doctorsandmoney" target="_blank" rel="noreferrer"  className="border border-dark bg-dark  rounded p-2" >
+                    <FontAwesomeIcon icon={faMedium} size="1x" color="white"/>
+                  </a>
+                  <a href="https://www.facebook.com/elizabeth.okemwa?mibextid=ZbWKwL" target="_blank" rel="noreferrer"  className="border border-dark bg-dark  rounded p-2">
+                    <FontAwesomeIcon icon={faFacebook} size="1x" color="white"/>
+                  </a>
+                  <a href="https://www.instagram.com/drlizokemwa?igsh=cWtkenk2aXY1cHFm" target="_blank" rel="noreferrer"  className="border border-dark bg-dark  rounded p-2">
+                    <FontAwesomeIcon icon={faInstagram} size="1x" color="white"/>
+                  </a>
+                  <a href="https://www.tiktok.com/@drlizokemwa?_t=8nDH9IAqYnW&amp;_r=1" target="_blank" rel="noreferrer"  className="border border-dark bg-dark  rounded p-2">
+                    <FontAwesomeIcon icon={faTiktok} size="1x" color="white"/>
+                  </a>
+
+                </div> 
 
                 <div className="col-12 d-md-flex flex-column align-items-start border p-3 mt-5">
                   <div className="">

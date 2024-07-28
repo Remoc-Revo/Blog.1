@@ -5,6 +5,8 @@ import { useState,useEffect } from "react";
 import { Nav } from "react-bootstrap";
 import { decodeString } from "../reusables/global";
 import { Modal } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faYoutube, faBlogger,faTiktok,faFacebook, faMedium, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
   const [sections, setSections] = useState([]);
@@ -66,50 +68,75 @@ const Footer = () => {
   }
 
   return (
-    <footer className="pb-5 d-md-flex justify-content-center ">
-      <div className="col-lg-7 d-md-flex">
-         <div className="col-md-8 d-md-flex flex-column align-items-start">
-            <img src={Logo} alt="" className="blog-logo"/>
-            <div className="">
-              <p className="fw-lighter">Receive the latest health tips and medical news directly in your inbox</p>
-            </div>
-            <div className="col-md-9 d-flex flex-row gap-3 "
-                  style={{height:"20px", }}
-            >
-            
-            <input type="email" 
-                  className="col-md-10 col-lg-5" 
-                  placeholder="Enter your email.."
-                  value={subscriberEmail}
-                  onChange={(e)=>setSubscriberEmail(e.target.value)}
-                  style={{height:"34px"}}
-            />
-            <button className="btn btn-dark btn-outline-light"
-                    type="submit"
+    <footer className="pb-5 d-flex flex-column flex-md-row justify-content-center ">
+      <div className="col-lg-9 d-md-flex justify-content-between ">
+          <div className="col-md-5 d-md-flex flex-column align-items-start">
+              <img src={Logo} alt="" className="blog-logo"/>
+              <div className="">
+                <p className="fw-lighter">Receive the latest health tips and medical news directly in your inbox</p>
+              </div>
+              <div className="col-md-12 d-flex flex-row gap-3 "
+                    style={{height:"20px", }}
+              >
+              
+              <input type="email" 
+                    className="col-md-7" 
+                    placeholder="Enter your email.."
+                    value={subscriberEmail}
+                    onChange={(e)=>setSubscriberEmail(e.target.value)}
                     style={{height:"34px"}}
-                    onClick={subscribe}
-            >
-                Subscribe
-            </button>
-            
+              />
+              <button className="btn btn-dark btn-outline-light"
+                      type="submit"
+                      style={{height:"34px"}}
+                      onClick={subscribe}
+              >
+                  Subscribe
+              </button>
+              
+              </div>
+
             </div>
+        
+            <div className=" d-flex flex-column gap-2 mt-4 align-items-md-end">
+              {
+                sections.map((section)=>{
+                  if(section === "uncategorized") return null
+                  
+                  return <Nav.Link 
+                    href={`/?cat=${section}`}
+                    className="nav-link">
+                      {decodeString(section).toUpperCase()}
+                  </Nav.Link>
 
-          </div>
-      
-          <div className="col-md-4 d-flex flex-column gap-2 mt-4 align-items-md-end">
-            {
-              sections.map((section)=>{
-                if(section === "uncategorized") return null
-                
-                return <Nav.Link 
-                  href={`/?cat=${section}`}
-                  className="nav-link">
-                    {decodeString(section).toUpperCase()}
-                </Nav.Link>
+                })
+                }
+        </div>
 
-              })
-            }
-          </div>
+        <div className="d-flex justify-content-md-between align-items-start gap-3 mt-3 mb-2"> 
+            <a href="https://youtu.be/spv7kgNP1Ho?si=QBqpKVufBbWCSK5K" target="_blank" rel="noreferrer" className="border border-dark bg-dark  rounded p-2">
+              <FontAwesomeIcon icon={faYoutube} size="1x" color="white"/>
+            </a>
+            <a href="https://www.linkedin.com/in/drliz-okemwa" target="_blank" rel="noreferrer" className="border border-dark bg-dark  rounded p-2">
+              <FontAwesomeIcon icon={faLinkedin} size="1x" color="white"/>
+            </a>
+            <a href="https://drlizinspiration.blogspot.com" target="_blank" rel="noreferrer" className="border border-dark bg-dark  rounded p-2">
+              <FontAwesomeIcon icon={faBlogger} size="1x" color="white"/>
+            </a> 
+            <a href="https://medium.com/@doctorsandmoney" target="_blank" rel="noreferrer"  className="border border-dark bg-dark  rounded p-2" >
+              <FontAwesomeIcon icon={faMedium} size="1x" color="white"/>
+            </a>
+            <a href="https://www.facebook.com/elizabeth.okemwa?mibextid=ZbWKwL" target="_blank" rel="noreferrer"  className="border border-dark bg-dark  rounded p-2">
+              <FontAwesomeIcon icon={faFacebook} size="1x" color="white"/>
+            </a>
+            <a href="https://www.instagram.com/drlizokemwa?igsh=cWtkenk2aXY1cHFm" target="_blank" rel="noreferrer"  className="border border-dark bg-dark  rounded p-2">
+              <FontAwesomeIcon icon={faInstagram} size="1x" color="white"/>
+            </a>
+            <a href="https://www.tiktok.com/@drlizokemwa?_t=8nDH9IAqYnW&amp;_r=1" target="_blank" rel="noreferrer"  className="border border-dark bg-dark  rounded p-2">
+              <FontAwesomeIcon icon={faTiktok} size="1x" color="white"/>
+            </a>
+
+          </div> 
       </div>
 
       <Modal show={showSubscriptionMessageModal} centered>

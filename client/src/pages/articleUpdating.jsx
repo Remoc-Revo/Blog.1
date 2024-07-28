@@ -53,6 +53,7 @@ export default function ArticlesUpdating(){
 
                 setArticleSectionId(articleToUpdate.articleSectionId);
                 setArticleHeadline(decodeURIComponent(articleToUpdate.articleHeadline))
+                setIsdraft(articleToUpdate.articleIsDraft);
 
                 const fetchedArticleBody = response.data.article[0].articleBody;
                 const parsedArticleBody = JSON.parse(fetchedArticleBody);
@@ -627,7 +628,7 @@ export default function ArticlesUpdating(){
                             <span className="d-block pb-2">
                                 <b>Status: </b> 
                                 {
-                                    articleToUpdate !== null && !articleToUpdate.articleIsDraft
+                                    articleToUpdate !== null && !isDraft
                                     ? <span>Published</span>
                                     : <span>Draft</span>
                                 }
@@ -636,7 +637,7 @@ export default function ArticlesUpdating(){
                             <span className="d-block pb-2">
                                 <b>Visibility: </b> 
                                 {
-                                    articleToUpdate !== null && !articleToUpdate.articleIsDraft
+                                    articleToUpdate !== null && !isDraft
                                     ? <span>Public</span>
                                     : <span>Private</span>
                                 }

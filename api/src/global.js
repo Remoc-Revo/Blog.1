@@ -64,7 +64,7 @@ exports.notifySubscriber = (email, name,articleExcerpt, articleId, articleHeadli
                 </div>
                 <div class="footer" style="text-align: center; font-size: 12px; color: #999999; margin-top: 20px;">
                     <p>Thank you for reading,</p>
-                    <p>Dr. Liz</p>
+                    <p>Dr. Elizabeth Okemwa</p>
                     <p>If you no longer wish to receive these emails, you can <a href="${process.env.CLIENT_HOST}/unsubscribe/${email}" style="color: #007BFF;">unsubscribe here</a>.</p>
                 </div>
             </div>
