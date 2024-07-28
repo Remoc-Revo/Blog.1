@@ -68,7 +68,7 @@ export default function ArticlesUpdating(){
     }
 
    useEffect(()=>{
-        if(articleIdToUpdate !== 'null' && ! articleToUpdateLoaded){
+        if(articleIdToUpdate !== 'null' && ! articleToUpdateLoaded && isRecoverDraft !== 'true'){
             console.log("articleToUpdate not nulll")
                 fetchArticleToUpdate();
 
@@ -115,8 +115,10 @@ export default function ArticlesUpdating(){
             const rawContentState = convertToRaw(editorState.getCurrentContent())
             const serializedContent = JSON.stringify(rawContentState);  
             let draft  =  {
+                articleId: articleIdToUpdate,
                 articleHeadline: articleHeadline,
-                articleBody: serializedContent
+                articleBody: serializedContent,
+                articleSectionId: articleSectionId
             };
             draft = JSON.stringify(draft);
             localStorage.setItem('draft',draft );
@@ -125,18 +127,20 @@ export default function ArticlesUpdating(){
         const intervalId = setInterval(autoSaveToLocalStorage, 100);
 
         return ()=> clearInterval(intervalId);
-    },[articleHeadline,editorState])
+    },[articleHeadline,editorState, articleIdToUpdate])
 
     //recover draft from storage
     useEffect(()=>{
         if(isRecoverDraft && isRecoverDraft === 'true'){
             let storedDraft = localStorage.getItem('draft');
             storedDraft = JSON.parse(storedDraft);
+            setArticleToUpdate(storedDraft);
             let storedArticleBody  = JSON.parse(storedDraft.articleBody);
             const articleBodyContentState = convertFromRaw(storedArticleBody);
             const bodyWithResizedImages = resizeImages(articleBodyContentState);
             setEditorState(EditorState.createWithContent(bodyWithResizedImages));
             setArticleHeadline(storedDraft.articleHeadline);
+            setArticleSectionId(storedDraft.articleSectionId);
         }
     },[isRecoverDraft,resizeImages])
 
@@ -310,22 +314,56 @@ export default function ArticlesUpdating(){
     };
 
 
-    function findFirstBlockWithText(){
-        const rawContentState = convertToRaw(editorState.getCurrentContent())
+    function prepareArticleExcerpt(){
+        const contentState = editorState.getCurrentContent();
+        const rawContentState = convertToRaw(contentState)
+        const rawContentBlocks = rawContentState.blocks;
+        const allImages = extractImagesFromContent(contentState);
+        let firstImage = (allImages.length > 0 )? allImages[0] : null;
 
-        const blocks = rawContentState.blocks;
+        let firstParagraph = null;
+        let htmlContent = ''
 
-        for(let block of blocks){
+        for(let block of rawContentBlocks){
             if(block.text && block.text.trim().length > 0){
-                return block.text;
+                firstParagraph = block.text;
+                break;
             }
+        }     
+
+
+        if(firstImage !== null){
+            htmlContent += `<div id="previewImageContainer">
+                                <img src="${firstImage}" alt="" id="previewPhoto"/>
+                            </div>    
+                            `;
         }
+
+        if(firstParagraph !== null){
+            htmlContent += `<p>${firstParagraph}</p>`;
+        }
+
+        console.log("combined html content", htmlContent);
+
+        return htmlContent;
+
+    }
+
+    function calculateReadTime(){
+        const rawContent = convertToRaw(editorState.getCurrentContent());
+        const blocks = rawContent.blocks;
+        const textContent = blocks.map(block => block.text).join(' ');
+        const wordCount = textContent.trim().split(/\s+/).length;
+        const wordsPerMinute = 200;
+        const readTimeInMinutes = Math.ceil(wordCount / wordsPerMinute);
+        return readTimeInMinutes;
     }
 
     
 
     async function addArticle(articleBody,submitAsDraft){
-        let articleExcerpt = findFirstBlockWithText();
+        let articleExcerpt = prepareArticleExcerpt();
+        const readTimeInMinutes = calculateReadTime();
 
         console.log("encodeURIComponent:",encodeURI(articleBody).replace("'","&apos;"))
         console.log(articleBody,"\n",articleHeadline,"\n",articleSectionId,"\n",/*articlePhoto.name.replace(/ /g,"_")*/)
@@ -348,7 +386,8 @@ export default function ArticlesUpdating(){
                     withCredentials:true,
                     img:imgUrl,
                     isDraft: submitAsDraft,
-                    articleExcerpt: articleExcerpt
+                    articleExcerpt: articleExcerpt,
+                    readTimeInMinutes: readTimeInMinutes
                 },
                 )
             .then((response)=>{
@@ -370,7 +409,9 @@ export default function ArticlesUpdating(){
     }
 
     async function updateArticle(articleBody,submitAsDraft){
-        let articleExcerpt = findFirstBlockWithText();
+        let articleExcerpt = prepareArticleExcerpt();
+        const readTimeInMinutes = calculateReadTime();
+
         let imgUrl= null;
         let prevImg;
 
@@ -389,7 +430,8 @@ export default function ArticlesUpdating(){
                     img:imgUrl,
                     prevImg : prevImg,
                     isDraft:submitAsDraft,
-                    articleExcerpt: articleExcerpt
+                    articleExcerpt: articleExcerpt,
+                    readTimeInMinutes: readTimeInMinutes
                 },
                 )
             .then((response)=>{

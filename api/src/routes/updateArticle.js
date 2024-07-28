@@ -29,6 +29,7 @@ exports.updateArticle=(req,res)=>{
         const prevImg = body.prevImg;
         const isDraft = body.isDraft ;
         const articleExcerpt = body.articleExcerpt;
+        const readTimeInMinutes = body.readTimeInMinutes;
 
         if(prevImg != undefined){
             deletePrevImg(prevImg);
@@ -65,23 +66,35 @@ exports.updateArticle=(req,res)=>{
                     //notify subscribers if article is published
                     if(!isDraft){
                         const subscribers = await queryDb(
-                            `SELECT s.* , u.userFirstName as firstName
+                            `SELECT s.* , u.userFirstName as firstName, u.userName
                             FROM SUBSCRIBER s
                                 LEFT JOIN USER u ON u.userEmail = s.subscriberEmail
+                            `
+                        )
+
+                        const publisher = await queryDb(
+                            `SELECT u.userFirstName as firstName, u.userLastName as lastName, p.photoUrl
+                            FROM USER u
+                            LEFT JOIN USERPHOTO p ON p.userId = u.userId
+                            WHERE u.userId = ${req.session.userId}
                             `
                         )
 
                         console.log("available subscribers", subscribers);                        
 
                         for(let subscriber of subscribers){
+                            const name = subscriber.firstName || subscriber.userName
                             notifySubscriber(subscriber.subscriberEmail,
-                                            subscriber.firstName,
+                                            name,
                                             articleExcerpt,
-                                            articleId
+                                            articleId,
+                                            headline,
+                                            readTimeInMinutes,
+                                            publisher[0]
                             )
 
                             //Throttle
-                            delay(350);
+                            await delay(3000);
                         }
                     }
                 }
