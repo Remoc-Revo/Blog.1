@@ -11,8 +11,8 @@ exports.queryDb=(query, values)=>{
     });
 }
 
-exports.notifySubscriber = (email, userFirstName,articleExcerpt, articleId)=>{
-
+exports.notifySubscriber = (email, name,articleExcerpt, articleId, articleHeadline,readTimeInMinutes,publisher)=>{
+    console.log("publisher info", publisher);
 
     const transporter = nodemailer.createTransport({
         host: process.env.MAIL_HOST,
@@ -25,12 +25,12 @@ exports.notifySubscriber = (email, userFirstName,articleExcerpt, articleId)=>{
      });
 
      const htmlContent = `
-        <!DOCTYPE html>
+       <!DOCTYPE html>
         <html>
         <head>
             <style>
                 body {
-                    font-family: Arial, sans-serif;
+                    font-family: "Open Sans", sans-serif;
                     margin: 0;
                     padding: 0;
                     background-color: #f6f6f6;
@@ -40,17 +40,23 @@ exports.notifySubscriber = (email, userFirstName,articleExcerpt, articleId)=>{
                     max-width: 600px;
                     margin: 0 auto;
                     background-color: #ffffff;
-                    padding: 20px;
+                    padding: 10px;
                     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 }
                 .header {
                     text-align: center;
-                    padding: 20px 0;
+                    padding: 10px 0;
                 }
                 .header h1 {
                     margin: 0;
                     font-size: 24px;
                     color: #333333;
+                }
+                .d-flex{
+                    display: flex;                    
+                }
+                .d-block{
+                    display: block;
                 }
                 .content {
                     margin: 20px 0;
@@ -75,29 +81,70 @@ exports.notifySubscriber = (email, userFirstName,articleExcerpt, articleId)=>{
                     text-decoration: none;
                     border-radius: 5px;
                 }
+                .cta-button-text{
+                    color: white;
+                }
+                #previewImageContainer{
+                    width: 100%;
+                    height: 300px;
+                }
+                #previewPhoto{
+                    width:100%;
+                    height:100%;
+                    object-fit: contain;
+                }
+                .publisherPhotoContainer{
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    margin-right: 30px;
+                }
+                .publisherPhoto{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    object-fit: contain;                   
+                }
+                #publisher-info{
+                    margin-bottom: 20px;
+                    align-items: center;
+                    ;
+                }
                 .footer {
                     text-align: center;
                     font-size: 12px;
                     color: #999999;
                     margin-top: 20px;
                 }
+                .black{
+                }
+                color: black
             </style>
         </head>
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>New Article Published</h1>
+                    
                 </div>
                 <div class="content">
                     
-                    <h2>
-                        Hello ${userFirstName != null ? userFirstName : ''},
-                    </h2>
-                    <p>I'm excited to share my latest article with you!</p>
-                    <p>${articleExcerpt}</p>
-                    <a href="${process.env.CLIENT_HOST}/sngl/${articleId}" class="cta-button">Read the Full Article</a>
+                    <h3>
+                        ${name != null ? 'Hello ' + name + ',' : ''}
+                    </h3>
+                    <h2>${decodeURIComponent(articleHeadline)}</h2>
+                    <div class="d-flex" id="publisher-info">
+                        <div class="publisherPhotoContainer">
+                            <img src="${publisher.photoUrl}"  class="publisherPhoto"/>
+                        </div>
+                        <div>
+                            <p><b class="d-block black">${publisher.firstName && publisher.firstName}  ${publisher.lastName && publisher.lastName}</b></p>
+                            <span><i class="black"> ${readTimeInMinutes} min read</i></span>
+                        </div>
+                    </div>
+                    ${articleExcerpt}
+                    <a href="${process.env.CLIENT_HOST}/sngl/${articleId}" class="cta-button"><span class="cta-button-text">Read the Full Article</span></a>
                     
-                    <p>I’d love to hear your thoughts!</p>
+
                 </div>
                 <div class="footer">
                     <p>Thank you for reading,</p>
@@ -112,7 +159,7 @@ exports.notifySubscriber = (email, userFirstName,articleExcerpt, articleId)=>{
      const mailOptions = {
      to: email,
      from: process.env.EMAIL_USER,
-     subject: 'Password Reset',
+     subject: decodeURIComponent(articleHeadline),
      html: htmlContent
      };
 

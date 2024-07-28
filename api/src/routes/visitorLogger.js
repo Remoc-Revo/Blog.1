@@ -52,5 +52,4 @@ exports.visitor = (req,res)=>{
     }catch(err){
         console.log("Error logging visitor ",err);
     }
-
 }

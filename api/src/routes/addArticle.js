@@ -1,5 +1,6 @@
 const createPool=require('../config/dbConnection')
 const pool = createPool();
+const {notifySubscriber, queryDb, delay} = require('../global');
 
 
 exports.addArticle=(req,res)=>{
@@ -17,17 +18,53 @@ exports.addArticle=(req,res)=>{
         const sectionId=body.articleSectionId;
         const imgUrl=body.img;
         const isDraft = body.isDraft;
+        const articleExcerpt = body.articleExcerpt;
+        const readTimeInMinutes = body.readTimeInMinutes;
+
 
         console.log("imgUrl::,",imgUrl)
         pool.query(`INSERT INTO ARTICLE VALUES(null,?,?,?,now(),null,?,?)`,
             [headline,articleBody,sectionId,isDraft,req.session.userId],
-             (err,result)=>{
+             async(err,result)=>{
                 if(err){
                     throw(err) 
                 }
                 const articleId=result.insertId;
 
-                pool.query(`INSERT INTO MULTIMEDIA VALUES(null,${articleId},"img",'${imgUrl}')`,
+               
+                
+                if(result.affectedRows == 1){
+                    const articleId = result.insertId;
+                    res.status(200).json({})
+
+                    //notify subscribers if article is published
+                    if(!isDraft){
+                        const subscribers = await queryDb(
+                            `SELECT s.* , u.userFirstName as firstName, u.userName
+                            FROM SUBSCRIBER s
+                                LEFT JOIN USER u ON u.userEmail = s.subscriberEmail
+                            `
+                        )
+
+                        console.log("available subscribers", subscribers);                        
+
+                        for(let subscriber of subscribers){
+                            const name = subscriber.firstName || subscriber.userName
+                            notifySubscriber(subscriber.subscriberEmail,
+                                            name,
+                                            articleExcerpt,
+                                            articleId,
+                                            headline,
+                                            readTimeInMinutes
+                            )
+
+                            //Throttle
+                            delay(350);
+                        }
+                    }
+                }
+
+                 pool.query(`INSERT INTO MULTIMEDIA VALUES(null,${articleId},"img",'${imgUrl}')`,
                     (err,result)=>{
                         if(err){
                             console.log(err)
@@ -37,8 +74,6 @@ exports.addArticle=(req,res)=>{
                         if(result){
                         }
                     })
-                return res.status(200).json({articleId})
-
              }) 
     }
     

@@ -98,7 +98,7 @@ export default function AdminHome(){
                             Discard
                         </button>
                         <button className="btn btn-light"
-                            onClick={()=>navigate('/articlePosting/null?recover=true')}
+                            onClick={()=>navigate(`/articlePosting/${draftRecoveredFromLocalStorage.articleId}?recover=true`)}
                             >
                             Recover
                         </button>
