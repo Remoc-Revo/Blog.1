@@ -6,7 +6,6 @@ require('dotenv').config();
 
 var path = require('path');
 var cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 var logger = require('morgan');
 const cors=require('cors');
 
@@ -21,32 +20,16 @@ const sessionStore=new MySQLStore({},pool);
 const  indexRouter = require('./routes/index');
 
 //uncomment before merging to main branch!!!
-app.set('trust proxy', 1);
+// app.set('trust proxy', 1);
 
 app.use(logger('dev'));
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ limit: '100mb', extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 //uncomment before merging to main branch!!!
-app.use(session({
-  secret:'secreet',
-  saveUninitialized:false,
-  resave:false,
-  store: sessionStore,
-  cookie: {
-    maxAge: 24*60*60*1000,
-    sameSite:'none',
-    httpOnly:true,
-    secure: true,
-    path: '/'
-  }
-}));
-
-
-//for localhost
 // app.use(session({
 //   secret:'secreet',
 //   saveUninitialized:false,
@@ -54,12 +37,28 @@ app.use(session({
 //   store: sessionStore,
 //   cookie: {
 //     maxAge: 24*60*60*1000,
-//     // sameSite:'none',
+//     sameSite:'none',
 //     httpOnly:true,
-//     // secure:true,
+//     secure: true,
 //     path: '/'
 //   }
 // }));
+
+
+//for localhost
+app.use(session({
+  secret:'secreet',
+  saveUninitialized:false,
+  resave:false,
+  store: sessionStore,
+  cookie: {
+    maxAge: 24*60*60*1000,
+    // sameSite:'none',
+    httpOnly:true,
+    // secure:true,
+    path: '/'
+  }
+}));
 
 app.use(cors({
   allowedHeaders:['Content-Type'],
