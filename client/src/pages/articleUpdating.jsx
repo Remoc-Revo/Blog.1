@@ -418,11 +418,11 @@ export default function ArticlesUpdating(){
         await api.post('/updateArticle',
                 {
                     headers: { 'Content-Type': 'application/json' },
+                    withCredentials:true,
                     articleId: articleToUpdate.articleId,
                     articleSectionId:articleSectionId,
                     articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
                     articleBody: articleBody,
-                    withCredentials:true,
                     img:imgUrl,
                     prevImg : prevImg,
                     isDraft:submitAsDraft,

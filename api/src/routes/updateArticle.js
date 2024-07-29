@@ -23,7 +23,6 @@ exports.updateArticle=(req,res)=>{
 
         const articleId = body.articleId;
         const headline=body.articleHeadline;
-        const articleBody=body.articleBody;
         const sectionId=body.articleSectionId;
         const imgUrl=body.img;
         const prevImg = body.prevImg;
@@ -43,7 +42,7 @@ exports.updateArticle=(req,res)=>{
                         articleUpdatingDate = now(),
                         articleIsDraft = ?
                     WHERE articleId = ?
-                    `,[headline,articleBody,sectionId,isDraft, articleId],
+                    `,[headline,body.articleBody,sectionId,isDraft, articleId],
              async (err,result)=>{
                 if(err){
                     console.log(err) 
