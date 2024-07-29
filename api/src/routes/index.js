@@ -114,7 +114,7 @@ router.get('/user',ifNotLoggedin,user
 
 router.post('/addArticle',ifNotLoggedin,addArticle)
 
-router.post('/updateArticle',ifNotLoggedin,updateArticle)
+router.post('/updateArticle',()=>{console.log("Whyyyyyyyy can't this request be accepted when urls are sent")},ifNotLoggedin,updateArticle)
 
 router.get('/single/:id',single)
 
