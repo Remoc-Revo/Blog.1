@@ -20,7 +20,7 @@ const sessionStore=new MySQLStore({},pool);
 const  indexRouter = require('./routes/index');
 
 //uncomment before merging to main branch!!!
-// app.set('trust proxy', 1);
+app.set('trust proxy', 1);
 
 app.use(logger('dev'));
 app.use(express.json());
