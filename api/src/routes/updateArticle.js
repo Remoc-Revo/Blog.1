@@ -49,15 +49,7 @@ exports.updateArticle=(req,res)=>{
                     console.log(err) 
                 }
 
-                if(imgUrl!=null){
-                    pool.query(`UPDATE MULTIMEDIA SET multimediaUrl = ?  WHERE articleId = ?`,[imgUrl,articleId],
-                        (err,result)=>{
-                            if(err){
-                                console.log(err)
-                            }         
-                            
-                        })
-                }
+                console.log("afected rows", await result.affectedRows);
 
                 if(result.affectedRows == 1){
 

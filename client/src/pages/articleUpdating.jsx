@@ -76,7 +76,7 @@ export default function ArticlesUpdating(){
             }
             
         }
-    )
+    ,[])
 
 
 
@@ -112,7 +112,6 @@ export default function ArticlesUpdating(){
     // auto saving to local storage
     useEffect(()=>{
         const autoSaveToLocalStorage = ()=>{
-            console.log("Saving to local storage",new Date().getSeconds(), articleHeadline)
             const rawContentState = convertToRaw(editorState.getCurrentContent())
             const serializedContent = JSON.stringify(rawContentState);  
             let draft  =  {
@@ -416,13 +415,14 @@ export default function ArticlesUpdating(){
     
         console.log("editor state",editorState)
 
+
         await api.post('/updateArticle',
                 {
-                    headers: { 'content-type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json' },
                     articleId: articleToUpdate.articleId,
                     articleSectionId:articleSectionId,
                     articleHeadline:encodeURIComponent(articleHeadline).replace(/'/g,"&apos;"),
-                    articleBody: articleBody,//encodeURIComponent().replace(/'/g,"&apos;"),
+                    articleBody: articleBody,
                     withCredentials:true,
                     img:imgUrl,
                     prevImg : prevImg,
