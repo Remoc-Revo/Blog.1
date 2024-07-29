@@ -20,11 +20,11 @@ const sessionStore=new MySQLStore({},pool);
 const  indexRouter = require('./routes/index');
 
 //uncomment before merging to main branch!!!
-app.set('trust proxy', 1);
+app.set('trust proxy', true); //truee??????????? initially 1, why?
 
 app.use(logger('dev'));
 app.use(express.json({ limit: '10mb' })); 
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use(express.urlencoded({ limit: '10mb', extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
