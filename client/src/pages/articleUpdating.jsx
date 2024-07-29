@@ -25,7 +25,6 @@ export default function ArticlesUpdating(){
     const [articleSections, setArticleSections]= useState([]);
     const [isAddingNewCategory,setIsAddingNewCategory] = useState(false);
     const [newCategory, setNewCategory] = useState("");
-    const [articlePhotos, setArticlePhotos] = useState([]);
     const [isSidePanelVisible, setIsSidePanelVisible] = useState(true);
     const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
     const [isAutoSaving, setIsAutoSaving] = useState(true);
@@ -76,7 +75,7 @@ export default function ArticlesUpdating(){
             }
             
         }
-    ,[])
+    )
 
 
 
@@ -500,7 +499,6 @@ export default function ArticlesUpdating(){
 
         console.log("Uploaded urls",uploadedUrls)
 
-        setArticlePhotos(uploadedUrls);
 
         const rawContentState = convertToRaw(editorState.getCurrentContent())
         const serializedContent = JSON.stringify(rawContentState);
