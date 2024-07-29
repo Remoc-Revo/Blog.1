@@ -135,7 +135,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
         <div className="">
             <MainNav/>
             <div className="bg-light" id="readers-home">                
-                <div className="container d-lg-flex justify-content-center p-2 p-sm-0 mb-4  mt-4">
+                <div className="container d-lg-flex justify-content-center p-2 p-sm-0 pb-4  mt-4">
                     <div className="col-lg-9 ">
 
                     
