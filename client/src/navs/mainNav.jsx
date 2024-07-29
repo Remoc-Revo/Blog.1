@@ -169,7 +169,7 @@ export default function MainNav(){
             </div>
           </div>
         </div>
-        <div className=" w-100 border-bottom d-none d-xl-block">
+        <div className=" w-100 border-bottom" style={{display:sections.length < 2 || windowWidth < 1200 ? "none" : "block"}}>
           <div className="container p-0">
             <div className="d-flex justify-content-center">
               <Navbar className="col-lg-9  gap-xl-5 p-0 pt-2"   id='main-nav' expand={(windowWidth>=1200)?true:false}>

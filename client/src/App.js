@@ -24,9 +24,10 @@ function App() {
   return (
     
     <div id="app" className="">
-      <Router>
+      {/* basename set for build only */}
+      <Router basename='/'> 
         <UserProvider>
-          <Routes>
+          <Routes>            
             <Route path='/' element={<Home/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/articlePosting/:articleIdToUpdate' element={<ArticlesUpdating/>}/>
