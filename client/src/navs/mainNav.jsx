@@ -23,11 +23,11 @@ export default function MainNav(){
   const [subscriptionMessage, setSubscriptionMessage] = useState('');
   const [showSubscriptionMessageModal, setShowSubscriptionMessageModal] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [windowWidth,set_windowWidth]=useState()
+
 
   var cat=useLocation().search;
    
-  var [windowWidth,set_windowWidth]=useState(window.innerWidth)
-
   function decodeString(str){
     return parser(decodeURIComponent(str).replace(/&apos;/g,"'").replace(/<p>/g,"").replace(/<\/p>/g,""))
 }
@@ -52,7 +52,7 @@ export default function MainNav(){
           }
       fetchSections();
 
-        window.addEventListener('resize',()=>{set_windowWidth(window.innerWidth)})
+        
         },[])
 
     useEffect(()=>{
@@ -74,6 +74,8 @@ export default function MainNav(){
         setShowSideNav(false);
       }
       window.addEventListener('click',onScreenClick);
+
+      window.addEventListener('resize',()=>{set_windowWidth(window.innerWidth)})
 
       return ()=>{
         window.removeEventListener('click',onScreenClick);

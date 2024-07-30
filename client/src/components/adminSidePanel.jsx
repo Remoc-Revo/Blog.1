@@ -8,12 +8,14 @@ import { faChartSimple,faComment, faUser,faCalendar} from "@fortawesome/free-sol
 import { updateHistory } from "../reusables/global";
 
  const AdminSidePanel=({updateAdminPanelSection,toggleSideNav})=>{
-    const [adminPanel, setAdminPanel] = useState(window.location.search);
+    const [adminPanel, setAdminPanel] = useState('');
     console.log("initial adminPanel",adminPanel)
     const [showPostsLinks, setShowPostsLinks] = useState(false);
     const [showUsersLinks, setShowUsersLinks] = useState(false);
+
+
     useEffect(()=>{
-        // setAdminPanel(location.search);
+        setAdminPanel(window.location.search);
 
         if(adminPanel.includes("posts")){
             setShowPostsLinks(true);

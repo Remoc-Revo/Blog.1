@@ -92,3 +92,11 @@ export function formatDateTime(date){
     return dateTimeStr;
 
   }
+
+
+  export function getWindowWidth () {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth;
+    }
+    return 0;
+  };

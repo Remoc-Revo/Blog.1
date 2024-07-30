@@ -22,6 +22,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
     const [menuPosition, setMenuPosition] = useState({top:'0px',left:'0px'});
     const [showDeletionModal,setShowDeletionModal] = useState(false);
     const [activeArticle, setActiveArticle] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     
     console.log("postsType:",postsType)
     const updateDisplayedPosts = useCallback(()=>{
@@ -44,13 +45,15 @@ export default function AdminAllPosts({updateAdminPanelSection}){
 
 
     function fetchAllPosts(){
+        setIsLoading(true);
         api.get("/adminAllPosts",{withCredentials:true})
            .then((response)=>{
                 setDrafts(response.data['drafts']);
                 setPublished(response.data['published']);
-
+                setIsLoading(false);
            })
            .catch((e)=>{
+            setIsLoading(false);
             console.log("Error fetching admin data", e);
            })
     }
@@ -230,8 +233,16 @@ export default function AdminAllPosts({updateAdminPanelSection}){
                         }
                     
                 </div>
+                {
+                    isLoading &&
+                    <div className="d-flex justify-content-center">
+                        <div className="spinner-border text-success ">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                }
                 {                
-                (displayedPosts!==null && displayedPosts.length===0 && !isSearchInputVisible)
+                (displayedPosts!==null && displayedPosts.length===0 && !isSearchInputVisible && !isLoading)
                 &&<div className="d-flex justify-content-center">
                     <h5 className="fw-lighter">
                         {
@@ -346,5 +357,7 @@ export default function AdminAllPosts({updateAdminPanelSection}){
             </Modal.Body>
 
         </Modal>
+
+
     </div>
 }

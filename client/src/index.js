@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import './styles/index.scss'
 import App from './App';
@@ -9,12 +10,24 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 
 const queryClient = new QueryClient();
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+//for client rendering
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//   <QueryClientProvider client={queryClient}>
+//     <App />
+//   </QueryClientProvider>
+// );
+
+ReactDOM.hydrateRoot(
+  document.getElementById('root'),
   <QueryClientProvider client={queryClient}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+     
   </QueryClientProvider>
-);
+)
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

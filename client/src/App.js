@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
+import {Routes,Route} from "react-router-dom";
 
 /* All Pages
     -home
@@ -25,7 +25,6 @@ function App() {
     
     <div id="app" className="">
       {/* basename set for build only */}
-      <Router basename='/'> 
         <UserProvider>
           <Routes>            
             <Route path='/' element={<Home/>}/>
@@ -39,7 +38,6 @@ function App() {
           </Routes>
         </UserProvider>
         
-      </Router>
     </div>
   );
 }
