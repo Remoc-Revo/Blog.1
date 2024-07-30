@@ -89,6 +89,31 @@ function ifNotLoggedin(req,res,next){
    
 }
 
+function ifNotAdmin(req,res,next){
+    var token=req.cookies.token;
+ 
+     console.log("the token::",token);
+     console.log("the session id::",req.session.userId);
+ 
+ 
+     if(token==undefined || req.session.userId == undefined || req.session.userId != 1){
+         return res.status(401).json({})  
+     }
+ 
+     jwt.verify(token,"secreet",(err,user)=>{
+         if(err){
+             console.log("error verifying tocken::",err);
+             return res.status(401).json({})
+         }
+         else{
+             req.session.userId=user.userId; 
+             console.log("token validated hereeee")
+             next();
+         }
+     })
+    
+ }
+
 router.get('/',
     article
 );
@@ -112,9 +137,9 @@ router.post('/login',login)
 router.get('/user',ifNotLoggedin,user
 )
 
-router.post('/addArticle',ifNotLoggedin,addArticle)
+router.post('/addArticle',ifNotAdmin,addArticle)
 
-router.post('/updateArticle',ifNotLoggedin,updateArticle)
+router.post('/updateArticle',ifNotAdmin,updateArticle)
 
 router.get('/single/:id',single)
 
@@ -154,33 +179,33 @@ router.post('/like',ifNotLoggedin, like);
 
 router.get('/sections', getSections)
 
-router.post('/addSection',addSection);
+router.post('/addSection',ifNotAdmin, addSection);
 
-router.get('/adminHomeData', getAdminHomeData);
+router.get('/adminHomeData',ifNotAdmin, getAdminHomeData);
 
-router.get('/adminAllPosts',getAdminAllPosts);
+router.get('/adminAllPosts',ifNotAdmin,getAdminAllPosts);
 
-router.get('/adminPostsCategories',getAdminPostsCategories);
+router.get('/adminPostsCategories',ifNotAdmin,getAdminPostsCategories);
 
-router.get('/adminComments',getAdminComments);
+router.get('/adminComments',ifNotAdmin,getAdminComments);
 
-router.post('/deleteCategory',deleteCategory);
+router.post('/deleteCategory',ifNotAdmin, deleteCategory);
 
-router.post('/editCategory',editCategory);
+router.post('/editCategory',ifNotAdmin, editCategory);
 
 router.get('/users',getUsers);
 
 router.post('/visitor',visitor);
 
-router.get('/stats',getStats);
+router.get('/stats',ifNotAdmin,getStats);
 
 router.get('/related',related);
 
 router.post('/subscribe',subscribe);
 
-router.get('/getSubscribers',getSubscribers);
+router.get('/getSubscribers',ifNotAdmin, getSubscribers);
 
-router.get('/getAdminNotifications',getAdminNotifications);
+router.get('/getAdminNotifications',ifNotAdmin, getAdminNotifications);
 
 router.post('/requestPasswordReset',requestPasswordReset);
 
