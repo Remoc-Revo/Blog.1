@@ -87,14 +87,14 @@ i.duration{
 .btn-submit{
     padding: 10px;
     border: none;
-    background-color: teal;
+    background-color: rgb(243, 127, 243);
     cursor: pointer;
     color: white;
   }
 
 //REGISTER
 #register-page{
-    background-color: $lightGreen;
+    background-color: #C0B3FF;
     height: 100vh;
  
 }
@@ -115,7 +115,7 @@ i.duration{
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: $lightGreen;
+    background-color: #C0B3FF;
 
     h1 {
       font-size: 20px;
@@ -572,7 +572,7 @@ table{
 
 footer {
   padding: 30px;
-  background-color: $lightGreen;
+  background-color: #C0B3FF;
   align-items: center;
   justify-content: space-between;
   font-size: 12px;
