@@ -1,12 +1,17 @@
 import React,{useEffect,useState} from "react";
+import { useNavigate } from "react-router-dom";
 import { faPeopleGroup,faEye,faStar,faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import api from "../config/api";
+import SessionEndedModal from "../reusables/sessionEndedModal";
 
 export default function AdminStats(){
     const [statsLast7Days,setStatsLast7Days] = useState({});
     const [statsToday,setStatsToday] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
+    const navigate = useNavigate();
+
     let today = Date.now();
     today = new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(today);
 
@@ -22,6 +27,10 @@ export default function AdminStats(){
            .catch((err)=>{
                 setIsLoading(false);
                 console.log("Error fetching stats",err);
+                if(err.response.status === 401){
+                    navigate('/');
+                    setShowSessionEndedModal(true);
+                }
            })
     },[])
 
@@ -121,5 +130,9 @@ export default function AdminStats(){
             </div>
         </div>
         }
+
+                <SessionEndedModal showSessionEndedModal={showSessionEndedModal} setShowSessionEndedModal={setShowSessionEndedModal}/>
+
+
     </div>
 }

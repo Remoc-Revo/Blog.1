@@ -5,11 +5,13 @@ import { decodeString,formatDateTime } from "../reusables/global";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import SessionEndedModal from "../reusables/sessionEndedModal";
 
 export default function AdminComments(){
     const [comments, setComments] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
 
     useEffect(()=>{
          function fetchAdminComments(){
@@ -24,6 +26,10 @@ export default function AdminComments(){
                .catch((e)=>{
                 setIsLoading(false);
                 console.log("Error fetching admin data", e);
+                if(e.response.status === 401){
+                    navigate('/');
+                    setShowSessionEndedModal(true);
+                }
                })
         }
         fetchAdminComments();
@@ -86,5 +92,8 @@ export default function AdminComments(){
                 </div>
             }
        </div>
+               <SessionEndedModal showSessionEndedModal={showSessionEndedModal} setShowSessionEndedModal={setShowSessionEndedModal}/>
+
+
     </div> 
 }

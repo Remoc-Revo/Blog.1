@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser,faSearch,faTimes } from "@fortawesome/free-solid-svg-icons";
 import api from "../config/api";
 import moment from "moment";
+import SessionEndedModal from "../reusables/sessionEndedModal";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminSubscribersDisplay(){
     const [allSubscribers, setAllSubscribers] = useState([]);
@@ -11,6 +13,8 @@ export default function AdminSubscribersDisplay(){
     const [searchedText, setSearchedText] = useState('');
     const [isSearchInputActive, setIsSearchInputActive] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(()=>{
         setIsLoading(true);
@@ -24,6 +28,10 @@ export default function AdminSubscribersDisplay(){
             .catch((e)=>{
                 setIsLoading(false);
                 console.log("Error fetching users: ",e);
+                if(e.response.status === 401){
+                    navigate('/');
+                    setShowSessionEndedModal(true);
+                }
             })
     },[])
 
@@ -147,5 +155,8 @@ export default function AdminSubscribersDisplay(){
                 }
             </table>
         </div>
+                <SessionEndedModal showSessionEndedModal={showSessionEndedModal} setShowSessionEndedModal={setShowSessionEndedModal}/>
+
+
     </div>
 }

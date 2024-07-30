@@ -1,9 +1,11 @@
 
 import React,{useState,useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser,faSearch,faTimes } from "@fortawesome/free-solid-svg-icons";
 import api from "../config/api";
 import moment from "moment";
+import SessionEndedModal from "../reusables/sessionEndedModal";
 
 export default function AdminUsersDisplay(){
     const [allUsers, setAllUsers] = useState([]);
@@ -11,6 +13,8 @@ export default function AdminUsersDisplay(){
     const [searchedText, setSearchedText] = useState('');
     const [isSearchInputActive, setIsSearchInputActive] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(()=>{
         setIsLoading(true);
@@ -24,6 +28,10 @@ export default function AdminUsersDisplay(){
             .catch((e)=>{
                 setIsLoading(false);
                 console.log("Error fetching users: ",e);
+                if(e.response.status === 401){
+                    navigate('/');
+                    setShowSessionEndedModal(true);
+                }
             })
     },[])
 
@@ -146,5 +154,8 @@ export default function AdminUsersDisplay(){
                 }
             </table>
         </div>
+                <SessionEndedModal showSessionEndedModal={showSessionEndedModal} setShowSessionEndedModal={setShowSessionEndedModal}/>
+
+
     </div>
 }
