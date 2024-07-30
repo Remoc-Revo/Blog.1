@@ -10,15 +10,19 @@ export default function AdminSubscribersDisplay(){
     const [displayedSubscribers, setDisplayedSubscribers] = useState([])
     const [searchedText, setSearchedText] = useState('');
     const [isSearchInputActive, setIsSearchInputActive] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(()=>{
+        setIsLoading(true);
         api.get('/getSubscribers',)
             .then((response)=>{
                 console.log("fetched subscribers",response.data.subscribers);
                 setAllSubscribers(response.data.subscribers)
                 setDisplayedSubscribers(response.data.subscribers)
+                setIsLoading(false);
             })
             .catch((e)=>{
+                setIsLoading(false);
                 console.log("Error fetching users: ",e);
             })
     },[])
@@ -88,6 +92,14 @@ export default function AdminSubscribersDisplay(){
             </div>
 
             <div>
+            {
+                isLoading &&
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border text-success ">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            }
             <table className="w-100 " >
                 {
                     displayedSubscribers.map(

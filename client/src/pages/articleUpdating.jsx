@@ -1,7 +1,6 @@
 import React,{useState,useEffect, useCallback} from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { EditorState, convertToRaw,convertFromRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useUserContext } from "../userContext";
 import api from "../config/api";
@@ -31,6 +30,13 @@ export default function ArticlesUpdating(){
     const [userProfilePhoto, setUserProfilePhoto] = useState(null);
     const queryParams = new URLSearchParams(useLocation().search);
     const isRecoverDraft = queryParams.get('recover');
+    const [Editor, setEditor] = useState(null);
+
+    useEffect(() => {
+        import('react-draft-wysiwyg').then((module) => {
+        setEditor(() => module.Editor);
+        });
+    }, []);
 
     const resizeImages = useCallback((contentState)=>{
         const images = extractImagesFromContent(contentState);

@@ -53,7 +53,7 @@ export default function Login(){
 
             <div id="auth-form" className="d-flex flex-column">
                 <div className="d-flex justify-content-center">
-                    <img class="" src={require("../logos/logo.png")} style={{width:"48%"}} alt=""/>
+                    <img className="" src={require("../logos/logo.png")} style={{width:"48%"}} alt=""/>
                     
                 </div>
                 <form onSubmit={login} >

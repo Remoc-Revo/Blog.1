@@ -10,15 +10,19 @@ export default function AdminUsersDisplay(){
     const [displayedUsers, setDisplayedUsers] = useState([])
     const [searchedText, setSearchedText] = useState('');
     const [isSearchInputActive, setIsSearchInputActive] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(()=>{
+        setIsLoading(true);
         api.get('/users',)
             .then((response)=>{
                 console.log("fetched users",response.data.users);
                 setAllUsers(response.data.users)
                 setDisplayedUsers(response.data.users)
+                setIsLoading(false)
             })
             .catch((e)=>{
+                setIsLoading(false);
                 console.log("Error fetching users: ",e);
             })
     },[])
@@ -90,6 +94,14 @@ export default function AdminUsersDisplay(){
             </div>
 
             <div>
+            {
+                isLoading &&
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border text-success ">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            }
             <table className="w-100 " >
                 {
                     displayedUsers.map(

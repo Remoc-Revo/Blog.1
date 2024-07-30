@@ -8,17 +8,21 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function AdminComments(){
     const [comments, setComments] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(()=>{
          function fetchAdminComments(){
+            setIsLoading(true);
             api.get("/adminComments",{withCredentials:true})
                .then((response)=>{
                     console.log("response",response.data.comments)
                     
                     setComments(response.data.comments);
+                    setIsLoading(false);
                })
                .catch((e)=>{
+                setIsLoading(false);
                 console.log("Error fetching admin data", e);
                })
         }
@@ -30,7 +34,15 @@ export default function AdminComments(){
         <div className="container mb-5">
             <h2>Comments</h2>
             {
-                (comments.length===0)
+                isLoading &&
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border text-success ">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            }
+            {
+                (comments.length===0 && !isLoading)
                 ?<div className="d-flex justify-content-center"><h5 className="fw-lighter">No Comment Yet</h5></div>
                 :<div className="mt-5">
                     {
