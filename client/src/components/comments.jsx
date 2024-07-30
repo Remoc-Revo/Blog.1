@@ -105,7 +105,7 @@ const Comments=React.memo(({articleId})=>{
 
 
     return(
-        <div className="" onClick={handleOutsideClick}>
+        <div className="mb-4" onClick={handleOutsideClick}>
             <hr/>
 
             {typeof comments!=='undefined' && 

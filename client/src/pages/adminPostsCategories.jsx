@@ -1,6 +1,7 @@
 import React,{useCallback, useEffect,useRef,useState} from "react";
 import api from "../config/api";
 import { decodeString} from "../reusables/global";
+import SessionEndedModal from "../reusables/sessionEndedModal";
 import { faSearch,faTimes,faFolder,faEllipsisH, faEllipsisV,faPen, faTrash,faEye } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Modal} from 'react-bootstrap';
@@ -19,6 +20,8 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
     const [showCategoryEditingModal, setShowCategoryEditingModal] = useState(false);
     const [showNewCategoryModal, setShowNewCategoryModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
+
     const navigate =useNavigate();
 
 
@@ -31,7 +34,14 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
                 setDisplayedCategories(response.data.categories);
                 setIsLoading(false);
              })
-            .catch((e)=>{setIsLoading(false)})
+            .catch((err)=>{
+                setIsLoading(false);
+                
+                if(err.response.status === 401){
+                    navigate('/');
+                    setShowSessionEndedModal(true);
+                }
+            })
     },[])
 
     useEffect(()=>{             
@@ -101,6 +111,10 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
             })
             .catch((e)=>{
                 console.log("Error creating new category",e);
+                if(e.response.status === 401){
+                    navigate('/');
+                    setShowSessionEndedModal(true);
+                }
             })
         }
     }
@@ -120,6 +134,10 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
             })
             .catch((e)=>{
                 console.log("Error editing category",e);
+                if(e.response.status === 401){
+                    navigate('/');
+                    setShowSessionEndedModal(true);
+                }
             })
         }
     }
@@ -156,6 +174,10 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
             })
             .catch((e)=>{
                 console.log("Error deleting category",e);
+                if(e.response.status === 401){
+                    navigate('/');
+                    setShowSessionEndedModal(true);
+                }
             }) 
     }
 
@@ -438,7 +460,10 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
         }
 
     </Modal>
-</div>
+
+            <SessionEndedModal showSessionEndedModal={showSessionEndedModal} setShowSessionEndedModal={setShowSessionEndedModal}/>
+
+    </div>
 }
 
 

@@ -8,6 +8,7 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import SessionEndedModal from "../reusables/sessionEndedModal";
 
 export default function AdminHome(){
     const [latestPosts, setLatestPosts] = useState([]);
@@ -16,6 +17,8 @@ export default function AdminHome(){
     const [isLoading, setIsLoading] = useState(false);
     const [draftRecoveredFromLocalStorage, setDraftRecoveredFromLocalStorage] = useState(null);
     const navigate = useNavigate();
+    const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
+
 
     useEffect(()=>{
          function fetchAdminHomeData(){
@@ -31,6 +34,10 @@ export default function AdminHome(){
                .catch((e)=>{
                 setIsLoading(false);
                 console.log("Error fetching admin data", e);
+                if(e.response.status === 401){
+                    navigate('/');
+                    setShowSessionEndedModal(true);
+                }
                })
         }
         fetchAdminHomeData();
@@ -223,7 +230,9 @@ export default function AdminHome(){
         }
         
         
-       
+                <SessionEndedModal showSessionEndedModal={showSessionEndedModal} setShowSessionEndedModal={setShowSessionEndedModal}/>
+
+
 
     </div>
 }

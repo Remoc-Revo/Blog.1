@@ -8,7 +8,7 @@ import { faSearch,faTimes,faTrash,faEllipsisV, faEllipsisH, faPen } from "@forta
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Modal} from 'react-bootstrap';
 import getFirstImage from "../reusables/getImage";
-
+import SessionEndedModal from "../reusables/sessionEndedModal";
 
 export default function AdminAllPosts({updateAdminPanelSection}){
     const [drafts, setDrafts] = useState([]);
@@ -23,7 +23,8 @@ export default function AdminAllPosts({updateAdminPanelSection}){
     const [showDeletionModal,setShowDeletionModal] = useState(false);
     const [activeArticle, setActiveArticle] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    
+    const [showSessionEndedModal, setShowSessionEndedModal] = useState(false);
+
     console.log("postsType:",postsType)
     const updateDisplayedPosts = useCallback(()=>{
         console.log("posttype", postsType)
@@ -55,6 +56,10 @@ export default function AdminAllPosts({updateAdminPanelSection}){
            .catch((e)=>{
             setIsLoading(false);
             console.log("Error fetching admin data", e);
+            if(e.response.status === 401){
+                navigate('/');
+                setShowSessionEndedModal(true);
+            }
            })
     }
 
@@ -163,7 +168,10 @@ export default function AdminAllPosts({updateAdminPanelSection}){
         })
         .catch((err)=>{
                 if(err.response && err.response.status === 401){
-                    navigate('/login');
+                    if(err.response.status === 401){
+                        navigate('/');
+                        setShowSessionEndedModal(true);
+                    }
                 }
         })
 
@@ -357,6 +365,8 @@ export default function AdminAllPosts({updateAdminPanelSection}){
             </Modal.Body>
 
         </Modal>
+
+        <SessionEndedModal showSessionEndedModal={showSessionEndedModal} setShowSessionEndedModal={setShowSessionEndedModal}/>
 
 
     </div>
