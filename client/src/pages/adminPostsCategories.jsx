@@ -18,17 +18,20 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
     const [showDeletionModal,setShowDeletionModal] = useState(false);
     const [showCategoryEditingModal, setShowCategoryEditingModal] = useState(false);
     const [showNewCategoryModal, setShowNewCategoryModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate =useNavigate();
 
 
     const  fetchCategories= useCallback(()=>{
+        setIsLoading(true);
         api.get('/adminPostsCategories')
             .then((response)=>{
                 setFetchedCategories(response.data.categories);
                 console.log("type of fetchedCategories", typeof response.data.categories,":",response.data.categories);
                 setDisplayedCategories(response.data.categories);
+                setIsLoading(false);
              })
-            .catch((e)=>{})
+            .catch((e)=>{setIsLoading(false)})
     },[])
 
     useEffect(()=>{             
@@ -217,6 +220,14 @@ export default function AdminPostsCategories({updateAdminPanelSection}){
                 </button>
                 
             </div>
+            {
+                    isLoading &&
+                    <div className="d-flex justify-content-center">
+                        <div className="spinner-border text-success ">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                }
             
             {                
             (displayedCategories!==null && displayedCategories.length===0 && !isSearchInputActive)
