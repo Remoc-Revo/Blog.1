@@ -134,7 +134,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
     return(
         <div className="">
             <MainNav/>
-            <div className="bg-light" id="readers-home">                
+            <div className="" id="readers-home" style={{backgroundColor:"#F6FBFF"}}>                
                 <div className="container d-lg-flex justify-content-center p-2 p-sm-0 pb-4  mt-4">
                     <div className="col-lg-9 ">
 
