@@ -75,14 +75,14 @@ export default function AdminHome(){
     return <div className="container col-lg-10 ">
         {
             isLoading &&
-            <div className=" d-flex justify-content-center align-items-center" style={{width:"100vw",height:"100vh"}}>
+            <div className="position-absolute top-0 left-0 d-flex justify-content-center align-items-center w-100" >
                 <div className="spinner-border text-success ">
                     <span className="sr-only">Loading...</span>
                 </div>
             </div>
         }
         {
-            draftRecoveredFromLocalStorage !== null
+            draftRecoveredFromLocalStorage !== null && !isLoading
             &&<div className="container-md  mb-5 mt-3" >
                 <h2>Recovered draft</h2>
                 <div className="col-12 d-flex flex-column justify-content-between border rounded p-3 " 

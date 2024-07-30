@@ -30,7 +30,7 @@ export default function AdminStats(){
         <h4>Blog Stats</h4>
         {
         isLoading 
-        ?<div className="position-absolute top-0 left-0 d-flex justify-content-center align-items-center" style={{width:"100vw",height:"100vh"}}>
+        ? <div className="position-absolute top-0 left-0 d-flex justify-content-center align-items-center w-100 mt-5" >
             <div className="spinner-border text-success ">
                 <span className="sr-only">Loading...</span>
             </div>
