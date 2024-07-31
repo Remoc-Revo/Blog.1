@@ -5,7 +5,7 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 
-const appPath = path.join(__dirname, '../client/src/App.js');
+const appPath = path.join(__dirname, '../src/App.js');
 
 let App;
 try{
@@ -20,7 +20,7 @@ try{
 const app = express();
 
 
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(express.static(path.resolve(__dirname, '../build')));
 
 app.get('/*', (req, res) => {
   const context = {};
@@ -30,7 +30,7 @@ app.get('/*', (req, res) => {
       </StaticRouter>
   );
 
-  const indexFile = path.resolve(__dirname, '../client/build/index.html');
+  const indexFile = path.resolve(__dirname, '../build/index.html');
   fs.readFile(indexFile, 'utf8', (err, data) => {
     if (err) {
       console.error('Something went wrong:', err);
