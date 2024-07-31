@@ -47,6 +47,7 @@
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
+    "postinstall": "npm install > install-log.txt 2>&1",
     "dev-start": " export NODE_OPTIONS=--openssl-legacy-provider;react-scripts start",
     "start": " npm run build && node server/index.js",
     "build": "react-scripts build;",
