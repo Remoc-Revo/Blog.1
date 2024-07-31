@@ -4,7 +4,18 @@ import express from "express";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
-import App from "../client/src/App";
+
+const appPath = path.join(__dirname, '../client/src/App.js');
+
+let App;
+try{
+  console.log("is app file available? ",fs.existsSync(appPath));
+  
+  App  = require(appPath).default;
+}catch(err){
+  console.log("Why can't App be imported ?",err);
+}
+
 
 const app = express();
 
