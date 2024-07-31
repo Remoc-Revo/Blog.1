@@ -1,7 +1,6 @@
 
 import React,{useState,useEffect} from "react";
 import { faHouseChimney } from "@fortawesome/free-solid-svg-icons";
-import Logo from "../logos/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartSimple,faComment, faUser,faCalendar} from "@fortawesome/free-solid-svg-icons";
 // import { useLocation } from "react-router-dom";
@@ -72,7 +71,7 @@ import { updateHistory } from "../reusables/global";
             <button className="btn d-flex ps-3 gap-3 align-items-center"
                 onClick={(e)=>onLinkClick(e,'?view=reader',true)}
                 >
-                <img src={Logo} alt="" style={{maxWidth:"30%"}} />
+                <img src={require("../logos/logo.png")} alt="" style={{maxWidth:"30%"}} />
                 <div className="d-flex flex-column  gap-0 justify-content-center">
                     <h6 className="text-white d-flex  m-0 " id="blog-title">Lorem Healthline</h6>
                     <span className="text-white fw-lighter" id="blog-domain">loremhealthline.com</span>

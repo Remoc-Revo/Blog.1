@@ -1,5 +1,4 @@
 import React from "react";
-import Logo from "../logos/logo.png";
 import api from "../config/api";
 import { useState,useEffect } from "react";
 import { Nav } from "react-bootstrap";
@@ -74,7 +73,7 @@ const Footer = () => {
           <div className="col-12 col-lg-9 d-xl-flex justify-content-between align-items-start">
             <div className="d-md-flex">
               <div className="col-md-5 d-lg-flex flex-column align-items-start mb-5">
-                  <img src={Logo} alt="" className="blog-logo"/>
+                  <img src={require("../logos/logo.png")} alt="" className="blog-logo"/>
                   <div className="">
                     <p className="fw-lighter">Receive the latest health tips and medical news directly in your inbox</p>
                   </div>
