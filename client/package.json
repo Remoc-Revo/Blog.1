@@ -51,7 +51,8 @@
     "start": " npm run build && node server/index.js",
     "build": "react-scripts build;",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "npm install > install-log.txt 2>&1"
   },
   "eslintConfig": {
     "extends": [
