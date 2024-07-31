@@ -4,8 +4,7 @@ import express from "express";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
-const appPath = path.join(__dirname, '../client/src/App');
-const App = require(appPath).default;
+import App from "../client/src/App";
 
 const app = express();
 
