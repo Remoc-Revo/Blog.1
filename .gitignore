@@ -6,3 +6,7 @@ api/node_modules
 
 
 # api/package-lock.json
+
+client_server/node_modules
+
+client_server/package-lock.json
