@@ -23,7 +23,6 @@ export default function MainNav(){
   const [subscriptionMessage, setSubscriptionMessage] = useState('');
   const [showSubscriptionMessageModal, setShowSubscriptionMessageModal] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
-  const [windowWidth,set_windowWidth]=useState()
 
 
   var cat=useLocation().search;
@@ -74,8 +73,6 @@ export default function MainNav(){
         setShowSideNav(false);
       }
       window.addEventListener('click',onScreenClick);
-
-      window.addEventListener('resize',()=>{set_windowWidth(window.innerWidth)})
 
       return ()=>{
         window.removeEventListener('click',onScreenClick);
@@ -171,10 +168,10 @@ export default function MainNav(){
             </div>
           </div>
         </div>
-        <div className=" w-100 border-bottom" style={{display:sections.length < 2 || windowWidth < 1200 ? "none" : "block"}}>
+        <div className=" w-100 border-bottom" style={{display:sections.length < 2 || window.innerWidth < 1200 ? "none" : "block"}}>
           <div className="container p-0">
             <div className="d-flex justify-content-center">
-              <Navbar className="col-lg-9  gap-xl-5 p-0 pt-2"   id='main-nav' expand={(windowWidth>=1200)?true:false}>
+              <Navbar className="col-lg-9  gap-xl-5 p-0 pt-2"   id='main-nav' expand={(window.innerWidth>=1200)?true:false}>
                 <Navbar.Collapse id="basic-navbar-nav" className="col-12">
                   <Nav className="container-xl gap-1  d-flex justify-content-between p-0" id="page-links" style={{}}>
                     {
@@ -206,7 +203,7 @@ export default function MainNav(){
         {
           showSideNav &&
           <div className="position-fixed top-0 left-0 w-100 h-100 " style={{backgroundColor:"rgba(0,0,0,0.5", zIndex:"200"}} >
-            <div className="col-12 bg-white h-100 slide-in p-4" style={{width:windowWidth > 650 ?"400px" : "100vw"}}
+            <div className="col-12 bg-white h-100 slide-in p-4" style={{width:window.innerWidth > 650 ?"400px" : "100vw"}}
                  onClick={(e)=>e.stopPropagation()}
                  >
                 <button className="btn border  no-focus-outline"
