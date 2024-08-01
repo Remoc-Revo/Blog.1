@@ -196,8 +196,7 @@ export default function MainNav(){
                 
               </Navbar>
             </div>
-          </div>
-          
+          </div>          
         </div>
         
         {
