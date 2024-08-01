@@ -2,7 +2,7 @@ import React,{useState,useEffect, useCallback} from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { EditorState, convertToRaw,convertFromRaw } from 'draft-js';
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { useUserContext } from "../userContext";
+import { UseUserContext } from "../userContext";
 import api from "../config/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser,faBarsStaggered, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +16,7 @@ export default function ArticlesUpdating(){
    var [articleSectionId,setArticleSectionId]=useState(27); // default id for uncategoried sections, ensure it's changed
    var [articleHeadline,setArticleHeadline]=useState('');
    var [articleToUpdateLoaded, setArticleToUpdateLoaded] = useState(false);
-   const {loading,user} = useUserContext();
+   const {loading,user} = UseUserContext();
    let {articleIdToUpdate} = useParams();
    const [articleToUpdate,setArticleToUpdate] = useState(null);
    const [awaitingResponse, setAwaitingResponse] = useState(false);

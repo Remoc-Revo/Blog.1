@@ -3,7 +3,7 @@ import api from "./config/api";
 
 const UserContext = createContext();
 
-export function useUserContext(){
+export function UseUserContext(){
     return useContext(UserContext);
 }
 

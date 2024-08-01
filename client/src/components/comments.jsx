@@ -1,7 +1,7 @@
 import React,{useState,useEffect, useCallback} from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../config/api";
-import { useUserContext } from "../userContext";
+import { UseUserContext } from "../userContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faReply,faUser } from "@fortawesome/free-solid-svg-icons";
 import  { faStar as farStar} from "@fortawesome/free-regular-svg-icons";
@@ -16,7 +16,7 @@ const Comments=React.memo(({articleId})=>{
     let [userId, setUserId]=useState();
     let [userName, setUserName] = useState();
     let [userProfilePhoto, setUserProfilePhoto] = useState(null);
-    const {loading,user} = useUserContext();
+    const {loading,user} = UseUserContext();
 
 
     const fetchComments = useCallback(()=>{

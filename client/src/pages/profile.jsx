@@ -3,7 +3,7 @@ import api from "../config/api";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser,faCloudArrowUp, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { useUserContext } from "../userContext";
+import { UseUserContext } from "../userContext";
 import { uploadImageToCloud } from "../reusables/global";
 
 export default function Profile(){
@@ -15,7 +15,7 @@ export default function Profile(){
     const [userFirstName, setUserFirstName] = useState(null);
     const [userLastName, setUserLastName] = useState(null);
     const [userDescription, setUserDescription] = useState(null);
-    const {contextLogout} = useUserContext();
+    const {contextLogout} = UseUserContext();
     // const [userIconModal_show,set_userIconModal_show]=useState(false);
     const [profilePhoto,setProfilePhoto]=useState(null);
     const [updatingProfile, setUpdatingProfile] = useState(false);

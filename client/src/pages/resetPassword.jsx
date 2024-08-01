@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-// import { useUserContext } from "../userContext";
+// import { UseUserContext } from "../userContext";
 import api from "../config/api";
 import { useParams } from "react-router-dom";
 
@@ -16,7 +16,7 @@ export default function ResetPassword(){
    const [isValidating, setIsValidating] = useState(false);
    const [showSuccessModal, setShowSuccesModal] = useState(false);
    const [successMessage, setSuccessMessage] = useState();
-   // const {user,contextLogin} = useUserContext();
+   // const {user,contextLogin} = UseUserContext();
 
 
    function requestPasswordReset(e){

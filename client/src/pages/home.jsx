@@ -1,11 +1,11 @@
 import React,{useState,useEffect} from "react";
-import { useUserContext } from "../userContext";
+import { UseUserContext } from "../userContext";
 import ReadersHome from "./readersHome";
 import AdminPanel from "./adminPanel";
 
 export default  function Home(){
     var [userLevel,set_userLevel]=useState(null);
-    const {loading,user} = useUserContext();
+    const {loading,user} = UseUserContext();
 
 
 
