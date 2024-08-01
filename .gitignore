@@ -11,3 +11,5 @@ api/node_modules
 client_server/node_modules
 
 client_server/package-lock.json
+
+client/node_modules/.cache/default-development
