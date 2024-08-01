@@ -589,9 +589,8 @@ export default function ArticlesUpdating(){
                                />
                            </div>
 
-                                   
-
-                               
+                           {  
+                           Editor !== null &&  
                            <Editor
                                editorState={editorState}
                                onEditorStateChange={onEditorStateChange}
@@ -615,7 +614,7 @@ export default function ArticlesUpdating(){
                                    }
                                }}
                            
-                           />
+                           />}
                        </div>
 
 
