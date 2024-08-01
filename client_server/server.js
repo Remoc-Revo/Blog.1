@@ -1,9 +1,9 @@
 const path = require('path');
 const fs = require('fs');
 import express from "express";
-import React from "react";
-import ReactDOMServer from "react-dom/server";
-import { StaticRouter } from "react-router-dom/server";
+import React from "../client/node_modules/react";
+import ReactDOMServer from "../client/node_modules/react-dom/server";
+import { StaticRouter } from "../client/node_modules/react-router-dom/server";
 
 const appPath = path.join(__dirname, '../client/src/App.js');
 

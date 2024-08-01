@@ -6,7 +6,7 @@ import moment from "moment";
 import parse from "html-react-parser"
 import Footer from "../components/footer";
 import Related from "../components/more";
-import { useUserContext } from "../userContext";
+import { UseUserContext } from "../userContext";
 import Delete from "../img/delete.png";
 import Edit from "../img/edit.png";
 import { logVisitor } from "../reusables/global";
@@ -22,7 +22,7 @@ export default function Single(){
    const location=useLocation();
    const navigate = useNavigate();
    const articleId=location.pathname.split('/')[2];
-   const {user} = useUserContext();
+   const {user} = UseUserContext();
    const [deleting, setDeleting] = useState(false);
    const [likes,setLikes] = useState(null);
    const queryParams = new URLSearchParams(location.search);

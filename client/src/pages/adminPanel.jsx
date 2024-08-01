@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react"
-import { useUserContext } from "../userContext";
+import { UseUserContext } from "../userContext";
 import { useNavigate} from "react-router-dom";
 import AdminNav from "../navs/adminNav";
 import AdminSidePanel from "../components/adminSidePanel";
@@ -15,7 +15,7 @@ import AdminSubscribersDisplay from "./adminSubscribersDisplay";
 export default function AdminPanel(){
    const navigate = useNavigate();
    // var [userLevel,set_userLevel]=useState(0);
-   const {loading,user} = useUserContext();
+   const {loading,user} = UseUserContext();
    const [adminPanelSection,setAdminPanelSection] = useState(window.location.search);
    const [isSidePanelVisible, setIsSidePanelVisible] = useState(true);
 

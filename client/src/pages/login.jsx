@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../userContext";
+import { UseUserContext } from "../userContext";
 import api from "../config/api";
 
 
@@ -9,7 +9,7 @@ export default function Login(){
    var [email,set_email]=useState();
    var [password,set_password]=useState();
    var [errorMessage,set_errorMessage]=useState();
-   const {user,contextLogin} = useUserContext();
+   const {user,contextLogin} = UseUserContext();
    const [isValidating, setIsValidating] = useState(false);
 
    function login(e){
