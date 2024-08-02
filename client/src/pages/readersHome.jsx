@@ -191,7 +191,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
                    <div style={{height:"15px"}}></div>
 
 
-                   <div className="row ">
+                   <div className="d-sm-flex gap-2">
                            
                            {
                                articles.map((article,index)=>{
