@@ -155,14 +155,16 @@ export function GridItemSmall({articleSection,
     
 
     return(
-        <div className={`${isFixed?'col-sm-6  col-lg-3':'col-lg-3'} mb-5 articlePreview fade-in-up`}>
+        <div className={`${isFixed?'col-sm-6  col-lg-3':'col-lg-3 col-md-4 col-sm-6'} mb-5 articlePreview fade-in-up`}>
             
             <div style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
             {
                    (imgUrl!==null)
                    ?<div className="overflow-hidden"  style={{display:"block", height:"210px"}}                 > 
                     <img src={imgUrl} alt=""   
-                            className="w-100 h-100  rounded object-fit-cover">                            
+                        className="w-100 h-100  rounded object-fit-cover"
+                        style={{objectPosition:"top"}}  
+                        >                            
                         </img>
                         
                     </div>

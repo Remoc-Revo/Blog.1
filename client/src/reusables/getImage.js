@@ -41,7 +41,7 @@ export function transformImage(imgUrl){
     }
     const baseUrl = match[1];
     const imagePath = match[2];
-    const transformation ='w_800,q_70/'// 'w_800,h_500,q_70/';
+    const transformation ='q_90/'//'w_800,q_70/'// 'w_800,h_500,q_70/';
     const transformedUrl = `${baseUrl}${transformation}${imagePath}`;
 
     console.log("transformed image: ",transformedUrl)

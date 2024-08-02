@@ -11,22 +11,25 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 const queryClient = new QueryClient();
 
 //for client rendering
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <QueryClientProvider client={queryClient}>
-//     <App />
-//   </QueryClientProvider>
-// );
-
-ReactDOM.hydrateRoot(
-  document.getElementById('root'),
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-     
   </QueryClientProvider>
-)
+);
+
+//ssr
+// ReactDOM.hydrateRoot(
+//   document.getElementById('root'),
+//   <QueryClientProvider client={queryClient}>
+//     <BrowserRouter>
+//       <App />
+//     </BrowserRouter>
+     
+//   </QueryClientProvider>
+// )
 
 
 // If you want to start measuring performance in your app, pass a function

@@ -150,7 +150,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
                                 > 
                                <img src={getFirstImage(articles[0].articleBody)} alt=""   
                                    className=" object-fit-cover" 
-                                   style={{display:"block",width:"100%",height:"100%"}} 
+                                   style={{display:"block",width:"100%",objectPosition:""}} 
                                    >                            
                                </img>
                            </div>
@@ -162,21 +162,29 @@ export default  function ReadersHome({updateAdminPanelSection}){
                                id="latest-article-preview"
                                style={{}}
                                >
-                               <div className="row">
-                                   <div className="col-auto bg-primary m-2 rounded">
-                                       <h5 className="text-white pt-2">{decodeString(articles[0].sectionName)}</h5>
-                                   </div>
-                               </div>
+                                {
+                                    articles[0].sectionName !== 'uncategorized'      
+                                    ?<div className="row">
+                                        <div className="col-auto bg-primary m-2 rounded">
+                                            <h5 className="text-white pt-2">{decodeString(articles[0].sectionName)}</h5>
+                                        </div>
+                                    </div>
+                                    :<div style={{height:"20px"}}></div>
+                                }
+                               
                                <i className="duration">{moment(articles[0].articlePostingDate).fromNow()}</i>
                                <h5 className="articleHeadline">{decodeString(articles[0].articleHeadline)}</h5>
                                {/* <p className="briefDescription">{briefDescription}</p> */}
                            </div>
                        </a>
                    </div>
-                       :<></>}
+                    :<div style={{height:"100vh"}}></div>
+
+                       
+                    }
 
                        {/* Spacer */}
-                   <div style={{height:"80px"}}></div>
+                   <div style={{height:"50px"}}></div>
 
                    <h4 >Latest Posts</h4>
                    {/* Spacer */}

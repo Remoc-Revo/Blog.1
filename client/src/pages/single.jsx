@@ -157,7 +157,7 @@ export default function Single(){
                        
                        <div className="d-lg-flex justify-content-center gap-3">
                            <div className="col-12 col-lg-9  p-0">
-                               <div className="col-xl-9 mt-3">
+                               <div className="col-md-9 mt-3">
                                    <h2 className="text-center headline">{decodeString(article.articleHeadline)}</h2>
                                    <div className="pt-2 pb-2 mb-2  d-flex justify-content-between align-items-center">
                                        
@@ -167,6 +167,7 @@ export default function Single(){
                                                ?<div style={{width:"50px",height:"50px"}}>                                                                                           
                                                    <img src={article.publisherPhotoUrl}
                                                        className="rounded-circle w-100 h-100 object-fit-cover"
+                                                       style={{objectPosition:"top"}}
                                                        alt=""
                                                    />
                                                </div>
@@ -272,6 +273,7 @@ export default function Single(){
                                                    article.publisherPhotoUrl !== null
                                                    ?<img src={article.publisherPhotoUrl} alt=""
                                                        className="w-100 h-100 object-fit-cover"
+                                                       style={{objectPosition:"top"}}
                                                    />
                                                    :<FontAwesomeIcon icon={faUser} className="pt-2 h-100 w-100 ic-grey"/>
                                                }
@@ -298,7 +300,7 @@ export default function Single(){
 
                   
                </div>
-               :""
+               :<div style={{height:"100vh"}}></div>
 
            }
           

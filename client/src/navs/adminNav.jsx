@@ -89,7 +89,10 @@ export default function AdminNav({toggleSideNav,updateAdminPanelSection}){
                       
                         {
                         (userProfilePhoto !== null)
-                            ?<img src={userProfilePhoto} alt="" className="w-100 h-100 object-fit-cover rounded-circle" style={{}}/>
+                            ?<img src={userProfilePhoto} alt="" 
+                                className="w-100 h-100 object-fit-cover rounded-circle" 
+                                style={{objectPosition:"top"}}
+                                />
                             :<FontAwesomeIcon icon={faUser} className="ic-white w-100 h-100 pt-2"/>
 
                         }

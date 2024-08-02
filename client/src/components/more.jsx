@@ -64,12 +64,12 @@ function RelatedPreview({headline,imgUrl,articleId,datePosted}){
    const dateStr =   new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(date);
 
    return <a href={`/sngl/${articleId}`} 
-            className="col-md-4 col-sm-12 d-flex flex-md-column text-decoration-none row-xs mb-3 gap-2 p-2">
-            <div className="container-xs col-5 col-md-12"
-               style={{height:"150px"}}
+            className="col-12 col-md-4 col-sm-12 d-flex flex-column text-decoration-none row-xs mb-3 gap-2 p-2">
+            <div className="container-xs  col-12"
+               style={{height:"220px"}}
                >
                   <img src={imgUrl} alt="" className="object-fit-cover rounded" 
-                        style={{height:"100%",width:"100%"}}
+                        style={{height:"100%",width:"100%",objectPosition:"top"}}
                   />
 
             </div>
