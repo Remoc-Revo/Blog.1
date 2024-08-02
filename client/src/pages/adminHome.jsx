@@ -131,7 +131,7 @@ export default function AdminHome(){
             <div>
                 <div className="container-md  mb-5">
                     <h2>Latest Drafts</h2>
-                    <div className="row ">                            
+                    <div className="d-sm-flex gap-2 ">                            
                         {
                         (latestDrafts.length===0)
                         ?<div className="d-flex justify-content-center"><h5 className="fw-lighter">No draft available</h5></div>
@@ -156,7 +156,7 @@ export default function AdminHome(){
 
                 <div className="container mb-5">
                     <h2>Latest Posts</h2>
-                    <div className="row ">                            
+                    <div className="d-sm-flex gap-2 ">                            
                         {
                         
                         (latestPosts.length===0)
