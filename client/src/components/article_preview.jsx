@@ -155,11 +155,10 @@ export function GridItemSmall({articleSection,
     
 
     return(
-        <div className={`${isFixed?'col-sm-6  col-lg-3':'col-lg-3 col-md-4 col-sm-6'} mb-5  fade-in-up p-0 rounded`}
-            style={{backgroundColor:"#E6E1FF"}}
+        <div className={`${isFixed?'col-sm-6  col-lg-3':'col-xl-3 col-lg-4 col-sm-6'} mb-5  fade-in-up p-0 rounded`}
             >
             
-            <div style={{textDecoration:"none",color:"black",height:"100%"}} className="" onClick={handleClick}>
+            <div style={{textDecoration:"none",color:"black",height:"100%",backgroundColor:"#E6E1FF"}} className="m-2 rounded" onClick={handleClick}>
             {
                    (imgUrl!==null)
                    ?<div className="overflow-hidden"  style={{display:"block", height:"210px"}}                 > 
@@ -172,7 +171,7 @@ export function GridItemSmall({articleSection,
                     </div>
                     :<></>    
                 }
-                <div  className="m-1 mt-2">
+                <div  className="m-2 mt-2">
                     <div className="row m-1">
                         <div className="col-auto bg-light rounded">
                             <h6 className="text-secondary pt-2">{articleSection}</h6>

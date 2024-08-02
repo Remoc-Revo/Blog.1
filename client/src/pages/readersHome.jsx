@@ -191,12 +191,13 @@ export default  function ReadersHome({updateAdminPanelSection}){
                    <div style={{height:"15px"}}></div>
 
 
-                   <div className="d-sm-flex gap-2">
+                   <div className="row">
                            
                            {
                                articles.map((article,index)=>{
                                if(index>0 && index < 12){
-                                   return <GridItemSmall 
+                                   return <>                                   
+                                            <GridItemSmall 
                                                articleSection={decodeString(article.sectionName)}
                                                headline={decodeString(article.articleHeadline)} 
                                                time={moment(article.articlePostingDate).fromNow()} 
@@ -206,6 +207,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
                                                handleClick = {()=>{navigate(`/sngl/${article.articleId}`)}}
                                                isFixed = {false}
                                            /> 
+                                        </>
                                }
                                else{
                                    return null;
