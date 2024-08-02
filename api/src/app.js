@@ -63,7 +63,7 @@ app.use(session({
 app.use(cors({
   allowedHeaders:['Content-Type'],
   credentials:true,
-  origin: [process.env.CLIENT_HOST,process.env.CLIENT_HOST_2]
+  origin: [process.env.CLIENT_HOST,process.env.CLIENT_HOST_2,process.env.CLIENT_HOST_3]
 }));
 
 
