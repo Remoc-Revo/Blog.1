@@ -129,7 +129,7 @@ export default function MainNav(){
 
     return(
       
-      <div className={`col-12 b-white`} >
+      <div className={`col-12 bg-white position-fixed`} style={{zIndex:"1000"}} >
         <div className=" w-100 border-bottom">
           <div className="container p-2 p-sm-0">
             <div className="d-flex justify-content-center">

@@ -152,7 +152,7 @@ export default function Single(){
            
            
            {(article.length!==0)
-               ?<div className="pt-3 bg-light ">
+               ?<div className="bg-light" id="single-article">
                    <div className="container p-3 p-sm-0">
                        
                        <div className="d-lg-flex justify-content-center gap-3">

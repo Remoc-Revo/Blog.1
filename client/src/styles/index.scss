@@ -248,6 +248,10 @@ p{
     font-size: calc(1em + 1vw)
 }
 
+#single-article, #readers-home{
+    padding-top: 90px;
+}
+
 #single-article-body{
     img{
         max-height: 230px !important;
@@ -748,6 +752,10 @@ footer {
 
     #adminPanelMainContent{
         margin-left: 260px;
+    }
+
+    #single-article,#readers-home{
+        padding-top: 140px;
     }
 
     #single-article-body{
