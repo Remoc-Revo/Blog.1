@@ -23,8 +23,8 @@ const  indexRouter = require('./routes/index');
 app.set('trust proxy', 1);
 
 app.use(logger('dev'));
-app.use(express.json({ limit: '10mb' })); 
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use(express.json()); 
+app.use(express.urlencoded({extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -53,9 +53,7 @@ app.use(session({
   store: sessionStore,
   cookie: {
     maxAge: 24*60*60*1000,
-    // sameSite:'none',
     httpOnly:true,
-    // secure:true,
     path: '/'
   }
 }));
@@ -63,7 +61,7 @@ app.use(session({
 app.use(cors({
   allowedHeaders:['Content-Type'],
   credentials:true,
-  origin: [process.env.CLIENT_HOST,process.env.CLIENT_HOST_2,process.env.CLIENT_HOST_3]
+  origin: [process.env.CLIENT_HOST,process.env.CLIENT_HOST_2]
 }));
 
 

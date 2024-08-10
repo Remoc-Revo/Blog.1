@@ -96,7 +96,8 @@ function ifNotAdmin(req,res,next){
      console.log("the session id::",req.session.userId);
  
  
-     if(token==undefined || req.session.userId == undefined || req.session.userId != 1){
+     if(token==undefined || req.session.userId == undefined || req.session.userLevel != 1){
+        console.log("tokeeen invaliiiiid")
          return res.status(401).json({})  
      }
  

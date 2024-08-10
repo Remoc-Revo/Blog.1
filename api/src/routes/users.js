@@ -119,6 +119,8 @@ exports.login=(req,res)=>{
          req.session.userId=result[0].userId;
          console.log("login fetched user Id",result[0].userId);
          console.log("session userid after login: ",req.session.userId)
+         console.log("session userLevel after login: ",req.session.userLevel)
+
          const checkPass=await bcrypt.compare(password,fetchedPassword);
 
          if(checkPass==true){//entered password matches the one stored in database

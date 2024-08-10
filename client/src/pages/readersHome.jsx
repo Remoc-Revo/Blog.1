@@ -139,7 +139,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
                    <div className="col-lg-9 ">
 
                    
-                   {
+                   {/* {
                    (articles.length>0)
                    ?<div className="position-relative fade-in-up">
                        <a href={`/sngl/${articles[0].articleId}`} style={{textDecoration:"none",color:"black"}} className="">
@@ -174,17 +174,18 @@ export default  function ReadersHome({updateAdminPanelSection}){
                                
                                <i className="duration">{moment(articles[0].articlePostingDate).fromNow()}</i>
                                <h5 className="articleHeadline">{decodeString(articles[0].articleHeadline)}</h5>
-                               {/* <p className="briefDescription">{briefDescription}</p> */}
                            </div>
                        </a>
                    </div>
                     :<div style={{height:"100vh"}}></div>
 
                        
-                    }
+                    } */}
 
                        {/* Spacer */}
-                   <div style={{height:"50px"}}></div>
+                    {articles.length == 0 && <div style={{height:"100vh"}}></div>}
+
+                   <div style={{height:"30px"}}></div>
 
                    <h4 >Latest Posts</h4>
                    {/* Spacer */}
@@ -195,7 +196,6 @@ export default  function ReadersHome({updateAdminPanelSection}){
                            
                            {
                                articles.map((article,index)=>{
-                               if(index>0 && index < 12){
                                    return <>                                   
                                             <GridItemSmall 
                                                articleSection={decodeString(article.sectionName)}
@@ -208,10 +208,7 @@ export default  function ReadersHome({updateAdminPanelSection}){
                                                isFixed = {false}
                                            /> 
                                         </>
-                               }
-                               else{
-                                   return null;
-                               }
+                           
                            })
                                
                            
